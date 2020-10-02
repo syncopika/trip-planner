@@ -1,28 +1,29 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <MainPage/>
   </div>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import MainPage from './components/MainPage.vue';
 
-export default {
-  name: 'App',
+@Component({
   components: {
-    HelloWorld
-  }
-}
+    MainPage,
+  },
+})
+export default class App extends Vue {}
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  /*font-family: Avenir, Helvetica, Arial, sans-serif;*/
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+ /* margin-top: 60px;*/
 }
+
 </style>
