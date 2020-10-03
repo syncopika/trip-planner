@@ -4,9 +4,7 @@
 	
 		<!-- the map and recommended destinations -->
 		<div id='column1'>
-			<div id='map'>
-				<h1> i'm a map </h1>
-				<img src="../assets/logo.png" width="60%" height="40%" />
+			<div id='map' style="height:600px; height:800px">
 			</div>
 			
 			<div id='suggestions'>
@@ -45,12 +43,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 
 @Component
-export default class TripRouteMap extends Vue {
-  @Prop() private msg!: string; // what's this for?
-}
+export default class TripRouteMap extends Vue {}
 </script>
 
 
