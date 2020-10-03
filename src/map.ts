@@ -22,8 +22,6 @@ class MapBoxWrapper {
 		this.container_id = container_id;
 		
 		// get map data from MapBox API with key
-		//console.log(container_id);
-		//console.log(document.getElementById('map'));
 		mapboxgl.accessToken = key;
 		this.map = new mapboxgl.Map({
 			container: container_id,

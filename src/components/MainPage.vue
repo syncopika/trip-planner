@@ -20,19 +20,22 @@
 		
 		<!-- show menu, route list -->
 		<div id='column2'>
-			<div id='header'>
+			<div id='menuHeader'>
 				<!-- menu stuff goes here -->
 				<h1> i'm a menu bar </h1>
 			</div>
 			<div id='tripInfo'>
-				<h2 id='tripTitle'> [name of this trip goes here] </h2>
+				<h2 id='tripTitle'> [name of this trip goes here] 
+					<span>
+						<button id='addDest'> add destination </button>
+					</span>
+				</h2>
 				<hr />
 				<ul id='stops'>
-					<li> stop 1 </li>
-					<li> stop 2 </li>
 				</ul>
 			</div>
 			
+			<!-- https://developer.mozilla.org/en-US/docs/Web/CSS/Layout_cookbook/Sticky_footers -->
 			<div id='footer'>
 				<p> footer </p>
 			</div>
@@ -44,6 +47,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+
 
 @Component
 export default class TripRouteMap extends Vue {}
@@ -90,7 +94,7 @@ h2{
 	background-color: #fff;
 }
 
-#header{
+#menuHeader{
 	background-color: green;
 	padding: 2px;
 }
