@@ -17,7 +17,6 @@
 			</div>
 		</div>
 		
-		
 		<!-- show menu, route list -->
 		<div id='column2'>
 			<div id='menuHeader'>

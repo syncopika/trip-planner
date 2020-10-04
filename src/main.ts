@@ -5,19 +5,21 @@ import { addNewDestination } from './utils';
 
 Vue.config.productionTip = false
 
-// env variables! https://stackoverflow.com/questions/50828904/using-environment-variables-with-vue-js
-// use them for secrets like for the MapBox API
-
 new Vue({
   render: h => h(App),
   mounted: () => {
-	//let mapbox = new MapBoxWrapper("token goes here", "map");
+	let mapbox = new MapBoxWrapper("", "map");
 	//console.log(mapbox.getContainerId());
 
-	document.getElementById('addDest').addEventListener('click', () => {
-		let destName = prompt('enter destination name');
-		addNewDestination('stops', destName);
-	});
+	let addDestButton = document.getElementById('addDest');
+	if(addDestButton !== null){
+		addDestButton.addEventListener('click', () => {
+			let destName = prompt('enter destination name');
+			if(destName !== null){
+				addNewDestination('stops', destName);
+			}
+		});
+	}
 
   }
 }).$mount('#app')
