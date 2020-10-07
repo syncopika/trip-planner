@@ -1,0 +1,22 @@
+possible helpful links:
+https://stackoverflow.com/questions/51150991/load-static-html-files-in-vue
+https://forum.vuejs.org/t/embedding-and-rendering-local-pdf-files/82603
+
+https://stackoverflow.com/questions/14451358/how-to-pick-element-inside-iframe-using-document-getelementbyid
+https://stackoverflow.com/questions/10418644/creating-an-iframe-with-given-html-dynamically
+https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe
+https://docs.mapbox.com/help/glossary/iframe/
+
+need to import types :
+https://stackoverflow.com/questions/60322612/what-are-the-correct-types-to-map-variables-using-mapbox-in-react
+https://stackoverflow.com/questions/61308006/how-to-correctly-import-custom-types-in-typescript
+
+useful mapbox stuff:
+https://docs.mapbox.com/mapbox-gl-js/example/toggle-interaction-handlers/
+https://docs.mapbox.com/mapbox-gl-js/example/mouse-position/
+https://docs.mapbox.com/mapbox-gl-js/example/add-a-marker/
+
+anything in src gets processed by webpack.put stuff in /public and then reference with relative path like './mapIframe.html'
+I got super confused though because I got it working with the relative path after I moved my mapIframe.html and its js file 
+to src/assets. but then it stopped working and moving those files to /public got it working again :/ 
+https://forum.vuejs.org/t/vue-cli-3-production-build-images-not-found/63585/5

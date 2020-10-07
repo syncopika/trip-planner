@@ -4,7 +4,10 @@
 	
 		<!-- the map and recommended destinations -->
 		<div id='column1'>
-			<div id='map' style="height:600px; height:800px">
+		
+			<!-- make the mapContainer a component that can receive height and width? -->
+			<div id='container'>
+				<iframe id='mapContainer' width='1200px' height='600px' src='./mapIframe.html'></iframe>
 			</div>
 			
 			<div id='suggestions'>
@@ -68,7 +71,7 @@ h2{
 	background-color: black;
 }
 
-#map{
+#container{
 	text-align: center;
 	border-top: 1px solid #000;
 	border-left: 1px solid #000;

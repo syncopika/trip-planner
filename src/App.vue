@@ -18,8 +18,6 @@ export default class App extends Vue {}
 
 
 <style>
-@import "<link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />"
-
 #app {
   /*font-family: Avenir, Helvetica, Arial, sans-serif;*/
   -webkit-font-smoothing: antialiased;
