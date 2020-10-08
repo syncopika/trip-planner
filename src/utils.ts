@@ -20,8 +20,8 @@ function addNotesSectionToDest(destNode: HTMLElement): HTMLTextAreaElement {
 	return notes;
 }
 
-
-function addNewDestination(ulElementId: string, destName: string): void {
+// TODO: instead of info: Object, define an interface for info!
+function addNewDestination(ulElementId: string, destName: string, info: Object): void {
 	// supply an unordered list element id to add a new list element
 	let list = document.getElementById(ulElementId);
 	
@@ -89,6 +89,16 @@ function addNewDestination(ulElementId: string, destName: string): void {
 			notes.style.display = 'block';
 		}
 	});
+	
+	let infoSection = document.createElement('div');
+	let lat = document.createElement('p');
+	let lng = document.createElement('p');
+	lat.textContent = "latitude: " + info.lat;
+	lng.textContent = "longitude: " + info.lng;
+	
+	infoSection.appendChild(lat);
+	infoSection.appendChild(lng);
+	newDest.appendChild(infoSection);
 	
 	list.appendChild(newDest);
 }

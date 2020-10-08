@@ -7,4 +7,4 @@ import { MapBoxWrapper } from './map';
 let mapContainer : HTMLElement = document.getElementById('map') as HTMLElement;
 
 // beware of secrets!! also know that it will show up in the resulting bundle file!!
-let mapbox = new MapBoxWrapper("<token here>", mapContainer);
+let mapbox = new MapBoxWrapper("<your token here>", mapContainer);

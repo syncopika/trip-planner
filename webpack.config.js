@@ -6,7 +6,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/iframeSetup.ts',
+  entry: './public/iframeSetup.ts',
   module: {
     rules: [
       {

@@ -3,6 +3,11 @@
 
 import mapboxgl, { Map } from 'mapbox-gl';
 
+class MapBoxMonitor {
+	// this will keep the current 'state' of the mapbox.
+	// i.e. the markers (so we can delete if needed)
+}
+
 
 class MapBoxWrapper {
 	key: 		  string;
