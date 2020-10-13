@@ -17,6 +17,13 @@ new Vue({
 			addNewDestination('stops', destName, location);
 		}
 	});
+	
+	document.getElementById('addDest').addEventListener('click', (evt) => {
+		let destName = prompt('enter destination name');
+		if(destName !== null){
+			addNewDestination('stops', destName, {"lng":1, "lat": 1});
+		}
+	});
 
   }
 }).$mount('#app')

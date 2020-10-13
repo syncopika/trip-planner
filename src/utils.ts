@@ -42,26 +42,61 @@ function addNewDestination(ulElementId: string, destName: string, info: Object):
 	
 	let newDest = document.createElement('li');
 	newDest.id = destName;
-	newDest.textContent = destName;
-	newDest.style.fontSize = "32px";
 	newDest.style.padding = "3px";
-	newDest.style.borderBottom = "1px solid #000";
+	newDest.style.border = "1px solid #000";
+	newDest.style.borderRadius = "15px";
 	newDest.style.textAlign = "center";
 	newDest.setAttribute('expanded', 'false');
 	
+	let title = document.createElement('h1');
+	title.textContent = destName;
+	newDest.appendChild(title);
+	
 	// add notes 
-	let notes = addNotesSectionToDest(newDest);
+	let infoSection = document.createElement('div');
+	infoSection.style.display = "none";
+	let notes = document.createElement('h2');
+	notes.textContent = "notes: ";
+	
+	let notesSection = document.createElement('ul');
+	notesSection.id = "destName" + "_notes";
 	
 	// add a button next to the destination name to be able to edit 
 	// maybe this button should have multiple functionalities, i.e. be able to delete as well
+	infoSection.appendChild(notes);
+	infoSection.appendChild(notesSection);
+
+	let location = document.createElement('p');
+	location.textContent = "approx. latitude: " + info.lat + ", longitude: " + info.lng;
+	
+	infoSection.appendChild(location);
+	
 	let editButton = document.createElement('button');
 	editButton.textContent = 'edit';
-	editButton.style.display = 'none';
 	editButton.addEventListener('click', (evt) => {
 		evt.stopPropagation(); // don't make the parent section close 
-		notes.readOnly = false;
+		// allow editing of existing notes, addition of new notes and removal of notes
+		
 	});
-	newDest.appendChild(editButton);
+	infoSection.appendChild(editButton);
+	
+	let addNoteButton = document.createElement('button');
+	addNoteButton.style.display = 'inline';
+	addNoteButton.style.marginLeft = '2px';
+	addNoteButton.textContent = "add note";
+	addNoteButton.addEventListener('click', (evt) => {
+		evt.stopPropagation();
+		let newNote = prompt('add new note');
+		if(newNote){
+			let note = document.createElement('li');
+			note.style.fontSize = "22px";
+			note.textContent = newNote
+			notesSection.appendChild(note);
+		}
+	});
+	infoSection.appendChild(addNoteButton);
+	
+	newDest.appendChild(infoSection);
 	
 	// make the element clickable to reveal the notes for this destination 
 	newDest.addEventListener('mouseover', function(){
@@ -70,35 +105,21 @@ function addNewDestination(ulElementId: string, destName: string, info: Object):
 	
 	newDest.addEventListener('mouseleave', function(){
 		this.style.border = '';
-		this.style.borderBottom = "1px solid #000";
+		this.style.border = "1px solid #000";
 	});
 	
 	newDest.addEventListener('click', function(){
 		let isExpanded = this.getAttribute('expanded');
-		//console.log(isExpanded === "false");
 		if(isExpanded === "true"){
 			// close
 			this.setAttribute('expanded', 'false');
-			editButton.style.display = 'none';
-			notes.style.display = 'none';
-			notes.readOnly = true;
+			infoSection.style.display = 'none';
 		}else{
 			// open
 			this.setAttribute('expanded', 'true');
-			editButton.style.display = 'block';
-			notes.style.display = 'block';
+			infoSection.style.display = 'block';
 		}
 	});
-	
-	let infoSection = document.createElement('div');
-	let lat = document.createElement('p');
-	let lng = document.createElement('p');
-	lat.textContent = "latitude: " + info.lat;
-	lng.textContent = "longitude: " + info.lng;
-	
-	infoSection.appendChild(lat);
-	infoSection.appendChild(lng);
-	newDest.appendChild(infoSection);
 	
 	list.appendChild(newDest);
 }

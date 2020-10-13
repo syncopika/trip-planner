@@ -7,7 +7,7 @@
 		
 			<!-- make the mapContainer a component that can receive height and width? -->
 			<div id='container'>
-				<iframe id='mapContainer' width='1200px' height='600px' src='./mapIframe.html'></iframe>
+				<iframe id='mapContainer' width='1200px' height='800px' src=''></iframe>
 			</div>
 			
 			<div id='suggestions'>
@@ -24,10 +24,14 @@
 		<div id='column2'>
 			<div id='menuHeader'>
 				<!-- menu stuff goes here -->
-				<h1> i'm a menu bar </h1>
+				<h3> new trip </h3>
+				<h3> | </h3>
+				<h3> select trip </h3>
+				<h3> | </h3>
+				<h3> home </h3>
 			</div>
 			<div id='tripInfo'>
-				<h2 id='tripTitle'> [name of this trip goes here] 
+				<h2 id='tripTitle'> name of trip #1
 					<span>
 						<button id='addDest'> add destination </button>
 					</span>
@@ -57,9 +61,9 @@ export default class TripRouteMap extends Vue {}
 
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
 
-h2{
+h1, h2{
 	padding: 5px;
 	margin: 0;
 }
@@ -94,11 +98,17 @@ h2{
 	flex: 1;
 	border: 1px solid #000;
 	background-color: #fff;
+	padding: 3px;
 }
 
 #menuHeader{
-	background-color: green;
+	background-color: #32CD32;
 	padding: 2px;
+	text-align: right;
+}
+
+#menuHeader h3 {
+	display: inline;
 }
 
 #tripInfo{
@@ -113,10 +123,17 @@ ul{
 
 li{
   margin: 0 10px 10px;
-  font-size: 20px;
 }
 
 a{
   color: #42b983;
+}
+
+button {
+	padding: 4px;
+	background-color: #6A5ACD;
+	border-radius: 10px;
+	border: 1px solid #483D8B;
+	color: #fff;
 }
 </style>
