@@ -7,7 +7,7 @@
 		
 			<!-- make the mapContainer a component that can receive height and width? -->
 			<div id='container'>
-				<iframe id='mapContainer' width='1200px' height='800px' src=''></iframe>
+				<iframe id='mapContainer' width='1200px' height='600px' src='./mapIframe.html'></iframe>
 			</div>
 			
 			<div id='suggestions'>
@@ -37,8 +37,9 @@
 					</span>
 				</h2>
 				<hr />
-				<ul id='stops'>
-				</ul>
+				
+				<sidebar :list-of-dest="listOfDest"></sidebar>
+				
 			</div>
 			
 			<!-- https://developer.mozilla.org/en-US/docs/Web/CSS/Layout_cookbook/Sticky_footers -->
@@ -52,11 +53,18 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
+import Sidebar from './Sidebar.vue';
 
+@Component({
+	components: {
+		Sidebar
+	}
+})
 
-@Component
-export default class TripRouteMap extends Vue {}
+export default class TripRouteMap extends Vue {
+	@Prop({required: true}) public listOfDest!: Array<Object>; // ! == not null
+}
 </script>
 
 

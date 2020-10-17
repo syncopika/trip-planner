@@ -1,4 +1,11 @@
+// note: obsolete, no longer needed.
+
+
 // some utility functions for creating new elements
+// follow this: https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/Vue_rendering_lists
+
+
+import { Location } from './triproute';
 
 function addNotesSectionToDest(destNode: HTMLElement): HTMLTextAreaElement {
 	// add a notes section to a destination 
@@ -21,7 +28,7 @@ function addNotesSectionToDest(destNode: HTMLElement): HTMLTextAreaElement {
 }
 
 // TODO: instead of info: Object, define an interface for info!
-function addNewDestination(ulElementId: string, destName: string, info: Object): void {
+function addNewDestination(ulElementId: string, destName: string, info: Location): void {
 	// supply an unordered list element id to add a new list element
 	let list = document.getElementById(ulElementId);
 	

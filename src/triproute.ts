@@ -1,8 +1,12 @@
 // a class to represent one trip route
 
+interface Location {
+	lat:  number;
+	lng:  number;
+}
+
 interface Destination {
 	name:      string;
-	num:       number;
 	latitude:  number;
 	longitude: number;
 	notes:     string;
@@ -40,6 +44,7 @@ class TripRoute {
 }
 
 export {
+	Location,
 	TripRoute,
 	Destination
 }

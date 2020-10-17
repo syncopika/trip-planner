@@ -1,5 +1,8 @@
-# trip-planner
-
+# trip-planner    
+    
+plan out your future trips! or record old ones. :)    
+    
+	
 ## Project setup
 ```
 npm install

@@ -1,19 +1,24 @@
 <template>
   <div id="app">
-    <TripRouteMap/>
+    <trip-route-map :list-of-dest="listOfDest">
+	</trip-route-map>
   </div>
 </template>
 
+
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import TripRouteMap from './components/MainPage.vue';
+import { Component, Vue, Prop } from 'vue-property-decorator';
+import TripRouteMap from './components/TripRoute.vue';
 
 @Component({
   components: {
-    TripRouteMap,
-  },
+    TripRouteMap
+  }
 })
-export default class App extends Vue {}
+
+export default class App extends Vue {
+	@Prop({required: true}) public listOfDest!: Array<Object>;
+}
 </script>
 
 
