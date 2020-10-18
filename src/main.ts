@@ -9,23 +9,24 @@ new Vue({
   render(h){
 	// fetch data from db here??
 	return h(App, {
-		props: {
-			'listOfDest': [
-				{
-					"name": "test",
-					"latitude": 1.0,
-					"longitude": 1.0,
-					"notes": ["hello world"]
-				},
-				{
-					"name": "test2",
-					"latitude": 1.0,
-					"longitude": 1.0,
-					"notes": ["hello world2"]
-				}
-			]
-		}
+		props: {'listOfDest': this.listOfDest}
 	});
+  },
+  data: {
+	'listOfDest': [
+		{
+			"name": "test",
+			"latitude": 1.0,
+			"longitude": 1.0,
+			"notes": ["hello world"]
+		},
+		{
+			"name": "test2",
+			"latitude": 1.0,
+			"longitude": 1.0,
+			"notes": ["hello world2"]
+		}
+	]
   },
   // don't forget that for each destination in data,
   // it needs to be marked on the map!
@@ -34,6 +35,8 @@ new Vue({
 	// (after we have user profiles and stuff set up)
 	// for now, just have one triproute
 	const tripRoute = new TripRoute("my first trip");
+	
+	let tripData = this.listOfDest;
 	
 	// listen for custom events from the iframe (which is the map)
 	document.addEventListener('addDest', (evt) => {
@@ -49,11 +52,14 @@ new Vue({
 				name:      destName,
 				latitude:  location.lat,
 				longitude: location.lng,
-				notes:     ""
+				notes:     []
 			};
 
 			tripRoute.addDestination(newDest);
 			console.log(tripRoute);
+			
+			tripData.push(newDest);
+			
 		}
 
 	});

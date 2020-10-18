@@ -74,7 +74,7 @@ export default {
 					info.style.display = "block";
 				}
 			}
-			this.expanded = !(this as any).expanded;
+			(this as any).expanded = !(this as any).expanded;
 		}
 	}
 };
