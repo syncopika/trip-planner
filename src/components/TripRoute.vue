@@ -22,6 +22,7 @@
 		
 		<!-- show menu, route list -->
 		<div id='column2'>
+			
 			<div id='menuHeader'>
 				<!-- menu stuff goes here -->
 				<h3> new trip </h3>
@@ -30,12 +31,9 @@
 				<h3> | </h3>
 				<h3> home </h3>
 			</div>
+			
 			<div id='tripInfo'>
-				<h2 id='tripTitle'> name of trip #1
-					<span>
-						<button id='addDest'> add destination </button>
-					</span>
-				</h2>
+				<h2 id='tripTitle'> name of trip #1 </h2>
 				<hr />
 				
 				<sidebar :list-of-dest="listOfDest"></sidebar>

@@ -7,28 +7,39 @@
 		v-on:mouseleave="dehighlightBorder"
 		v-on:click="toggleVisibility"
 		>
+
 		<h1> {{name}} </h1>
 		
-		<!-- notes section -->
-		<div :id="name + '_notes'" class="notes">
-			<ul>
-				<li 
-					v-for="note in notes" 
-					v-bind:key="note + '_name'"
-				>
-					{{ note }}
-				</li>
-			</ul>
-			
-			<br />
+		<div :id="name + '_content'" class="content">
 		
+			<!-- notes section -->
+			<div :id="name + '_notes'">
+				<h3> notes: </h3>
+				<ul>
+					<li 
+						v-for="note in notes" 
+						v-bind:key="note + '_name'"
+					>
+						{{ note }}
+					</li>
+				</ul>
+				
+				<br />
+			</div>
+
+			<hr />
+			
 			<p class='latitude'>lat: {{latitude}}</p>
 			<p class='longitude'>long: {{longitude}}</p>
 			
-			<br />
+			<button v-on:click="toggleEdit"> edit </button>
 			
-			<button> edit </button>
-		
+			<button
+				class="editButton"
+				v-if="isEditing"
+				v-on:click="saveChanges"
+			> save </button>
+			
 		</div>
 		
 	</li>
@@ -40,7 +51,8 @@
 export default {
 	data(){
 		return {
-			expanded: false
+			expanded: false,
+			isEditing: false
 		}
 	},
 	props: {
@@ -58,23 +70,54 @@ export default {
 			}
 		},
 		dehighlightBorder: function(){
-			let name : any = (this as any).name;
+			let name = (this as any).name;
 			let dest = document.getElementById(name + '_dest');
 			if(dest !== null){
 				dest.style.border = '1px solid #000';
 			}	
 		},
 		toggleVisibility: function(){
-			let name : any = (this as any).name;
-			let info = document.getElementById(name + '_notes');
-			if(info !== null){
-				if((this as any).expanded){
-					info.style.display = "none";
+			let name = (this as any).name;
+			let content = document.getElementById(name + '_content');
+
+			if(content !== null){
+				if((this as any).expanded && !(this as any).isEditing){
+					content.style.display = "none";
 				}else{
-					info.style.display = "block";
+					content.style.display = "block";
 				}
 			}
+
 			(this as any).expanded = !(this as any).expanded;
+		},
+		toggleEdit: function(evt : any){
+		
+			// prevent div from closing
+			evt.stopPropagation();
+			
+			let name = (this as any).name;
+		
+			// set flag
+			(this as any).isEditing = true;
+			
+			// make content editable
+			let notes = document.getElementById(name + '_notes');
+			if(notes !== null) notes.setAttribute('contenteditable', 'true');
+		},
+		saveChanges: function(evt : any){
+			
+			evt.stopPropagation();
+			
+			let name = (this as any).name;
+		
+			// TODO: but what about cancelling unwanted edits!?
+			let notes = document.getElementById(name + '_notes');
+			if(notes !== null) notes.removeAttribute('contenteditable');
+
+			// TODO: need to think about this a bit more. emit an event to update the destination
+			// all the way in the root instance?
+			
+			(this as any).isEditing = false;
 		}
 	}
 };
@@ -87,9 +130,25 @@ export default {
 		border-radius: 15px;
 		text-align: "center";
 	}
+
+	.editButton {
+		display: inline;
+		margin-left: 2px;
+	}
 	
-	.notes {
+	.content {
 		display: none;
+	}
+	
+	h3 {
+		text-align: left;
+		margin-left: 3px;
+	}
+	
+	span {
+		color: #ff0000;
+		font-weight: bold;
+		display: inline;
 	}
 	
 	button {

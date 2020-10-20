@@ -30,14 +30,19 @@ typescript stuff
 need to import types :
 https://stackoverflow.com/questions/60322612/what-are-the-correct-types-to-map-variables-using-mapbox-in-react
 https://stackoverflow.com/questions/61308006/how-to-correctly-import-custom-types-in-typescript
-
 https://stackoverflow.com/questions/18083389/ignore-typescript-errors-property-does-not-exist-on-value-of-type
+https://stackoverflow.com/questions/58773652/ts2339-property-style-does-not-exist-on-type-element
 
 ========================
 useful mapbox stuff:
 https://docs.mapbox.com/mapbox-gl-js/example/toggle-interaction-handlers/
 https://docs.mapbox.com/mapbox-gl-js/example/mouse-position/
 https://docs.mapbox.com/mapbox-gl-js/example/add-a-marker/
+
+
+========================
+misc stuff:
+this is neat! https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Editable_content
 
 ========================
 anything in src gets processed by webpack.put stuff in /public and then reference with relative path like './mapIframe.html'
