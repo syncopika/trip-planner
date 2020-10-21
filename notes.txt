@@ -17,12 +17,19 @@ https://github.com/vuejs/vue-class-component/issues/220 -> WHAT!? why does it fe
 https://vuejsdevelopers.com/2017/06/11/vue-js-extending-components/
 https://forum.vuejs.org/t/passing-props-to-root-instances-in-2-0/244/8 -> spent at least 2 hours trying to pass props to App -__-
 https://stackoverflow.com/questions/48226354/converting-data-to-props-for-root-component-in-vue-js-2
+
 looks helpful: https://forum.vuejs.org/t/root-instance-dont-change-the-components-data/24029/6
   - I was confused about Vue root instances and components and passing data between the 2
 
 https://class-component.vuejs.org/guide/extend-and-mixins.html#extend
 - when should I extend Vue and use a class as opposed to just export default?
 - this looks helpful in answering that q: https://medium.com/haiiro-io/why-i-use-vue-class-component-472579a266b4
+
+https://stackoverflow.com/questions/42615445/vuejs-2-0-emit-event-from-grand-child-to-his-grand-parent-component
+https://medium.com/@sky790312/about-vue-2-parent-to-child-props-af3b5bb59829
+https://stackoverflow.com/questions/52873516/vue-js-returns-ob-observer-data-instead-of-my-array-of-objects
+
+this looks good: https://vuejs.org/v2/guide/state-management.html#Simple-State-Management-from-Scratch
 
 ========================
 typescript stuff
@@ -32,6 +39,7 @@ https://stackoverflow.com/questions/60322612/what-are-the-correct-types-to-map-v
 https://stackoverflow.com/questions/61308006/how-to-correctly-import-custom-types-in-typescript
 https://stackoverflow.com/questions/18083389/ignore-typescript-errors-property-does-not-exist-on-value-of-type
 https://stackoverflow.com/questions/58773652/ts2339-property-style-does-not-exist-on-type-element
+https://stackoverflow.com/questions/55280555/typescript-eslint-eslint-plugin-error-route-is-defined-but-never-used-no-un
 
 ========================
 useful mapbox stuff:
@@ -43,6 +51,7 @@ https://docs.mapbox.com/mapbox-gl-js/example/add-a-marker/
 ========================
 misc stuff:
 this is neat! https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Editable_content
+https://css-tricks.com/snippets/javascript/saving-contenteditable-content-changes-as-json-with-ajax/
 
 ========================
 anything in src gets processed by webpack.put stuff in /public and then reference with relative path like './mapIframe.html'
@@ -65,5 +74,9 @@ child components are updated accordingly.
 
 - be able to delete a destination.
 
+some random markers for dummy data:
+lat: 38.9486650738765
+long: -77.01459411621002
 
-
+lat: 38.982833520960156
+long: -76.95210937499908

@@ -1,26 +1,26 @@
 <template>
 
 	<!-- one li == one destination -->
-	<li :id="name + '_dest'"
+	<li :id="destination.name + '_dest'"
 		class="dest"
 		v-on:mouseover="highlightBorder"
 		v-on:mouseleave="dehighlightBorder"
-		v-on:click="toggleVisibility"
 		>
 
-		<h1> {{name}} </h1>
+		<h1 v-on:click="toggleVisibility"> {{destination.name}} </h1>
 		
-		<div :id="name + '_content'" class="content">
+		<div :id="destination.name + '_content'" class="content">
 		
 			<!-- notes section -->
-			<div :id="name + '_notes'">
-				<h3> notes: </h3>
-				<ul>
+			<h3> notes: </h3>
+			<div :id="destination.name + '_notes'">
+				<ul :id="destination.name + '_notes_content'">
 					<li 
-						v-for="note in notes" 
-						v-bind:key="note + '_name'"
+						v-for="(note, index) in destination.notes" 
+						v-bind:key="note + '_name' + index"
+						:class="note + '_name'"
 					>
-						{{ note }}
+						{{ note }} - this is a test
 					</li>
 				</ul>
 				
@@ -29,8 +29,8 @@
 
 			<hr />
 			
-			<p class='latitude'>lat: {{latitude}}</p>
-			<p class='longitude'>long: {{longitude}}</p>
+			<p class='latitude'> lat: {{destination.latitude}} </p>
+			<p class='longitude'> long: {{destination.longitude}} </p>
 			
 			<button v-on:click="toggleEdit"> edit </button>
 			
@@ -47,6 +47,9 @@
 </template>
 
 <script lang="ts">
+
+import { Destination } from '../triproute';
+
 // get info passed from parent component (i.e. Sidebar)
 export default {
 	data(){
@@ -56,28 +59,25 @@ export default {
 		}
 	},
 	props: {
-		name: {required: true, type: String},
-		latitude: {required: true, type: Number},
-		longitude: {required: true, type: Number},
-		notes: {required: true, type: Array}
+		destination: {required: true, type: Object}
 	},
 	methods: {
 		highlightBorder: function(){
-			let name = (this as any).name;
+			let name = (this as any).destination.name;
 			let dest = document.getElementById(name + '_dest');
 			if(dest !== null){
 				dest.style.border = '1px solid #fff';
 			}
 		},
 		dehighlightBorder: function(){
-			let name = (this as any).name;
+			let name = (this as any).destination.name;
 			let dest = document.getElementById(name + '_dest');
 			if(dest !== null){
 				dest.style.border = '1px solid #000';
 			}	
 		},
 		toggleVisibility: function(){
-			let name = (this as any).name;
+			let name = (this as any).destination.name;
 			let content = document.getElementById(name + '_content');
 
 			if(content !== null){
@@ -95,27 +95,51 @@ export default {
 			// prevent div from closing
 			evt.stopPropagation();
 			
-			let name = (this as any).name;
+			let name = (this as any).destination.name;
 		
 			// set flag
 			(this as any).isEditing = true;
 			
 			// make content editable
-			let notes = document.getElementById(name + '_notes');
+			let notes = document.getElementById(name + '_notes_content');
 			if(notes !== null) notes.setAttribute('contenteditable', 'true');
+		},
+		removeDestination: function(){
+			// TODO: remove a destination.
+			// emit an event to the root instance to make sure the destination is removed from the list.
+			// or should this be done at the Sidebar component level? you can also reorder
+			// destinations there too.
 		},
 		saveChanges: function(evt : any){
 			
 			evt.stopPropagation();
 			
-			let name = (this as any).name;
-		
+			let name = (this as any).destination.name;
+			
 			// TODO: but what about cancelling unwanted edits!?
-			let notes = document.getElementById(name + '_notes');
+			let notes = document.getElementById(name + '_notes_content');
 			if(notes !== null) notes.removeAttribute('contenteditable');
 
-			// TODO: need to think about this a bit more. emit an event to update the destination
-			// all the way in the root instance?
+			let data : Destination = JSON.parse(JSON.stringify((this as any).destination));
+			data.notes = [];
+			
+			// get all notes
+			let currNotes = document.getElementById((this as any).destination.name + '_notes_content');
+			if(currNotes !== null){
+				for(let child of currNotes.children){
+					data.notes.push(child.textContent.trim());
+				}
+			}
+			
+			// if text was edited, throw out the newly added <li> elements, if any?
+			// save state when edit button is clicked. when save is clicked, compare current state (i.e. child nodes) with saved??
+			// since it looks like li elements get class names cloned so that doesn't help
+			
+			
+			// update data source with new info
+			//this.$root.$emit('update-destination', data);
+			this.$root.updateDestination(data);
+			
 			
 			(this as any).isEditing = false;
 		}
@@ -159,12 +183,13 @@ export default {
 		color: #fff;
 	}
 
-	ul{
+	ul {
 		list-style-type: none;
 		padding: 0;
 	}
 
-	li{
+	li {
 		margin: 0 10px 10px;
+		color: #000;
 	}
 </style>

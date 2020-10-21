@@ -6,10 +6,7 @@
 			<destination 
 				v-for="dest in listOfDest" 
 				v-bind:key="dest.name+dest.latitude+dest.longitude"
-				:name="dest.name"
-				:latitude="dest.latitude"
-				:longitude="dest.longitude"
-				:notes="dest.notes"
+				:destination="dest"
 			></destination>
 		</ul>
 	
