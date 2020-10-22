@@ -16,25 +16,24 @@ new Vue({
 	'listOfDest': [
 		{
 			"name": "test",
-			"latitude": 1.0,
-			"longitude": 1.0,
-			"notes": ["hello world"]
+			"latitude": 38.9486650738765,
+			"longitude": -77.01459411621002,
+			"notes": "hello world"
 		},
 		{
 			"name": "test2",
-			"latitude": 1.0,
-			"longitude": 1.0,
-			"notes": ["hello world2"]
+			"latitude": 38.982833520960156,
+			"longitude": -76.95210937499908,
+			"notes": "hello world2"
 		}
 	]
   },
   methods: {
       updateDestination: function(data : Destination){
-          // called from Destination.vue. TODO: don't do this
+          // called from Destination.vue. TODO: is there a better way to do this?
           for(let dest of this.listOfDest){
               if(dest.name === data.name){
                   dest.notes = data.notes;
-                  console.log(dest);
                   break;
               }
           }
@@ -65,7 +64,7 @@ new Vue({
 				name:      destName,
 				latitude:  location.lat,
 				longitude: location.lng,
-				notes:     []
+				notes:     ""
 			};
 
 			tripRoute.addDestination(newDest);

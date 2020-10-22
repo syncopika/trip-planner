@@ -9,7 +9,7 @@ interface Destination {
 	name:      string;
 	latitude:  number;
 	longitude: number;
-	notes:     Array<string>;
+	notes:     string;
 }
 
 

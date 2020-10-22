@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 import Sidebar from './Sidebar.vue';
 
 @Component({
@@ -61,7 +61,23 @@ import Sidebar from './Sidebar.vue';
 })
 
 export default class TripRouteMap extends Vue {
-	@Prop({required: true}) public listOfDest!: Array<Object>; // ! == not null
+	
+	@Prop({required: true}) public listOfDest!: Array<Object>; // the ! == not null
+	
+	@Watch('listOfDest', { deep: true })
+	onDestChange(newVal: Array<Object>, oldVal: Array<Object>){
+		// note that we shouldn't need to care about the old value
+		this.updateMap();
+		console.log(newVal);
+		console.log(oldVal);
+	}
+	
+	updateMap(){
+		// take new destination data and update the MapBox map markers as needed
+		console.log("I'm supposed to update the map! probably...");
+		
+		// send a custom event to the map iframe along with the data
+	}
 }
 </script>
 

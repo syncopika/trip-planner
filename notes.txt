@@ -6,6 +6,8 @@ https://stackoverflow.com/questions/14451358/how-to-pick-element-inside-iframe-u
 https://stackoverflow.com/questions/10418644/creating-an-iframe-with-given-html-dynamically
 https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe
 https://docs.mapbox.com/help/glossary/iframe/
+
+https://stackoverflow.com/questions/9153445/how-to-communicate-between-iframe-and-the-parent-site
 ========================
 
 helpful vue stuff:
@@ -31,6 +33,13 @@ https://stackoverflow.com/questions/52873516/vue-js-returns-ob-observer-data-ins
 
 this looks good: https://vuejs.org/v2/guide/state-management.html#Simple-State-Management-from-Scratch
 
+https://stackoverflow.com/questions/44584292/how-to-listen-for-props-changes
+https://stackoverflow.com/questions/51575272/watch-not-triggered
+
+grrrrrr lol - https://blog.francium.tech/vue-js-and-html5-contenteditable-attribute-issues-c727734c7684
+I tried to remove li nodes that contenteditable was creating, which sort of worked, but not good enough
+- decided to go with textarea instead :D
+
 ========================
 typescript stuff
 
@@ -52,6 +61,7 @@ https://docs.mapbox.com/mapbox-gl-js/example/add-a-marker/
 misc stuff:
 this is neat! https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Editable_content
 https://css-tricks.com/snippets/javascript/saving-contenteditable-content-changes-as-json-with-ajax/
+https://fabiofranchino.com/blog/making-contenteditable-in-vue-from-scratch/
 
 ========================
 anything in src gets processed by webpack.put stuff in /public and then reference with relative path like './mapIframe.html'
@@ -64,15 +74,12 @@ https://stackoverflow.com/questions/47166369/argument-of-type-e-customevent-void
 ========================
 
 TODO:
-- be able to edit a destination
-
-- propagate edit changes to destination info to the parent component responsible for keeping track of all the trip destination info
-(or the root instance? some global state manager?)
-
 - when the map is interacted with and those events are caught, make sure those changes (i.e. adding a destination) are caught and the
 child components are updated accordingly.
 
 - be able to delete a destination.
+
+- connect map markers with a line
 
 some random markers for dummy data:
 lat: 38.9486650738765

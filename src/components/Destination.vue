@@ -13,17 +13,9 @@
 		
 			<!-- notes section -->
 			<h3> notes: </h3>
-			<div :id="destination.name + '_notes'">
-				<ul :id="destination.name + '_notes_content'">
-					<li 
-						v-for="(note, index) in destination.notes" 
-						v-bind:key="note + '_name' + index"
-						:class="note + '_name'"
-					>
-						{{ note }} - this is a test
-					</li>
-				</ul>
-				
+			<div>
+				<textarea :value="destination.notes" :id="destination.name + '_notes'" rows="5" cols="33" disabled>
+				</textarea>
 				<br />
 			</div>
 
@@ -101,8 +93,9 @@ export default {
 			(this as any).isEditing = true;
 			
 			// make content editable
-			let notes = document.getElementById(name + '_notes_content');
-			if(notes !== null) notes.setAttribute('contenteditable', 'true');
+			let notes = document.getElementById(name + '_notes');
+			if(notes !== null) notes.removeAttribute('disabled');
+			
 		},
 		removeDestination: function(){
 			// TODO: remove a destination.
@@ -117,29 +110,15 @@ export default {
 			let name = (this as any).destination.name;
 			
 			// TODO: but what about cancelling unwanted edits!?
-			let notes = document.getElementById(name + '_notes_content');
-			if(notes !== null) notes.removeAttribute('contenteditable');
+			let notes = document.getElementById(name + '_notes');
+			if(notes !== null) notes.setAttribute('disabled', 'true');
 
 			let data : Destination = JSON.parse(JSON.stringify((this as any).destination));
-			data.notes = [];
-			
-			// get all notes
-			let currNotes = document.getElementById((this as any).destination.name + '_notes_content');
-			if(currNotes !== null){
-				for(let child of currNotes.children){
-					data.notes.push(child.textContent.trim());
-				}
-			}
-			
-			// if text was edited, throw out the newly added <li> elements, if any?
-			// save state when edit button is clicked. when save is clicked, compare current state (i.e. child nodes) with saved??
-			// since it looks like li elements get class names cloned so that doesn't help
-			
+			data.notes = notes.value;
+			console.log(data);
 			
 			// update data source with new info
-			//this.$root.$emit('update-destination', data);
 			this.$root.updateDestination(data);
-			
 			
 			(this as any).isEditing = false;
 		}
@@ -162,6 +141,11 @@ export default {
 	
 	.content {
 		display: none;
+	}
+	
+	textarea {
+		background-color: transparent;
+		color: #000;
 	}
 	
 	h3 {
