@@ -1,22 +1,18 @@
 // stuff for accessing map resources via mapbox's API
 // https://docs.mapbox.com/mapbox-gl-js/api/
 
-import mapboxgl, { Map } from 'mapbox-gl';
-
-class MapBoxMonitor {
-	// this will keep the current 'state' of the mapbox.
-	// i.e. the markers (so we can delete if needed)
-}
-
+import mapboxgl, { Map, Marker } from 'mapbox-gl';
 
 class MapBoxWrapper {
 	key: 		  string;
 	container:    HTMLElement;
 	map:          Map;
+	markers:      Array<Marker>;
 	
 	constructor(key: string, mapContainer: HTMLElement) {
 		this.key = key;
 		this.container = mapContainer;
+		this.markers = [];
 		
 		// get map data from MapBox API with key
 		mapboxgl.accessToken = key;
@@ -35,9 +31,9 @@ class MapBoxWrapper {
 			// confirm if selection ok
 			let addMarker = confirm("add this spot as a destination?");
 			if(addMarker){
-				let marker = new mapboxgl.Marker()
-				.setLngLat([evt.lngLat.lng, evt.lngLat.lat])
-				.addTo(map);
+				let marker = new mapboxgl.Marker();
+				marker.setLngLat([evt.lngLat.lng, evt.lngLat.lat])
+				marker.addTo(map);
 				
 				// send info to parent 
 				// https://stackoverflow.com/questions/2046737/can-events-fired-from-an-iframe-be-handled-by-elements-in-its-parent
@@ -47,9 +43,8 @@ class MapBoxWrapper {
 						lat: evt.lngLat.lat
 					}
 				});
-				
+				this.markers.push(marker);
 				parent.document.dispatchEvent(addDestEvent);
-				
 			}
 		});
 		
@@ -62,6 +57,29 @@ class MapBoxWrapper {
 	
 	getContainer(): HTMLElement {
 		return this.container;
+	}
+	
+	removeSingleMarker() : boolean {
+		// TODO
+		return true;
+	}
+	
+	removeMarkers() : boolean {
+		for(let marker of this.markers){
+			marker.remove();
+		}
+		this.markers = [];
+		return true;
+	}
+	
+	updateMarkers(listOfDest : Array<Object>): void {
+		for(let dest of listOfDest){
+			let marker = new mapboxgl.Marker();
+			marker.setLngLat([(dest as any).longitude, (dest as any).latitude]);
+			marker.addTo(this.map);
+			
+			this.markers.push(marker);
+		}
 	}
 }
 

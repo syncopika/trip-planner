@@ -40,6 +40,11 @@ grrrrrr lol - https://blog.francium.tech/vue-js-and-html5-contenteditable-attrib
 I tried to remove li nodes that contenteditable was creating, which sort of worked, but not good enough
 - decided to go with textarea instead :D
 
+https://stackoverflow.com/questions/50635199/vue-js-2-0-child-component-mounted-callback
+- consider making the iframe for the map into a child component! then you can listen for that to
+  be all set up and ready before running mounted() code in the parent? not sure this'll guarantee
+  that the iframe is ready to listen for events though but worth a try?
+
 ========================
 typescript stuff
 
@@ -49,7 +54,7 @@ https://stackoverflow.com/questions/61308006/how-to-correctly-import-custom-type
 https://stackoverflow.com/questions/18083389/ignore-typescript-errors-property-does-not-exist-on-value-of-type
 https://stackoverflow.com/questions/58773652/ts2339-property-style-does-not-exist-on-type-element
 https://stackoverflow.com/questions/55280555/typescript-eslint-eslint-plugin-error-route-is-defined-but-never-used-no-un
-
+https://stackoverflow.com/questions/38457662/iframe-inside-angular2-component-property-contentwindow-does-not-exist-on-typ
 ========================
 useful mapbox stuff:
 https://docs.mapbox.com/mapbox-gl-js/example/toggle-interaction-handlers/
@@ -76,6 +81,8 @@ https://stackoverflow.com/questions/47166369/argument-of-type-e-customevent-void
 TODO:
 - when the map is interacted with and those events are caught, make sure those changes (i.e. adding a destination) are caught and the
 child components are updated accordingly.
+	- the initial load is tricky: I think the iframe might not be ready to listen for events when the component it's in
+          has already mounted. so maybe make the iframe into a new Vue component?
 
 - be able to delete a destination.
 

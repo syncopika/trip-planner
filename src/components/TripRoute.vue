@@ -52,6 +52,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
+//import { Destination } from '../triproute'; //instead of array<obj>, why not array<destination>?
 import Sidebar from './Sidebar.vue';
 
 @Component({
@@ -67,16 +68,38 @@ export default class TripRouteMap extends Vue {
 	@Watch('listOfDest', { deep: true })
 	onDestChange(newVal: Array<Object>, oldVal: Array<Object>){
 		// note that we shouldn't need to care about the old value
-		this.updateMap();
+		this.updateMap(newVal);
 		console.log(newVal);
 		console.log(oldVal);
 	}
 	
-	updateMap(){
+	updateMap(data : Array<Object>){
 		// take new destination data and update the MapBox map markers as needed
 		console.log("I'm supposed to update the map! probably...");
 		
 		// send a custom event to the map iframe along with the data
+		let updateMapEvent = new CustomEvent('updateMap', {detail: data});
+		let mapIframe = document.getElementById('mapContainer') as HTMLIFrameElement;
+		
+		if(mapIframe !== null && mapIframe.contentDocument !== null){
+			console.log("sending data to the iframe");
+			mapIframe.contentDocument.dispatchEvent(updateMapEvent);
+		}
+	}
+	
+	_handleIframeLogs(evt : any){
+		console.log(evt);
+	}
+	
+	mounted(){
+		//console.log("gotta update those map markers!");
+		//console.log(this.listOfDest);
+		// update map here
+		this.updateMap(this.listOfDest);
+		
+		
+		// set up listeners for any messages that come from the iframe
+		window.document.addEventListener('iframeLogs', this._handleIframeLogs, false);
 	}
 }
 </script>
