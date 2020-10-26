@@ -19,9 +19,8 @@ function updateMap(evt : any){
 	// send back logs to parent window to confirm iframe received data
 	let ackEvent = new CustomEvent('iframeLogs', {detail: "hi parent, I got the data. thanks!"});
 	window.parent.document.dispatchEvent(ackEvent);
-	
+
 	// update the mapbox
-	// TODO: write some functions in MapBoxWrapper to update markers and stuff
 	mapbox.removeMarkers();
 	mapbox.updateMarkers(evt.detail);
 }

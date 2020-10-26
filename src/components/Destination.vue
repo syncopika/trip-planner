@@ -7,7 +7,14 @@
 		v-on:mouseleave="dehighlightBorder"
 		>
 
-		<h1 v-on:click="toggleVisibility"> {{destination.name}} </h1>
+		<!-- name of destination -->
+		<h1 v-on:click="toggleVisibility"> 
+			{{destination.name}} 
+			<span 
+				:id="destination.name + '_delete'"
+				v-on:click="removeDestination"
+			> x </span>
+		</h1>
 		
 		<div :id="destination.name + '_content'" class="content">
 		
@@ -97,11 +104,11 @@ export default {
 			if(notes !== null) notes.removeAttribute('disabled');
 			
 		},
-		removeDestination: function(){
-			// TODO: remove a destination.
-			// emit an event to the root instance to make sure the destination is removed from the list.
-			// or should this be done at the Sidebar component level? you can also reorder
-			// destinations there too.
+		removeDestination: function(evt : any){
+			// remove a destination
+			// calls a method of the Vue root instance
+			let name = evt.target.id.split("_")[0]; // i.e. name_dest, and we want name
+			this.$root.removeDestination(name);		
 		},
 		saveChanges: function(evt : any){
 			
@@ -154,7 +161,7 @@ export default {
 	}
 	
 	span {
-		color: #ff0000;
+		color: #8b0000;
 		font-weight: bold;
 		display: inline;
 	}

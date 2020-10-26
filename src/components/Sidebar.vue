@@ -1,7 +1,7 @@
 <template>
 
 	<div>
-		<ul>
+		<ul id="stops">
 			<!-- each list element is a destination -->
 			<destination 
 				v-for="dest in listOfDest" 

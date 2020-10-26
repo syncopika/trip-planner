@@ -26,6 +26,9 @@ class MapBoxWrapper {
 		// disable double-click zoom so we can configure double-click for adding 
 		// a new destination
 		map["doubleClickZoom"].disable();
+		
+		// TODO: you need to do a check against existing destination names first before
+		// adding!
 		map.on('dblclick', (evt) => {
 			// add marker 
 			// confirm if selection ok
@@ -35,8 +38,7 @@ class MapBoxWrapper {
 				marker.setLngLat([evt.lngLat.lng, evt.lngLat.lat])
 				marker.addTo(map);
 				
-				// send info to parent 
-				// https://stackoverflow.com/questions/2046737/can-events-fired-from-an-iframe-be-handled-by-elements-in-its-parent
+				// send info to parent
 				const addDestEvent = new CustomEvent('addDest', {
 					detail: {
 						lng: evt.lngLat.lng, 
@@ -80,7 +82,52 @@ class MapBoxWrapper {
 			
 			this.markers.push(marker);
 		}
+		
+		this.drawLineBetweenMarkers();
 	}
+	
+	drawLineBetweenMarkers(){
+		
+		if(this.map.getLayer('route')){
+			this.map.removeLayer('route');
+		}
+		
+		if(this.map.getSource('route')){
+			this.map.removeSource('route');
+		}
+		
+		let coordinates = this.markers.map(function(marker){
+			let loc = marker.getLngLat();
+			return [loc.lng, loc.lat];
+		});
+		
+		this.map.addSource('route', {
+			'type': 'geojson',
+			'data': {
+				'type': 'Feature',
+				'properties': {},
+				'geometry': {
+					'type': 'LineString',
+					'coordinates': coordinates
+				}
+			}
+		});
+		
+		this.map.addLayer({
+			'id': 'route',
+			'type': 'line',
+			'source': 'route',
+			'layout': {
+				'line-join': 'round',
+				'line-cap': 'round'
+			},
+			'paint': {
+				'line-color': '#888',
+				'line-width': 8
+			}
+		});
+	}
+
 }
 
 export {

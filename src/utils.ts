@@ -5,8 +5,9 @@
 // follow this: https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/Vue_rendering_lists
 
 
-import { Location } from './triproute';
+//import { Location } from './triproute';
 
+/*
 function addNotesSectionToDest(destNode: HTMLElement): HTMLTextAreaElement {
 	// add a notes section to a destination 
 	//let dest = document.getElementById(destNodeId);
@@ -25,28 +26,30 @@ function addNotesSectionToDest(destNode: HTMLElement): HTMLTextAreaElement {
 	destNode.appendChild(notes);
 	
 	return notes;
-}
+}*/
 
-// TODO: instead of info: Object, define an interface for info!
-function addNewDestination(ulElementId: string, destName: string, info: Location): void {
+
+function addNewDestination(ulElementId: string, destName: string): boolean {
 	// supply an unordered list element id to add a new list element
 	let list = document.getElementById(ulElementId);
 	
 	if(list === null){
 		console.log("list does not exist");
-		return;
+		return false;
 	}
 	
 	// don't allow multiple destinations with the same name
 	if(list.childNodes){
 		for(let child of list.childNodes as any){
-			if(child.id === destName){
+			if(child.id === destName + "_dest"){
+				// appending "_dest" isn't great... :/
 				alert('You already have a destination with the name: ' + destName + '. Please choose a different name.');
-				return;
+				return false;
 			}
 		}
 	}
 	
+	/*
 	let newDest = document.createElement('li');
 	newDest.id = destName;
 	newDest.style.padding = "3px";
@@ -129,6 +132,8 @@ function addNewDestination(ulElementId: string, destName: string, info: Location
 	});
 	
 	list.appendChild(newDest);
+	*/
+	return true;
 }
 
 export {

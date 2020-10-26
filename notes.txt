@@ -7,10 +7,12 @@ https://stackoverflow.com/questions/10418644/creating-an-iframe-with-given-html-
 https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe
 https://docs.mapbox.com/help/glossary/iframe/
 
+https://stackoverflow.com/questions/2046737/can-events-fired-from-an-iframe-be-handled-by-elements-in-its-parent
 https://stackoverflow.com/questions/9153445/how-to-communicate-between-iframe-and-the-parent-site
-========================
 
-helpful vue stuff:
+========================
+helpful vue stuff
+
 https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/Vue_first_component
 https://github.com/vuejs/vue/issues/1177
 https://michaelnthiessen.com/vue-props-vs-data/
@@ -55,12 +57,14 @@ https://stackoverflow.com/questions/18083389/ignore-typescript-errors-property-d
 https://stackoverflow.com/questions/58773652/ts2339-property-style-does-not-exist-on-type-element
 https://stackoverflow.com/questions/55280555/typescript-eslint-eslint-plugin-error-route-is-defined-but-never-used-no-un
 https://stackoverflow.com/questions/38457662/iframe-inside-angular2-component-property-contentwindow-does-not-exist-on-typ
+
 ========================
 useful mapbox stuff:
+
 https://docs.mapbox.com/mapbox-gl-js/example/toggle-interaction-handlers/
 https://docs.mapbox.com/mapbox-gl-js/example/mouse-position/
 https://docs.mapbox.com/mapbox-gl-js/example/add-a-marker/
-
+https://gis.stackexchange.com/questions/208989/how-to-test-if-a-layer-exist-in-a-mapbox-gl-js-map
 
 ========================
 misc stuff:
@@ -84,13 +88,5 @@ child components are updated accordingly.
 	- the initial load is tricky: I think the iframe might not be ready to listen for events when the component it's in
           has already mounted. so maybe make the iframe into a new Vue component?
 
-- be able to delete a destination.
+- emit events rather than calling root?
 
-- connect map markers with a line
-
-some random markers for dummy data:
-lat: 38.9486650738765
-long: -77.01459411621002
-
-lat: 38.982833520960156
-long: -76.95210937499908

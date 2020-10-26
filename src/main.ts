@@ -5,6 +5,7 @@ import { TripRoute, Destination } from './triproute';
 
 Vue.config.productionTip = false
 
+// root instance
 new Vue({
   render(h){
 	// fetch data from db here??
@@ -37,6 +38,9 @@ new Vue({
                   break;
               }
           }
+      },
+      removeDestination: function(destName : string){
+          this.listOfDest = this.listOfDest.filter(dest => dest.name !== destName);
       }
   },
   // don't forget that for each destination in data,
@@ -57,8 +61,9 @@ new Vue({
 		let location = (<CustomEvent>evt).detail;
 		let destName = prompt('enter destination name');
 
-		if(destName !== null){
-			addNewDestination('stops', destName, location);
+		// the check against existing destination names should be done
+		// at the iframe level? since the iframe listens for the dblclick event.
+		if(destName !== null && addNewDestination('stops', destName)){
 
 			let newDest : Destination = {
 				name:      destName,
@@ -74,5 +79,6 @@ new Vue({
 		}
 
 	});
+	
   }
 }).$mount('#app')
