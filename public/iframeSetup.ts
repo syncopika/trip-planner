@@ -12,6 +12,12 @@ let mapbox = new MapBoxWrapper("<your token here>", mapContainer);
 // add some listeners to listen for events to update map stuff from the parent document
 window.document.addEventListener('updateMap', updateMap, false);
 
+// as soon as this iframe is setup,
+// send a customevent to the parent telling it to send data
+let readyEvent = new CustomEvent('imready');
+window.parent.document.dispatchEvent(readyEvent);
+
+
 function updateMap(evt : any){
 	//console.log("in the iframe!");
 	//console.log(evt.detail);

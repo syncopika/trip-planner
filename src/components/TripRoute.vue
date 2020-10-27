@@ -91,12 +91,18 @@ export default class TripRouteMap extends Vue {
 		console.log(evt);
 	}
 	
+	_handleReady(){
+		console.log("got iframe ready message!!");
+		this.updateMap(this.listOfDest);
+	}
+	
 	mounted(){
 		//console.log("gotta update those map markers!");
 		//console.log(this.listOfDest);
-		// update map here
-		this.updateMap(this.listOfDest);
 		
+		// the iframe might not be ready?
+		// so listen for the ready event first
+		window.document.addEventListener('imready', this._handleReady, false);		
 		
 		// set up listeners for any messages that come from the iframe
 		window.document.addEventListener('iframeLogs', this._handleIframeLogs, false);
