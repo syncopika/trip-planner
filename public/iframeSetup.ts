@@ -14,14 +14,12 @@ window.document.addEventListener('updateMap', updateMap, false);
 
 // as soon as this iframe is setup,
 // send a customevent to the parent telling it to send data
-let readyEvent = new CustomEvent('imready');
-window.parent.document.dispatchEvent(readyEvent);
-
+mapbox.getMap().on('load', () => {
+	let readyEvent = new CustomEvent('imready');
+	window.parent.document.dispatchEvent(readyEvent);
+});
 
 function updateMap(evt : any){
-	//console.log("in the iframe!");
-	//console.log(evt.detail);
-	
 	// send back logs to parent window to confirm iframe received data
 	let ackEvent = new CustomEvent('iframeLogs', {detail: "hi parent, I got the data. thanks!"});
 	window.parent.document.dispatchEvent(ackEvent);

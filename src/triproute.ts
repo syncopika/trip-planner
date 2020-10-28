@@ -1,8 +1,8 @@
-// a class to represent one trip route
 
 interface Location {
-	lat:  number;
-	lng:  number;
+	latitude:  number;
+	longitude:  number;
+	name: string;
 }
 
 interface Destination {

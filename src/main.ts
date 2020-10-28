@@ -29,28 +29,6 @@ new Vue({
 	]
   },
   methods: {
-      addNewDestination: function(ulElementId: string, destName: string): boolean {
-          // supply an unordered list element id to add a new list element
-          let list = document.getElementById(ulElementId);
-
-          if(list === null){
-              console.log("list does not exist");
-              return false;
-          }
-
-          // don't allow multiple destinations with the same name
-          if(list.childNodes){
-              for(let child of list.childNodes as any){
-                  if(child.id === destName + "_dest"){
-                      // appending "_dest" isn't great... :/
-                      alert('You already have a destination with the name: ' + destName + '. Please choose a different name.');
-                      return false;
-                  }
-              }
-          }
-
-          return true;
-      },
       updateDestination: function(data : Destination): void {
           // called from Destination.vue. TODO: is there a better way to do this?
           for(let dest of this.listOfDest){
@@ -68,8 +46,6 @@ new Vue({
   // it needs to be marked on the map!
   mounted: function(){
 
-    const self = this;
-
 	// at some point we want to load in all the trip routes of this user
 	// (after we have user profiles and stuff set up)
 	// for now, just have one triproute
@@ -80,16 +56,15 @@ new Vue({
 		//console.log(evt);
 
 		let location = (<CustomEvent>evt).detail;
-		let destName = prompt('enter destination name');
 
 		// the check against existing destination names should be done
 		// at the iframe level? since the iframe listens for the dblclick event.
-		if(destName !== null && self.addNewDestination('stops', destName)){
+		if(location){
 
 			let newDest : Destination = {
-				name:      destName,
-				latitude:  location.lat,
-				longitude: location.lng,
+				name:      location.name,
+				latitude:  location.latitude,
+				longitude: location.longitude,
 				notes:     ""
 			};
 

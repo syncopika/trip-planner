@@ -96,3 +96,13 @@ child components are updated accordingly.
 
 - emit events rather than calling root?
 
+- rename dest, trip title
+
+- reorder dests
+
+- add pictures to each dest?
+
+- customize note text properties (i.e. font color, font size)? think accessibility
+
+- geocoding> get closest city?
+

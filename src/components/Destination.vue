@@ -122,7 +122,7 @@ export default {
 
 			let data : Destination = JSON.parse(JSON.stringify((this as any).destination));
 			data.notes = notes.value;
-			console.log(data);
+			//console.log(data);
 			
 			// update data source with new info
 			this.$root.updateDestination(data);
