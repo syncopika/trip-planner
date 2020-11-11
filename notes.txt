@@ -91,18 +91,16 @@ https://stackoverflow.com/questions/47166369/argument-of-type-e-customevent-void
 TODO:
 - when the map is interacted with and those events are caught, make sure those changes (i.e. adding a destination) are caught and the
 child components are updated accordingly.
-	- the initial load is tricky: I think the iframe might not be ready to listen for events when the component it's in
-          has already mounted. so maybe make the iframe into a new Vue component?
 
 - emit events rather than calling root?
 
+now:
 - rename dest, trip title
-
 - reorder dests
-
-- add pictures to each dest?
-
 - customize note text properties (i.e. font color, font size)? think accessibility
+- multiple trips? get the menu setup. dropdown if multiple trips, have create new trip functionality.
 
+later:
+- add pictures to each dest?
 - geocoding> get closest city?
 

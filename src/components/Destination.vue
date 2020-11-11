@@ -1,6 +1,6 @@
 <template>
 
-	<!-- one li == one destination -->
+	<!-- one li is one destination -->
 	<li :id="destination.name + '_dest'"
 		class="dest"
 		v-on:mouseover="highlightBorder"
@@ -8,13 +8,14 @@
 		>
 
 		<!-- name of destination -->
-		<h1 v-on:click="toggleVisibility"> 
+		<h1 :id="destination.name" v-on:click="toggleVisibility"> 
 			{{destination.name}} 
-			<span 
-				:id="destination.name + '_delete'"
-				v-on:click="removeDestination"
-			> x </span>
 		</h1>
+		<p 
+			:id="destination.name + '_delete'"
+			v-on:click="removeDestination"
+			class="delete"
+		> x </p>
 		
 		<div :id="destination.name + '_content'" class="content">
 		
@@ -99,6 +100,13 @@ export default {
 			// set flag
 			(this as any).isEditing = true;
 			
+			// make destination name editable
+			// note: when save is clicked and the data is sent to the root
+			// to update state, the destination name, if edited, will be
+			// checked to make sure its new desired name is not already taken
+			// by another destination
+			document.getElementById(name).setAttribute('contenteditable', true);
+			
 			// make content editable
 			let notes = document.getElementById(name + '_notes');
 			if(notes !== null) notes.removeAttribute('disabled');
@@ -115,6 +123,10 @@ export default {
 			evt.stopPropagation();
 			
 			let name = (this as any).destination.name;
+			let newName = document.getElementById(name).textContent.trim().split(' ')[0];
+			
+			// make destination name not editable
+			document.getElementById(name).setAttribute('contenteditable', false);
 			
 			// TODO: but what about cancelling unwanted edits!?
 			let notes = document.getElementById(name + '_notes');
@@ -122,7 +134,9 @@ export default {
 
 			let data : Destination = JSON.parse(JSON.stringify((this as any).destination));
 			data.notes = notes.value;
-			//console.log(data);
+			data.newName = newName;
+			
+			console.log(data);
 			
 			// update data source with new info
 			this.$root.updateDestination(data);
@@ -160,10 +174,15 @@ export default {
 		margin-left: 3px;
 	}
 	
-	span {
+	h1 {
+		display: inline;
+	}
+	
+	.delete {
 		color: #8b0000;
 		font-weight: bold;
 		display: inline;
+		font-size: 2em;
 	}
 	
 	button {

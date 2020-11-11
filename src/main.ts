@@ -30,20 +30,48 @@ new Vue({
   },
   methods: {
       updateDestination: function(data : Destination): void {
-          // called from Destination.vue. TODO: is there a better way to do this?
+          // called from Destination.vue. 
+          // TODO: is there a better way to do this?
+          
+          let currName = data.name;
+          let newName = data.newName; // new desired destination name
+          let changeName = false;
+          let destWithNewNameExists = this.findDestination(newName);
+
+          if(currName !== newName && !destWithNewNameExists){
+              changeName = true;    
+          }else if(destWithNewNameExists){
+              // a destination with the new name already exists
+              // just don't update the destination name but alert the user
+              alert("Can't change name because a destination already exists with the same name!");
+          }
+          
           for(let dest of this.listOfDest){
-              if(dest.name === data.name){
+              if(dest.name === currName){
                   dest.notes = data.notes;
+
+                  if(changeName){
+                      dest.name = newName;
+                  }else{
+                      dest.name = currName + " "; // force refresh because contenteditable is annoying
+                  }
+
                   break;
               }
           }
+      },
+      findDestination: function(destName : string): boolean {
+          for(let dest of this.listOfDest){
+              if(dest.name === destName){
+                  return true;
+              }
+          }
+          return false;			  
       },
       removeDestination: function(destName : string): void {
           this.listOfDest = this.listOfDest.filter(dest => dest.name !== destName);
       }
   },
-  // don't forget that for each destination in data,
-  // it needs to be marked on the map!
   mounted: function(){
 
 	// at some point we want to load in all the trip routes of this user
