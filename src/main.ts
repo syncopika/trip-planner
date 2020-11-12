@@ -40,7 +40,7 @@ new Vue({
 
           if(currName !== newName && !destWithNewNameExists){
               changeName = true;    
-          }else if(destWithNewNameExists){
+          } else if (currName !== newName && destWithNewNameExists){
               // a destination with the new name already exists
               // just don't update the destination name but alert the user
               alert("Can't change name because a destination already exists with the same name!");
@@ -53,7 +53,7 @@ new Vue({
                   if(changeName){
                       dest.name = newName;
                   }else{
-                      dest.name = currName + " "; // force refresh because contenteditable is annoying
+                      dest.name = currName;
                   }
 
                   break;

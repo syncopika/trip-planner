@@ -55,7 +55,8 @@ export default {
 	data(){
 		return {
 			expanded: false,
-			isEditing: false
+			isEditing: false,
+			currDestTitle: ""
 		}
 	},
 	props: {
@@ -105,8 +106,12 @@ export default {
 			// to update state, the destination name, if edited, will be
 			// checked to make sure its new desired name is not already taken
 			// by another destination
-			document.getElementById(name).setAttribute('contenteditable', true);
-			
+			let destTitle = document.getElementById(name);
+			destTitle.setAttribute('contenteditable', "true");
+
+			// save the current title so we can restore it if it can't be changed
+            (this as any).currDestTitle = destTitle.textContent;
+
 			// make content editable
 			let notes = document.getElementById(name + '_notes');
 			if(notes !== null) notes.removeAttribute('disabled');
@@ -121,12 +126,13 @@ export default {
 		saveChanges: function(evt : any){
 			
 			evt.stopPropagation();
-			
+
 			let name = (this as any).destination.name;
-			let newName = document.getElementById(name).textContent.trim().split(' ')[0];
+            let destTitle = document.getElementById(name);
+			let newName = destTitle.textContent.trim().split(' ')[0];
 			
 			// make destination name not editable
-			document.getElementById(name).setAttribute('contenteditable', false);
+            destTitle.setAttribute('contenteditable', "false");
 			
 			// TODO: but what about cancelling unwanted edits!?
 			let notes = document.getElementById(name + '_notes');
@@ -137,6 +143,10 @@ export default {
 			data.newName = newName;
 			
 			console.log(data);
+
+			// if new name is valid, the change will happen
+			// if it doesn't happen, we'll at least have restored the title to its original
+            destTitle.textContent = (this as any).currDestTitle;
 			
 			// update data source with new info
 			this.$root.updateDestination(data);
