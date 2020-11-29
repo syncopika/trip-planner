@@ -17,16 +17,9 @@
 			</div>
 		</div>
 		
-		<!-- show menu, route list -->
+		<!-- show navigation bar, destination list -->
 		<div id='column2'>
-			<div id='menuHeader'>
-				<!-- menu stuff goes here -->
-				<h3> new trip </h3>
-				<h3> | </h3>
-				<h3> select trip </h3>
-				<h3> | </h3>
-				<h3> home </h3>
-			</div>
+			<navigation :list-of-trip-names="listOfTripNames"></navigation>
 			
 			<div id='tripInfo'>
 				<h2 id='tripTitle'>{{tripName}}</h2>
@@ -44,18 +37,21 @@
 
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
-//import { Destination } from '../triproute'; //instead of array<obj>, why not array<destination>?
 import DestinationList from './DestinationList.vue';
+import Navigation from './Navigation.vue';
+//import { Destination } from '../triproute'; //instead of array<obj>, why not array<destination>?
 
 @Component({
 	components: {
-		DestinationList
+		DestinationList,
+		Navigation
 	}
 })
 
 export default class TripRouteMap extends Vue {
 	
-	@Prop({required: true}) public listOfDest!: Array<Object>; // the ! == not null
+	@Prop({ required: true }) public listOfDest!: Array<Object>; // the ! == not null
+    @Prop({ required: true }) public listOfTripNames!: Array<string>;
 	@Prop({ required: true }) public tripName!: string;
 
 	@Watch('listOfDest', { deep: true })
@@ -90,9 +86,6 @@ export default class TripRouteMap extends Vue {
 	}
 	
 	mounted(){
-		//console.log("gotta update those map markers!");
-		//console.log(this.listOfDest);
-		
 		// the iframe might not be ready?
 		// so listen for the ready event first
 		window.document.addEventListener('imready', this._handleReady, false);		
@@ -143,16 +136,6 @@ h1, h2{
 	border: 1px solid #000;
 	background-color: #fff;
 	padding: 3px;
-}
-
-#menuHeader{
-	background-color: #32CD32;
-	padding: 2px;
-	text-align: right;
-}
-
-#menuHeader h3 {
-	display: inline;
 }
 
 #tripInfo{

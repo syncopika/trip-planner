@@ -21,6 +21,7 @@ https://github.com/vuejs/vue-class-component/issues/220 -> WHAT!? why does it fe
 https://vuejsdevelopers.com/2017/06/11/vue-js-extending-components/
 https://forum.vuejs.org/t/passing-props-to-root-instances-in-2-0/244/8 -> spent at least 2 hours trying to pass props to App -__-
 https://stackoverflow.com/questions/48226354/converting-data-to-props-for-root-component-in-vue-js-2
+https://vuejs.org/v2/guide/reactivity.html
 
 looks helpful: https://forum.vuejs.org/t/root-instance-dont-change-the-components-data/24029/6
   - I was confused about Vue root instances and components and passing data between the 2
@@ -75,6 +76,7 @@ this is neat! https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Editable_c
 https://css-tricks.com/snippets/javascript/saving-contenteditable-content-changes-as-json-with-ajax/
 https://fabiofranchino.com/blog/making-contenteditable-in-vue-from-scratch/
 https://ux.stackexchange.com/questions/54572/if-text-is-editable-how-important-is-to-show-it-appearance-wise-inside-a-text
+https://www.w3schools.com/howto/howto_css_dropdown.asp
 
 maybe useful? https://stackoverflow.com/questions/17158932/how-to-detect-when-an-iframe-has-already-been-loaded
 
@@ -91,8 +93,8 @@ https://stackoverflow.com/questions/47166369/argument-of-type-e-customevent-void
 TODO:
 - when the map is interacted with and those events are caught, make sure those changes (i.e. adding a destination) are caught and the
 child components are updated accordingly.
-
 - emit events rather than calling root?
+- use Vuex to store trip data upon loading from some source?
 
 now:
 - rename dest, trip title
@@ -104,4 +106,13 @@ now:
 
 later:
 - geocoding> get closest city? guess name of destination?
+
+
+taoyuan airport coords:
+lat: 25.078547687812375
+long: 121.23264281923252
+
+taipei main station coords:
+lat: 25.046225057189716
+long: 121.51738742959378
 

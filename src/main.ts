@@ -10,32 +10,52 @@ new Vue({
         // fetch data from db here??
         return h(App, {
             props: {
-                'listOfDest': this.listOfDest,
-                'tripName': this.tripName,
+                'listOfDest': this.tripData[this.currTripIndex].listOfDest,
+                'tripName': this.tripData[this.currTripIndex].tripName,
+                'listOfTripNames': this.tripData.map(trip => trip.tripName),
             }
         });
     },
     data: {
-        'tripName': 'my first trip',
-        'listOfDest': [
+        'tripData': [
             {
-                "name": "test",
-                "latitude": 38.9486650738765,
-                "longitude": -77.01459411621002,
-                "notes": "hello world"
-            },
-            {
-                "name": "test2",
-                "latitude": 38.982833520960156,
-                "longitude": -76.95210937499908,
-                "notes": "hello world2"
+                'tripName': 'my first trip',
+                'listOfDest': [
+                    {
+                        "name": "test",
+                        "latitude": 38.9486650738765,
+                        "longitude": -77.01459411621002,
+                        "notes": "hello world"
+                    },
+                    {
+                        "name": "test2",
+                        "latitude": 38.982833520960156,
+                        "longitude": -76.95210937499908,
+                        "notes": "hello world2"
+                    }
+                ]
             }
-        ]
+        ],
+        'currTripIndex': 0
     },
     methods: {
+        findDestination: function (destName: string): boolean {
+            let listOfDest = this.tripData[this.currTripIndex].listOfDest;
+            for (let dest of listOfDest) {
+                if (dest.name === destName) {
+                    return true;
+                }
+            }
+            return false;
+        },
+        removeDestination: function (destName: string): void {
+            let listOfDest = this.tripData[this.currTripIndex].listOfDest;
+            this.tripData[this.currTripIndex].listOfDest = listOfDest.filter(dest => dest.name !== destName);
+        },
         updateDestination: function(data: Destination): void {
             // called from Destination.vue.
             // TODO: is there a better way to do this?
+            let listOfDest = this.tripData[this.currTripIndex].listOfDest;
             let currName = data.name;
             let newName = data.newName; // new desired destination name
             let changeName = false;
@@ -49,7 +69,8 @@ new Vue({
                 alert("Can't change name because a destination already exists with the same name!");
             }
 
-            for (let dest of this.listOfDest) {
+            for (let i = 0; i < listOfDest.length; i++) {
+                let dest = listOfDest[i];
                 if (dest.name === currName) {
                     dest.notes = data.notes;
 
@@ -58,27 +79,18 @@ new Vue({
                     } else {
                         dest.name = currName;
                     }
+
                     break;
                 }
             }
-        },
-        findDestination: function(destName : string): boolean {
-            for(let dest of this.listOfDest){
-                if(dest.name === destName){
-                    return true;
-                }
-            }
-            return false;
-        },
-        removeDestination: function(destName : string): void {
-            this.listOfDest = this.listOfDest.filter(dest => dest.name !== destName);
         }
     },
     mounted: function() {
         // at some point we want to load in all the trip routes of this user
         // (after we have user profiles and stuff set up)
         // for now, just have one triproute
-        const tripRoute = new TripRoute(this.tripName);
+        let tripName = this.tripData[this.currTripIndex].tripName;
+        const tripRoute = new TripRoute(tripName);
 	
         // listen for custom events from the iframe (which is the map)
         document.addEventListener('addDest', (evt) => {
@@ -98,7 +110,7 @@ new Vue({
                 tripRoute.addDestination(newDest);
                 //console.log(tripRoute);
 
-                this.listOfDest.push(newDest);
+                this.tripData[this.currTripIndex].listOfDest.push(newDest); 
             }
         });
     }

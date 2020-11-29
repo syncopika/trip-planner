@@ -6,7 +6,8 @@
 				v-for="dest in listOfDest" 
 				v-bind:key="dest.name+dest.latitude+dest.longitude"
 				:destination="dest"
-			></destination>
+			>
+			</destination>
 		</ul>
 	</div>
 </template>
