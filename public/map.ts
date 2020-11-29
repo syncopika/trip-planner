@@ -101,6 +101,11 @@ class MapBoxWrapper {
 		}
 		
 		newMarker.addTo(this.map);
+
+		// center the map around the new marker
+		this.map.flyTo({
+			center: [data.longitude, data.latitude]
+		});
 		
 		return newMarker;
 	}

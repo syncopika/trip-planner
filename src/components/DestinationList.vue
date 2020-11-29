@@ -1,5 +1,4 @@
 <template>
-
 	<div>
 		<ul id="stops">
 			<!-- each list element is a destination -->
@@ -9,9 +8,7 @@
 				:destination="dest"
 			></destination>
 		</ul>
-	
 	</div>
-
 </template>
 
 
@@ -25,7 +22,7 @@ import Destination from './Destination.vue';
 	}
 })
 
-export default class Sidebar extends Vue {
-	@Prop({required: true}) public listOfDest!: Array<Object>;
+export default class DestinationList extends Vue {
+	@Prop({ required: true }) public listOfDest!: Array<Object>;
 }
 </script>

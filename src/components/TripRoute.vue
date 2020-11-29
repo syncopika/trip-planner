@@ -1,10 +1,7 @@
 <template>
-
 	<div id='main'>
-	
 		<!-- the map and recommended destinations -->
 		<div id='column1'>
-		
 			<!-- make the mapContainer a component that can receive height and width? -->
 			<div id='container'>
 				<iframe id='mapContainer' width='1200px' height='600px' src='./mapIframe.html'></iframe>
@@ -22,7 +19,6 @@
 		
 		<!-- show menu, route list -->
 		<div id='column2'>
-			
 			<div id='menuHeader'>
 				<!-- menu stuff goes here -->
 				<h3> new trip </h3>
@@ -33,38 +29,35 @@
 			</div>
 			
 			<div id='tripInfo'>
-				<h2 id='tripTitle'> name of trip #1 </h2>
+				<h2 id='tripTitle'>{{tripName}}</h2>
 				<hr />
-				
-				<sidebar :list-of-dest="listOfDest"></sidebar>
-				
+				<destinationList :list-of-dest="listOfDest"></destinationList>
 			</div>
 			
-			<!-- https://developer.mozilla.org/en-US/docs/Web/CSS/Layout_cookbook/Sticky_footers -->
+			<!-- TODO: https://developer.mozilla.org/en-US/docs/Web/CSS/Layout_cookbook/Sticky_footers -->
 			<div id='footer'>
 				<p> footer </p>
 			</div>
 		</div>
-
 	</div>
-
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 //import { Destination } from '../triproute'; //instead of array<obj>, why not array<destination>?
-import Sidebar from './Sidebar.vue';
+import DestinationList from './DestinationList.vue';
 
 @Component({
 	components: {
-		Sidebar
+		DestinationList
 	}
 })
 
 export default class TripRouteMap extends Vue {
 	
 	@Prop({required: true}) public listOfDest!: Array<Object>; // the ! == not null
-	
+	@Prop({ required: true }) public tripName!: string;
+
 	@Watch('listOfDest', { deep: true })
 	onDestChange(newVal: Array<Object>, oldVal: Array<Object>){
 		// note that we shouldn't need to care about the old value

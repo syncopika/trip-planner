@@ -1,5 +1,4 @@
 <template>
-
 	<!-- one li is one destination -->
 	<li :id="destination.name + '_dest'"
 		class="dest"
@@ -18,7 +17,6 @@
 		> x </p>
 		
 		<div :id="destination.name + '_content'" class="content">
-		
 			<!-- notes section -->
 			<h3> notes: </h3>
 			<div>
@@ -39,11 +37,8 @@
 				v-if="isEditing"
 				v-on:click="saveChanges"
 			> save </button>
-			
 		</div>
-		
 	</li>
-
 </template>
 
 <script lang="ts">

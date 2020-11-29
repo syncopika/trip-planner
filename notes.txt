@@ -99,8 +99,9 @@ now:
 - reorder dests
 - customize note text properties (i.e. font color, font size)? think accessibility
 - multiple trips? get the menu setup. dropdown if multiple trips, have create new trip functionality.
+- download/import json? might be too difficult with images though
+- add pictures to each dest?
 
 later:
-- add pictures to each dest?
-- geocoding> get closest city?
+- geocoding> get closest city? guess name of destination?
 

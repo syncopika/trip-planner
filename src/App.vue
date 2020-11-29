@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <trip-route-map :list-of-dest="listOfDest">
+    <trip-route-map :list-of-dest="listOfDest" :trip-name="tripName">
 	</trip-route-map>
   </div>
 </template>
@@ -17,7 +17,8 @@ import TripRouteMap from './components/TripRoute.vue';
 })
 
 export default class App extends Vue {
-	@Prop({required: true}) public listOfDest!: Array<Object>;
+    @Prop({ required: true }) public listOfDest!: Array<Object>;
+    @Prop({ required: true }) public tripName!: string;
 }
 </script>
 
