@@ -1,15 +1,24 @@
 <template>
 	<div id='menuHeader'>
-		<h3 id="createNewTrip" class="selectOption"> new trip </h3>
+		<h2> trip-planner </h2>
+		<h3 
+			id="createNewTrip" 
+			class="selectOption"
+			v-on:click="addNewTrip"
+		> 
+		new trip 
+		</h3>
+		
 		<h3> | </h3>
 		
 		<div class='dropdown'>
-			<button class='dropbtn'> select trip </button>
+			<h3 class='dropbtn'> select trip </h3>
 			<div class='dropContent'>
 				<a 
                    href="#"
                    v-for="(tripName, index) in listOfTripNames"
                    v-bind:key="tripName + '_' + index"
+                   v-on:click="selectTrip"
                    :id="'tripIndex_' + index"
 				>
 				{{tripName}}
@@ -18,7 +27,7 @@
 		</div>
 
 		<h3> | </h3>
-		<h3 class="selectOption"> home </h3>
+		<h3 class="selectOption"> logout </h3>
 	</div>
 </template>
 
@@ -27,6 +36,19 @@ export default {
 	props: {
 		listOfTripNames: { required: true, type: Array }
 	},
+	methods: {
+		addNewTrip: function (): void {
+			let newTripName = prompt("Please enter the name of the new trip:");
+			if (newTripName) {
+				this.$root.addNewTrip(newTripName);
+            }
+		},
+		selectTrip: function (evt: any): void {
+			// TODO: event shouldn't be any?
+			let index = parseInt(evt.target.id.split("_")[1]);
+			this.$root.selectTrip(index);
+        }
+    }
 }
 </script>
 
@@ -50,13 +72,6 @@ export default {
 .dropdown {
 	position: relative;
 	display: inline-block;
-}
-
-.dropbtn {
-	background-color: transparent;
-	border: none;
-	font-family: monospace;
-	color: #000;
 }
 
 .dropbtn:hover {

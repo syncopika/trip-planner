@@ -52,7 +52,7 @@ new Vue({
             let listOfDest = this.tripData[this.currTripIndex].listOfDest;
             this.tripData[this.currTripIndex].listOfDest = listOfDest.filter(dest => dest.name !== destName);
         },
-        updateDestination: function(data: Destination): void {
+        updateDestination: function (data: Destination): void {
             // called from Destination.vue.
             // TODO: is there a better way to do this?
             let listOfDest = this.tripData[this.currTripIndex].listOfDest;
@@ -83,6 +83,18 @@ new Vue({
                     break;
                 }
             }
+        },
+        addNewTrip: function (name: string): void {
+            // TODO: check for existing trip name? allow duplicate names?
+            let newTrip = {
+                tripName: name,
+                listOfDest: []
+            };
+            this.tripData.push(newTrip);
+            this.currTripIndex = this.tripData.length - 1;
+        },
+        selectTrip: function (tripIndex: number): void {
+            this.currTripIndex = tripIndex;
         }
     },
     mounted: function() {
