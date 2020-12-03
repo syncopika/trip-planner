@@ -80,10 +80,10 @@ export default {
 }
 
 .dropContent {
-	display: none;
-	position: absolute;
-	z-index: 1;
-	width: auto;
+    display: none;
+    position: absolute;
+    z-index: 1;
+    white-space: nowrap;
 }
 
 .dropContent a {

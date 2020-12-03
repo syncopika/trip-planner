@@ -7,11 +7,12 @@ interface Location {
 
 interface Destination {
 	name:      string;
+	toDate?:   string;
+	fromDate?: string;
 	latitude:  number;
 	longitude: number;
 	notes:     string;
 }
-
 
 class TripRoute {
 

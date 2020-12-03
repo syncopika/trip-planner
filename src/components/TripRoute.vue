@@ -22,7 +22,7 @@
 			<navigation :list-of-trip-names="listOfTripNames"></navigation>
 			
 			<div id='tripInfo'>
-				<h2 id='tripTitle'>{{tripName}}</h2>
+				<h1 id='tripTitle'>{{tripName}}</h1>
 				<hr />
 				<destinationList :list-of-dest="listOfDest"></destinationList>
 			</div>
@@ -103,6 +103,7 @@ export default class TripRouteMap extends Vue {
 h1, h2{
 	padding: 5px;
 	margin: 0;
+	color: #000;
 }
 
 #main{

@@ -17,6 +17,15 @@
 		> x </p>
 		
 		<div :id="destination.name + '_content'" class="content">
+			<!-- show from/to dates -->
+			<div :id="destination.name + '_dates'" class="row">
+				<div class="col">
+					<h3>from: {{destination.fromDate}}</h3>
+				</div>
+				<div class="col">
+					<h3>to: {{destination.toDate}}</h3>
+				</div>
+			</div>
 			<!-- notes section -->
 			<h3> notes: </h3>
 			<div>
@@ -115,8 +124,11 @@ export default {
 		removeDestination: function(evt : any){
 			// remove a destination
 			// calls a method of the Vue root instance
-			let name = evt.target.id.split("_")[0]; // i.e. name_dest, and we want name
-			this.$root.removeDestination(name);		
+			let remove = confirm("Are you sure you want to remove this destination?");
+			if (remove) {
+				let name = evt.target.id.split("_")[0]; // i.e. name_dest, and we want name
+				this.$root.removeDestination(name);
+			}
 		},
 		saveChanges: function(evt : any){
 			
@@ -167,6 +179,14 @@ export default {
 	
 	.content {
 		display: none;
+	}
+
+	.row {
+		display: flex;
+	}
+
+	.col {
+		flex: 50%;
 	}
 	
 	textarea {
