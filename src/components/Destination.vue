@@ -34,18 +34,25 @@
 				<br />
 			</div>
 
+			<br />
+			<div :id="destination.name + '_images'">
+			</div>
+
 			<hr />
-			
+
 			<p class='latitude'> lat: {{destination.latitude}} </p>
 			<p class='longitude'> long: {{destination.longitude}} </p>
-			
+
 			<button v-on:click="toggleEdit"> edit </button>
-			
-			<button
-				class="editButton"
-				v-if="isEditing"
-				v-on:click="saveChanges"
-			> save </button>
+
+			<input type="file" accept="image/*" :id="destination.name + '_importImage'" @change="uploadImage">
+			<button v-on:click="clickInput"> upload image </button>
+
+			<button class="editButton"
+					v-if="isEditing"
+					v-on:click="saveChanges">
+				save
+			</button>
 		</div>
 	</li>
 </template>
@@ -71,14 +78,14 @@ export default {
 			let name = (this as any).destination.name;
 			let dest = document.getElementById(name + '_dest');
 			if(dest !== null){
-				dest.style.border = '1px solid #fff';
+				dest.style.border = '2px solid #fff';
 			}
 		},
 		dehighlightBorder: function(){
 			let name = (this as any).destination.name;
 			let dest = document.getElementById(name + '_dest');
 			if(dest !== null){
-				dest.style.border = '1px solid #000';
+				dest.style.border = '2px solid #000';
 			}	
 		},
 		toggleVisibility: function(){
@@ -149,7 +156,7 @@ export default {
 			data.notes = notes.value;
 			data.newName = newName;
 			
-			console.log(data);
+			//console.log(data);
 
 			// if new name is valid, the change will happen
 			// if it doesn't happen, we'll at least have restored the title to its original
@@ -159,7 +166,33 @@ export default {
 			this.$root.updateDestination(data);
 			
 			(this as any).isEditing = false;
-		}
+		},
+		uploadImage: function(evt: any){
+            let img = new Image();
+            let reader = new FileReader();
+			let file = evt.target.files[0];
+
+            //when the image loads, put it in the image section of the destination
+			img.onload = () => {
+				// adjust size of image
+				img.style.height = "15%";
+				img.style.width = "15%";
+				img.style.border = "1px solid #000";
+				img.style.display = "inline-block";
+				let imageContainer = document.getElementById((this as any).destination.name + "_images");
+				imageContainer.appendChild(img);
+            };
+            //after reader has loaded file, put the data in the image object.
+            reader.onloadend = () => {
+                img.src = reader.result;
+            };
+            //read the file as a URL
+            reader.readAsDataURL(file);
+		},
+		clickInput: function () {
+			let inputElement = document.getElementById((this as any).destination.name + "_importImage");
+            inputElement.click();
+        }
 	}
 };
 </script>
@@ -167,14 +200,9 @@ export default {
 <style scoped>
 	.dest {
 		padding: 3px;
-		border: 1px solid #000;
+		border: 2px solid #000;
 		border-radius: 15px;
 		text-align: "center";
-	}
-
-	.editButton {
-		display: inline;
-		margin-left: 2px;
 	}
 	
 	.content {
@@ -187,6 +215,10 @@ export default {
 
 	.col {
 		flex: 50%;
+	}
+
+	input {
+		display: none;
 	}
 	
 	textarea {
@@ -209,14 +241,17 @@ export default {
 		display: inline;
 		font-size: 2em;
 	}
-	
-	button {
-		padding: 4px;
-		background-color: #6A5ACD;
-		border-radius: 10px;
-		border: 1px solid #483D8B;
-		color: #fff;
-	}
+
+    button {
+        padding: 4px;
+        background-color: #6A5ACD;
+        border-radius: 10px;
+        border: 1px solid #483D8B;
+        color: #fff;
+        display: inline;
+        margin-left: 2px;
+        margin-right: 2px;
+    }
 
 	ul {
 		list-style-type: none;
@@ -226,5 +261,6 @@ export default {
 	li {
 		margin: 0 10px 10px;
 		color: #000;
+		background-color: #888;
 	}
 </style>

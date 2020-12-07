@@ -48,6 +48,8 @@ https://stackoverflow.com/questions/50635199/vue-js-2-0-child-component-mounted-
   be all set up and ready before running mounted() code in the parent? not sure this'll guarantee
   that the iframe is ready to listen for events though but worth a try?
 
+https://stackoverflow.com/questions/47650154/how-do-i-upload-image-in-vuejs/58231597
+
 TESTING:
 https://technology.doximity.com/articles/five-traps-to-avoid-while-unit-testing-vue-js
 
@@ -77,6 +79,8 @@ https://css-tricks.com/snippets/javascript/saving-contenteditable-content-change
 https://fabiofranchino.com/blog/making-contenteditable-in-vue-from-scratch/
 https://ux.stackexchange.com/questions/54572/if-text-is-editable-how-important-is-to-show-it-appearance-wise-inside-a-text
 https://www.w3schools.com/howto/howto_css_dropdown.asp
+https://semaphoreci.com/community/tutorials/dockerizing-a-node-js-web-application
+https://stackoverflow.com/questions/1575141/how-to-make-a-div-100-height-of-the-browser-window
 
 maybe useful? https://stackoverflow.com/questions/17158932/how-to-detect-when-an-iframe-has-already-been-loaded
 
@@ -91,21 +95,20 @@ https://stackoverflow.com/questions/47166369/argument-of-type-e-customevent-void
 ========================
 
 TODO:
-- when the map is interacted with and those events are caught, make sure those changes (i.e. adding a destination) are caught and the
-child components are updated accordingly.
 - emit events rather than calling root?
 - use Vuex to store trip data upon loading from some source?
 
 now:
 - rename dest, trip title
 - reorder dests
-- customize note text properties (i.e. font color, font size)? think accessibility
-- multiple trips? get the menu setup. dropdown if multiple trips, have create new trip functionality.
+- customize note text properties (i.e. font color, font size)? think accessibility?
 - download/import json? might be too difficult with images though
 - add pictures to each dest?
-
+	- add a list of image paths to Destination interface?
 later:
 - geocoding> get closest city? guess name of destination?
+- use a calendar to set toDate and fromDate for destinations
+- use a color picker for setting route line colors between destinations?
 
 
 taoyuan airport coords:

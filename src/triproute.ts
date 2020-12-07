@@ -1,10 +1,4 @@
 
-interface Location {
-	latitude:  number;
-	longitude:  number;
-	name: string;
-}
-
 interface Destination {
 	name:      string;
 	toDate?:   string;
@@ -45,7 +39,6 @@ class TripRoute {
 }
 
 export {
-	Location,
 	TripRoute,
 	Destination
 }

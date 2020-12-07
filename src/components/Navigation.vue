@@ -1,30 +1,32 @@
 <template>
 	<div id='menuHeader'>
 		<h2> trip-planner </h2>
-		<h3 
-			id="createNewTrip" 
+		<h3 id="createNewTrip"
 			class="selectOption"
-			v-on:click="addNewTrip"
-		> 
-		new trip 
+			v-on:click="addNewTrip">
+			new trip
 		</h3>
-		
+
 		<h3> | </h3>
-		
+
 		<div class='dropdown'>
 			<h3 class='dropbtn'> select trip </h3>
 			<div class='dropContent'>
-				<a 
-                   href="#"
-                   v-for="(tripName, index) in listOfTripNames"
-                   v-bind:key="tripName + '_' + index"
-                   v-on:click="selectTrip"
-                   :id="'tripIndex_' + index"
-				>
-				{{tripName}}
+				<a href="#"
+					v-for="(tripName, index) in listOfTripNames"
+					v-bind:key="tripName + '_' + index"
+					v-on:click="selectTrip"
+					:id="'tripIndex_' + index">
+					{{tripName}}
 				</a>
 			</div>
 		</div>
+
+		<h3> | </h3>
+		<h3 class="selectOption"> import </h3>
+
+		<h3> | </h3>
+		<h3 class="selectOption"> export </h3>
 
 		<h3> | </h3>
 		<h3 class="selectOption"> logout </h3>
@@ -58,6 +60,10 @@ export default {
 	padding: 2px;
 	padding-right: 5px;
 	text-align: right;
+}
+
+#menuHeader h2{
+	text-align: left;
 }
 
 #menuHeader h3 {

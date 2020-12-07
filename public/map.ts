@@ -2,7 +2,7 @@
 // https://docs.mapbox.com/mapbox-gl-js/api/
 
 import mapboxgl, { Map, Marker } from 'mapbox-gl';
-import { Location, Destination } from '../src/triproute';
+import { Destination } from '../src/triproute';
 
 class MapBoxWrapper {
 	key: 		  string;
@@ -77,7 +77,7 @@ class MapBoxWrapper {
 		return !this.destNames.has(name);
 	}
 	
-	addMarkerToMap(data : Location){
+	addMarkerToMap(data : Destination){
 		// add the marker to the map and let
 		// the marker be clickable with a popup
 		// containing the info in data
@@ -87,6 +87,14 @@ class MapBoxWrapper {
 		if(data.name){
 			popupContent += "<h3>" + data.name + "</h3>";
 		}
+
+		if(data.fromDate){
+			popupContent += "<p> from: " + data.fromDate + "</p>";
+		}
+
+		if(data.toDate){
+			popupContent += "<p> to: " + data.toDate + "</p>";
+        }
 		
 		if(data.longitude && data.latitude){
 			newMarker.setLngLat([data.longitude, data.latitude]);
