@@ -63,6 +63,7 @@ https://stackoverflow.com/questions/18083389/ignore-typescript-errors-property-d
 https://stackoverflow.com/questions/58773652/ts2339-property-style-does-not-exist-on-type-element
 https://stackoverflow.com/questions/55280555/typescript-eslint-eslint-plugin-error-route-is-defined-but-never-used-no-un
 https://stackoverflow.com/questions/38457662/iframe-inside-angular2-component-property-contentwindow-does-not-exist-on-typ
+https://stackoverflow.com/questions/52423842/what-is-not-assignable-to-parameter-of-type-never-error-in-typescript
 
 ========================
 useful mapbox stuff:
@@ -99,12 +100,12 @@ TODO:
 - use Vuex to store trip data upon loading from some source?
 
 now:
-- rename dest, trip title
+- set zoom level?
+- rename trip title
 - reorder dests
 - customize note text properties (i.e. font color, font size)? think accessibility?
 - download/import json? might be too difficult with images though
-- add pictures to each dest?
-	- add a list of image paths to Destination interface?
+
 later:
 - geocoding> get closest city? guess name of destination?
 - use a calendar to set toDate and fromDate for destinations

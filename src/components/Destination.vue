@@ -36,6 +36,12 @@
 
 			<br />
 			<div :id="destination.name + '_images'">
+				<img
+					v-for="(image, index) in destination.images"
+					v-bind:key="destination.name + '_image_' + index"
+					:src="image"
+					@dblclick="enlargeImage($event)"
+				/>
 			</div>
 
 			<hr />
@@ -155,8 +161,6 @@ export default {
 			let data : Destination = JSON.parse(JSON.stringify((this as any).destination));
 			data.notes = notes.value;
 			data.newName = newName;
-			
-			//console.log(data);
 
 			// if new name is valid, the change will happen
 			// if it doesn't happen, we'll at least have restored the title to its original
@@ -172,26 +176,51 @@ export default {
             let reader = new FileReader();
 			let file = evt.target.files[0];
 
-            //when the image loads, put it in the image section of the destination
-			img.onload = () => {
-				// adjust size of image
-				img.style.height = "15%";
-				img.style.width = "15%";
-				img.style.border = "1px solid #000";
-				img.style.display = "inline-block";
-				let imageContainer = document.getElementById((this as any).destination.name + "_images");
-				imageContainer.appendChild(img);
-            };
-            //after reader has loaded file, put the data in the image object.
-            reader.onloadend = () => {
-                img.src = reader.result;
+			reader.onloadend = () => {
+
+				img.src = reader.result;
+
+				// update data
+				let data: Destination = JSON.parse(JSON.stringify((this as any).destination)); // making a copy
+				data.images.push(reader.result);
+				this.$root.updateDestination(data);
             };
             //read the file as a URL
             reader.readAsDataURL(file);
 		},
-		clickInput: function () {
+		clickInput: function(){
 			let inputElement = document.getElementById((this as any).destination.name + "_importImage");
             inputElement.click();
+		},
+		enlargeImage: function(evt: any){
+			console.log(evt.target);
+			let imageDiv = document.createElement('div');
+			imageDiv.style.opacity = 0.95;
+			imageDiv.style.backgroundColor = "#383838";
+			imageDiv.style.position = "absolute";
+			imageDiv.style.zIndex = 10;
+			imageDiv.style.width = "100%";
+			imageDiv.style.height = "100%";
+			imageDiv.style.top = "0";
+			imageDiv.style.left = "0";
+
+			imageDiv.style.textAlign = "center";
+
+			let enlargedImage = new Image();
+            enlargedImage.src = evt.target.src;
+			enlargedImage.style.margin = "0 auto";
+			enlargedImage.style.marginTop = "5%";
+            imageDiv.appendChild(enlargedImage);
+
+			let cancel = document.createElement('h3');
+			cancel.textContent = "exit";
+			cancel.style.color = "#fff";
+			cancel.addEventListener("click", () => {
+				imageDiv.parentNode.removeChild(imageDiv);
+			});
+			imageDiv.appendChild(cancel);
+
+			document.body.appendChild(imageDiv);
         }
 	}
 };
@@ -217,9 +246,16 @@ export default {
 		flex: 50%;
 	}
 
-	input {
-		display: none;
-	}
+    .delete {
+        color: #8b0000;
+        font-weight: bold;
+        display: inline;
+        font-size: 2em;
+    }
+
+    input {
+        display: none;
+    }
 	
 	textarea {
 		background-color: transparent;
@@ -233,13 +269,6 @@ export default {
 	
 	h1 {
 		display: inline;
-	}
-	
-	.delete {
-		color: #8b0000;
-		font-weight: bold;
-		display: inline;
-		font-size: 2em;
 	}
 
     button {
@@ -263,4 +292,12 @@ export default {
 		color: #000;
 		background-color: #888;
 	}
+
+    img {
+        height: 15%;
+        width: 15%;
+        border:  1px solid #000;
+        display: inline-block;
+    }
+
 </style>

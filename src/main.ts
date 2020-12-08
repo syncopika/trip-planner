@@ -27,7 +27,8 @@ new Vue({
                         "longitude": -77.01459411621002,
                         "notes": "hello world",
                         "fromDate": "2020-01-01",
-                        "toDate": "2020-01-05"
+                        "toDate": "2020-01-05",
+                        "images": []
                     },
                     {
                         "name": "test2",
@@ -35,7 +36,8 @@ new Vue({
                         "longitude": -76.95210937499908,
                         "notes": "hello world2",
                         "fromDate": "2020-01-05",
-                        "toDate": "2020-01-07"
+                        "toDate": "2020-01-07",
+                        "images": []
                     }
                 ]
             }
@@ -57,26 +59,33 @@ new Vue({
             this.tripData[this.currTripIndex].listOfDest = listOfDest.filter(dest => dest.name !== destName);
         },
         updateDestination: function (data: Destination): void {
-            // called from Destination.vue.
-            // TODO: is there a better way to do this?
+            // called from Destination.vue
+            // TODO: is there a better way to do this update?
             let listOfDest = this.tripData[this.currTripIndex].listOfDest;
             let currName = data.name;
-            let newName = data.newName; // new desired destination name
             let changeName = false;
-            let destWithNewNameExists = this.findDestination(newName);
+            let newName = "";
 
-            if (currName !== newName && !destWithNewNameExists) {
-                changeName = true;
-            } else if (currName !== newName && destWithNewNameExists) {
-                // a destination with the new name already exists
-                // just don't update the destination name but alert the user
-                alert("Can't change name because a destination already exists with the same name!");
+            if (data.newName) {
+                newName = data.newName; // new desired destination name
+                let destWithNewNameExists = this.findDestination(newName);
+
+                if (currName !== newName && !destWithNewNameExists) {
+                    changeName = true;
+                } else if (currName !== newName && destWithNewNameExists) {
+                    // a destination with the new name already exists
+                    // just don't update the destination name but alert the user
+                    alert("Can't change name because a destination already exists with the same name!");
+                }
             }
 
             for (let i = 0; i < listOfDest.length; i++) {
                 let dest = listOfDest[i];
                 if (dest.name === currName) {
                     dest.notes = data.notes;
+                    dest.fromDate = data.fromDate;
+                    dest.toDate = data.toDate;
+                    dest.images = data.images;
 
                     if (changeName) {
                         dest.name = newName;
@@ -120,7 +129,10 @@ new Vue({
                     name: location.name,
                     latitude: location.latitude,
                     longitude: location.longitude,
-                    notes: ""
+                    toDate: "",
+                    fromDate: "",
+                    notes: "",
+                    images: []
                 };
 
                 tripRoute.addDestination(newDest);
