@@ -4,7 +4,7 @@
 		<div id='column1'>
 			<!-- make the mapContainer a component that can receive height and width? -->
 			<div id='container'>
-				<iframe id='mapContainer' width='1400px' height='900px' src='./mapIframe.html'></iframe>
+				<iframe id='mapContainer' width='1400' height='900' src='./mapIframe.html'></iframe>
 			</div>
 			
 			<div id='suggestions'>

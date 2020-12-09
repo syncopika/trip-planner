@@ -36,12 +36,11 @@
 
 			<br />
 			<div :id="destination.name + '_images'">
-				<img
+				<img 
 					v-for="(image, index) in destination.images"
 					v-bind:key="destination.name + '_image_' + index"
 					:src="image"
-					@dblclick="enlargeImage($event)"
-				/>
+					@dblclick="enlargeImage($event)" />
 			</div>
 
 			<hr />
@@ -59,6 +58,13 @@
 					v-on:click="saveChanges">
 				save
 			</button>
+
+			<button class="editButton"
+					v-if="isEditing"
+					v-on:click="cancelChanges">
+				cancel
+			</button>
+
 		</div>
 	</li>
 </template>
@@ -119,15 +125,11 @@ export default {
 			(this as any).isEditing = true;
 			
 			// make destination name editable
-			// note: when save is clicked and the data is sent to the root
-			// to update state, the destination name, if edited, will be
-			// checked to make sure its new desired name is not already taken
-			// by another destination
 			let destTitle = document.getElementById(name);
-			destTitle.setAttribute('contenteditable', "true");
+			destTitle?.setAttribute('contenteditable', "true");
 
 			// save the current title so we can restore it if it can't be changed
-            (this as any).currDestTitle = destTitle.textContent;
+			(this as any).currDestTitle = destTitle?.textContent;
 
 			// make content editable
 			let notes = document.getElementById(name + '_notes');
@@ -143,33 +145,38 @@ export default {
 				this.$root.removeDestination(name);
 			}
 		},
-		saveChanges: function(evt : any){
-			
-			evt.stopPropagation();
+		saveChanges: function () {
+			// note: when save is clicked and the data is sent to the root
+			// to update state, the destination name, if edited, will be
+			// checked to make sure its new desired name is not already taken
+			// by another destination
 
 			let name = (this as any).destination.name;
-            let destTitle = document.getElementById(name);
-			let newName = destTitle.textContent.trim().split(' ')[0];
-			
-			// make destination name not editable
-            destTitle.setAttribute('contenteditable', "false");
-			
+			let destTitle = document.getElementById(name);
+			let newName = destTitle?.textContent?.trim().split(' ')[0];
+
+            // if new name is valid, the change will happen
+            // if it doesn't happen, we'll at least have restored the dest title to its original
+			if (destTitle) {
+				destTitle.textContent = (this as any).currDestTitle;
+                destTitle.setAttribute('contenteditable', "false");
+			}
+
 			// TODO: but what about cancelling unwanted edits!?
 			let notes = document.getElementById(name + '_notes');
-			if(notes !== null) notes.setAttribute('disabled', 'true');
+			notes?.setAttribute('disabled', 'true');
 
 			let data : Destination = JSON.parse(JSON.stringify((this as any).destination));
-			data.notes = notes.value;
+            data.notes = (notes as HTMLTextAreaElement)?.value;
 			data.newName = newName;
-
-			// if new name is valid, the change will happen
-			// if it doesn't happen, we'll at least have restored the title to its original
-            destTitle.textContent = (this as any).currDestTitle;
 			
 			// update data source with new info
 			this.$root.updateDestination(data);
 			
 			(this as any).isEditing = false;
+		},
+		cancelChanges: function(){
+			// TODO
 		},
 		uploadImage: function(evt: any){
             let img = new Image();
@@ -178,11 +185,13 @@ export default {
 
 			reader.onloadend = () => {
 
-				img.src = reader.result;
+                let imgSrcStr = reader.result as string;
+
+				img.src = imgSrcStr;
 
 				// update data
 				let data: Destination = JSON.parse(JSON.stringify((this as any).destination)); // making a copy
-				data.images.push(reader.result);
+                data.images.push(imgSrcStr);
 				this.$root.updateDestination(data);
             };
             //read the file as a URL
@@ -190,35 +199,44 @@ export default {
 		},
 		clickInput: function(){
 			let inputElement = document.getElementById((this as any).destination.name + "_importImage");
-            inputElement.click();
+            inputElement?.click();
 		},
 		enlargeImage: function(evt: any){
-			console.log(evt.target);
+            let enlargedImage = new Image();
+			enlargedImage.src = evt.target.src;
+
 			let imageDiv = document.createElement('div');
-			imageDiv.style.opacity = 0.95;
+			imageDiv.style.opacity = "0.98";
 			imageDiv.style.backgroundColor = "#383838";
 			imageDiv.style.position = "absolute";
-			imageDiv.style.zIndex = 10;
+			imageDiv.style.zIndex = "10";
 			imageDiv.style.width = "100%";
-			imageDiv.style.height = "100%";
+
+			if (document.body.clientHeight > enlargedImage.height) {
+				// if image height is smaller than the page height,
+				// make sure the background is as tall as the page
+				imageDiv.style.height = document.body.clientHeight + "px";
+			}
+
 			imageDiv.style.top = "0";
 			imageDiv.style.left = "0";
-
 			imageDiv.style.textAlign = "center";
 
-			let enlargedImage = new Image();
-            enlargedImage.src = evt.target.src;
 			enlargedImage.style.margin = "0 auto";
-			enlargedImage.style.marginTop = "5%";
+            enlargedImage.addEventListener("dblclick", () => {
+                imageDiv?.parentNode?.removeChild(imageDiv);
+            });
             imageDiv.appendChild(enlargedImage);
 
-			let cancel = document.createElement('h3');
-			cancel.textContent = "exit";
-			cancel.style.color = "#fff";
-			cancel.addEventListener("click", () => {
-				imageDiv.parentNode.removeChild(imageDiv);
-			});
-			imageDiv.appendChild(cancel);
+            let cancel = document.createElement('h3');
+            cancel.textContent = "close";
+            cancel.style.color = "#fff";
+			cancel.style.marginTop = "1%";
+			cancel.style.fontFamily = "monospace";
+            cancel.addEventListener("click", () => {
+                imageDiv?.parentNode?.removeChild(imageDiv);
+            });
+            imageDiv.appendChild(cancel);
 
 			document.body.appendChild(imageDiv);
         }

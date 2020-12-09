@@ -28,7 +28,7 @@ new Vue({
                         "notes": "hello world",
                         "fromDate": "2020-01-01",
                         "toDate": "2020-01-05",
-                        "images": []
+                        "images": [] as string[]
                     },
                     {
                         "name": "test2",
@@ -37,7 +37,7 @@ new Vue({
                         "notes": "hello world2",
                         "fromDate": "2020-01-05",
                         "toDate": "2020-01-07",
-                        "images": []
+                        "images": [] as string[]
                     }
                 ]
             }

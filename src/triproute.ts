@@ -6,7 +6,7 @@ interface Destination {
 	latitude:  number;
 	longitude: number;
 	notes:     string;
-	images:    Array<string>;
+	images:    string[];
 }
 
 class TripRoute {
