@@ -5,6 +5,7 @@
 			<!-- make the mapContainer a component that can receive height and width? -->
 			<div id='container'>
 				<iframe id='mapContainer' width='1400' height='900' src='./mapIframe.html'></iframe>
+				<h3>set some map controls here?</h3>
 			</div>
 			
 			<div id='suggestions'>
@@ -62,7 +63,7 @@ export default class TripRouteMap extends Vue {
 		console.log(oldVal);
 	}
 	
-	updateMap(data : Array<Object>){
+    updateMap(data: Array<Object>): void{
 		// take new destination data and update the MapBox map markers as needed
 		console.log("I'm supposed to update the map! probably...");
 		
@@ -76,11 +77,11 @@ export default class TripRouteMap extends Vue {
 		}
 	}
 	
-	_handleIframeLogs(evt : any){
+    _handleIframeLogs(evt: any): void {
 		console.log(evt);
 	}
 	
-	_handleReady(){
+    _handleReady(): void {
 		console.log("got iframe ready message!!");
 		this.updateMap(this.listOfDest);
 	}

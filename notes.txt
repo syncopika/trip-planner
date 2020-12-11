@@ -49,6 +49,7 @@ https://stackoverflow.com/questions/50635199/vue-js-2-0-child-component-mounted-
   that the iframe is ready to listen for events though but worth a try?
 
 https://stackoverflow.com/questions/47650154/how-do-i-upload-image-in-vuejs/58231597
+https://stackoverflow.com/questions/55316490/vue-best-practice-for-calling-a-method-in-a-child-component/55317353
 
 TESTING:
 https://technology.doximity.com/articles/five-traps-to-avoid-while-unit-testing-vue-js
@@ -65,6 +66,7 @@ https://stackoverflow.com/questions/55280555/typescript-eslint-eslint-plugin-err
 https://stackoverflow.com/questions/38457662/iframe-inside-angular2-component-property-contentwindow-does-not-exist-on-typ
 https://stackoverflow.com/questions/52423842/what-is-not-assignable-to-parameter-of-type-never-error-in-typescript
 https://stackoverflow.com/questions/47810218/set-data-type-in-vue-data-object-with-typescript
+https://stackoverflow.com/questions/40158889/interface-issue-with-typescript
 
 ========================
 useful mapbox stuff:
@@ -83,7 +85,7 @@ https://ux.stackexchange.com/questions/54572/if-text-is-editable-how-important-i
 https://www.w3schools.com/howto/howto_css_dropdown.asp
 https://semaphoreci.com/community/tutorials/dockerizing-a-node-js-web-application
 https://stackoverflow.com/questions/1575141/how-to-make-a-div-100-height-of-the-browser-window
-
+https://ux.stackexchange.com/questions/1740/better-way-for-users-to-select-a-date-range
 maybe useful? https://stackoverflow.com/questions/17158932/how-to-detect-when-an-iframe-has-already-been-loaded
 
 ========================

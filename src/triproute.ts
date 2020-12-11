@@ -1,6 +1,7 @@
 
 interface Destination {
 	name:      string;
+	newName?:  string;
 	toDate:    string;
 	fromDate:  string;
 	latitude:  number;

@@ -26,8 +26,8 @@ new Vue({
                         "latitude": 38.9486650738765,
                         "longitude": -77.01459411621002,
                         "notes": "hello world",
-                        "fromDate": "2020-01-01",
-                        "toDate": "2020-01-05",
+                        "fromDate": "01-01-2020",
+                        "toDate": "01-05-2020",
                         "images": [] as string[]
                     },
                     {
@@ -35,8 +35,8 @@ new Vue({
                         "latitude": 38.982833520960156,
                         "longitude": -76.95210937499908,
                         "notes": "hello world2",
-                        "fromDate": "2020-01-05",
-                        "toDate": "2020-01-07",
+                        "fromDate": "01-05-2020",
+                        "toDate": "01-07-2020",
                         "images": [] as string[]
                     }
                 ]

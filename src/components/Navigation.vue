@@ -39,13 +39,13 @@ export default {
 		listOfTripNames: { required: true, type: Array }
 	},
 	methods: {
-		addNewTrip: function (): void {
+		addNewTrip: function(): void {
 			let newTripName = prompt("Please enter the name of the new trip:");
 			if (newTripName) {
 				this.$root.addNewTrip(newTripName);
             }
 		},
-		selectTrip: function (evt: any): void {
+		selectTrip: function(evt: any): void {
 			// TODO: event shouldn't be any?
 			let index = parseInt(evt.target.id.split("_")[1]);
 			this.$root.selectTrip(index);

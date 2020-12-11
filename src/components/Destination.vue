@@ -20,10 +20,20 @@
 			<!-- show from/to dates -->
 			<div :id="destination.name + '_dates'" class="row">
 				<div class="col">
-					<h3>from: {{destination.fromDate}}</h3>
+					<h3>from: </h3>
+					<Calendar
+						:dest-name="destination.name + '_from_'"
+						:date="destination.fromDate"
+						:is-editing="isEditing"
+					></Calendar>
 				</div>
 				<div class="col">
-					<h3>to: {{destination.toDate}}</h3>
+					<h3>to: </h3>
+					<Calendar
+						:dest-name="destination.name + '_to_'"
+						:date="destination.toDate"
+						:is-editing="isEditing">
+					</Calendar>
 				</div>
 			</div>
 			<!-- notes section -->
@@ -72,6 +82,7 @@
 <script lang="ts">
 
 import { Destination } from '../triproute';
+import Calendar from './Calendar.vue';
 
 // get info passed from parent component (i.e. Sidebar)
 export default {
@@ -82,25 +93,28 @@ export default {
 			currDestTitle: ""
 		}
 	},
+	components: {
+		Calendar
+	},
 	props: {
 		destination: {required: true, type: Object}
 	},
 	methods: {
-		highlightBorder: function(){
+		highlightBorder: function(): void {
 			let name = (this as any).destination.name;
 			let dest = document.getElementById(name + '_dest');
 			if(dest !== null){
 				dest.style.border = '2px solid #fff';
 			}
 		},
-		dehighlightBorder: function(){
+        dehighlightBorder: function(): void {
 			let name = (this as any).destination.name;
 			let dest = document.getElementById(name + '_dest');
 			if(dest !== null){
 				dest.style.border = '2px solid #000';
 			}	
 		},
-		toggleVisibility: function(){
+        toggleVisibility: function(): void {
 			let name = (this as any).destination.name;
 			let content = document.getElementById(name + '_content');
 
@@ -114,7 +128,7 @@ export default {
 
 			(this as any).expanded = !(this as any).expanded;
 		},
-		toggleEdit: function(evt : any){
+        toggleEdit: function(evt: any): void{
 		
 			// prevent div from closing
 			evt.stopPropagation();
@@ -136,7 +150,7 @@ export default {
 			if(notes !== null) notes.removeAttribute('disabled');
 			
 		},
-		removeDestination: function(evt : any){
+        removeDestination: function(evt: any): void{
 			// remove a destination
 			// calls a method of the Vue root instance
 			let remove = confirm("Are you sure you want to remove this destination?");
@@ -145,7 +159,7 @@ export default {
 				this.$root.removeDestination(name);
 			}
 		},
-		saveChanges: function () {
+        saveChanges: function(): void {
 			// note: when save is clicked and the data is sent to the root
 			// to update state, the destination name, if edited, will be
 			// checked to make sure its new desired name is not already taken
@@ -175,10 +189,10 @@ export default {
 			
 			(this as any).isEditing = false;
 		},
-		cancelChanges: function(){
+        cancelChanges: function(): void {
 			// TODO
 		},
-		uploadImage: function(evt: any){
+        uploadImage: function(evt: any): void {
             let img = new Image();
             let reader = new FileReader();
 			let file = evt.target.files[0];
@@ -197,12 +211,12 @@ export default {
             //read the file as a URL
             reader.readAsDataURL(file);
 		},
-		clickInput: function(){
+        clickInput: function(): void {
 			let inputElement = document.getElementById((this as any).destination.name + "_importImage");
             inputElement?.click();
 		},
-		enlargeImage: function(evt: any){
-            let enlargedImage = new Image();
+        enlargeImage: function(evt: any): void {
+			let enlargedImage = new Image();
 			enlargedImage.src = evt.target.src;
 
 			let imageDiv = document.createElement('div');
@@ -211,6 +225,13 @@ export default {
 			imageDiv.style.position = "absolute";
 			imageDiv.style.zIndex = "10";
 			imageDiv.style.width = "100%";
+
+			if (document.body.clientHeight < enlargedImage.height ||
+				document.body.clientWidth < enlargedImage.width) {
+				// reduce size of enlarged image if larger than the page
+                enlargedImage.style.height = "50%";
+                enlargedImage.style.width = "50%";
+            }
 
 			if (document.body.clientHeight > enlargedImage.height) {
 				// if image height is smaller than the page height,
