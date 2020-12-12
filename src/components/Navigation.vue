@@ -57,11 +57,11 @@ export default {
 </script>
 
 <style scoped>
-#menuHeader{
-	background-color: #32CD32;
-	padding: 2px;
-	padding-right: 5px;
-	text-align: right;
+#menuHeader {
+    background-color: #F9F4E1;
+    padding: 2px;
+    padding-right: 5px;
+    text-align: right;
 }
 
 #menuHeader h2{

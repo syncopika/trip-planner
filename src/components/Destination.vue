@@ -341,11 +341,11 @@ export default {
 		padding: 0;
 	}
 
-	li {
-		margin: 0 10px 10px;
-		color: #000;
-		background-color: #888;
-	}
+    li {
+        margin: 0 10px 10px;
+        color: #000;
+        background-color: #D9E5AE;
+    }
 
     img {
         height: 15%;

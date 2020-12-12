@@ -61,6 +61,8 @@ class MapBoxWrapper {
 				}
 			}
 		});
+
+		map.addControl(new mapboxgl.NavigationControl());
 		
 		this.map = map;
 	}
@@ -77,7 +79,7 @@ class MapBoxWrapper {
 		return !this.destNames.has(name);
 	}
 	
-	addMarkerToMap(data : Destination){
+	addMarkerToMap(data : any){
 		// add the marker to the map and let
 		// the marker be clickable with a popup
 		// containing the info in data

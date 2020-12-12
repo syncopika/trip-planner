@@ -5,7 +5,6 @@
 			<!-- make the mapContainer a component that can receive height and width? -->
 			<div id='container'>
 				<iframe id='mapContainer' width='1400' height='900' src='./mapIframe.html'></iframe>
-				<h3>set some map controls here?</h3>
 			</div>
 			
 			<div id='suggestions'>
@@ -24,7 +23,6 @@
 			
 			<div id='tripInfo'>
 				<h1 id='tripTitle'>{{tripName}}</h1>
-				<hr />
 				<destinationList :list-of-dest="listOfDest"></destinationList>
 			</div>
 			
@@ -128,21 +126,21 @@ h1, h2{
 	height: auto;
 }
 
-#column1{
-	flex: 3;
-	background-color: #fff;
+#column1 {
+    flex: 3;
+    background-color: #DEE6ED;
 }
 
-#column2{
-	flex: 1;
-	border: 1px solid #000;
-	background-color: #fff;
-	padding: 3px;
+#column2 {
+    flex: 1;
+    border: 1px solid #000;
+    background-color: #F9F4E1;
+    padding: 3px;
 }
 
-#tripInfo{
-	background-color: #fff;
-	border-bottom: 1px solid #000;
+#tripInfo {
+    background-color: #EBDBD4;
+    border-bottom: 1px solid #000;
 }
 
 ul{
