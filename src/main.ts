@@ -68,6 +68,8 @@ new Vue({
 
             if (data.newName) {
                 newName = data.newName; // new desired destination name
+
+                //@ts-ignore TODO: investigate this? (TS-2339)
                 let destWithNewNameExists = this.findDestination(newName);
 
                 if (currName !== newName && !destWithNewNameExists) {

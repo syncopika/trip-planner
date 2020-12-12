@@ -50,6 +50,16 @@ https://stackoverflow.com/questions/50635199/vue-js-2-0-child-component-mounted-
 
 https://stackoverflow.com/questions/47650154/how-do-i-upload-image-in-vuejs/58231597
 https://stackoverflow.com/questions/55316490/vue-best-practice-for-calling-a-method-in-a-child-component/55317353
+https://stackoverflow.com/questions/40957008/how-to-access-to-a-child-method-from-the-parent-in-vue-js
+https://stackoverflow.com/questions/46505813/vuejs-typescript-this-refs-reffield-value-does-not-exist
+https://stackoverflow.com/questions/57416991/vue-typescript-how-to-avoid-ts-error-when-accessing-child-components-methods
+
+I think I'm getting the below error because my Destination component is not extending Vue?
+Severity	Code	Description	Project	File	Line	Suppression State
+Error	TS2339	(TS) Property '$root' does not exist on type '{ highlightBorder: () => void; dehighlightBorder: () => void; toggleVisibility: () => void; toggleEdit: (evt: any) => void; removeDestination: (evt: any) => void; saveChanges: () => void; cancelChanges: () => void; uploadImage: (evt: any) => void; clickInput: () => void; enlargeImage: (evt: any) => void; }'.
+
+makes sense now.
+https://stackoverflow.com/questions/35964116/how-do-i-extend-another-vuejs-component-in-a-single-file-component-es6-vue-loa
 
 TESTING:
 https://technology.doximity.com/articles/five-traps-to-avoid-while-unit-testing-vue-js

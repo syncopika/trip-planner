@@ -25,6 +25,7 @@
 						:dest-name="destination.name + '_from_'"
 						:date="destination.fromDate"
 						:is-editing="isEditing"
+						:ref="destination.name + '_fromDate'"
 					></Calendar>
 				</div>
 				<div class="col">
@@ -32,8 +33,9 @@
 					<Calendar
 						:dest-name="destination.name + '_to_'"
 						:date="destination.toDate"
-						:is-editing="isEditing">
-					</Calendar>
+						:is-editing="isEditing"
+						:ref="destination.name + '_toDate'"
+					></Calendar>
 				</div>
 			</div>
 			<!-- notes section -->
@@ -80,7 +82,6 @@
 </template>
 
 <script lang="ts">
-
 import { Destination } from '../triproute';
 import Calendar from './Calendar.vue';
 
@@ -156,6 +157,8 @@ export default {
 			let remove = confirm("Are you sure you want to remove this destination?");
 			if (remove) {
 				let name = evt.target.id.split("_")[0]; // i.e. name_dest, and we want name
+
+				//@ts-ignore TODO: can we fix this without ignoring? (TS-2339)
 				this.$root.removeDestination(name);
 			}
 		},
@@ -183,8 +186,18 @@ export default {
 			let data : Destination = JSON.parse(JSON.stringify((this as any).destination));
             data.notes = (notes as HTMLTextAreaElement)?.value;
 			data.newName = newName;
-			
+
+			// get from and to dates
+			//@ts-ignore (TS-2339)
+			let fromDate = this.$refs[name + "_fromDate"].getDateInfo();
+			//@ts-ignore (TS-2339)
+			let toDate = this.$refs[name + "_toDate"].getDateInfo();
+
+			data.fromDate = `${fromDate.month}-${fromDate.day}-${fromDate.year}`;
+            data.toDate = `${toDate.month}-${toDate.day}-${toDate.year}`;
+
 			// update data source with new info
+			//@ts-ignore 
 			this.$root.updateDestination(data);
 			
 			(this as any).isEditing = false;
@@ -205,7 +218,9 @@ export default {
 
 				// update data
 				let data: Destination = JSON.parse(JSON.stringify((this as any).destination)); // making a copy
-                data.images.push(imgSrcStr);
+				data.images.push(imgSrcStr);
+
+				//@ts-ignore 
 				this.$root.updateDestination(data);
             };
             //read the file as a URL

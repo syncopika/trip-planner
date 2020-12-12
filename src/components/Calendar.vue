@@ -25,8 +25,16 @@ export default {
         date: { required: true, type: String }
         },
     methods: {
-        editDate: function(): void {
-            // accessible from parent?
+        getDateInfo: function(): {month: string, day: string, year: string} {
+            let destName = (this as any).destName;
+            let month: HTMLInputElement = document.getElementById(destName + "month") as HTMLInputElement;
+            let day: HTMLInputElement = document.getElementById(destName + "day") as HTMLInputElement;
+            let year: HTMLInputElement = document.getElementById(destName + "year") as HTMLInputElement;
+            return {
+                month: month.value,
+                day: day.value,
+                year: year.value
+            };
         }
     },
     updated: function(){
@@ -43,7 +51,6 @@ export default {
             if(day && dateParts.length > 1) day.value = dateParts[1];
             if(year && dateParts.length > 2) year.value = dateParts[2];
         }
-        console.log("sdjkfhnjksdnjksdfnkj");
     }
 }
 </script>
