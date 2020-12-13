@@ -122,7 +122,6 @@ now:
 
 later:
 - geocoding> get closest city? guess name of destination?
-- use a color picker for setting route line colors between destinations?
 
 
 taoyuan airport coords:

@@ -198,7 +198,6 @@ export default {
                 destTitle.setAttribute('contenteditable', "false");
 			}
 
-			// TODO: but what about cancelling unwanted edits!?
 			let notes = document.getElementById(name + '_notes');
 			notes?.setAttribute('disabled', 'true');
 
@@ -215,13 +214,16 @@ export default {
 			data.fromDate = `${fromDate.month}-${fromDate.day}-${fromDate.year}`;
             data.toDate = `${toDate.month}-${toDate.day}-${toDate.year}`;
 
+			// get route color and remove color wheel
+			let routeColorInput = document.getElementById((this as any).destination.name + "_routeColor") as HTMLInputElement;
+			if(routeColorInput) data.routeColor = routeColorInput.value;
+
+            let colorWheel = document.getElementById((this as any).destination.name + "_colorWheel");
+            if(colorWheel && colorWheel.parentNode) colorWheel.parentNode.removeChild(colorWheel);
+
 			// update data source with new info
 			//@ts-ignore 
 			this.$root.updateDestination(data);
-
-			// remove color wheel if exists
-			let colorWheel = document.getElementById((this as any).destination.name + "_colorWheel");
-            if(colorWheel && colorWheel.parentNode) colorWheel.parentNode.removeChild(colorWheel);
 
 			(this as any).isEditing = false;
 		},

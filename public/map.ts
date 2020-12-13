@@ -80,9 +80,6 @@ class MapBoxWrapper {
 	}
 	
 	addMarkerToMap(data : any){
-		// add the marker to the map and let
-		// the marker be clickable with a popup
-		// containing the info in data
 		let newMarker = new mapboxgl.Marker();
 		let popupContent = "";
 		
@@ -139,52 +136,74 @@ class MapBoxWrapper {
 		for(let dest of listOfDest){
 			let marker = this.addMarkerToMap(dest);		
 			this.destNames.add(dest.name);
+
+			// add route color property to marker with route color
+			// TODO: think of an alternative strategy?
+			//@ts-ignore
+			marker.routeColor = dest.routeColor;
 			this.markers.push(marker);
 		}
 		
 		this.drawLineBetweenMarkers();
 	}
 	
-	drawLineBetweenMarkers(){
-		
-		if(this.map.getLayer('route')){
-			this.map.removeLayer('route');
-		}
-		
-		if(this.map.getSource('route')){
-			this.map.removeSource('route');
-		}
-		
-		let coordinates = this.markers.map(function(marker){
-			let loc = marker.getLngLat();
-			return [loc.lng, loc.lat];
+	drawLineBetweenMarkers() {
+
+		// clear old lines first
+		this.markers.forEach((marker, idx) => {
+			let routeId = 'route' + idx;
+			let sourceId = 'source' + idx;
+
+			if(this.map.getLayer(routeId)) {
+				this.map.removeLayer(routeId);
+			}
+
+			if(this.map.getSource(sourceId)) {
+				this.map.removeSource(sourceId);
+			}
 		});
-		
-		this.map.addSource('route', {
-			'type': 'geojson',
-			'data': {
-				'type': 'Feature',
-				'properties': {},
-				'geometry': {
-					'type': 'LineString',
-					'coordinates': coordinates
+
+		for(let i = 0; i < this.markers.length - 1; i++) {
+
+			let currDest = this.markers[i];
+			let nextDest = this.markers[i + 1];
+
+			let loc = currDest.getLngLat();
+			let nextLoc = nextDest.getLngLat();
+
+			let routeId = 'route' + i;
+			let sourceId = 'source' + i;
+
+			this.map.addSource(sourceId, {
+				'type': 'geojson',
+				'data': {
+					'type': 'Feature',
+					'properties': {},
+					'geometry': {
+						'type': 'LineString',
+						'coordinates': [
+							[loc.lng, loc.lat],
+							[nextLoc.lng, nextLoc.lat]
+						]
+					}
 				}
-			}
-		});
-		
-		this.map.addLayer({
-			'id': 'route',
-			'type': 'line',
-			'source': 'route',
-			'layout': {
-				'line-join': 'round',
-				'line-cap': 'round'
-			},
-			'paint': {
-				'line-color': '#888',
-				'line-width': 8
-			}
-		});
+			});
+
+			this.map.addLayer({
+				'id': routeId,
+				'type': 'line',
+				'source': sourceId,
+				'layout': {
+					'line-join': 'round',
+					'line-cap': 'round'
+				},
+				'paint': {
+					//@ts-ignore - b/c I added a new property to Marker
+					'line-color': currDest.routeColor,
+					'line-width': 7
+				}
+			});
+        }
 	}
 
 }

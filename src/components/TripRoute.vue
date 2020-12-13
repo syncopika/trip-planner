@@ -63,7 +63,7 @@ export default class TripRouteMap extends Vue {
 	
     updateMap(data: Array<Object>): void{
 		// take new destination data and update the MapBox map markers as needed
-		console.log("I'm supposed to update the map! probably...");
+		console.log("I'm supposed to update the map!");
 		
 		// send a custom event to the map iframe along with the data
 		let updateMapEvent = new CustomEvent('updateMap', {detail: data});
