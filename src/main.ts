@@ -28,7 +28,8 @@ new Vue({
                         "notes": "hello world",
                         "fromDate": "01-01-2020",
                         "toDate": "01-05-2020",
-                        "images": [] as string[]
+                        "images": [] as string[],
+                        "routeColor": "#888"
                     },
                     {
                         "name": "test2",
@@ -37,7 +38,8 @@ new Vue({
                         "notes": "hello world2",
                         "fromDate": "01-05-2020",
                         "toDate": "01-07-2020",
-                        "images": [] as string[]
+                        "images": [] as string[],
+                        "routeColor": "#888"
                     }
                 ]
             }
@@ -134,7 +136,8 @@ new Vue({
                     toDate: "",
                     fromDate: "",
                     notes: "",
-                    images: []
+                    images: [],
+                    routeColor: "#888"
                 };
 
                 tripRoute.addDestination(newDest);

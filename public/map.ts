@@ -1,7 +1,7 @@
 // stuff for accessing map resources via mapbox's API
 // https://docs.mapbox.com/mapbox-gl-js/api/
 
-import mapboxgl, { Map, Marker } from 'mapbox-gl';
+import mapboxgl, { Map, Marker, Popup } from 'mapbox-gl';
 import { Destination } from '../src/triproute';
 
 class MapBoxWrapper {
@@ -100,6 +100,7 @@ class MapBoxWrapper {
 		
 		if(data.longitude && data.latitude){
 			newMarker.setLngLat([data.longitude, data.latitude]);
+			popupContent += "<br />";
 			popupContent += "<p> long: " + data.longitude + "</p>";
 			popupContent += "<p> lat: " + data.latitude + "</p>";
 		}

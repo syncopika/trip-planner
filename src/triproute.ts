@@ -1,13 +1,14 @@
 
 interface Destination {
-	name:      string;
-	newName?:  string;
-	toDate:    string;
-	fromDate:  string;
-	latitude:  number;
-	longitude: number;
-	notes:     string;
-	images:    string[];
+	name:       string;
+	newName?:   string;
+	toDate:     string;
+	fromDate:   string;
+	latitude:   number;
+	longitude:  number;
+	notes:      string;
+	images:     string[];
+	routeColor: string;
 }
 
 class TripRoute {

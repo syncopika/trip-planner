@@ -20,7 +20,7 @@
 			<!-- show from/to dates -->
 			<div :id="destination.name + '_dates'" class="row">
 				<div class="col">
-					<h3>from: </h3>
+					<h3> from: </h3>
 					<Calendar
 						:dest-name="destination.name + '_from_'"
 						:date="destination.fromDate"
@@ -29,7 +29,7 @@
 					></Calendar>
 				</div>
 				<div class="col">
-					<h3>to: </h3>
+					<h3> to: </h3>
 					<Calendar
 						:dest-name="destination.name + '_to_'"
 						:date="destination.toDate"
@@ -47,6 +47,7 @@
 			</div>
 
 			<br />
+			<h3> images: </h3>
 			<div :id="destination.name + '_images'">
 				<img 
 					v-for="(image, index) in destination.images"
@@ -55,14 +56,32 @@
 					@dblclick="enlargeImage($event)" />
 			</div>
 
+			<br />
+			<div v-if="isEditing" style="text-align: left" :id="destination.name + '_editRouteColor'">
+				<label :for="destination.name + '_routeColor'"> route color: </label>
+				<input 
+					:id="destination.name + '_routeColor'" 
+					:name="destination.name + '_routeColor'"
+					:style="'background-color: ' + destination.routeColor"
+					:value="destination.routeColor"
+					type="text"
+					size="7"
+				/>
+				<button style="display: inline-block" :id="destination.name + '_routeColor_btn'" @click="showColorWheel">
+					show color wheel
+				</button>
+			</div>
+			<h3 v-if="!isEditing"> route color: 
+				<span :style="'background-color: ' + destination.routeColor">{{destination.routeColor}}</span>
+			</h3>
+
 			<hr />
 
-			<p class='latitude'> lat: {{destination.latitude}} </p>
-			<p class='longitude'> long: {{destination.longitude}} </p>
+			<p class='latlng'> lat: {{destination.latitude}}, long: {{destination.longitude}} </p>
 
 			<button v-on:click="toggleEdit"> edit </button>
 
-			<input type="file" accept="image/*" :id="destination.name + '_importImage'" @change="uploadImage">
+			<input class="inputFile" type="file" accept="image/*" :id="destination.name + '_importImage'" @change="uploadImage">
 			<button v-on:click="clickInput"> upload image </button>
 
 			<button class="editButton"
@@ -129,7 +148,7 @@ export default {
 
 			(this as any).expanded = !(this as any).expanded;
 		},
-        toggleEdit: function(evt: any): void{
+        toggleEdit: function(evt: any): void {
 		
 			// prevent div from closing
 			evt.stopPropagation();
@@ -151,7 +170,7 @@ export default {
 			if(notes !== null) notes.removeAttribute('disabled');
 			
 		},
-        removeDestination: function(evt: any): void{
+        removeDestination: function(evt: any): void {
 			// remove a destination
 			// calls a method of the Vue root instance
 			let remove = confirm("Are you sure you want to remove this destination?");
@@ -199,7 +218,11 @@ export default {
 			// update data source with new info
 			//@ts-ignore 
 			this.$root.updateDestination(data);
-			
+
+			// remove color wheel if exists
+			let colorWheel = document.getElementById((this as any).destination.name + "_colorWheel");
+            if(colorWheel && colorWheel.parentNode) colorWheel.parentNode.removeChild(colorWheel);
+
 			(this as any).isEditing = false;
 		},
         cancelChanges: function(): void {
@@ -275,6 +298,74 @@ export default {
             imageDiv.appendChild(cancel);
 
 			document.body.appendChild(imageDiv);
+		},
+		showColorWheel: function(): void {
+            let location = document.getElementById((this as any).destination.name + '_editRouteColor');
+
+			let size = "200";
+            let colorWheel = document.createElement('canvas');
+            colorWheel.id = (this as any).destination.name + "_colorWheel";
+            colorWheel.setAttribute('width', size);
+            colorWheel.setAttribute('height', size);
+
+            let colorWheelContext = colorWheel.getContext('2d');
+            let x = colorWheel.width / 2;
+            let y = colorWheel.height / 2;
+            let radius = 90;
+
+            // why 5600??
+            if(colorWheelContext) {
+				for(let angle = 0;angle <= 5600;angle++) {
+					let startAngle = (angle - 2) * Math.PI / 180; //convert angles to radians
+					let endAngle = (angle) * Math.PI / 180;
+					colorWheelContext.beginPath();
+					colorWheelContext.moveTo(x, y);
+					//.arc(x, y, radius, startAngle, endAngle, anticlockwise)
+					colorWheelContext.arc(x, y, radius, startAngle, endAngle, false);
+					colorWheelContext.closePath();
+					//use .createRadialGradient to get a different color for each angle
+					//createRadialGradient(x0, y0, r0, x1, y1, r1)
+					let gradient = colorWheelContext.createRadialGradient(x, y, 0, startAngle, endAngle, radius);
+					gradient.addColorStop(0, 'hsla(' + angle + ', 10%, 100%, 1)');
+					gradient.addColorStop(1, 'hsla(' + angle + ', 100%, 50%, 1)');
+					colorWheelContext.fillStyle = gradient;
+					colorWheelContext.fill();
+				}
+
+				// make black a pickable color
+				colorWheelContext.fillStyle = "#000";
+				colorWheelContext.beginPath();
+				colorWheelContext.arc(10, 10, 8, 0, 2 * Math.PI);
+				colorWheelContext.fill();
+
+				// make white pickable too
+				// black outline
+				colorWheelContext.beginPath();
+				colorWheelContext.arc(30, 10, 8, 0, 2 * Math.PI); // border around the white 
+				colorWheelContext.stroke();
+
+				// make sure circle is filled with #fff
+				colorWheelContext.fillStyle = "#fff";
+				colorWheelContext.arc(30, 10, 8, 0, 2 * Math.PI);
+				colorWheelContext.fill();
+
+				colorWheel.addEventListener('click', (e) => {
+					let x = e.offsetX;
+					let y = e.offsetY;
+
+					//@ts-ignore (2531)
+					let colorPicked = (colorWheel.getContext('2d')).getImageData(x, y, 1, 1).data;
+					// convert to hex?
+					let colorCode = 'rgb(' + colorPicked[0] + ',' + colorPicked[1] + ',' + colorPicked[2] + ')';
+                    let colorInput = document.getElementById((this as any).destination.name + "_routeColor") as HTMLInputElement;
+					if(colorInput) {
+						colorInput.value = colorCode;
+						colorInput.style.backgroundColor = colorCode;
+					}
+				});
+			}
+
+			if(location) location.appendChild(colorWheel);
         }
 	}
 };
@@ -285,7 +376,7 @@ export default {
 		padding: 3px;
 		border: 2px solid #000;
 		border-radius: 15px;
-		text-align: "center";
+		text-align: center;
 	}
 	
 	.content {
@@ -307,7 +398,7 @@ export default {
         font-size: 2em;
     }
 
-    input {
+    .inputFile {
         display: none;
     }
 	
@@ -318,7 +409,6 @@ export default {
 	
 	h3 {
 		text-align: left;
-		margin-left: 3px;
 	}
 	
 	h1 {
@@ -346,6 +436,10 @@ export default {
         color: #000;
         background-color: #D9E5AE;
     }
+
+	label {
+		font-weight: bold;
+	}
 
     img {
         height: 15%;
