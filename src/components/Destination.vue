@@ -201,7 +201,7 @@ export default {
 			let notes = document.getElementById(name + '_notes');
 			notes?.setAttribute('disabled', 'true');
 
-			let data : Destination = JSON.parse(JSON.stringify((this as any).destination));
+			let data : Destination = JSON.parse(JSON.stringify((this as any).destination)); // make a copy
             data.notes = (notes as HTMLTextAreaElement)?.value;
 			data.newName = newName;
 

@@ -116,6 +116,21 @@ new Vue({
         },
         selectTrip: function (tripIndex: number): void {
             this.currTripIndex = tripIndex;
+        },
+        exportData: function(): void {
+            let data = JSON.parse(JSON.stringify(this.tripData)); // make a copy
+            for(let trip of data) {
+                for(let dest of trip.listOfDest) {
+                    dest.images = []; // don't export images
+                }
+            }
+            let jsonData = JSON.stringify(data, null, 4);
+            let blob = new Blob([jsonData], { type: "application/json" });
+            let url = URL.createObjectURL(blob);
+            let link = document.createElement('a');
+            link.href = url;
+            link.download = "trip-planner-data.json"; // TODO: ask user for file name
+            link.click();
         }
     },
     mounted: function() {
