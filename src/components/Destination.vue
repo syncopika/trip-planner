@@ -41,7 +41,13 @@
 			<!-- notes section -->
 			<h3> notes: </h3>
 			<div>
-				<textarea :value="destination.notes" :id="destination.name + '_notes'" rows="5" cols="33" disabled>
+				<textarea 
+					:value="destination.notes" 
+					:id="destination.name + '_notes'" 
+					rows="5"
+					cols="50" 
+					disabled
+				>
 				</textarea>
 				<br />
 			</div>
@@ -53,6 +59,9 @@
 					v-for="(image, index) in destination.images"
 					v-bind:key="destination.name + '_image_' + index"
 					:src="image"
+					style="margin-right:2px"
+					@mouseover="function($event){$event.target.style.border='1px solid #e0ffff'}"
+					@mouseout="function($event){$event.target.style.border='1px solid #000'}"
 					@dblclick="enlargeImage($event)" />
 			</div>
 
@@ -255,47 +264,45 @@ export default {
 			let inputElement = document.getElementById((this as any).destination.name + "_importImage");
             inputElement?.click();
 		},
-        enlargeImage: function(evt: any): void {
+		enlargeImage: function(evt: any): void {
+            let imageDiv = document.createElement('div');
+            imageDiv.style.opacity = "0.98";
+            imageDiv.style.backgroundColor = "#383838";
+            imageDiv.style.position = "fixed";
+            imageDiv.style.top = "0";
+			imageDiv.style.left = "0";
+			imageDiv.style.height = "100%";
+            imageDiv.style.width = "100%";
+			imageDiv.style.textAlign = "center";
+			imageDiv.style.overflow = "scroll";
+
+			document.body.style.overflow = "hidden";
+
 			let enlargedImage = new Image();
 			enlargedImage.src = evt.target.src;
-
-			let imageDiv = document.createElement('div');
-			imageDiv.style.opacity = "0.98";
-			imageDiv.style.backgroundColor = "#383838";
-			imageDiv.style.position = "absolute";
-			imageDiv.style.zIndex = "10";
-			imageDiv.style.width = "100%";
+            enlargedImage.addEventListener("dblclick", () => {
+				imageDiv?.parentNode?.removeChild(imageDiv);
+                document.body.style.overflow = "visible";
+            });
 
 			if (document.body.clientHeight < enlargedImage.height ||
 				document.body.clientWidth < enlargedImage.width) {
 				// reduce size of enlarged image if larger than the page
-                enlargedImage.style.height = "50%";
-                enlargedImage.style.width = "50%";
+                // rescale using a canvas?
             }
 
-			if (document.body.clientHeight > enlargedImage.height) {
-				// if image height is smaller than the page height,
-				// make sure the background is as tall as the page
-				imageDiv.style.height = document.body.clientHeight + "px";
-			}
-
-			imageDiv.style.top = "0";
-			imageDiv.style.left = "0";
-			imageDiv.style.textAlign = "center";
-
-			enlargedImage.style.margin = "0 auto";
-            enlargedImage.addEventListener("dblclick", () => {
-                imageDiv?.parentNode?.removeChild(imageDiv);
-            });
             imageDiv.appendChild(enlargedImage);
 
             let cancel = document.createElement('h3');
-            cancel.textContent = "close";
+			cancel.textContent = "close";
+			cancel.style.fontWeight = "bold";
+			cancel.style.fontSize = "2em";
             cancel.style.color = "#fff";
 			cancel.style.marginTop = "1%";
 			cancel.style.fontFamily = "monospace";
             cancel.addEventListener("click", () => {
-                imageDiv?.parentNode?.removeChild(imageDiv);
+				imageDiv?.parentNode?.removeChild(imageDiv);
+                document.body.style.overflow = "visible";
             });
             imageDiv.appendChild(cancel);
 

@@ -38,25 +38,25 @@ export default {
 	props: {
 		listOfTripNames: { required: true, type: Array }
 	},
-		methods: {
-			addNewTrip: function(): void {
-				let newTripName = prompt("Please enter the name of the new trip:");
-				if(newTripName) {
-					//@ts-ignore (TS-2339)
-					this.$root.addNewTrip(newTripName);
-				}
-			},
-			selectTrip: function(evt: any): void {
-				// TODO: event shouldn't be any?
-				let index = parseInt(evt.target.id.split("_")[1]);
-				// @ts-ignore (TS-2339)
-				this.$root.selectTrip(index);
-			},
-			exportData: function(): void {
-				// call root to download trip data
-				// @ts-ignore
-				this.$root.exportData();
-            }
+	methods: {
+		addNewTrip: function(): void {
+			let newTripName = prompt("Please enter the name of the new trip:");
+			if(newTripName) {
+				//@ts-ignore (TS-2339)
+				this.$root.addNewTrip(newTripName);
+			}
+		},
+		selectTrip: function(evt: any): void {
+			// TODO: event shouldn't be any?
+			let index = parseInt(evt.target.id.split("_")[1]);
+			// @ts-ignore (TS-2339)
+			this.$root.selectTrip(index);
+		},
+		exportData: function(): void {
+			// call root to download trip data
+			// @ts-ignore
+			this.$root.exportData();
+        }
     }
 }
 </script>

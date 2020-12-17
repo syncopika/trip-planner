@@ -98,6 +98,8 @@ https://stackoverflow.com/questions/1575141/how-to-make-a-div-100-height-of-the-
 https://ux.stackexchange.com/questions/1740/better-way-for-users-to-select-a-date-range
 maybe useful? https://stackoverflow.com/questions/17158932/how-to-detect-when-an-iframe-has-already-been-loaded
 https://www.schemecolor.com/sweet-pastels.php
+https://stackoverflow.com/questions/9280258/prevent-body-scrolling-but-allow-overlay-scrolling
+https://stackoverflow.com/questions/32129380/css-overlay-not-scrolling
 
 ========================
 anything in src gets processed by webpack.put stuff in /public and then reference with relative path like './mapIframe.html'
@@ -118,7 +120,7 @@ now:
 - rename trip title
 - reorder dests
 - customize note text properties (i.e. font color, font size)? think accessibility?
-- download/import json? might be too difficult with images though
+- import json?
 
 later:
 - geocoding> get closest city? guess name of destination?
