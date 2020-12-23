@@ -66,6 +66,7 @@ https://stackoverflow.com/questions/42711175/what-does-the-symbol-do-in-javascri
 https://technology.doximity.com/articles/five-traps-to-avoid-while-unit-testing-vue-js
 https://www.digitalocean.com/community/tutorials/vuejs-vue-testing
 https://vuejs.org/v2/cookbook/unit-testing-vue-components.html#Real-World-Example
+https://kentcdodds.com/blog/testing-implementation-details
 ========================
 typescript stuff
 

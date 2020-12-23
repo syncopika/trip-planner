@@ -2,6 +2,7 @@ import { shallowMount } from '@vue/test-utils'
 import DestinationComponent from '@/components/Destination.vue'
 import { Destination } from '@/triproute'
 
+// TODO: not test implementation details
 describe('Destination.vue', () => {
   it('renders destination info when passed a Destination object', () => {
 	const dest : Destination = {
@@ -19,14 +20,14 @@ describe('Destination.vue', () => {
       propsData: {
 		  destination: dest
 	  }
-    })
+    });
 	
 	// make sure destination name is there
-    expect(wrapper.find("#test").text()).toEqual("test");
+    expect(wrapper.find("#test").text()).toEqual(dest.name);
 	
 	// make sure destination notes are there
 	const notes : HTMLInputElement = wrapper.find("#test_notes").element as HTMLInputElement;
-	expect(notes.value).toEqual("hello world");
+	expect(notes.value).toEqual(dest.notes);
 	
 	const locationText = wrapper.find(".latlng").text();
 	expect(locationText).toEqual(`lat: ${dest.latitude}, long: ${dest.longitude}`);
