@@ -62,8 +62,11 @@ makes sense now.
 https://stackoverflow.com/questions/35964116/how-do-i-extend-another-vuejs-component-in-a-single-file-component-es6-vue-loa
 
 TESTING:
+https://stackoverflow.com/questions/42711175/what-does-the-symbol-do-in-javascript-imports - saw this in the test example in tests/unit
 https://technology.doximity.com/articles/five-traps-to-avoid-while-unit-testing-vue-js
-
+https://www.digitalocean.com/community/tutorials/vuejs-vue-testing
+https://vuejs.org/v2/cookbook/unit-testing-vue-components.html#Real-World-Example
+https://kentcdodds.com/blog/testing-implementation-details
 ========================
 typescript stuff
 
