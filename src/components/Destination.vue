@@ -55,14 +55,27 @@
 			<br />
 			<h3> images: </h3>
 			<div :id="destination.name + '_images'">
-				<img 
-					v-for="(image, index) in destination.images"
-					v-bind:key="destination.name + '_image_' + index"
-					:src="image"
-					style="margin-right:2px"
-					@mouseover="function($event){$event.target.style.border='1px solid #e0ffff'}"
-					@mouseout="function($event){$event.target.style.border='1px solid #000'}"
-					@dblclick="enlargeImage($event)" />
+				<div v-for="(image, index) in destination.images" 
+                     v-bind:key="'div_' + destination.name + '_image_' + index"
+                     style="margin-right:2px"
+                     class="imageContainer"
+				>
+					<img
+						v-bind:key="destination.name + '_image_' + index"
+						:src="image"
+						@mouseover="function($event){$event.target.style.border='1px solid #e0ffff'}"
+						@mouseout="function($event){$event.target.style.border='1px solid #000'}"
+						@dblclick="enlargeImage($event)" 
+					/>
+					<h3
+						:id="'delete_' + destination.name + '_image_' + index"
+						v-if="isEditing"
+						style="color:red"
+						@click="deleteImage($event)"
+					>
+						x
+					</h3>
+				</div>
 			</div>
 
 			<br />
@@ -308,6 +321,13 @@ export default {
 
 			document.body.appendChild(imageDiv);
 		},
+		deleteImage: function(evt: any): void {
+			// get index of image from id
+			let imageIndex = evt.target.id.split("_");
+			imageIndex = parseInt(imageIndex[imageIndex.length - 1]);
+
+            (this as any).destination.images.splice(imageIndex, 1);
+        },
 		showColorWheel: function(): void {
             let location = document.getElementById((this as any).destination.name + '_editRouteColor');
 
@@ -381,36 +401,7 @@ export default {
 </script>
 
 <style scoped>
-	.dest {
-		padding: 3px;
-		border: 2px solid #000;
-		border-radius: 15px;
-		text-align: center;
-	}
-	
-	.content {
-		display: none;
-	}
 
-	.row {
-		display: flex;
-	}
-
-	.col {
-		flex: 50%;
-	}
-
-    .delete {
-        color: #8b0000;
-        font-weight: bold;
-        display: inline;
-        font-size: 2em;
-    }
-
-    .inputFile {
-        display: none;
-    }
-	
 	textarea {
 		background-color: transparent;
 		color: #000;
@@ -454,7 +445,47 @@ export default {
         height: 15%;
         width: 15%;
         border:  1px solid #000;
-        display: inline-block;
+    }
+
+    .dest {
+        padding: 3px;
+        border: 2px solid #000;
+        border-radius: 15px;
+        text-align: center;
+    }
+
+    .content {
+        display: none;
+    }
+
+    .row {
+        display: flex;
+    }
+
+    .col {
+        flex: 50%;
+    }
+
+    .delete {
+        color: #8b0000;
+        font-weight: bold;
+        display: inline;
+        font-size: 2em;
+    }
+
+    .inputFile {
+        display: none;
+    }
+
+    .imageContainer {
+        display: inline;
+        width: 100%;
+        height: 100%;
+    }
+
+    .imageContainer h3 {
+        text-align: center;
+		margin-top: 0;
     }
 
 </style>
