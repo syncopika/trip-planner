@@ -132,6 +132,7 @@ export default {
 		return {
 			expanded: false,
 			isEditing: false,
+			editSnapshot: {},
 			currDestTitle: ""
 		}
 	},
@@ -179,6 +180,10 @@ export default {
 		
 			// set flag
 			(this as any).isEditing = true;
+
+			// take a snapshot of all current data so we can cancel changes easily
+			//console.log((this as any).destination);
+			(this as any).editSnapshot = JSON.parse(JSON.stringify((this as any).destination));
 			
 			// make destination name editable
 			let destTitle = document.getElementById(name);
@@ -250,7 +255,12 @@ export default {
 			(this as any).isEditing = false;
 		},
         cancelChanges: function(): void {
-			// TODO
+			let currData = JSON.parse(JSON.stringify((this as any).editSnapshot));
+			for(let data in currData) {
+				(this as any).destination[data] = currData[data];
+            }
+			(this as any).editSnapshot = {};
+			(this as any).isEditing = false;
 		},
         uploadImage: function(evt: any): void {
             let img = new Image();
@@ -301,7 +311,7 @@ export default {
 			if (document.body.clientHeight < enlargedImage.height ||
 				document.body.clientWidth < enlargedImage.width) {
 				// reduce size of enlarged image if larger than the page
-                // rescale using a canvas?
+                // or rescale using a canvas?
             }
 
             imageDiv.appendChild(enlargedImage);

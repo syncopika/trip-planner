@@ -115,8 +115,10 @@ https://stackoverflow.com/questions/47166369/argument-of-type-e-customevent-void
 ========================
 
 TODO:
-- emit events rather than calling root?
-- use Vuex to store trip data upon loading from some source?
+- testing for core components
+- can't upload images when editing ok?
+- get a dummy map tile iframe for demoing?
+- get db backend set up
 
 now:
 - set zoom level?
@@ -126,6 +128,8 @@ now:
 - import json?
 
 later:
+- emit events rather than calling root?
+- use Vuex to store trip data upon loading from some source?
 - geocoding> get closest city? guess name of destination?
 
 
