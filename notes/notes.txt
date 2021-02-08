@@ -90,6 +90,11 @@ https://docs.mapbox.com/mapbox-gl-js/example/add-a-marker/
 https://gis.stackexchange.com/questions/208989/how-to-test-if-a-layer-exist-in-a-mapbox-gl-js-map
 
 ========================
+postgres/db stuff:
+https://superuser.com/questions/576623/default-password-for-postgresql/576625 -> I have a postgres user, which is what I set up when I installed on Windows,
+but I also got a user that corresponded to my computer user (i.e. "Nicholas") that I had not defined a password for yet
+
+========================
 misc stuff:
 this is neat! https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Editable_content
 https://css-tricks.com/snippets/javascript/saving-contenteditable-content-changes-as-json-with-ajax/
