@@ -94,6 +94,14 @@ postgres/db stuff:
 https://superuser.com/questions/576623/default-password-for-postgresql/576625 -> I have a postgres user, which is what I set up when I installed on Windows,
 but I also got a user that corresponded to my computer user (i.e. "Nicholas") that I had not defined a password for yet
 
+https://heap.io/blog/engineering/when-to-avoid-jsonb-in-a-postgresql-schema
+https://stackoverflow.com/questions/1200326/what-is-the-datatype-for-a-password-in-postgresql/36708013
+https://stackoverflow.com/questions/21368385/regarding-storing-lat-lng-coordinates-in-postgresql-column-type
+https://stackoverflow.com/questions/1196415/what-datatype-to-use-when-storing-latitude-and-longitude-data-in-sql-databases
+https://stackoverflow.com/questions/12504208/what-mysql-data-type-should-be-used-for-latitude-longitude-with-8-decimal-places
+https://bezkoder.com/vue-node-express-postgresql/#Setup_Express_web_server
+https://stackoverflow.com/questions/53944935/how-to-combine-vue-app-server-and-express
+
 ========================
 misc stuff:
 this is neat! https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Editable_content
@@ -121,7 +129,6 @@ https://stackoverflow.com/questions/47166369/argument-of-type-e-customevent-void
 
 TODO:
 - testing for core components
-- can't upload images when editing ok?
 - get a dummy map tile iframe for demoing?
 - get db backend set up
 

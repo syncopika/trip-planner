@@ -255,9 +255,9 @@ export default {
 			(this as any).isEditing = false;
 		},
 		cancelChanges: function(): void {
-            // make sure destination name goes back to being uneditable
-            let name = (this as any).destination.name;
-            let destTitle = document.getElementById(name);
+			// make sure destination name goes back to being uneditable
+			let name = (this as any).destination.name;
+			let destTitle = document.getElementById(name);
 			destTitle?.setAttribute('contenteditable', "false");
 
 			let currData = JSON.parse(JSON.stringify((this as any).editSnapshot));
