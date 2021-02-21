@@ -14,7 +14,7 @@ destinations
 username varchar(60)
 destname varchar(60)
 tripname varchar(60)
-index int
+index int 		// the index of the destination for the trip it belongs to
 latitude decimal (10,8)
 longitude decimal (11,8)
 metadata jsonb
