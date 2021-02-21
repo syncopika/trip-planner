@@ -1,5 +1,6 @@
 const pg = require('pg');
 const express = require('express');
+const cors = require('cors');
 
 // fill this info in with your local db info
 const client = new pg.Client({
@@ -58,13 +59,20 @@ client.query(query, (err, res) => {
 // TODO: set up app to host api endpoints to be called for interacting with the db
 const app = express();
 
-app.get("/", (req, res) => {
+const corsOptions = {
+	origin: "http://localhost:8080" // this is the acceptable origin for incoming requests
+};
+
+app.use(cors(corsOptions));
+
+app.get("/api", (req, res) => {
 	res.json({message: "hello there"});
 });
 
 // probably should be POST
-app.get("/destinations", (req, res) => {
+app.get("/api/destinations", (req, res) => {
 	// do the db lookup
+	// TODO: find closest destinations to a given lat and lng
 	const query = `
 	SELECT * FROM destinations
 	`;
@@ -72,9 +80,9 @@ app.get("/destinations", (req, res) => {
 		if(err){
 			console.log(err);
 		}else{
-			res.json({data: dbRes.rows});
+			res.json({destinations: dbRes.rows});
 		}
-		client.end();
+		//client.end();
 	});
 });
 

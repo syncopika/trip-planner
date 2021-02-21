@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
+import axios from 'axios';
 import { TripRoute, Destination } from './triproute';
 
 Vue.config.productionTip = false
@@ -7,12 +8,20 @@ Vue.config.productionTip = false
 // root instance
 new Vue({
   render(h){
-        // fetch data from db here??
+        // fetch tripdata from db here??
+        axios.get("http://localhost:8081/api/destinations")
+            .then((res) => {
+                console.log(res);
+                let suggestedNextDestinations = (res as any).data.destinations;
+                this.suggestedNextDest = suggestedNextDestinations; // should be based on last destination in list
+            });
+
         return h(App, {
             props: {
                 'listOfDest': this.tripData[this.currTripIndex].listOfDest,
                 'tripName': this.tripData[this.currTripIndex].tripName,
                 'listOfTripNames': this.tripData.map(trip => trip.tripName),
+                'suggestedNextDest': this.suggestedNextDest, // should be based on last destination in list
             }
         });
     },
@@ -44,7 +53,8 @@ new Vue({
                 ]
             }
         ],
-        'currTripIndex': 0
+        'currTripIndex': 0,
+        'suggestedNextDest': [],
     },
     methods: {
         findDestination: function (destName: string): boolean {
@@ -142,11 +152,11 @@ new Vue({
 	
         // listen for custom events from the iframe (which is the map)
         document.addEventListener('addDest', (evt) => {
-            //console.log(evt);
+            // if adding a new destination was successful to the iframe map, a custom addDest event will be
+            // emitted from the iframe along with that new destination's data, which gets received here.
+
             let location = (<CustomEvent>evt).detail;
 
-            // the check against existing destination names should be done
-            // at the iframe level? since the iframe listens for the dblclick event.
             if (location) {
                 let newDest: Destination = {
                     name: location.name,
@@ -161,6 +171,9 @@ new Vue({
 
                 tripRoute.addDestination(newDest);
                 //console.log(tripRoute);
+
+                // TODO: make a call to the db with the newly added dest's lat and lng to look up possible next hops
+                // when we get that info back, update the prop so the change will get propagated to TripRoute.vue.
 
                 this.tripData[this.currTripIndex].listOfDest.push(newDest); 
             }

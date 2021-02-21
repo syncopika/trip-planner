@@ -8,12 +8,31 @@
 			</div>
 			
 			<div id='suggestions'>
-				<h2> suggestions for next dest in trip route go here </h2>
-				<h3> other users have chosen these destinations next! </h3>
-				<ul>
-					<li> place 1 </li>
-					<li> place 2 </li>
-				</ul>
+				<label for="tripSuggestionsOption"> 
+					show suggestions for next dest in trip route? 
+				</label>
+				<select 
+						id="tripSuggestionsOption"
+						@change="toggleTripSuggestions"
+				>
+					<option value="yes">
+						yes please!
+					</option>
+					<option selected value="no">
+						no thanks
+					</option>
+				</select>
+				
+				<div v-if="showNextDestSuggestions">
+					<h3> check out these suggestions! </h3>
+					<ul>
+						<li v-for="(nextDest, index) in suggestedNextDest"
+							v-bind:key="'li_nextDest_' + index"
+						>
+							<p>{{ nextDest }}</p>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 		
@@ -52,16 +71,17 @@ export default class TripRouteMap extends Vue {
 	@Prop({ required: true }) public listOfDest!: Array<Object>; // the ! == not null
     @Prop({ required: true }) public listOfTripNames!: Array<string>;
 	@Prop({ required: true }) public tripName!: string;
+    @Prop({ required: true }) public suggestedNextDest!: any[];
 
 	@Watch('listOfDest', { deep: true })
-	onDestChange(newVal: Array<Object>, oldVal: Array<Object>){
+	onDestChange(newVal: Array<Object>, oldVal: Array<Object>): void {
 		// note that we shouldn't need to care about the old value
 		this.updateMap(newVal);
 		console.log(newVal);
 		console.log(oldVal);
 	}
 	
-    updateMap(data: Array<Object>): void{
+    updateMap(data: Array<Object>): void {
 		// take new destination data and update the MapBox map markers as needed
 		console.log("I'm supposed to update the map!");
 		
@@ -74,6 +94,10 @@ export default class TripRouteMap extends Vue {
 			mapIframe.contentDocument.dispatchEvent(updateMapEvent);
 		}
 	}
+
+	toggleTripSuggestions(): void {
+		(this as any).showNextDestSuggestions = !(this as any).showNextDestSuggestions;
+    }
 	
     _handleIframeLogs(evt: any): void {
 		console.log(evt);
@@ -83,6 +107,12 @@ export default class TripRouteMap extends Vue {
 		console.log("got iframe ready message!!");
 		this.updateMap(this.listOfDest);
 	}
+
+	data() {
+		return {
+			showNextDestSuggestions: false,
+        }
+    }
 	
 	mounted(){
 		// the iframe might not be ready?
@@ -99,10 +129,14 @@ export default class TripRouteMap extends Vue {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 
-h1, h2{
+h1, h2, label{
 	padding: 5px;
 	margin: 0;
 	color: #000;
+}
+
+label{
+	font-size: 20px;
 }
 
 #main{

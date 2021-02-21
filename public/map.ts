@@ -47,7 +47,7 @@ class MapBoxWrapper {
 
 					let marker = this.addMarkerToMap(data);
 					
-					// send info to parent
+					// send info to parent to add new destination to destination list
 					const addDestEvent = new CustomEvent('addDest', {
 						detail: data
 					});
