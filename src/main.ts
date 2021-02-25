@@ -9,12 +9,17 @@ Vue.config.productionTip = false
 new Vue({
   render(h){
         // fetch tripdata from db here??
-        axios.get("http://localhost:8081/api/destinations")
-            .then((res) => {
-                console.log(res);
-                let suggestedNextDestinations = (res as any).data.destinations;
-                this.suggestedNextDest = suggestedNextDestinations; // should be based on last destination in list
-            });
+        // use the lat and lng of a dest to serve as the center point for which to find possible next hops based on radius
+		axios.post("http://localhost:8081/api/destinations", {
+			latitude: 0.0,
+			longitude: 0.0,
+			radius: 5,
+		})
+		.then((res) => {
+			console.log(res);
+			let suggestedNextDestinations = (res as any).data.destinations;
+			this.suggestedNextDest = suggestedNextDestinations; // should be based on last destination in list
+		});
 
         return h(App, {
             props: {

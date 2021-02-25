@@ -1,0 +1,47 @@
+[
+	{
+		"username": "test_user",
+		"destname": "test_place",
+		"tripname": "test_trip1",
+		"latitude": 38.9486650738765,
+		"longitude": -107.01459411621002,
+		"index": 0,
+		"metadata": {
+			"notes": "hello world",
+			"fromDate": "01-01-2020",
+			"toDate": "01-05-2020",
+			"images": [],
+			"routeColor": "#888"
+		}
+	},
+	{
+		"username": "test_user",
+		"destname": "test_place2",
+		"tripname": "test_trip1",	
+		"latitude": 68.982833520960156,
+		"longitude": -76.95210937499908,
+		"index": 1,
+		"metadata": {
+			"notes": "hello world2",
+			"fromDate": "01-05-2020",
+			"toDate": "01-07-2020",
+			"images": [],
+			"routeColor": "#888"
+		}
+	},
+	{
+		"username": "test_user",
+		"destname": "test_place2",
+		"tripname": "test_trip1",	
+		"latitude": 40.982833520960156,
+		"longitude": 80.95210937499908,
+		"index": 2,
+		"metadata": {
+			"notes": "hello world2 sdfsdf",
+			"fromDate": "01-05-2020",
+			"toDate": "01-07-2020",
+			"images": [],
+			"routeColor": "#888"
+		}
+	}
+]

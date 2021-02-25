@@ -70,8 +70,9 @@ app.get("/api", (req, res) => {
 });
 
 // probably should be POST
-app.get("/api/destinations", (req, res) => {
+app.post("/api/destinations", (req, res) => {
 	// do the db lookup
+	console.log(req);
 	// TODO: find closest destinations to a given lat and lng
 	const query = `
 	SELECT * FROM destinations
