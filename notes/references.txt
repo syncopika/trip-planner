@@ -104,6 +104,7 @@ https://stackoverflow.com/questions/53944935/how-to-combine-vue-app-server-and-e
 https://stackabuse.com/using-postgresql-with-nodejs-and-node-postgres/
 https://stackoverflow.com/questions/41396195/what-is-the-difference-between-single-quotes-and-double-quotes-in-postgresql -> lol
 https://stackoverflow.com/questions/33129526/loading-json-data-from-a-file-into-postgres
+https://stackoverflow.com/questions/5031268/algorithm-to-find-all-latitude-longitude-locations-within-a-certain-distance-fro
 
 ========================
 misc stuff:

@@ -43,5 +43,35 @@
 			"images": [],
 			"routeColor": "#888"
 		}
+	},
+	{
+		"username": "test_user",
+		"destname": "test_place3",
+		"tripname": "test_trip1",	
+		"latitude": 39.048987979347004,
+		"longitude": -76.91640380859292,
+		"index": 3,
+		"metadata": {
+			"notes": "hello world2 sdfsdf sdfgsdfg",
+			"fromDate": "01-05-2020",
+			"toDate": "01-07-2020",
+			"images": [],
+			"routeColor": "#888"
+		}
+	},
+	{
+		"username": "test_user",
+		"destname": "test_place4",
+		"tripname": "test_trip1",	
+		"latitude": 39.21208086524598,
+		"longitude": -76.86636170677798,
+		"index": 4,
+		"metadata": {
+			"notes": "hello world2 sdfsdf sdfgsdfg zzzz",
+			"fromDate": "01-05-2020",
+			"toDate": "01-07-2020",
+			"images": [],
+			"routeColor": "#888"
+		}
 	}
 ]
