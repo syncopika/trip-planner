@@ -61,6 +61,8 @@ Error	TS2339	(TS) Property '$root' does not exist on type '{ highlightBorder: ()
 makes sense now.
 https://stackoverflow.com/questions/35964116/how-do-i-extend-another-vuejs-component-in-a-single-file-component-es6-vue-loa
 
+https://github.com/vuejs/vue/issues/8721 -> this is so frustrating...
+
 TESTING:
 https://stackoverflow.com/questions/42711175/what-does-the-symbol-do-in-javascript-imports - saw this in the test example in tests/unit
 https://technology.doximity.com/articles/five-traps-to-avoid-while-unit-testing-vue-js
@@ -105,6 +107,7 @@ https://stackabuse.com/using-postgresql-with-nodejs-and-node-postgres/
 https://stackoverflow.com/questions/41396195/what-is-the-difference-between-single-quotes-and-double-quotes-in-postgresql -> lol
 https://stackoverflow.com/questions/33129526/loading-json-data-from-a-file-into-postgres
 https://stackoverflow.com/questions/5031268/algorithm-to-find-all-latitude-longitude-locations-within-a-certain-distance-fro
+http://janmatuschek.de/LatitudeLongitudeBoundingCoordinates
 
 ========================
 misc stuff:

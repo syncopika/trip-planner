@@ -28,3 +28,8 @@ function updateMap(evt : any){
 	mapbox.removeMarkers();
 	mapbox.updateMarkers(evt.detail);
 }
+
+function showSuggestedNextHops(evt: any){
+	// show suggested next hop markers on map
+	mapbox.showSuggestedNextHops(evt.detail);
+}

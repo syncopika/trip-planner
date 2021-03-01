@@ -1,6 +1,6 @@
 # trip-planner    
     
-plan out your future trips! or record old ones. :D currently a work-in-progress!    
+Plan out your future trips! or record old ones. :D currently a work-in-progress!    
 this project uses the MapBox API and so you need a token, which you can get for free (and comes with 50000 free API requests/month).    
     
 my build is kinda weird right now in that I'm using an iframe to hold the MapBox map, which I'm storing in the public folder and building separately from the rest of the project (I still need to understand how vue-cli works 😅).    
@@ -23,7 +23,12 @@ choosing a different trip (can have multiple trips!)
 ```
 npm install
 ```
-
+    
+For setting up the iframe that contains the map, run `npm run setup-map-dev`. You'll have to add your MapBox API token to iframeSetup.ts first.    
+    
+### database setup    
+For the backend, I'm using postgres. After postgres is setup, see loadFakeData.js, adjust any postgres-specific variables like username/password/database name and run `node loadFakeData.js` to import some data into the database.    
+    
 ### Compiles and hot-reloads for development
 ```
 npm run serve

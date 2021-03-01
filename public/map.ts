@@ -146,7 +146,14 @@ class MapBoxWrapper {
 		
 		this.drawLineBetweenMarkers();
 	}
-	
+
+	showSuggestedNextHops(listOfLocations: Array<any>): void {
+		// show markers for suggested next hops
+		for(let dest of listOfLocations){
+			// make sure to denote these markers in a different way from the user's actual destination markers
+        }
+    }
+
 	drawLineBetweenMarkers() {
 
 		// clear old lines first

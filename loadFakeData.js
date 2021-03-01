@@ -29,7 +29,6 @@ fs.readFile('test_destinations.json', 'utf8', (err, data) => {
 	
 	// read json and insert
 	const jsonData = JSON.parse(data);
-	//console.log(jsonData);
 
 	// load in the data
 	jsonData.forEach((record) => {

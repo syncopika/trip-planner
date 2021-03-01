@@ -10,7 +10,9 @@ new Vue({
   render(h){
         // fetch tripdata from db here??
         // use the lat and lng of a dest to serve as the center point for which to find possible next hops based on radius
-		axios.post("http://localhost:8081/api/destinations", {
+
+        /*
+        axios.post("http://localhost:8081/api/destinations", {
 			latitude: 0.0,
 			longitude: 0.0,
 			radius: 5,
@@ -20,6 +22,7 @@ new Vue({
 			let suggestedNextDestinations = (res as any).data.destinations;
 			this.suggestedNextDest = suggestedNextDestinations; // should be based on last destination in list
 		});
+        */
 
         return h(App, {
             props: {
@@ -62,6 +65,21 @@ new Vue({
         'suggestedNextDest': [],
     },
     methods: {
+        requestSuggestedNextHops: function(): Promise<any> {
+            return new Promise((resolve) => {
+                axios.post("http://localhost:8081/api/destinations", {
+                    latitude: 0.0,
+                    longitude: 0.0,
+                    radius: 5,
+                })
+                .then((res) => {
+                    console.log(res);
+                    let suggestedNextDestinations = (res as any).data.destinations;
+                    //this.suggestedNextDest = suggestedNextDestinations; // should be based on last destination in list
+                    resolve(suggestedNextDestinations);
+                });
+            });
+        },
         findDestination: function (destName: string): boolean {
             let listOfDest = this.tripData[this.currTripIndex].listOfDest;
             for (let dest of listOfDest) {
@@ -74,6 +92,9 @@ new Vue({
         removeDestination: function (destName: string): void {
             let listOfDest = this.tripData[this.currTripIndex].listOfDest;
             this.tripData[this.currTripIndex].listOfDest = listOfDest.filter(dest => dest.name !== destName);
+
+            // TODO: check to see if last dest was removed. if so, get the new last dest and show suggestions for next hop
+            // if user wants
         },
         updateDestination: function (data: Destination): void {
             // called from Destination.vue
@@ -175,10 +196,12 @@ new Vue({
                 };
 
                 tripRoute.addDestination(newDest);
-                //console.log(tripRoute);
 
                 // TODO: make a call to the db with the newly added dest's lat and lng to look up possible next hops
                 // when we get that info back, update the prop so the change will get propagated to TripRoute.vue.
+                (this as any).requestSuggestedNextHops().then((data: any) => {
+                    this.suggestedNextDest = data;
+                });
 
                 this.tripData[this.currTripIndex].listOfDest.push(newDest); 
             }

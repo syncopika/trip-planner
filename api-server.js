@@ -56,6 +56,7 @@ client.query(query, (err, res) => {
 });
 */
 
+
 // TODO: set up app to host api endpoints to be called for interacting with the db
 const app = express();
 
@@ -72,10 +73,10 @@ app.get("/api", (req, res) => {
 // probably should be POST
 app.post("/api/destinations", (req, res) => {
 	// do the db lookup
-	console.log(req);
+	//console.log(req);
 	// TODO: find closest destinations to a given lat and lng
 	const query = `
-	SELECT * FROM destinations
+	SELECT destname, latitude, longitude FROM destinations
 	`;
 	client.query(query, (err, dbRes) => {
 		if(err){
