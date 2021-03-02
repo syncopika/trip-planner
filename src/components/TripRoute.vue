@@ -79,6 +79,12 @@ export default class TripRouteMap extends Vue {
 		this.updateMap(newVal);
 		console.log(newVal);
 		console.log(oldVal);
+
+		// whenever listOfDest changes, suggestedNextDest should too
+        if((this as any).showNextDestSuggestions) {
+            this.updateSuggestedNextHops(this.suggestedNextDest);
+        }
+
 	}
 	
     updateMap(data: Array<Object>): void {
@@ -86,7 +92,7 @@ export default class TripRouteMap extends Vue {
 		console.log("I'm supposed to update the map!");
 		
 		// send a custom event to the map iframe along with the data
-		let updateMapEvent = new CustomEvent('updateMap', {detail: data});
+		let updateMapEvent = new CustomEvent('updateMap', { detail: data });
 		let mapIframe = document.getElementById('mapContainer') as HTMLIFrameElement;
 		
 		if(mapIframe !== null && mapIframe.contentDocument !== null){
@@ -94,6 +100,16 @@ export default class TripRouteMap extends Vue {
 			mapIframe.contentDocument.dispatchEvent(updateMapEvent);
 		}
 	}
+
+	updateSuggestedNextHops(data: Array<Object>): void {
+		// TODO: eliminate this method and generalize the one above to accept an event name?
+        let updateMapEvent = new CustomEvent('updateSuggestedNextHops', { detail: data });
+        let mapIframe = document.getElementById('mapContainer') as HTMLIFrameElement;
+
+        if(mapIframe !== null && mapIframe.contentDocument !== null) {
+            mapIframe.contentDocument.dispatchEvent(updateMapEvent);
+        }
+    }
 
 	toggleTripSuggestions(): void {
 		(this as any).showNextDestSuggestions = !(this as any).showNextDestSuggestions;
@@ -106,6 +122,10 @@ export default class TripRouteMap extends Vue {
     _handleReady(): void {
 		console.log("got iframe ready message!!");
 		this.updateMap(this.listOfDest);
+
+		if((this as any).showNextDestSuggestions) {
+			this.updateSuggestedNextHops(this.suggestedNextDest);
+        }
 	}
 
 	data() {

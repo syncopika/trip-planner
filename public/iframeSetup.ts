@@ -11,6 +11,7 @@ let mapbox = new MapBoxWrapper("<your token here>", mapContainer);
 
 // add some listeners to listen for events to update map stuff from the parent document
 window.document.addEventListener('updateMap', updateMap, false);
+window.document.addEventListener('updateSuggestedNextHops', showSuggestedNextHops, false);
 
 // as soon as this iframe is setup,
 // send a customevent to the parent telling it to send data
@@ -29,7 +30,10 @@ function updateMap(evt : any){
 	mapbox.updateMarkers(evt.detail);
 }
 
-function showSuggestedNextHops(evt: any){
+function showSuggestedNextHops(evt: any) {
+	let ackEvent = new CustomEvent('iframeLogs', { detail: "hi parent, got the data for suggested next hops!" });
+	window.parent.document.dispatchEvent(ackEvent);
+
 	// show suggested next hop markers on map
 	mapbox.showSuggestedNextHops(evt.detail);
 }

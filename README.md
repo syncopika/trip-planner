@@ -28,6 +28,7 @@ For setting up the iframe that contains the map, run `npm run setup-map-dev`. Yo
     
 ### database setup    
 For the backend, I'm using postgres. After postgres is setup, see loadFakeData.js, adjust any postgres-specific variables like username/password/database name and run `node loadFakeData.js` to import some data into the database.    
+Make sure to run the backend server via `node api-server.js`.     
     
 ### Compiles and hot-reloads for development
 ```

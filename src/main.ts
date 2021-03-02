@@ -8,7 +8,7 @@ Vue.config.productionTip = false
 // root instance
 new Vue({
   render(h){
-        // fetch tripdata from db here??
+        // TODO: fetch tripdata from db here??
         // use the lat and lng of a dest to serve as the center point for which to find possible next hops based on radius
 
         /*
@@ -66,16 +66,16 @@ new Vue({
     },
     methods: {
         requestSuggestedNextHops: function(): Promise<any> {
+            console.log("requesting next hop suggestions");
             return new Promise((resolve) => {
+                // should be based on last destination in list
                 axios.post("http://localhost:8081/api/destinations", {
                     latitude: 0.0,
                     longitude: 0.0,
                     radius: 5,
                 })
                 .then((res) => {
-                    console.log(res);
                     let suggestedNextDestinations = (res as any).data.destinations;
-                    //this.suggestedNextDest = suggestedNextDestinations; // should be based on last destination in list
                     resolve(suggestedNextDestinations);
                 });
             });
@@ -197,13 +197,12 @@ new Vue({
 
                 tripRoute.addDestination(newDest);
 
-                // TODO: make a call to the db with the newly added dest's lat and lng to look up possible next hops
+                // Make a call to the db with the newly added dest's lat and lng to look up possible next hops
                 // when we get that info back, update the prop so the change will get propagated to TripRoute.vue.
                 (this as any).requestSuggestedNextHops().then((data: any) => {
                     this.suggestedNextDest = data;
+                    this.tripData[this.currTripIndex].listOfDest.push(newDest); 
                 });
-
-                this.tripData[this.currTripIndex].listOfDest.push(newDest); 
             }
         });
     }
