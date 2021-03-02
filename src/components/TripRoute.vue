@@ -23,7 +23,7 @@
 					</option>
 				</select>
 				
-				<div v-if="showNextDestSuggestions">
+				<div v-if="showSuggestedNextHops">
 					<h3> check out these suggestions! </h3>
 					<ul>
 						<li v-for="(nextDest, index) in suggestedNextDest"
@@ -71,7 +71,9 @@ export default class TripRouteMap extends Vue {
 	@Prop({ required: true }) public listOfDest!: Array<Object>; // the ! == not null
     @Prop({ required: true }) public listOfTripNames!: Array<string>;
 	@Prop({ required: true }) public tripName!: string;
-    @Prop({ required: true }) public suggestedNextDest!: any[];
+	@Prop({ required: true }) public suggestedNextDest!: any[];
+
+	showSuggestedNextHops = false;
 
 	@Watch('listOfDest', { deep: true })
 	onDestChange(newVal: Array<Object>, oldVal: Array<Object>): void {
@@ -81,38 +83,34 @@ export default class TripRouteMap extends Vue {
 		console.log(oldVal);
 
 		// whenever listOfDest changes, suggestedNextDest should too
-        if((this as any).showNextDestSuggestions) {
+        if(this.showSuggestedNextHops) {
             this.updateSuggestedNextHops(this.suggestedNextDest);
         }
-
 	}
+
+	dispatchEventToMap(eventName: string, data: Array<Object>): void {
+        // send a custom event to the map iframe along with the data
+        let updateMapEvent = new CustomEvent(eventName, { detail: data });
+        let mapIframe = document.getElementById('mapContainer') as HTMLIFrameElement;
+
+        if(mapIframe !== null && mapIframe.contentDocument !== null) {
+            console.log("sending data to the iframe for event: " + eventName);
+            mapIframe.contentDocument.dispatchEvent(updateMapEvent);
+        }
+    }
 	
     updateMap(data: Array<Object>): void {
 		// take new destination data and update the MapBox map markers as needed
 		console.log("I'm supposed to update the map!");
-		
-		// send a custom event to the map iframe along with the data
-		let updateMapEvent = new CustomEvent('updateMap', { detail: data });
-		let mapIframe = document.getElementById('mapContainer') as HTMLIFrameElement;
-		
-		if(mapIframe !== null && mapIframe.contentDocument !== null){
-			console.log("sending data to the iframe");
-			mapIframe.contentDocument.dispatchEvent(updateMapEvent);
-		}
+		this.dispatchEventToMap('updateMap', data);
 	}
 
 	updateSuggestedNextHops(data: Array<Object>): void {
-		// TODO: eliminate this method and generalize the one above to accept an event name?
-        let updateMapEvent = new CustomEvent('updateSuggestedNextHops', { detail: data });
-        let mapIframe = document.getElementById('mapContainer') as HTMLIFrameElement;
-
-        if(mapIframe !== null && mapIframe.contentDocument !== null) {
-            mapIframe.contentDocument.dispatchEvent(updateMapEvent);
-        }
+        this.dispatchEventToMap('updateSuggestedNextHops', data);
     }
 
 	toggleTripSuggestions(): void {
-		(this as any).showNextDestSuggestions = !(this as any).showNextDestSuggestions;
+        this.showSuggestedNextHops = !this.showSuggestedNextHops;
     }
 	
     _handleIframeLogs(evt: any): void {
@@ -123,16 +121,17 @@ export default class TripRouteMap extends Vue {
 		console.log("got iframe ready message!!");
 		this.updateMap(this.listOfDest);
 
-		if((this as any).showNextDestSuggestions) {
+        if(this.showSuggestedNextHops) {
 			this.updateSuggestedNextHops(this.suggestedNextDest);
         }
 	}
 
+	/*
 	data() {
 		return {
-			showNextDestSuggestions: false,
+            showSuggestedNextHops: false,
         }
-    }
+    }*/
 	
 	mounted(){
 		// the iframe might not be ready?
