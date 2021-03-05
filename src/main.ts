@@ -8,22 +8,7 @@ Vue.config.productionTip = false
 // root instance
 new Vue({
   render(h){
-        // TODO: fetch tripdata from db here??
-        // use the lat and lng of a dest to serve as the center point for which to find possible next hops based on radius
-
-        /*
-        axios.post("http://localhost:8081/api/destinations", {
-			latitude: 0.0,
-			longitude: 0.0,
-			radius: 5,
-		})
-		.then((res) => {
-			console.log(res);
-			let suggestedNextDestinations = (res as any).data.destinations;
-			this.suggestedNextDest = suggestedNextDestinations; // should be based on last destination in list
-		});
-        */
-
+        // TODO: fetch user's tripdata from db here??
         return h(App, {
             props: {
                 'listOfDest': this.tripData[this.currTripIndex].listOfDest,
@@ -65,14 +50,14 @@ new Vue({
         'suggestedNextDest': [],
     },
     methods: {
-        requestSuggestedNextHops: function(): Promise<any> {
+        requestSuggestedNextHops: function(lat: number, long: number): Promise<any> {
             console.log("requesting next hop suggestions");
             return new Promise((resolve) => {
                 // should be based on last destination in list
                 axios.post("http://localhost:8081/api/destinations", {
-                    latitude: 0.0,
-                    longitude: 0.0,
-                    radius: 5,
+                    latitude: lat,
+                    longitude: long,
+                    radius: 5, // 5 km for now?
                 })
                 .then((res) => {
                     let suggestedNextDestinations = (res as any).data.destinations;
@@ -199,7 +184,7 @@ new Vue({
 
                 // Make a call to the db with the newly added dest's lat and lng to look up possible next hops
                 // when we get that info back, update the prop so the change will get propagated to TripRoute.vue.
-                (this as any).requestSuggestedNextHops().then((data: any) => {
+                (this as any).requestSuggestedNextHops(location.latitude, location.longitude).then((data: any) => {
                     this.suggestedNextDest = data;
                     this.tripData[this.currTripIndex].listOfDest.push(newDest); 
                 });

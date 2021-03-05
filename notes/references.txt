@@ -10,6 +10,9 @@ https://docs.mapbox.com/help/glossary/iframe/
 https://stackoverflow.com/questions/2046737/can-events-fired-from-an-iframe-be-handled-by-elements-in-its-parent
 https://stackoverflow.com/questions/9153445/how-to-communicate-between-iframe-and-the-parent-site
 
+// for creating an iframe just for demo purposes (no mapbox api key needed)
+https://maputnik.github.io/osm-liberty/
+
 ========================
 helpful vue stuff
 

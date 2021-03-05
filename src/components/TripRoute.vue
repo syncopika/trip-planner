@@ -110,7 +110,14 @@ export default class TripRouteMap extends Vue {
     }
 
 	toggleTripSuggestions(): void {
-        this.showSuggestedNextHops = !this.showSuggestedNextHops;
+		this.showSuggestedNextHops = !this.showSuggestedNextHops;
+
+		// make sure map reflects new value
+		if(!this.showSuggestedNextHops) {
+			this.updateSuggestedNextHops([]);
+		} else {
+            this.updateSuggestedNextHops(this.suggestedNextDest);
+        }
     }
 	
     _handleIframeLogs(evt: any): void {
@@ -121,17 +128,11 @@ export default class TripRouteMap extends Vue {
 		console.log("got iframe ready message!!");
 		this.updateMap(this.listOfDest);
 
+		// this is false by default so not sure yet when this will ever happen
         if(this.showSuggestedNextHops) {
 			this.updateSuggestedNextHops(this.suggestedNextDest);
         }
 	}
-
-	/*
-	data() {
-		return {
-            showSuggestedNextHops: false,
-        }
-    }*/
 	
 	mounted(){
 		// the iframe might not be ready?

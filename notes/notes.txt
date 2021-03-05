@@ -29,7 +29,7 @@ metadata jsonb
 
 TODO:
 - testing for core components
-- get a dummy map tile iframe for demoing?
+- get a dummy map tile iframe for demoing? try https://maputnik.github.io/osm-liberty/
 - get db backend set up
 
 now:

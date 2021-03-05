@@ -1,6 +1,7 @@
 const pg = require('pg');
 const express = require('express');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 
 // fill this info in with your local db info
 const client = new pg.Client({
@@ -56,9 +57,8 @@ client.query(query, (err, res) => {
 });
 */
 
-
-// TODO: set up app to host api endpoints to be called for interacting with the db
 const app = express();
+app.use(bodyParser.json());
 
 const corsOptions = {
 	origin: "http://localhost:8080" // this is the acceptable origin for incoming requests
@@ -73,18 +73,21 @@ app.get("/api", (req, res) => {
 // probably should be POST
 app.post("/api/destinations", (req, res) => {
 	// do the db lookup
-	//console.log(req);
-	// TODO: find closest destinations to a given lat and lng
-	const query = `
-	SELECT destname, latitude, longitude FROM destinations
-	`;
+
+	// find closest destinations to a given lat and lng
+	// formula: dist = arccos(sin(lat1) · sin(lat2) + cos(lat1) · cos(lat2) · cos(lon1 - lon2)) · R    //needs to be in radians!
+	// from: http://janmatuschek.de/LatitudeLongitudeBoundingCoordinates
+	const lat = (req.body.latitude * Math.PI) / 180; // need radians
+	const long = (req.body.longitude * Math.PI) / 180;
+	const radius = req.body.radius;
+	const query = `SELECT * FROM destinations WHERE acos(sin(${lat}) * sin(radians(latitude)) + cos(${lat}) * cos(radians(latitude)) * cos(${long} - radians(longitude))) * 6371 <= ${radius}`;
+
 	client.query(query, (err, dbRes) => {
 		if(err){
 			console.log(err);
 		}else{
 			res.json({destinations: dbRes.rows});
 		}
-		//client.end();
 	});
 });
 

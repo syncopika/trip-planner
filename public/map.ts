@@ -155,6 +155,11 @@ class MapBoxWrapper {
 	}
 
 	showSuggestedNextHops(listOfLocations: Array<any>): void {
+		// clear first
+		for(let marker of this.suggestedNextHops) {
+			marker.remove();
+		}
+
 		// show markers for suggested next hops
 		for(let dest of listOfLocations){
 			// make sure to denote these markers in a different way from the user's actual destination markers
@@ -185,7 +190,6 @@ class MapBoxWrapper {
     }
 
 	drawLineBetweenMarkers() {
-
 		// clear old lines first
 		this.markers.forEach((marker, idx) => {
 			let routeId = 'route' + idx;
