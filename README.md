@@ -1,6 +1,6 @@
 # trip-planner    
     
-An experimental application to help plan out your future trips! or record old ones. One cool feature is that every time you add a new destination to your trip, you have the option of being recommended next destinations (which are places in close proximity to your last-added destination, based on destinations of other users).   
+An experimental application to help plan out your future trips! or record old ones. One cool feature is that every time you add a new destination to your trip, you have the option of being recommended potential next destinations (which are places in close proximity to your last-added destination, based on destinations of other users). It's not too useful though because the location info presented is dependent on what users provide.   
     
 This project makes use of the MapBox API and so you need a token, which you can get for free (and comes with 50000 free API requests/month).    
     
@@ -18,6 +18,9 @@ marker tooltip info
     
 ![trip dropdown menu](screenshots/screenshot3.png)    
 choosing a different trip (can have multiple trips!)    
+    
+![next destination suggestions](screenshots/next-dest-suggestion.png)    
+next destination suggestion feature (see red marker)    
     
 ## Project setup
 ```

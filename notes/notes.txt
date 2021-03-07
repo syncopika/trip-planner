@@ -28,6 +28,11 @@ metadata jsonb
 >\d [table name] => see table schema
 > select * from destinations; // don't forget semicolon!
 
+https://stackoverflow.com/questions/6583916/delete-duplicate-rows-from-small-table
+
+// we should prevent duplicate records from being inserted (but to know that we need to look at multiple columns I think)
+maybe helpful? https://dba.stackexchange.com/questions/9759/postgresql-multi-column-unique-constraint-and-null-values
+
 TODO:
 - testing for core components
 - get a dummy map tile iframe for demoing? try https://maputnik.github.io/osm-liberty/

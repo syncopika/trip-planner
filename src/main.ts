@@ -61,6 +61,7 @@ new Vue({
                 })
                 .then((res) => {
                     let suggestedNextDestinations = (res as any).data.destinations;
+                    console.log(suggestedNextDestinations);
                     resolve(suggestedNextDestinations);
                 });
             });
