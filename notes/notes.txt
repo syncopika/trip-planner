@@ -26,6 +26,7 @@ metadata jsonb
 >\connect [db name] => use a particular db
 >\l => list db
 >\d [table name] => see table schema
+> select * from destinations; // don't forget semicolon!
 
 TODO:
 - testing for core components

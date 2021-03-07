@@ -73,5 +73,65 @@
 			"images": [],
 			"routeColor": "#888"
 		}
+	},
+	{
+		"username": "user1",
+		"destname": "test",
+		"tripname": "my first trip",
+		"latitude": 38.9486650738765,
+		"longitude": -77.01459411621002,
+		"index": 0,
+		"metadata": {
+			"notes": "hello world",
+			"fromDate": "01-01-2020",
+			"toDate": "01-05-2020",
+			"images": [],
+			"routeColor": "#888"
+		}
+	},
+	{
+		"username": "user1",
+		"destname": "test2",
+		"tripname": "my first trip",
+		"latitude": 38.982833520960156,
+		"longitude": -76.95210937499908,
+		"index": 1,
+		"metadata": {
+			"notes": "hello world2",
+			"fromDate": "01-05-2020",
+			"toDate": "01-07-2020",
+			"images": [],
+			"routeColor": "#888"
+		}
+	},
+	{
+		"username": "user1",
+		"destname": "test-1",
+		"tripname": "my second trip",
+		"latitude": 40.9486650738765,
+		"longitude": -80.01459411621002,
+		"index": 0,
+		"metadata": {
+			"notes": "hello world again",
+			"fromDate": "01-01-2020",
+			"toDate": "01-05-2020",
+			"images": [],
+			"routeColor": "#888"
+		}
+	},
+	{
+		"username": "user1",
+		"destname": "test-2",
+		"tripname": "my second trip",
+		"latitude": 30.982833520960156,
+		"longitude": -60.95210937499908,
+		"index": 1,
+		"metadata": {
+			"notes": "hello world again 2",
+			"fromDate": "01-05-2020",
+			"toDate": "01-07-2020",
+			"images": [],
+			"routeColor": "#888"
+		}
 	}
 ]

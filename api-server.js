@@ -70,7 +70,6 @@ app.get("/api", (req, res) => {
 	res.json({message: "hello there"});
 });
 
-// probably should be POST
 app.post("/api/destinations", (req, res) => {
 	// do the db lookup
 
@@ -87,6 +86,77 @@ app.post("/api/destinations", (req, res) => {
 			console.log(err);
 		}else{
 			res.json({destinations: dbRes.rows});
+		}
+	});
+});
+
+app.post("/api/userDestinations", (req, res) => {
+	const body = req.body;
+	const user = req.body.username;
+	const query = `SELECT * FROM destinations WHERE username = '${user}'`;
+
+	client.query(query, (err, dbRes) => {
+		if(err) {
+			console.log(err);
+		} else {
+
+			// need to rearrange some stuff
+			/*
+			this is what a destination object should look like for the frontend:
+			{
+                "name": "test",
+                "latitude": 38.9486650738765,
+                "longitude": -77.01459411621002,
+                "notes": "hello world",
+                "fromDate": "01-01-2020",
+                "toDate": "01-05-2020",
+                "images": [] as string[],
+                "routeColor": "#888"
+            }
+
+			in the db a row looks like this:
+			{
+				"username": "user1",
+				"destname": "test-1",
+				"tripname": "my second trip",
+				"latitude": 40.9486650738765,
+				"longitude": -80.01459411621002,
+				"index": 0,
+				"metadata": {
+					"notes": "hello world again",
+					"fromDate": "01-01-2020",
+					"toDate": "01-05-2020",
+					"images": [],
+					"routeColor": "#888"
+				}
+			}
+
+			I think I designed this poorly ¯\_(ツ)_/¯
+			*/
+			const results = dbRes.rows;
+			const response = {};
+			for(let row of results) {
+
+				row.metadata.name = row.destname;
+				row.metadata.latitude = row.latitude;
+				row.metadata.longitude = row.longitude;
+
+				if(response[row.tripname] === undefined) {
+					response[row.tripname] = [row.metadata];
+				} else {
+					response[row.tripname].push(row.metadata);
+				}
+			}
+
+			const data = [];
+			for(let trip in response) {
+				const newTrip = {};
+				newTrip.tripName = trip;
+				newTrip.listOfDest = response[trip];
+				data.push(newTrip);
+            }
+
+			res.json({ trips: data });
 		}
 	});
 });

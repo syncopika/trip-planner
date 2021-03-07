@@ -155,40 +155,51 @@ new Vue({
         }
     },
     mounted: function() {
-        // at some point we want to load in all the trip routes of this user
+        // TODO: at some point we want to load in all the trip routes of this user
         // (after we have user profiles and stuff set up)
-        // for now, just have one triproute
-        let tripName = this.tripData[this.currTripIndex].tripName;
-        const tripRoute = new TripRoute(tripName);
-	
-        // listen for custom events from the iframe (which is the map)
-        document.addEventListener('addDest', (evt) => {
-            // if adding a new destination was successful to the iframe map, a custom addDest event will be
-            // emitted from the iframe along with that new destination's data, which gets received here.
 
-            let location = (<CustomEvent>evt).detail;
+        // make a call for all the trip info for this user
+        // for now use 'user1' as the username to demo
+        axios.post("http://localhost:8081/api/userDestinations", {
+            username: "user1"
+        }).then((res) => {
+            //console.log(res);
+            this.tripData = res.data.trips;
 
-            if (location) {
-                let newDest: Destination = {
-                    name: location.name,
-                    latitude: location.latitude,
-                    longitude: location.longitude,
-                    toDate: "",
-                    fromDate: "",
-                    notes: "",
-                    images: [],
-                    routeColor: "#888"
-                };
+            let tripName = this.tripData[this.currTripIndex].tripName;
+            const tripRoute = new TripRoute(tripName);
 
-                tripRoute.addDestination(newDest);
+            // listen for custom events from the iframe (which is the map)
+            document.addEventListener('addDest', (evt) => {
+                // if adding a new destination was successful to the iframe map, a custom addDest event will be
+                // emitted from the iframe along with that new destination's data, which gets received here.
 
-                // Make a call to the db with the newly added dest's lat and lng to look up possible next hops
-                // when we get that info back, update the prop so the change will get propagated to TripRoute.vue.
-                (this as any).requestSuggestedNextHops(location.latitude, location.longitude).then((data: any) => {
-                    this.suggestedNextDest = data;
-                    this.tripData[this.currTripIndex].listOfDest.push(newDest); 
-                });
-            }
+                let location = (<CustomEvent>evt).detail;
+
+                if(location) {
+                    let newDest: Destination = {
+                        name: location.name,
+                        latitude: location.latitude,
+                        longitude: location.longitude,
+                        toDate: "",
+                        fromDate: "",
+                        notes: "",
+                        images: [],
+                        routeColor: "#888"
+                    };
+
+                    tripRoute.addDestination(newDest);
+
+                    // Make a call to the db with the newly added dest's lat and lng to look up possible next hops
+                    // when we get that info back, update the prop so the change will get propagated to TripRoute.vue.
+                    (this as any).requestSuggestedNextHops(location.latitude, location.longitude).then((data: any) => {
+                        this.suggestedNextDest = data;
+                        this.tripData[this.currTripIndex].listOfDest.push(newDest);
+                    });
+                }
+            });
+
         });
+
     }
 }).$mount('#app')

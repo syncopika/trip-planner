@@ -29,7 +29,7 @@ For setting up the iframe that contains the map, run `npm run setup-map-dev`. Yo
 ### database/api server setup    
 For the backend, I'm using postgres. For this project my test db is `trip_planner_test` and I have 2 tables called `users` and `destinations`. I currently don't have any login functionality so the `users` table is not important atm. `destinations` is where all users' destination information is supposed to go. See notes.txt for more info about those tables. 
 
-After postgres is setup, see loadFakeData.js, adjust any postgres-specific variables like username/password/database name and run `node loadFakeData.js` to import some data into the database.    
+After postgres is setup, see loadFakeData.js, adjust any postgres-specific variables like username/password/database name and run `node loadFakeData.js` to import the data from `test_destinations.json` into the database.    
 
 Make sure to run the backend server via `node api-server.js`. The Vue app makes calls for data to this server, which in turn communicates with the database.     
     
