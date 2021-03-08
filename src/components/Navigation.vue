@@ -1,35 +1,38 @@
 <template>
 	<div id='menuHeader'>
 		<h2> trip-planner </h2>
-		<h3 id="createNewTrip"
+		<p id="createNewTrip"
 			class="selectOption"
 			v-on:click="addNewTrip">
 			new trip
-		</h3>
+		</p>
 
-		<h3> | </h3>
+		<p> | </p>
 
 		<div class='dropdown'>
-			<h3 class='dropbtn'> select trip </h3>
+			<p class='dropbtn'> select trip </p>
 			<div class='dropContent'>
 				<a href="#"
-					v-for="(tripName, index) in listOfTripNames"
-					v-bind:key="tripName + '_' + index"
-					v-on:click="selectTrip"
-					:id="'tripIndex_' + index">
+                   v-for="(tripName, index) in listOfTripNames"
+                   v-bind:key="tripName + '_' + index"
+                   v-on:click="selectTrip"
+                   :id="'tripIndex_' + index">
 					{{tripName}}
 				</a>
 			</div>
 		</div>
 
-		<h3> | </h3>
-		<h3 class="selectOption"> import </h3>
+		<p> | </p>
+		<p class="selectOption"> import </p>
 
-		<h3> | </h3>
-		<h3 class="selectOption" @click="exportData"> export </h3>
+		<p> | </p>
+		<p class="selectOption" @click="exportData"> export </p>
 
-		<h3> | </h3>
-		<h3 class="selectOption"> logout </h3>
+		<p> | </p>
+		<p class="selectOption" @click="saveData"> save </p>
+
+		<p> | </p>
+		<p class="selectOption"> logout </p>
 	</div>
 </template>
 
@@ -56,6 +59,9 @@ export default {
 			// call root to download trip data
 			// @ts-ignore
 			this.$root.exportData();
+		},
+		saveData: function(): void {
+			// TODO
         }
     }
 }
@@ -73,7 +79,7 @@ export default {
 	text-align: left;
 }
 
-#menuHeader h3 {
+#menuHeader p {
 	display: inline;
 }
 

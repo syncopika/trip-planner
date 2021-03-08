@@ -1,128 +1,41 @@
-possible helpful links:
-https://stackoverflow.com/questions/51150991/load-static-html-files-in-vue
-https://forum.vuejs.org/t/embedding-and-rendering-local-pdf-files/82603
+db stuff
 
-https://stackoverflow.com/questions/14451358/how-to-pick-element-inside-iframe-using-document-getelementbyid
-https://stackoverflow.com/questions/10418644/creating-an-iframe-with-given-html-dynamically
-https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe
-https://docs.mapbox.com/help/glossary/iframe/
+db name: trip_planner_test
 
-https://stackoverflow.com/questions/2046737/can-events-fired-from-an-iframe-be-handled-by-elements-in-its-parent
-https://stackoverflow.com/questions/9153445/how-to-communicate-between-iframe-and-the-parent-site
+2 tables:
+users 
+=======
+id serial
+username varchar(60) unique => make primary key instead and delete id?
+password varchar(60)
 
-========================
-helpful vue stuff
+destinations
+============
+username varchar(60)
+destname varchar(60)
+tripname varchar(60)
+index int 		// the index of the destination for the trip it belongs to
+latitude decimal (10,8)
+longitude decimal (11,8)
+metadata jsonb
 
-https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/Vue_first_component
-https://github.com/vuejs/vue/issues/1177
-https://michaelnthiessen.com/vue-props-vs-data/
-https://class-component.vuejs.org/guide/class-component.html#data
-https://github.com/vuejs/vue-class-component/issues/220 -> WHAT!? why does it feel so complicated to register props to a component
-https://vuejsdevelopers.com/2017/06/11/vue-js-extending-components/
-https://forum.vuejs.org/t/passing-props-to-root-instances-in-2-0/244/8 -> spent at least 2 hours trying to pass props to App -__-
-https://stackoverflow.com/questions/48226354/converting-data-to-props-for-root-component-in-vue-js-2
-https://vuejs.org/v2/guide/reactivity.html
 
-looks helpful: https://forum.vuejs.org/t/root-instance-dont-change-the-components-data/24029/6
-  - I was confused about Vue root instances and components and passing data between the 2
+///// accessing db locally
+>psql -U postgres
+>\dt => list tables
+>\connect [db name] => use a particular db
+>\l => list db
+>\d [table name] => see table schema
+> select * from destinations; // don't forget semicolon!
 
-https://class-component.vuejs.org/guide/extend-and-mixins.html#extend
-- when should I extend Vue and use a class as opposed to just export default?
-- this looks helpful in answering that q: https://medium.com/haiiro-io/why-i-use-vue-class-component-472579a266b4
+https://stackoverflow.com/questions/6583916/delete-duplicate-rows-from-small-table
 
-https://stackoverflow.com/questions/42615445/vuejs-2-0-emit-event-from-grand-child-to-his-grand-parent-component
-https://medium.com/@sky790312/about-vue-2-parent-to-child-props-af3b5bb59829
-https://stackoverflow.com/questions/52873516/vue-js-returns-ob-observer-data-instead-of-my-array-of-objects
-
-this looks good: https://vuejs.org/v2/guide/state-management.html#Simple-State-Management-from-Scratch
-
-https://stackoverflow.com/questions/44584292/how-to-listen-for-props-changes
-https://stackoverflow.com/questions/51575272/watch-not-triggered
-
-grrrrrr lol - https://blog.francium.tech/vue-js-and-html5-contenteditable-attribute-issues-c727734c7684
-I tried to remove li nodes that contenteditable was creating, which sort of worked, but not good enough
-- decided to go with textarea instead :D
-
-https://stackoverflow.com/questions/50635199/vue-js-2-0-child-component-mounted-callback
-- consider making the iframe for the map into a child component! then you can listen for that to
-  be all set up and ready before running mounted() code in the parent? not sure this'll guarantee
-  that the iframe is ready to listen for events though but worth a try?
-
-https://stackoverflow.com/questions/47650154/how-do-i-upload-image-in-vuejs/58231597
-https://stackoverflow.com/questions/55316490/vue-best-practice-for-calling-a-method-in-a-child-component/55317353
-https://stackoverflow.com/questions/40957008/how-to-access-to-a-child-method-from-the-parent-in-vue-js
-https://stackoverflow.com/questions/46505813/vuejs-typescript-this-refs-reffield-value-does-not-exist
-https://stackoverflow.com/questions/57416991/vue-typescript-how-to-avoid-ts-error-when-accessing-child-components-methods
-
-I think I'm getting the below error because my Destination component is not extending Vue?
-Severity	Code	Description	Project	File	Line	Suppression State
-Error	TS2339	(TS) Property '$root' does not exist on type '{ highlightBorder: () => void; dehighlightBorder: () => void; toggleVisibility: () => void; toggleEdit: (evt: any) => void; removeDestination: (evt: any) => void; saveChanges: () => void; cancelChanges: () => void; uploadImage: (evt: any) => void; clickInput: () => void; enlargeImage: (evt: any) => void; }'.
-
-makes sense now.
-https://stackoverflow.com/questions/35964116/how-do-i-extend-another-vuejs-component-in-a-single-file-component-es6-vue-loa
-
-TESTING:
-https://stackoverflow.com/questions/42711175/what-does-the-symbol-do-in-javascript-imports - saw this in the test example in tests/unit
-https://technology.doximity.com/articles/five-traps-to-avoid-while-unit-testing-vue-js
-https://www.digitalocean.com/community/tutorials/vuejs-vue-testing
-https://vuejs.org/v2/cookbook/unit-testing-vue-components.html#Real-World-Example
-https://kentcdodds.com/blog/testing-implementation-details
-========================
-typescript stuff
-
-need to import types :
-https://stackoverflow.com/questions/60322612/what-are-the-correct-types-to-map-variables-using-mapbox-in-react
-https://stackoverflow.com/questions/61308006/how-to-correctly-import-custom-types-in-typescript
-https://stackoverflow.com/questions/18083389/ignore-typescript-errors-property-does-not-exist-on-value-of-type
-https://stackoverflow.com/questions/58773652/ts2339-property-style-does-not-exist-on-type-element
-https://stackoverflow.com/questions/55280555/typescript-eslint-eslint-plugin-error-route-is-defined-but-never-used-no-un
-https://stackoverflow.com/questions/38457662/iframe-inside-angular2-component-property-contentwindow-does-not-exist-on-typ
-https://stackoverflow.com/questions/52423842/what-is-not-assignable-to-parameter-of-type-never-error-in-typescript
-https://stackoverflow.com/questions/47810218/set-data-type-in-vue-data-object-with-typescript
-https://stackoverflow.com/questions/40158889/interface-issue-with-typescript
-
-========================
-useful mapbox stuff:
-
-https://docs.mapbox.com/mapbox-gl-js/example/toggle-interaction-handlers/
-https://docs.mapbox.com/mapbox-gl-js/example/mouse-position/
-https://docs.mapbox.com/mapbox-gl-js/example/add-a-marker/
-https://gis.stackexchange.com/questions/208989/how-to-test-if-a-layer-exist-in-a-mapbox-gl-js-map
-
-========================
-postgres/db stuff:
-https://superuser.com/questions/576623/default-password-for-postgresql/576625 -> I have a postgres user, which is what I set up when I installed on Windows,
-but I also got a user that corresponded to my computer user (i.e. "Nicholas") that I had not defined a password for yet
-
-========================
-misc stuff:
-this is neat! https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Editable_content
-https://css-tricks.com/snippets/javascript/saving-contenteditable-content-changes-as-json-with-ajax/
-https://fabiofranchino.com/blog/making-contenteditable-in-vue-from-scratch/
-https://ux.stackexchange.com/questions/54572/if-text-is-editable-how-important-is-to-show-it-appearance-wise-inside-a-text
-https://www.w3schools.com/howto/howto_css_dropdown.asp
-https://semaphoreci.com/community/tutorials/dockerizing-a-node-js-web-application
-https://stackoverflow.com/questions/1575141/how-to-make-a-div-100-height-of-the-browser-window
-https://ux.stackexchange.com/questions/1740/better-way-for-users-to-select-a-date-range
-maybe useful? https://stackoverflow.com/questions/17158932/how-to-detect-when-an-iframe-has-already-been-loaded
-https://www.schemecolor.com/sweet-pastels.php
-https://stackoverflow.com/questions/9280258/prevent-body-scrolling-but-allow-overlay-scrolling
-https://stackoverflow.com/questions/32129380/css-overlay-not-scrolling
-
-========================
-anything in src gets processed by webpack.put stuff in /public and then reference with relative path like './mapIframe.html'
-I got super confused though because I got it working with the relative path after I moved my mapIframe.html and its js file 
-to src/assets. but then it stopped working and moving those files to /public got it working again :/ 
-https://forum.vuejs.org/t/vue-cli-3-production-build-images-not-found/63585/5
-
-https://stackoverflow.com/questions/47166369/argument-of-type-e-customevent-void-is-not-assignable-to-parameter-of-ty
-
-========================
+// we should prevent duplicate records from being inserted (but to know that we need to look at multiple columns I think)
+maybe helpful? https://dba.stackexchange.com/questions/9759/postgresql-multi-column-unique-constraint-and-null-values
 
 TODO:
 - testing for core components
-- can't upload images when editing ok?
-- get a dummy map tile iframe for demoing?
+- get a dummy map tile iframe for demoing? try https://maputnik.github.io/osm-liberty/
 - get db backend set up
 
 now:
@@ -145,4 +58,3 @@ long: 121.23264281923252
 taipei main station coords:
 lat: 25.046225057189716
 long: 121.51738742959378
-

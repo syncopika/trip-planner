@@ -5,16 +5,18 @@ import mapboxgl, { Map, Marker, Popup } from 'mapbox-gl';
 import { Destination } from '../src/triproute';
 
 class MapBoxWrapper {
-	key: 		  string;
-	container:    HTMLElement;
-	map:          Map;
-	markers:      Array<Marker>;
-	destNames:    Set<string>;
+	key: 		       string;
+	container:         HTMLElement;
+	map:               Map;
+	markers:           Array<Marker>;
+	suggestedNextHops: Array<Marker>;
+	destNames:         Set<string>;
 	
 	constructor(key: string, mapContainer: HTMLElement) {
 		this.key = key;
 		this.container = mapContainer;
 		this.markers = [];
+		this.suggestedNextHops = [];
 		this.destNames = new Set();
 		
 		// get map data from MapBox API with key
@@ -45,9 +47,9 @@ class MapBoxWrapper {
 						latitude: evt.lngLat.lat
 					}
 
-					let marker = this.addMarkerToMap(data);
+					let marker = this.addMarkerToMap(data); // TODO: why not just add the marker to this.markers within the method?
 					
-					// send info to parent
+					// send info to parent to add new destination to destination list
 					const addDestEvent = new CustomEvent('addDest', {
 						detail: data
 					});
@@ -127,6 +129,11 @@ class MapBoxWrapper {
 		for(let marker of this.markers){
 			marker.remove();
 		}
+
+		for(let marker of this.suggestedNextHops) {
+			marker.remove();
+		}
+		this.suggestedNextHops = [];
 		this.markers = [];
 		this.destNames.clear();
 		return true;
@@ -146,9 +153,43 @@ class MapBoxWrapper {
 		
 		this.drawLineBetweenMarkers();
 	}
-	
-	drawLineBetweenMarkers() {
 
+	showSuggestedNextHops(listOfLocations: Array<any>): void {
+		// clear first
+		for(let marker of this.suggestedNextHops) {
+			marker.remove();
+		}
+
+		// show markers for suggested next hops
+		for(let dest of listOfLocations){
+			// make sure to denote these markers in a different way from the user's actual destination markers
+			let newMarker = new mapboxgl.Marker({ color: "#B22222"}); // brickred marker
+
+			let popupContent = "";
+
+			if(dest.destname) {
+				popupContent += "<h3>" + dest.destname + "</h3>";
+			}
+
+			if(dest.longitude && dest.latitude) {
+				newMarker.setLngLat([parseFloat(dest.longitude), parseFloat(dest.latitude)]);
+				popupContent += "<br />";
+				popupContent += "<p> long: " + dest.longitude + "</p>";
+				popupContent += "<p> lat: " + dest.latitude + "</p>";
+			}
+
+			if(popupContent) {
+				let popup = new mapboxgl.Popup({ offset: 25 });
+				popup.setHTML(popupContent);
+				newMarker.setPopup(popup);
+			}
+
+			this.suggestedNextHops.push(newMarker);
+			newMarker.addTo(this.map);
+        }
+    }
+
+	drawLineBetweenMarkers() {
 		// clear old lines first
 		this.markers.forEach((marker, idx) => {
 			let routeId = 'route' + idx;

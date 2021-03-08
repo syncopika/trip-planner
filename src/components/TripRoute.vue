@@ -8,12 +8,31 @@
 			</div>
 			
 			<div id='suggestions'>
-				<h2> suggestions for next dest in trip route go here </h2>
-				<h3> other users have chosen these destinations next! </h3>
-				<ul>
-					<li> place 1 </li>
-					<li> place 2 </li>
-				</ul>
+				<label for="tripSuggestionsOption"> 
+					show suggestions for next dest in trip route? 
+				</label>
+				<select 
+						id="tripSuggestionsOption"
+						@change="toggleTripSuggestions"
+				>
+					<option value="yes">
+						yes please!
+					</option>
+					<option selected value="no">
+						no thanks
+					</option>
+				</select>
+				
+				<div v-if="showSuggestedNextHops">
+					<h3> check out these suggestions! </h3>
+					<ul>
+						<li v-for="(nextDest, index) in suggestedNextDest"
+							v-bind:key="'li_nextDest_' + index"
+						>
+							<p>{{ nextDest }}</p>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 		
@@ -52,28 +71,54 @@ export default class TripRouteMap extends Vue {
 	@Prop({ required: true }) public listOfDest!: Array<Object>; // the ! == not null
     @Prop({ required: true }) public listOfTripNames!: Array<string>;
 	@Prop({ required: true }) public tripName!: string;
+	@Prop({ required: true }) public suggestedNextDest!: any[];
+
+	showSuggestedNextHops = false;
 
 	@Watch('listOfDest', { deep: true })
-	onDestChange(newVal: Array<Object>, oldVal: Array<Object>){
+	onDestChange(newVal: Array<Object>, oldVal: Array<Object>): void {
 		// note that we shouldn't need to care about the old value
 		this.updateMap(newVal);
 		console.log(newVal);
 		console.log(oldVal);
+
+		// whenever listOfDest changes, suggestedNextDest should too
+        if(this.showSuggestedNextHops) {
+            this.updateSuggestedNextHops(this.suggestedNextDest);
+        }
 	}
+
+	dispatchEventToMap(eventName: string, data: Array<Object>): void {
+        // send a custom event to the map iframe along with the data
+        let updateMapEvent = new CustomEvent(eventName, { detail: data });
+        let mapIframe = document.getElementById('mapContainer') as HTMLIFrameElement;
+
+        if(mapIframe !== null && mapIframe.contentDocument !== null) {
+            console.log("sending data to the iframe for event: " + eventName);
+            mapIframe.contentDocument.dispatchEvent(updateMapEvent);
+        }
+    }
 	
-    updateMap(data: Array<Object>): void{
+    updateMap(data: Array<Object>): void {
 		// take new destination data and update the MapBox map markers as needed
 		console.log("I'm supposed to update the map!");
-		
-		// send a custom event to the map iframe along with the data
-		let updateMapEvent = new CustomEvent('updateMap', {detail: data});
-		let mapIframe = document.getElementById('mapContainer') as HTMLIFrameElement;
-		
-		if(mapIframe !== null && mapIframe.contentDocument !== null){
-			console.log("sending data to the iframe");
-			mapIframe.contentDocument.dispatchEvent(updateMapEvent);
-		}
+		this.dispatchEventToMap('updateMap', data);
 	}
+
+	updateSuggestedNextHops(data: Array<Object>): void {
+        this.dispatchEventToMap('updateSuggestedNextHops', data);
+    }
+
+	toggleTripSuggestions(): void {
+		this.showSuggestedNextHops = !this.showSuggestedNextHops;
+
+		// make sure map reflects new value
+		if(!this.showSuggestedNextHops) {
+			this.updateSuggestedNextHops([]);
+		} else {
+            this.updateSuggestedNextHops(this.suggestedNextDest);
+        }
+    }
 	
     _handleIframeLogs(evt: any): void {
 		console.log(evt);
@@ -82,6 +127,11 @@ export default class TripRouteMap extends Vue {
     _handleReady(): void {
 		console.log("got iframe ready message!!");
 		this.updateMap(this.listOfDest);
+
+		// this is false by default so not sure yet when this will ever happen
+        if(this.showSuggestedNextHops) {
+			this.updateSuggestedNextHops(this.suggestedNextDest);
+        }
 	}
 	
 	mounted(){
@@ -99,10 +149,14 @@ export default class TripRouteMap extends Vue {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 
-h1, h2{
+h1, h2, label{
 	padding: 5px;
 	margin: 0;
 	color: #000;
+}
+
+label{
+	font-size: 20px;
 }
 
 #main{
