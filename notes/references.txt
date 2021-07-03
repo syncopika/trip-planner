@@ -25,6 +25,7 @@ https://vuejsdevelopers.com/2017/06/11/vue-js-extending-components/
 https://forum.vuejs.org/t/passing-props-to-root-instances-in-2-0/244/8 -> spent at least 2 hours trying to pass props to App -__-
 https://stackoverflow.com/questions/48226354/converting-data-to-props-for-root-component-in-vue-js-2
 https://vuejs.org/v2/guide/reactivity.html
+https://stackoverflow.com/questions/59632463/how-does-a-vue-app-get-launched-if-the-index-html-doesnt-load-any-javascript
 
 looks helpful: https://forum.vuejs.org/t/root-instance-dont-change-the-components-data/24029/6
   - I was confused about Vue root instances and components and passing data between the 2
@@ -75,7 +76,6 @@ https://kentcdodds.com/blog/testing-implementation-details
 ========================
 typescript stuff
 
-need to import types :
 https://stackoverflow.com/questions/60322612/what-are-the-correct-types-to-map-variables-using-mapbox-in-react
 https://stackoverflow.com/questions/61308006/how-to-correctly-import-custom-types-in-typescript
 https://stackoverflow.com/questions/18083389/ignore-typescript-errors-property-does-not-exist-on-value-of-type
@@ -85,6 +85,7 @@ https://stackoverflow.com/questions/38457662/iframe-inside-angular2-component-pr
 https://stackoverflow.com/questions/52423842/what-is-not-assignable-to-parameter-of-type-never-error-in-typescript
 https://stackoverflow.com/questions/47810218/set-data-type-in-vue-data-object-with-typescript
 https://stackoverflow.com/questions/40158889/interface-issue-with-typescript
+https://github.com/vuejs/eslint-plugin-vue/issues/811
 
 ========================
 useful mapbox stuff:
@@ -93,6 +94,7 @@ https://docs.mapbox.com/mapbox-gl-js/example/toggle-interaction-handlers/
 https://docs.mapbox.com/mapbox-gl-js/example/mouse-position/
 https://docs.mapbox.com/mapbox-gl-js/example/add-a-marker/
 https://gis.stackexchange.com/questions/208989/how-to-test-if-a-layer-exist-in-a-mapbox-gl-js-map
+https://stackoverflow.com/questions/57251504/use-mapbox-gl-js-without-access-token
 
 ========================
 postgres/db stuff:

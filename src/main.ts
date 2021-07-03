@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import axios from 'axios';
-import { TripRoute, Destination } from './triproute';
+import { Destination } from './triproute';
 
 Vue.config.productionTip = false
 
@@ -51,7 +51,7 @@ new Vue({
     },
     methods: {
         requestSuggestedNextHops: function(lat: number, long: number): Promise<any> {
-            console.log("requesting next hop suggestions");
+            //console.log("requesting next hop suggestions");
             return new Promise((resolve) => {
                 // should be based on last destination in list
                 axios.post("http://localhost:8081/api/destinations", {
@@ -59,15 +59,18 @@ new Vue({
                     longitude: long,
                     radius: 5, // 5 km for now?
                 })
-                .then((res) => {
-                    let suggestedNextDestinations = (res as any).data.destinations;
-                    console.log(suggestedNextDestinations);
+                .then(res => {
+                    const suggestedNextDestinations = (res as any).data.destinations;
                     resolve(suggestedNextDestinations);
-                });
+                })
+				.catch(error => {
+					resolve([]); // database could not be connected to
+				});
             });
         },
-        findDestination: function (destName: string): boolean {
-            let listOfDest = this.tripData[this.currTripIndex].listOfDest;
+        
+		findDestination: function (destName: string): boolean {
+            const listOfDest = this.tripData[this.currTripIndex].listOfDest;
             for (let dest of listOfDest) {
                 if (dest.name === destName) {
                     return true;
@@ -75,18 +78,20 @@ new Vue({
             }
             return false;
         },
-        removeDestination: function (destName: string): void {
-            let listOfDest = this.tripData[this.currTripIndex].listOfDest;
-            this.tripData[this.currTripIndex].listOfDest = listOfDest.filter(dest => dest.name !== destName);
-
-            // TODO: check to see if last dest was removed. if so, get the new last dest and show suggestions for next hop
-            // if user wants
+        
+		removeDestination: function (destName: string): void {
+            const currDests = this.tripData[this.currTripIndex].listOfDest;
+            this.tripData[this.currTripIndex].listOfDest = currDests.filter(dest => dest.name !== destName);
+			
+            // TODO: check to see if the last destination of the list was removed and if there is a new last destination. 
+			// if so, take the current last dest and show next hop suggestions for that dest (if show next hops option selected)
         },
-        updateDestination: function (data: Destination): void {
+        
+		updateDestination: function (data: Destination): void {
             // called from Destination.vue
             // TODO: is there a better way to do this update?
-            let listOfDest = this.tripData[this.currTripIndex].listOfDest;
-            let currName = data.name;
+            const listOfDest = this.tripData[this.currTripIndex].listOfDest;
+            const currName = data.name;
             let changeName = false;
             let newName = "";
 
@@ -106,9 +111,8 @@ new Vue({
             }
 
             for (let i = 0; i < listOfDest.length; i++) {
-                let dest = listOfDest[i];
+                const dest = listOfDest[i];
                 if(dest.name === currName) {
-
                     // TODO: just do for prop in dest, reassign?
                     // so we don't have to manually update this each time there's a new prop
                     dest.notes = data.notes;
@@ -127,34 +131,63 @@ new Vue({
                 }
             }
         },
-        addNewTrip: function (name: string): void {
+        
+		addNewTrip: function (name: string): void {
             // TODO: check for existing trip name? allow duplicate names?
-            let newTrip = {
+            const newTrip = {
                 tripName: name,
                 listOfDest: []
             };
             this.tripData.push(newTrip);
             this.currTripIndex = this.tripData.length - 1;
         },
-        selectTrip: function (tripIndex: number): void {
+        
+		selectTrip: function (tripIndex: number): void {
             this.currTripIndex = tripIndex;
         },
+		
+		importData: function (evt: any): void {
+			const reader = new FileReader();
+			const file = evt.target.files[0];
+			
+			const tripData = this.tripData;
+			
+			if(file){
+				reader.onload = (function(theFile){
+					return function(e: any){ 
+						const data : any = JSON.parse(e.target.result);
+						
+						if(!data.length || !data[0].tripName || !data[0].listOfDest){
+							alert("sorry, trip data could not be imported! please check the format.");
+							return;
+						}
+						
+						// switch current trip to this one
+						tripData.push(data[0]);
+					}
+				})(file);
+				
+				reader.readAsText(file);
+			}
+		},
+		
         exportData: function(): void {
-            let data = JSON.parse(JSON.stringify(this.tripData)); // make a copy
+            const data = JSON.parse(JSON.stringify(this.tripData)); // make a copy
             for(let trip of data) {
                 for(let dest of trip.listOfDest) {
                     dest.images = []; // don't export images
                 }
             }
-            let jsonData = JSON.stringify(data, null, 4);
-            let blob = new Blob([jsonData], { type: "application/json" });
-            let url = URL.createObjectURL(blob);
-            let link = document.createElement('a');
+            const jsonData = JSON.stringify(data, null, 4);
+            const blob = new Blob([jsonData], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
             link.href = url;
             link.download = "trip-planner-data.json"; // TODO: ask user for file name
             link.click();
         }
     },
+	
     mounted: function() {
         // TODO: at some point we want to load in all the trip routes of this user
         // (after we have user profiles and stuff set up)
@@ -163,22 +196,18 @@ new Vue({
         // for now use 'user1' as the username to demo
         axios.post("http://localhost:8081/api/userDestinations", {
             username: "user1"
-        }).then((res) => {
-            //console.log(res);
+        })
+		.then(res => {
             this.tripData = res.data.trips;
-
-            let tripName = this.tripData[this.currTripIndex].tripName;
-            const tripRoute = new TripRoute(tripName);
 
             // listen for custom events from the iframe (which is the map)
             document.addEventListener('addDest', (evt) => {
                 // if adding a new destination was successful to the iframe map, a custom addDest event will be
                 // emitted from the iframe along with that new destination's data, which gets received here.
-
-                let location = (<CustomEvent>evt).detail;
+                const location = (<CustomEvent>evt).detail;
 
                 if(location) {
-                    let newDest: Destination = {
+                    const newDest: Destination = {
                         name: location.name,
                         latitude: location.latitude,
                         longitude: location.longitude,
@@ -188,9 +217,7 @@ new Vue({
                         images: [],
                         routeColor: "#888"
                     };
-
-                    tripRoute.addDestination(newDest);
-
+					
                     // Make a call to the db with the newly added dest's lat and lng to look up possible next hops
                     // when we get that info back, update the prop so the change will get propagated to TripRoute.vue.
                     (this as any).requestSuggestedNextHops(location.latitude, location.longitude).then((data: any) => {
@@ -199,8 +226,30 @@ new Vue({
                     });
                 }
             });
+        })
+		.catch(error => {
+			// database couldn't be connected to
+			// in this case we can't get suggested next hops when a new destination is added
+			document.addEventListener('addDest', (evt) => {
+				// if adding a new destination was successful to the iframe map, a custom addDest event will be
+				// emitted from the iframe along with that new destination's data, which gets received here.
+				const location = (<CustomEvent>evt).detail;
 
-        });
-
+				if(location) {
+					const newDest: Destination = {
+						name: location.name,
+						latitude: location.latitude,
+						longitude: location.longitude,
+						toDate: "",
+						fromDate: "",
+						notes: "",
+						images: [],
+						routeColor: "#888"
+					};
+					
+					this.tripData[this.currTripIndex].listOfDest.push(newDest);
+				}
+			});
+		});
     }
 }).$mount('#app')

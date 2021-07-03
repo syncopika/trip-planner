@@ -71,8 +71,6 @@ app.get("/api", (req, res) => {
 });
 
 app.post("/api/destinations", (req, res) => {
-	// do the db lookup
-
 	// find closest destinations to a given lat and lng
 	// formula: dist = arccos(sin(lat1) · sin(lat2) + cos(lat1) · cos(lat2) · cos(lon1 - lon2)) · R    //needs to be in radians!
 	// from: http://janmatuschek.de/LatitudeLongitudeBoundingCoordinates
@@ -135,8 +133,8 @@ app.post("/api/userDestinations", (req, res) => {
 			*/
 			const results = dbRes.rows;
 			const response = {};
+			
 			for(let row of results) {
-
 				row.metadata.name = row.destname;
 				row.metadata.latitude = row.latitude;
 				row.metadata.longitude = row.longitude;
@@ -149,6 +147,7 @@ app.post("/api/userDestinations", (req, res) => {
 			}
 
 			const data = [];
+			
 			for(let trip in response) {
 				const newTrip = {};
 				newTrip.tripName = trip;

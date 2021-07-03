@@ -36,25 +36,17 @@ maybe helpful? https://dba.stackexchange.com/questions/9759/postgresql-multi-col
 TODO:
 - testing for core components
 - get a dummy map tile iframe for demoing? try https://maputnik.github.io/osm-liberty/
-- get db backend set up
+- hot-reloading when editing a vue file seems to break things :(
 
 now:
 - set zoom level?
 - rename trip title
 - reorder dests
 - customize note text properties (i.e. font color, font size)? think accessibility?
-- import json?
+- expected data format for importing/exported files?
 
 later:
 - emit events rather than calling root?
 - use Vuex to store trip data upon loading from some source?
 - geocoding> get closest city? guess name of destination?
 
-
-taoyuan airport coords:
-lat: 25.078547687812375
-long: 121.23264281923252
-
-taipei main station coords:
-lat: 25.046225057189716
-long: 121.51738742959378

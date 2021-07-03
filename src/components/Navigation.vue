@@ -3,7 +3,8 @@
 		<h2> trip-planner </h2>
 		<p id="createNewTrip"
 			class="selectOption"
-			v-on:click="addNewTrip">
+			v-on:click="addNewTrip"
+		>
 			new trip
 		</p>
 
@@ -13,26 +14,28 @@
 			<p class='dropbtn'> select trip </p>
 			<div class='dropContent'>
 				<a href="#"
+                   :id="'tripIndex_' + index"
                    v-for="(tripName, index) in listOfTripNames"
                    v-bind:key="tripName + '_' + index"
-                   v-on:click="selectTrip"
-                   :id="'tripIndex_' + index">
+                   @click="selectTrip"
+				>
 					{{tripName}}
 				</a>
 			</div>
 		</div>
 
 		<p> | </p>
-		<p class="selectOption"> import </p>
+		<p class="selectOption" @click="triggerImport"> import </p>
+		<input type='file' @change="importData" id='importTripData'>
 
 		<p> | </p>
 		<p class="selectOption" @click="exportData"> export </p>
 
 		<p> | </p>
-		<p class="selectOption" @click="saveData"> save </p>
+		<p class="" @click="saveData"> save </p>
 
 		<p> | </p>
-		<p class="selectOption"> logout </p>
+		<p class=""> logout </p>
 	</div>
 </template>
 
@@ -49,19 +52,31 @@ export default {
 				this.$root.addNewTrip(newTripName);
 			}
 		},
+		
 		selectTrip: function(evt: any): void {
-			// TODO: event shouldn't be any?
 			let index = parseInt(evt.target.id.split("_")[1]);
 			// @ts-ignore (TS-2339)
 			this.$root.selectTrip(index);
 		},
+		
+		triggerImport: function(): void {
+			document.getElementById('importTripData')!.click();
+		},
+		
+		importData: function(evt: any): void {
+			// call root to import data
+			// @ts-ignore
+			this.$root.importData(evt);
+		},
+		
 		exportData: function(): void {
 			// call root to download trip data
 			// @ts-ignore
 			this.$root.exportData();
 		},
+		
 		saveData: function(): void {
-			// TODO
+			// TODO: save current trip data to database
         }
     }
 }
@@ -81,6 +96,10 @@ export default {
 
 #menuHeader p {
 	display: inline;
+}
+
+#importTripData {
+	display: none;
 }
 
 .selectOption:hover {
@@ -103,6 +122,7 @@ export default {
     position: absolute;
     z-index: 1;
     white-space: nowrap;
+	border-radius: 25px;
 }
 
 .dropContent a {
