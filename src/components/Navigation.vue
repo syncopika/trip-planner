@@ -122,7 +122,6 @@ export default {
     position: absolute;
     z-index: 1;
     white-space: nowrap;
-	border-radius: 25px;
 }
 
 .dropContent a {
@@ -134,6 +133,7 @@ export default {
 	background-color: #fff;
 	color: #000;
 	text-align: center;
+	border-radius: 20px;
 }
 
 .dropContent a:hover { background-color: #ddd}

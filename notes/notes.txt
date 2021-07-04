@@ -35,8 +35,11 @@ maybe helpful? https://dba.stackexchange.com/questions/9759/postgresql-multi-col
 
 TODO:
 - testing for core components
-- get a dummy map tile iframe for demoing? try https://maputnik.github.io/osm-liberty/
+- get a dummy map tile iframe for demoing? done but this one might be good to use too: https://maputnik.github.io/osm-liberty/
 - hot-reloading when editing a vue file seems to break things :(
+- really need to figure out allowing unused variables and what packages are interfering with that. and also
+  understand what all the eslint/typescript/vue plugin package nonsense is about. for some reason I have to run `npm run serve` a couple times
+  to get things to compile cleanly. super weird and annoying!
 
 now:
 - set zoom level?

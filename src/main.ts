@@ -48,6 +48,7 @@ new Vue({
         ],
         'currTripIndex': 0,
         'suggestedNextDest': [],
+		'canGetSuggestedNextDest': false,
     },
     methods: {
         requestSuggestedNextHops: function(lat: number, long: number): Promise<any> {
@@ -191,6 +192,36 @@ new Vue({
     mounted: function() {
         // TODO: at some point we want to load in all the trip routes of this user
         // (after we have user profiles and stuff set up)
+		
+		// listen for the custom event 'addDest' from the iframe (which is the map)
+		document.addEventListener('addDest', (evt) => {
+			// if adding a new destination was successful to the iframe map, a custom addDest event will be
+			// emitted from the iframe along with that new destination's data, which gets received here.
+			const location = (<CustomEvent>evt).detail;
+
+			if(location) {
+				const newDest: Destination = {
+					name: location.name,
+					latitude: location.latitude,
+					longitude: location.longitude,
+					toDate: "",
+					fromDate: "",
+					notes: "",
+					images: [],
+					routeColor: "#888"
+				};
+				
+				this.tripData[this.currTripIndex].listOfDest.push(newDest);
+				
+				if(this.canGetSuggestedNextDest){
+                    // Make a call to the db with the newly added dest's lat and lng to look up possible next hops
+                    // when we get that info back, update the prop so the change will get propagated to TripRoute.vue.
+                    (this as any).requestSuggestedNextHops(location.latitude, location.longitude).then((data: any) => {
+                        this.suggestedNextDest = data;
+                    });					
+				}
+			}
+		});
 
         // make a call for all the trip info for this user
         // for now use 'user1' as the username to demo
@@ -198,58 +229,21 @@ new Vue({
             username: "user1"
         })
 		.then(res => {
-            this.tripData = res.data.trips;
-
-            // listen for custom events from the iframe (which is the map)
-            document.addEventListener('addDest', (evt) => {
-                // if adding a new destination was successful to the iframe map, a custom addDest event will be
-                // emitted from the iframe along with that new destination's data, which gets received here.
-                const location = (<CustomEvent>evt).detail;
-
-                if(location) {
-                    const newDest: Destination = {
-                        name: location.name,
-                        latitude: location.latitude,
-                        longitude: location.longitude,
-                        toDate: "",
-                        fromDate: "",
-                        notes: "",
-                        images: [],
-                        routeColor: "#888"
-                    };
-					
-                    // Make a call to the db with the newly added dest's lat and lng to look up possible next hops
-                    // when we get that info back, update the prop so the change will get propagated to TripRoute.vue.
-                    (this as any).requestSuggestedNextHops(location.latitude, location.longitude).then((data: any) => {
-                        this.suggestedNextDest = data;
-                        this.tripData[this.currTripIndex].listOfDest.push(newDest);
-                    });
-                }
-            });
+            this.tripData = res.data.trips; // get user's trips
+			this.canGetSuggestedNextDest = true; // since we can connect to the database
+			
+			// get suggested next hops using the currently last destination in the current trip
+			const currTripDestList: Array<Destination> = this.tripData[this.currTripIndex].listOfDest;
+			const lat = currTripDestList[currTripDestList.length-1].latitude;
+			const ln = currTripDestList[currTripDestList.length-1].longitude;
+			
+			(this as any).requestSuggestedNextHops(lat, ln).then((data: any) => {
+				this.suggestedNextDest = data;
+			});
         })
 		.catch(error => {
 			// database couldn't be connected to
 			// in this case we can't get suggested next hops when a new destination is added
-			document.addEventListener('addDest', (evt) => {
-				// if adding a new destination was successful to the iframe map, a custom addDest event will be
-				// emitted from the iframe along with that new destination's data, which gets received here.
-				const location = (<CustomEvent>evt).detail;
-
-				if(location) {
-					const newDest: Destination = {
-						name: location.name,
-						latitude: location.latitude,
-						longitude: location.longitude,
-						toDate: "",
-						fromDate: "",
-						notes: "",
-						images: [],
-						routeColor: "#888"
-					};
-					
-					this.tripData[this.currTripIndex].listOfDest.push(newDest);
-				}
-			});
 		});
     }
-}).$mount('#app')
+}).$mount('#app') // #app is in /public/index.html
