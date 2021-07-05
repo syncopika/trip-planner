@@ -13,11 +13,12 @@
 		<div class='dropdown'>
 			<p class='dropbtn'> select trip </p>
 			<div class='dropContent'>
-				<a href="#"
-                   :id="'tripIndex_' + index"
-                   v-for="(tripName, index) in listOfTripNames"
-                   v-bind:key="tripName + '_' + index"
-                   @click="selectTrip"
+				<a 
+					href="#"
+					:id="'tripIndex_' + index"
+					v-for="(tripName, index) in listOfTripNames"
+					v-bind:key="tripName + '_' + index"
+					@click="selectTrip"
 				>
 					{{tripName}}
 				</a>
@@ -77,7 +78,7 @@ export default {
 		
 		saveData: function(): void {
 			// TODO: save current trip data to database
-        }
+		}
     }
 }
 </script>
