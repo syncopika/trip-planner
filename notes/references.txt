@@ -69,6 +69,9 @@ https://stackoverflow.com/questions/35964116/how-do-i-extend-another-vuejs-compo
 
 https://github.com/vuejs/vue/issues/8721 -> this is so frustrating...
 
+for the 'Use the latest vue-eslint-parser' error see: https://eslint.vuejs.org/user-guide/#editor-integrations FAQs
+  - for me the fix was to just add "parser": "vue-eslint-parser" to the "eslintConfig" block in package.json.
+
 TESTING:
 https://stackoverflow.com/questions/42711175/what-does-the-symbol-do-in-javascript-imports - saw this in the test example in tests/unit
 https://technology.doximity.com/articles/five-traps-to-avoid-while-unit-testing-vue-js
@@ -88,6 +91,8 @@ https://stackoverflow.com/questions/52423842/what-is-not-assignable-to-parameter
 https://stackoverflow.com/questions/47810218/set-data-type-in-vue-data-object-with-typescript
 https://stackoverflow.com/questions/40158889/interface-issue-with-typescript
 https://github.com/vuejs/eslint-plugin-vue/issues/811
+https://stackoverflow.com/questions/57802057/eslint-configuring-no-unused-vars-for-typescript -> why the heck is this so hard and frustrating!!? >:(
+  - @typescript-eslint/no-unused-vars should be set to 'off' but some people are saying 'error' (why?).
 
 ========================
 useful mapbox stuff:

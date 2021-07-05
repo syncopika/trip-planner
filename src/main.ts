@@ -51,7 +51,7 @@ new Vue({
 		'canGetSuggestedNextDest': false,
     },
     methods: {
-        requestSuggestedNextHops: function(lat: number, long: number): Promise<any> {
+        requestSuggestedNextHops: function(lat: number, long: number): Promise<any[]> {
             //console.log("requesting next hop suggestions");
             return new Promise((resolve) => {
                 // should be based on last destination in list
@@ -61,7 +61,7 @@ new Vue({
                     radius: 5, // 5 km for now?
                 })
                 .then(res => {
-                    const suggestedNextDestinations = (res as any).data.destinations;
+                    const suggestedNextDestinations: any[] = (res as any).data.destinations;
                     resolve(suggestedNextDestinations);
                 })
 				.catch(error => {
@@ -72,7 +72,7 @@ new Vue({
         
 		findDestination: function (destName: string): boolean {
             const listOfDest = this.tripData[this.currTripIndex].listOfDest;
-            for (let dest of listOfDest) {
+            for (const dest of listOfDest) {
                 if (dest.name === destName) {
                     return true;
                 }
@@ -100,7 +100,7 @@ new Vue({
                 newName = data.newName; // new desired destination name
 
                 //@ts-ignore TODO: investigate this? (TS-2339)
-                let destWithNewNameExists = this.findDestination(newName);
+                const destWithNewNameExists = this.findDestination(newName);
 
                 if (currName !== newName && !destWithNewNameExists) {
                     changeName = true;
@@ -150,13 +150,12 @@ new Vue({
 		importData: function (evt: any): void {
 			const reader = new FileReader();
 			const file = evt.target.files[0];
-			
 			const tripData = this.tripData;
 			
 			if(file){
-				reader.onload = (function(theFile){
+				reader.onload = (function(){
 					return function(e: any){ 
-						const data : any = JSON.parse(e.target.result);
+						const data: any = JSON.parse(e.target.result);
 						
 						if(!data.length || !data[0].tripName || !data[0].listOfDest){
 							alert("sorry, trip data could not be imported! please check the format.");
@@ -166,7 +165,7 @@ new Vue({
 						// switch current trip to this one
 						tripData.push(data[0]);
 					}
-				})(file);
+				})();
 				
 				reader.readAsText(file);
 			}
@@ -174,9 +173,9 @@ new Vue({
 		
         exportData: function(): void {
             const data = JSON.parse(JSON.stringify(this.tripData)); // make a copy
-            for(let trip of data) {
-                for(let dest of trip.listOfDest) {
-                    dest.images = []; // don't export images
+            for(const trip of data) {
+                for(const dest of trip.listOfDest) {
+                    dest.images = []; // don't export images...for now?
                 }
             }
             const jsonData = JSON.stringify(data, null, 4);
@@ -197,7 +196,7 @@ new Vue({
 		document.addEventListener('addDest', (evt) => {
 			// if adding a new destination was successful to the iframe map, a custom addDest event will be
 			// emitted from the iframe along with that new destination's data, which gets received here.
-			const location = (<CustomEvent>evt).detail;
+			const location = (evt as CustomEvent).detail;
 
 			if(location) {
 				const newDest: Destination = {
