@@ -1,8 +1,8 @@
 # trip-planner    
     
-An experimental application to help plan out your future trips! or record old ones. One cool feature is that every time you add a new destination to your trip, you have the option of being recommended potential next destinations (which are places in close proximity to your last-added destination, based on destinations of other users). It's not too useful though because the location info presented is dependent on what users provide.   
+An experimental application idea to help plan out your future trips! or record old ones. One cool feature is that every time you add a new destination to your trip, you have the option of being recommended potential next destinations (which are places in close proximity to your last-added destination, based on destinations of other users in the database). The ideal version of this application would allow users to see and click specific places/landmarks/restaurants/etc. on the map to add as destinations for a trip.   
     
-This project makes use of the MapBox API and so you need a token, which you can get for free (and comes with 50000 free API requests/month).    
+This project optionally makes use of the MapBox API and so you may need a token, which you can get for free (and comes with 50000 free API requests/month).    
     
 My build is kinda weird right now in that I'm using an iframe to hold the MapBox map, which I'm storing in the public folder and building separately from the rest of the project (I still need to understand how vue-cli works 😅).       
     
