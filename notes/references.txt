@@ -13,6 +13,8 @@ https://stackoverflow.com/questions/9153445/how-to-communicate-between-iframe-an
 // for creating an iframe just for demo purposes (no mapbox api key needed)
 https://maputnik.github.io/osm-liberty/
 
+https://medium.com/@Roli_Dori/deploy-vue-cli-3-project-to-github-pages-ebeda0705fbd
+
 ========================
 helpful vue stuff
 
