@@ -6,8 +6,8 @@ import { MapBoxWrapper } from './map';
 
 let mapContainer : HTMLElement = document.getElementById('map') as HTMLElement;
 
-// beware of secrets!! also know that it will show up in the resulting bundle file!!
-let mapbox = new MapBoxWrapper("<your token here>", mapContainer);
+// beware of secrets leakage!! know that it will show up in the resulting bundle file!!
+let mapbox = new MapBoxWrapper("", mapContainer); // add token as first argument
 
 // add some listeners to listen for events to update map stuff from the parent document
 window.document.addEventListener('updateMap', updateMap, false);

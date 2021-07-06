@@ -19,11 +19,40 @@ class MapBoxWrapper {
 		this.suggestedNextHops = [];
 		this.destNames = new Set();
 		
-		// get map data from MapBox API with key
-		mapboxgl.accessToken = key;
+		// default style that doesn't require a mapbox key
+		// https://docs.mapbox.com/mapbox-gl-js/example/map-tiles/
+		let mapStyle : any = {
+			'version': 8,
+			'sources': {
+				'raster-tiles': {
+					'type': 'raster',
+					'tiles': [
+						'https://stamen-tiles.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg'
+					],
+					'tileSize': 256,
+					'attribution': 'Map tiles by <a target="_top" rel="noopener" href="http://stamen.com">Stamen Design</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a target="_top" rel="noopener" href="http://openstreetmap.org">OpenStreetMap</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>'
+				}
+			},
+			'layers': [
+				{
+					'id': 'simple-tiles',
+					'type': 'raster',
+					'source': 'raster-tiles',
+					'minzoom': 0,
+					'maxzoom': 22
+				}
+			]
+		};
+		
+		if(key.length > 0){
+			// get map data from MapBox API with key
+			mapboxgl.accessToken = key;
+			mapStyle = 'mapbox://styles/mapbox/streets-v11';
+		}
+		
 		let map = new mapboxgl.Map({
 			container: mapContainer,
-			style: 'mapbox://styles/mapbox/streets-v11',
+			style: mapStyle,
 			center: [-77.04, 38.907],
 			zoom: 10.00
 		});
@@ -40,14 +69,13 @@ class MapBoxWrapper {
 				let name = prompt("enter destination name");
 				
 				if(name && this.isUniqueDestName(name)){
-
-					let data = {
+					const data = {
 						name: name,
 						longitude: evt.lngLat.lng, 
 						latitude: evt.lngLat.lat
 					}
 
-					let marker = this.addMarkerToMap(data); // TODO: why not just add the marker to this.markers within the method?
+					const marker = this.addMarkerToMap(data); // TODO: why not just add the marker to this.markers within the method?
 					
 					// send info to parent to add new destination to destination list
 					const addDestEvent = new CustomEvent('addDest', {
@@ -146,7 +174,7 @@ class MapBoxWrapper {
 
 			// add route color property to marker with route color
 			// TODO: think of an alternative strategy?
-			//@ts-ignore
+			//@ts-ignore b/c I added a new property to Marker
 			marker.routeColor = dest.routeColor;
 			this.markers.push(marker);
 		}
