@@ -4,7 +4,7 @@
 		<div id='column1'>
 			<!-- make the mapContainer a component that can receive height and width? -->
 			<div id='container'>
-				<iframe id='mapContainer' width='1400' height='900' src='./mapIframe.html'></iframe>
+				<iframe id='mapContainer' src='./mapIframe.html'></iframe>
 			</div>
 			
 			<div id='suggestions'>
@@ -57,7 +57,7 @@
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 import DestinationList from './DestinationList.vue';
 import Navigation from './Navigation.vue';
-//import { Destination } from '../triproute'; //instead of array<obj>, why not array<destination>?
+import { Destination } from '../triproute';
 
 @Component({
 	components: {
@@ -68,7 +68,7 @@ import Navigation from './Navigation.vue';
 
 export default class TripRouteMap extends Vue {
 	
-	@Prop({ required: true }) public listOfDest!: Array<Object>; // the ! == not null
+	@Prop({ required: true }) public listOfDest!: Array<Destination>; // the ! == not null
     @Prop({ required: true }) public listOfTripNames!: Array<string>;
 	@Prop({ required: true }) public tripName!: string;
 	@Prop({ required: true }) public suggestedNextDest!: any[];
@@ -76,7 +76,7 @@ export default class TripRouteMap extends Vue {
 	showSuggestedNextHops = false;
 
 	@Watch('listOfDest', { deep: true })
-	onDestChange(newVal: Array<Object>, oldVal: Array<Object>): void {
+	onDestChange(newVal: Array<Destination>, oldVal: Array<Destination>): void {
 		// note that we shouldn't need to care about the old value
 		this.updateMap(newVal);
 		console.log(newVal);
@@ -88,10 +88,10 @@ export default class TripRouteMap extends Vue {
         }
 	}
 
-	dispatchEventToMap(eventName: string, data: Array<Object>): void {
+	dispatchEventToMap(eventName: string, data: Array<Destination>): void {
         // send a custom event to the map iframe along with the data
-        let updateMapEvent = new CustomEvent(eventName, { detail: data });
-        let mapIframe = document.getElementById('mapContainer') as HTMLIFrameElement;
+        const updateMapEvent = new CustomEvent(eventName, { detail: data });
+        const mapIframe = document.getElementById('mapContainer') as HTMLIFrameElement;
 
         if(mapIframe !== null && mapIframe.contentDocument !== null) {
             console.log("sending data to the iframe for event: " + eventName);
@@ -99,13 +99,13 @@ export default class TripRouteMap extends Vue {
         }
     }
 	
-    updateMap(data: Array<Object>): void {
+    updateMap(data: Array<Destination>): void {
 		// take new destination data and update the MapBox map markers as needed
 		console.log("I'm supposed to update the map!");
 		this.dispatchEventToMap('updateMap', data);
 	}
 
-	updateSuggestedNextHops(data: Array<Object>): void {
+	updateSuggestedNextHops(data: Array<Destination>): void {
         this.dispatchEventToMap('updateSuggestedNextHops', data);
     }
 
@@ -166,12 +166,25 @@ label{
 	background-color: black;
 }
 
+#mapContainer{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+}
+
 #container{
+	position: relative;
 	text-align: center;
 	border-top: 1px solid #000;
 	border-left: 1px solid #000;
 	border-bottom: 1px solid #000;
-	height: auto;
+	width: 100%;
+	padding-top: 93vh;
+	overflow: hidden;
 }
 
 #suggestions{

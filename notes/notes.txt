@@ -35,6 +35,7 @@ maybe helpful? https://dba.stackexchange.com/questions/9759/postgresql-multi-col
 
 TODO:
 - bug: when switching between trips, the paths between markers still stay on the map. they should be erased when switching.
+- ui improvements + make more mobile friendly (i.e. collapse navbar into a hamburger menu?)
 - pay attention to eslint warnings and fix them?
 - testing for core components
 - get a dummy map tile iframe for demoing? done but this one might be good to use too: https://maputnik.github.io/osm-liberty/
