@@ -48,17 +48,17 @@
     "extends": [
       "plugin:vue/essential",
       "@vue/typescript",
-	  "eslint:recommended",
-	  "plugin:@typescript-eslint/recommended"
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended"
     ],
-	"parser": "vue-eslint-parser",
+    "parser": "vue-eslint-parser",
     "parserOptions": {
       "parser": "@typescript-eslint/parser"
     },
     "rules": {
       "no-unused-vars": "off",
       "@typescript-eslint/no-unused-vars": "off",
-	  "@typescript-eslint/ban-ts-ignore": "off"
+      "@typescript-eslint/ban-ts-ignore": "off"
     },
     "overrides": [
       {
