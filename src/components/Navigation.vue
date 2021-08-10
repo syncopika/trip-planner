@@ -1,42 +1,44 @@
 <template>
 	<div id='menuHeader'>
 		<h2> trip-planner </h2>
-		<p id="createNewTrip"
-			class="selectOption"
-			v-on:click="addNewTrip"
-		>
-			new trip
-		</p>
+		<ul>
+			<li id="createNewTrip"
+				class="selectOption"
+				v-on:click="addNewTrip"
+			>
+				new trip
+			</li>
 
-		<p> | </p>
+			<li> | </li>
 
-		<div class='dropdown'>
-			<p class='dropbtn'> select trip </p>
-			<div class='dropContent'>
-				<a 
-					href="#"
-					:id="'tripIndex_' + index"
-					v-for="(tripName, index) in listOfTripNames"
-					v-bind:key="tripName + '_' + index"
-					@click="selectTrip"
-				>
-					{{tripName}}
-				</a>
-			</div>
-		</div>
+			<li class='dropdown'>
+				<p class='dropbtn'> select trip </p>
+				<div class='dropContent'>
+					<a 
+						href="#"
+						:id="'tripIndex_' + index"
+						v-for="(tripName, index) in listOfTripNames"
+						v-bind:key="tripName + '_' + index"
+						@click="selectTrip"
+					>
+						{{tripName}}
+					</a>
+				</div>
+			</li>
 
-		<p> | </p>
-		<p class="selectOption" @click="triggerImport"> import </p>
-		<input type='file' @change="importData" id='importTripData'>
+			<li> | </li>
+			<li class="selectOption" @click="triggerImport"> import </li>
+			<input type='file' @change="importData" id='importTripData'>
 
-		<p> | </p>
-		<p class="selectOption" @click="exportData"> export </p>
+			<li> | </li>
+			<li class="selectOption" @click="exportData"> export </li>
 
-		<p> | </p>
-		<p class="" @click="saveData"> save </p>
+			<li> | </li>
+			<li class="" @click="saveData"> save </li>
 
-		<p> | </p>
-		<p class=""> logout </p>
+			<li> | </li>
+			<li class=""> logout </li>
+		</ul>
 	</div>
 </template>
 
@@ -47,24 +49,27 @@ export default {
 	},
 	methods: {
 		addNewTrip: function(): void {
-			let newTripName = prompt("Please enter the name of the new trip:");
+			const newTripName = prompt("Please enter the name of the new trip:");
 			if(newTripName) {
 				//@ts-ignore (TS-2339)
 				this.$root.addNewTrip(newTripName);
 			}
 		},
 		
-		selectTrip: function(evt: any): void {
-			let index = parseInt(evt.target.id.split("_")[1]);
-			// @ts-ignore (TS-2339)
-			this.$root.selectTrip(index);
+		selectTrip: function(evt: MouseEvent): void {
+			if(evt){
+				const index = parseInt((evt.target as HTMLParagraphElement).id.split("_")[1]);
+				// @ts-ignore (TS-2339)
+				this.$root.selectTrip(index);
+			}
 		},
 		
 		triggerImport: function(): void {
-			document.getElementById('importTripData')!.click();
+			const importButton = document.getElementById('importTripData');
+			importButton?.click();
 		},
 		
-		importData: function(evt: any): void {
+		importData: function(evt: MouseEvent): void {
 			// call root to import data
 			// @ts-ignore
 			this.$root.importData(evt);
@@ -142,5 +147,16 @@ export default {
 .dropdown:hover .dropContent { 
 	display: block;
 	cursor: pointer;
+}
+
+ul {
+	display: table;
+	width: 100%;
+}
+
+ul li {
+	display: table-cell;
+	width: auto;
+	text-align: left;
 }
 </style>

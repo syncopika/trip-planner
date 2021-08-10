@@ -23,13 +23,13 @@ export default {
         destName: { required: true, type: String },
         isEditing: { required: true, type: Boolean },
         date: { required: true, type: String }
-        },
+    },
     methods: {
-        getDateInfo: function(): {month: string, day: string, year: string} {
-            let destName = (this as any).destName;
-            let month: HTMLInputElement = document.getElementById(destName + "month") as HTMLInputElement;
-            let day: HTMLInputElement = document.getElementById(destName + "day") as HTMLInputElement;
-            let year: HTMLInputElement = document.getElementById(destName + "year") as HTMLInputElement;
+        getDateInfo: function(): {month: string; day: string; year: string} {
+            const destName = (this as any).destName;
+            const month: HTMLInputElement = document.getElementById(destName + "month") as HTMLInputElement;
+            const day: HTMLInputElement = document.getElementById(destName + "day") as HTMLInputElement;
+            const year: HTMLInputElement = document.getElementById(destName + "year") as HTMLInputElement;
             return {
                 month: month.value,
                 day: day.value,
@@ -40,12 +40,12 @@ export default {
     updated: function(){
         if((this as any).date && (this as any).isEditing){
             // show the input fields with the date filled in
-            let dateParts = (this as any).date.split("-"); // dates should be delimited by "-"
-            let destName = (this as any).destName;
+            const dateParts = (this as any).date.split("-"); // dates should be delimited by "-"
+            const destName = (this as any).destName;
 
-            let month: HTMLInputElement = document.getElementById(destName + "month") as HTMLInputElement;
-            let day : HTMLInputElement = document.getElementById(destName + "day") as HTMLInputElement;
-            let year: HTMLInputElement = document.getElementById(destName + "year") as HTMLInputElement;
+            const month: HTMLInputElement = document.getElementById(destName + "month") as HTMLInputElement;
+            const day: HTMLInputElement = document.getElementById(destName + "day") as HTMLInputElement;
+            const year: HTMLInputElement = document.getElementById(destName + "year") as HTMLInputElement;
 
             if(month && dateParts.length > 0) month.value = dateParts[0];
             if(day && dateParts.length > 1) day.value = dateParts[1];

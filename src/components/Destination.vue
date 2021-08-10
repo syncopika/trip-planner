@@ -144,22 +144,22 @@ export default {
 	},
 	methods: {
 		highlightBorder: function(): void {
-			let name = (this as any).destination.name;
-			let dest = document.getElementById(name + '_dest');
+			const name = (this as any).destination.name;
+			const dest = document.getElementById(name + '_dest');
 			if(dest !== null){
 				dest.style.border = '2px solid #fff';
 			}
 		},
         dehighlightBorder: function(): void {
-			let name = (this as any).destination.name;
-			let dest = document.getElementById(name + '_dest');
+			const name = (this as any).destination.name;
+			const dest = document.getElementById(name + '_dest');
 			if(dest !== null){
 				dest.style.border = '2px solid #000';
 			}	
 		},
         toggleVisibility: function(): void {
-			let name = (this as any).destination.name;
-			let content = document.getElementById(name + '_content');
+			const name = (this as any).destination.name;
+			const content = document.getElementById(name + '_content');
 
 			if(content !== null){
 				if((this as any).expanded && !(this as any).isEditing){
@@ -172,11 +172,10 @@ export default {
 			(this as any).expanded = !(this as any).expanded;
 		},
         toggleEdit: function(evt: any): void {
-		
 			// prevent div from closing
 			evt.stopPropagation();
 			
-			let name = (this as any).destination.name;
+			const name = (this as any).destination.name;
 		
 			// set flag
 			(this as any).isEditing = true;
@@ -186,23 +185,22 @@ export default {
 			(this as any).editSnapshot = JSON.parse(JSON.stringify((this as any).destination));
 			
 			// make destination name editable
-			let destTitle = document.getElementById(name);
+			const destTitle = document.getElementById(name);
 			destTitle?.setAttribute('contenteditable', "true");
 
 			// save the current title so we can restore it if it can't be changed
 			(this as any).currDestTitle = destTitle?.textContent;
 
 			// make content editable
-			let notes = document.getElementById(name + '_notes');
+			const notes = document.getElementById(name + '_notes');
 			if(notes !== null) notes.removeAttribute('disabled');
-			
 		},
         removeDestination: function(evt: any): void {
 			// remove a destination
 			// calls a method of the Vue root instance
-			let remove = confirm("Are you sure you want to remove this destination?");
+			const remove = confirm("Are you sure you want to remove this destination?");
 			if (remove) {
-				let name = evt.target.id.split("_")[0]; // i.e. name_dest, and we want name
+				const name = evt.target.id.split("_")[0]; // i.e. name_dest, and we want name
 
 				//@ts-ignore TODO: can we fix this without ignoring? (TS-2339)
 				this.$root.removeDestination(name);
@@ -214,9 +212,9 @@ export default {
 			// checked to make sure its new desired name is not already taken
 			// by another destination
 
-			let name = (this as any).destination.name;
-			let destTitle = document.getElementById(name);
-			let newName = destTitle?.textContent?.trim().split(' ')[0];
+			const name = (this as any).destination.name;
+			const destTitle = document.getElementById(name);
+			const newName = destTitle?.textContent?.trim().split(' ')[0];
 
             // if new name is valid, the change will happen
             // if it doesn't happen, we'll at least have restored the dest title to its original
@@ -225,27 +223,27 @@ export default {
                 destTitle.setAttribute('contenteditable', "false");
 			}
 
-			let notes = document.getElementById(name + '_notes');
+			const notes = document.getElementById(name + '_notes');
 			notes?.setAttribute('disabled', 'true');
 
-			let data : Destination = JSON.parse(JSON.stringify((this as any).destination)); // make a copy
+			const data: Destination = JSON.parse(JSON.stringify((this as any).destination)); // make a copy
             data.notes = (notes as HTMLTextAreaElement)?.value;
 			data.newName = newName;
 
 			// get from and to dates
 			//@ts-ignore (TS-2339)
-			let fromDate = this.$refs[name + "_fromDate"].getDateInfo();
+			const fromDate = this.$refs[name + "_fromDate"].getDateInfo();
 			//@ts-ignore (TS-2339)
-			let toDate = this.$refs[name + "_toDate"].getDateInfo();
+			const toDate = this.$refs[name + "_toDate"].getDateInfo();
 
 			data.fromDate = `${fromDate.month}-${fromDate.day}-${fromDate.year}`;
             data.toDate = `${toDate.month}-${toDate.day}-${toDate.year}`;
 
 			// get route color and remove color wheel
-			let routeColorInput = document.getElementById((this as any).destination.name + "_routeColor") as HTMLInputElement;
+			const routeColorInput = document.getElementById((this as any).destination.name + "_routeColor") as HTMLInputElement;
 			if(routeColorInput) data.routeColor = routeColorInput.value;
 
-            let colorWheel = document.getElementById((this as any).destination.name + "_colorWheel");
+            const colorWheel = document.getElementById((this as any).destination.name + "_colorWheel");
             if(colorWheel && colorWheel.parentNode) colorWheel.parentNode.removeChild(colorWheel);
 
 			// update data source with new info
@@ -256,30 +254,30 @@ export default {
 		},
 		cancelChanges: function(): void {
 			// make sure destination name goes back to being uneditable
-			let name = (this as any).destination.name;
-			let destTitle = document.getElementById(name);
+			const name = (this as any).destination.name;
+			const destTitle = document.getElementById(name);
 			destTitle?.setAttribute('contenteditable', "false");
 
-			let currData = JSON.parse(JSON.stringify((this as any).editSnapshot));
-			for(let data in currData) {
+			const currData = JSON.parse(JSON.stringify((this as any).editSnapshot));
+			for(const data in currData) {
 				(this as any).destination[data] = currData[data];
             }
 			(this as any).editSnapshot = {};
 			(this as any).isEditing = false;
 		},
         uploadImage: function(evt: any): void {
-            let img = new Image();
-            let reader = new FileReader();
-			let file = evt.target.files[0];
+            const img = new Image();
+            const reader = new FileReader();
+			const file = evt.target.files[0];
 
 			reader.onloadend = () => {
 
-                let imgSrcStr = reader.result as string;
+                const imgSrcStr = reader.result as string;
 
 				img.src = imgSrcStr;
 
 				// update data
-				let data: Destination = JSON.parse(JSON.stringify((this as any).destination)); // making a copy
+				const data: Destination = JSON.parse(JSON.stringify((this as any).destination)); // making a copy
 				data.images.push(imgSrcStr);
 
 				//@ts-ignore 
@@ -289,11 +287,11 @@ export default {
             reader.readAsDataURL(file);
 		},
         clickInput: function(): void {
-			let inputElement = document.getElementById((this as any).destination.name + "_importImage");
+			const inputElement = document.getElementById((this as any).destination.name + "_importImage");
             inputElement?.click();
 		},
 		enlargeImage: function(evt: any): void {
-            let imageDiv = document.createElement('div');
+            const imageDiv = document.createElement('div');
             imageDiv.style.opacity = "0.98";
             imageDiv.style.backgroundColor = "#383838";
             imageDiv.style.position = "fixed";
@@ -306,7 +304,7 @@ export default {
 
 			document.body.style.overflow = "hidden";
 
-			let enlargedImage = new Image();
+			const enlargedImage = new Image();
 			enlargedImage.src = evt.target.src;
             enlargedImage.addEventListener("dblclick", () => {
 				imageDiv?.parentNode?.removeChild(imageDiv);
@@ -321,7 +319,7 @@ export default {
 
             imageDiv.appendChild(enlargedImage);
 
-            let cancel = document.createElement('h3');
+            const cancel = document.createElement('h3');
 			cancel.textContent = "close";
 			cancel.style.fontWeight = "bold";
 			cancel.style.fontSize = "2em";
@@ -344,24 +342,24 @@ export default {
             (this as any).destination.images.splice(imageIndex, 1);
         },
 		showColorWheel: function(): void {
-            let location = document.getElementById((this as any).destination.name + '_editRouteColor');
+            const location = document.getElementById((this as any).destination.name + '_editRouteColor');
 
-			let size = "200";
-            let colorWheel = document.createElement('canvas');
+			const size = "200";
+            const colorWheel = document.createElement('canvas');
             colorWheel.id = (this as any).destination.name + "_colorWheel";
             colorWheel.setAttribute('width', size);
             colorWheel.setAttribute('height', size);
 
-            let colorWheelContext = colorWheel.getContext('2d');
-            let x = colorWheel.width / 2;
-            let y = colorWheel.height / 2;
-            let radius = 90;
+            const colorWheelContext = colorWheel.getContext('2d');
+            const x = colorWheel.width / 2;
+            const y = colorWheel.height / 2;
+            const radius = 90;
 
             // why 5600??
             if(colorWheelContext) {
 				for(let angle = 0;angle <= 5600;angle++) {
-					let startAngle = (angle - 2) * Math.PI / 180; //convert angles to radians
-					let endAngle = (angle) * Math.PI / 180;
+					const startAngle = (angle - 2) * Math.PI / 180; //convert angles to radians
+					const endAngle = (angle) * Math.PI / 180;
 					colorWheelContext.beginPath();
 					colorWheelContext.moveTo(x, y);
 					//.arc(x, y, radius, startAngle, endAngle, anticlockwise)
@@ -369,7 +367,7 @@ export default {
 					colorWheelContext.closePath();
 					//use .createRadialGradient to get a different color for each angle
 					//createRadialGradient(x0, y0, r0, x1, y1, r1)
-					let gradient = colorWheelContext.createRadialGradient(x, y, 0, startAngle, endAngle, radius);
+					const gradient = colorWheelContext.createRadialGradient(x, y, 0, startAngle, endAngle, radius);
 					gradient.addColorStop(0, 'hsla(' + angle + ', 10%, 100%, 1)');
 					gradient.addColorStop(1, 'hsla(' + angle + ', 100%, 50%, 1)');
 					colorWheelContext.fillStyle = gradient;
@@ -394,14 +392,14 @@ export default {
 				colorWheelContext.fill();
 
 				colorWheel.addEventListener('click', (e) => {
-					let x = e.offsetX;
-					let y = e.offsetY;
+					const x = e.offsetX;
+					const y = e.offsetY;
 
 					//@ts-ignore (2531)
-					let colorPicked = (colorWheel.getContext('2d')).getImageData(x, y, 1, 1).data;
+					const colorPicked = (colorWheel.getContext('2d')).getImageData(x, y, 1, 1).data;
 					// convert to hex?
-					let colorCode = 'rgb(' + colorPicked[0] + ',' + colorPicked[1] + ',' + colorPicked[2] + ')';
-                    let colorInput = document.getElementById((this as any).destination.name + "_routeColor") as HTMLInputElement;
+					const colorCode = 'rgb(' + colorPicked[0] + ',' + colorPicked[1] + ',' + colorPicked[2] + ')';
+                    const colorInput = document.getElementById((this as any).destination.name + "_routeColor") as HTMLInputElement;
 					if(colorInput) {
 						colorInput.value = colorCode;
 						colorInput.style.backgroundColor = colorCode;
