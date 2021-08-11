@@ -70,7 +70,7 @@ new Vue({
             });
         },
         
-		findDestination: function (destName: string): boolean {
+		findDestination: function(destName: string): boolean {
             const listOfDest = this.tripData[this.currTripIndex].listOfDest;
             for (const dest of listOfDest) {
                 if (dest.name === destName) {
@@ -80,7 +80,7 @@ new Vue({
             return false;
         },
         
-		removeDestination: function (destName: string): void {
+		removeDestination: function(destName: string): void {
             const currDests = this.tripData[this.currTripIndex].listOfDest;
             this.tripData[this.currTripIndex].listOfDest = currDests.filter(dest => dest.name !== destName);
 			
@@ -88,7 +88,7 @@ new Vue({
 			// if so, take the current last dest and show next hop suggestions for that dest (if show next hops option selected)
         },
         
-		updateDestination: function (data: Destination): void {
+		updateDestination: function(data: Destination): void {
             // called from Destination.vue
             // TODO: is there a better way to do this update?
             const listOfDest = this.tripData[this.currTripIndex].listOfDest;
@@ -111,7 +111,7 @@ new Vue({
                 }
             }
 
-            for (let i = 0; i < listOfDest.length; i++) {
+            for(let i = 0; i < listOfDest.length; i++) {
                 const dest = listOfDest[i];
                 if(dest.name === currName) {
                     // TODO: just do for prop in dest, reassign?
@@ -133,7 +133,7 @@ new Vue({
             }
         },
         
-		addNewTrip: function (name: string): void {
+		addNewTrip: function(name: string): void {
             // TODO: check for existing trip name? allow duplicate names?
             const newTrip = {
                 tripName: name,
@@ -143,11 +143,11 @@ new Vue({
             this.currTripIndex = this.tripData.length - 1;
         },
         
-		selectTrip: function (tripIndex: number): void {
+		selectTrip: function(tripIndex: number): void {
             this.currTripIndex = tripIndex;
         },
 		
-		importData: function (evt: any): void {
+		importData: function(evt: any): void {
 			const reader = new FileReader();
 			const file = evt.target.files[0];
 			const tripData = this.tripData;
@@ -228,7 +228,7 @@ new Vue({
             username: "user1"
         })
 		.then(res => {
-            this.tripData = res.data.trips; // get user's trips
+            this.tripData = res.data.trips;      // get user's trips
 			this.canGetSuggestedNextDest = true; // since we can connect to the database
 			
 			// get suggested next hops using the currently last destination in the current trip

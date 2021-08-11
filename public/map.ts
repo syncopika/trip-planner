@@ -21,7 +21,7 @@ class MapBoxWrapper {
 		
 		// default style that doesn't require a mapbox key
 		// https://docs.mapbox.com/mapbox-gl-js/example/map-tiles/
-		let mapStyle : any = {
+		let mapStyle: any = {
 			'version': 8,
 			'sources': {
 				'raster-tiles': {
@@ -50,7 +50,7 @@ class MapBoxWrapper {
 			mapStyle = 'mapbox://styles/mapbox/streets-v11';
 		}
 		
-		let map = new mapboxgl.Map({
+		const map = new mapboxgl.Map({
 			container: mapContainer,
 			style: mapStyle,
 			center: [-77.04, 38.907],
@@ -66,7 +66,7 @@ class MapBoxWrapper {
 			let addMarker = confirm("add this spot as a destination?");
 			if(addMarker){
 				// get name of destination. make sure it's a new name not already used.
-				let name = prompt("enter destination name");
+				const name = prompt("enter destination name");
 				
 				if(name && this.isUniqueDestName(name)){
 					const data = {
@@ -105,12 +105,12 @@ class MapBoxWrapper {
 		return this.container;
 	}
 	
-	isUniqueDestName(name : string) {
+	isUniqueDestName(name: string) {
 		return !this.destNames.has(name);
 	}
 	
-	addMarkerToMap(data : any){
-		let newMarker = new mapboxgl.Marker();
+	addMarkerToMap(data: any) {
+		const newMarker = new mapboxgl.Marker();
 		let popupContent = "";
 		
 		if(data.name){
@@ -133,7 +133,7 @@ class MapBoxWrapper {
 		}
 		
 		if(popupContent){
-			let popup = new mapboxgl.Popup({offset: 25});
+			const popup = new mapboxgl.Popup({offset: 25});
 			popup.setHTML(popupContent);
 			newMarker.setPopup(popup);
 		}
@@ -148,12 +148,13 @@ class MapBoxWrapper {
 		return newMarker;
 	}
 	
-	removeSingleMarker() : boolean {
+	removeSingleMarker(): boolean {
 		// TODO
 		return true;
 	}
 	
-	removeMarkers() : boolean {
+	removeMarkers(): boolean {
+		this.clearLines();
 		for(let marker of this.markers){
 			marker.remove();
 		}
@@ -167,9 +168,26 @@ class MapBoxWrapper {
 		return true;
 	}
 	
+	clearLines() {
+		this.markers.forEach((marker, idx) => {
+			const routeId = 'route' + idx;
+			const sourceId = 'source' + idx;
+
+			if(this.map.getLayer(routeId)) {
+				this.map.removeLayer(routeId);
+			}
+
+			if(this.map.getSource(sourceId)) {
+				this.map.removeSource(sourceId);
+			}
+		});
+	}
+	
 	updateMarkers(listOfDest : Array<Destination>): void {
+		this.clearLines();
+		
 		for(let dest of listOfDest){
-			let marker = this.addMarkerToMap(dest);		
+			const marker = this.addMarkerToMap(dest);		
 			this.destNames.add(dest.name);
 
 			// add route color property to marker with route color
@@ -191,7 +209,7 @@ class MapBoxWrapper {
 		// show markers for suggested next hops
 		for(let dest of listOfLocations){
 			// make sure to denote these markers in a different way from the user's actual destination markers
-			let newMarker = new mapboxgl.Marker({ color: "#B22222"}); // brickred marker
+			const newMarker = new mapboxgl.Marker({ color: "#B22222"}); // brickred marker
 
 			let popupContent = "";
 
@@ -207,7 +225,7 @@ class MapBoxWrapper {
 			}
 
 			if(popupContent) {
-				let popup = new mapboxgl.Popup({ offset: 25 });
+				const popup = new mapboxgl.Popup({ offset: 25 });
 				popup.setHTML(popupContent);
 				newMarker.setPopup(popup);
 			}
@@ -218,30 +236,15 @@ class MapBoxWrapper {
     }
 
 	drawLineBetweenMarkers() {
-		// clear old lines first
-		this.markers.forEach((marker, idx) => {
-			let routeId = 'route' + idx;
-			let sourceId = 'source' + idx;
-
-			if(this.map.getLayer(routeId)) {
-				this.map.removeLayer(routeId);
-			}
-
-			if(this.map.getSource(sourceId)) {
-				this.map.removeSource(sourceId);
-			}
-		});
-
 		for(let i = 0; i < this.markers.length - 1; i++) {
+			const currDest = this.markers[i];
+			const nextDest = this.markers[i + 1];
 
-			let currDest = this.markers[i];
-			let nextDest = this.markers[i + 1];
+			const loc = currDest.getLngLat();
+			const nextLoc = nextDest.getLngLat();
 
-			let loc = currDest.getLngLat();
-			let nextLoc = nextDest.getLngLat();
-
-			let routeId = 'route' + i;
-			let sourceId = 'source' + i;
+			const routeId = 'route' + i;
+			const sourceId = 'source' + i;
 
 			this.map.addSource(sourceId, {
 				'type': 'geojson',
@@ -267,7 +270,7 @@ class MapBoxWrapper {
 					'line-cap': 'round'
 				},
 				'paint': {
-					//@ts-ignore - b/c I added a new property to Marker
+					//@ts-ignore - b/c I added a new property to Marker - is there a better way to do this?
 					'line-color': currDest.routeColor,
 					'line-width': 7
 				}

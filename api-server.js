@@ -1,3 +1,5 @@
+// this is the server that the frontend will communicate with to get back database info
+
 const pg = require('pg');
 const express = require('express');
 const cors = require('cors');

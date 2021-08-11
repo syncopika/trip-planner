@@ -109,18 +109,13 @@ export default {
 }
 
 .selectOption:hover {
-	color: #ffffff;
+	color: #aaabbb;
 	cursor: pointer;
-}
-
-.dropdown {
-	position: relative;
-	display: inline-block;
 }
 
 .dropbtn:hover {
 	cursor: pointer;
-	color: #fff;
+	color: #aaabbb;
 }
 
 .dropContent {
