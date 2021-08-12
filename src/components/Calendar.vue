@@ -15,7 +15,9 @@
 
 
 <script lang="ts">
-export default {
+import Vue from 'vue';
+
+export default Vue.extend({
     data(){
         return {}
     },
@@ -26,7 +28,7 @@ export default {
     },
     methods: {
         getDateInfo: function(): {month: string; day: string; year: string} {
-            const destName = (this as any).destName;
+            const destName = this.destName;
             const month: HTMLInputElement = document.getElementById(destName + "month") as HTMLInputElement;
             const day: HTMLInputElement = document.getElementById(destName + "day") as HTMLInputElement;
             const year: HTMLInputElement = document.getElementById(destName + "year") as HTMLInputElement;
@@ -38,10 +40,10 @@ export default {
         }
     },
     updated: function(){
-        if((this as any).date && (this as any).isEditing){
+        if(this.date && this.isEditing){
             // show the input fields with the date filled in
-            const dateParts = (this as any).date.split("-"); // dates should be delimited by "-"
-            const destName = (this as any).destName;
+            const dateParts = this.date.split("-"); // dates should be delimited by "-"
+            const destName = this.destName;
 
             const month: HTMLInputElement = document.getElementById(destName + "month") as HTMLInputElement;
             const day: HTMLInputElement = document.getElementById(destName + "day") as HTMLInputElement;
@@ -52,7 +54,7 @@ export default {
             if(year && dateParts.length > 2) year.value = dateParts[2];
         }
     }
-}
+});
 </script>
 
 <style scoped>

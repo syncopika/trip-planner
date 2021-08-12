@@ -123,11 +123,12 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue';
 import { Destination } from '../triproute';
 import Calendar from './Calendar.vue';
 
 // get info passed from parent component (i.e. Sidebar)
-export default {
+export default Vue.extend({
 	data(){
 		return {
 			expanded: false,
@@ -144,52 +145,52 @@ export default {
 	},
 	methods: {
 		highlightBorder: function(): void {
-			const name = (this as any).destination.name;
+			const name = this.destination.name;
 			const dest = document.getElementById(name + '_dest');
 			if(dest !== null){
 				dest.style.border = '2px solid #fff';
 			}
 		},
         dehighlightBorder: function(): void {
-			const name = (this as any).destination.name;
+			const name = this.destination.name;
 			const dest = document.getElementById(name + '_dest');
 			if(dest !== null){
 				dest.style.border = '2px solid #000';
 			}	
 		},
         toggleVisibility: function(): void {
-			const name = (this as any).destination.name;
+			const name = this.destination.name;
 			const content = document.getElementById(name + '_content');
 
 			if(content !== null){
-				if((this as any).expanded && !(this as any).isEditing){
+				if(this.expanded && !this.isEditing){
 					content.style.display = "none";
 				}else{
 					content.style.display = "block";
 				}
 			}
 
-			(this as any).expanded = !(this as any).expanded;
+			this.expanded = !this.expanded;
 		},
         toggleEdit: function(evt: any): void {
 			// prevent div from closing
 			evt.stopPropagation();
 			
-			const name = (this as any).destination.name;
+			const name = this.destination.name;
 		
 			// set flag
-			(this as any).isEditing = true;
+			this.isEditing = true;
 
 			// take a snapshot of all current data so we can cancel changes easily
-			//console.log((this as any).destination);
-			(this as any).editSnapshot = JSON.parse(JSON.stringify((this as any).destination));
+			//console.log(this.destination);
+			this.editSnapshot = JSON.parse(JSON.stringify(this.destination));
 			
 			// make destination name editable
 			const destTitle = document.getElementById(name);
 			destTitle?.setAttribute('contenteditable', "true");
 
 			// save the current title so we can restore it if it can't be changed
-			(this as any).currDestTitle = destTitle?.textContent;
+			this.currDestTitle = destTitle?.textContent || "";
 
 			// make content editable
 			const notes = document.getElementById(name + '_notes');
@@ -212,21 +213,21 @@ export default {
 			// checked to make sure its new desired name is not already taken
 			// by another destination
 
-			const name = (this as any).destination.name;
+			const name = this.destination.name;
 			const destTitle = document.getElementById(name);
 			const newName = destTitle?.textContent?.trim().split(' ')[0];
 
             // if new name is valid, the change will happen
             // if it doesn't happen, we'll at least have restored the dest title to its original
 			if (destTitle) {
-				destTitle.textContent = (this as any).currDestTitle;
+				destTitle.textContent = this.currDestTitle;
                 destTitle.setAttribute('contenteditable', "false");
 			}
 
 			const notes = document.getElementById(name + '_notes');
 			notes?.setAttribute('disabled', 'true');
 
-			const data: Destination = JSON.parse(JSON.stringify((this as any).destination)); // make a copy
+			const data: Destination = JSON.parse(JSON.stringify(this.destination)); // make a copy
             data.notes = (notes as HTMLTextAreaElement)?.value;
 			data.newName = newName;
 
@@ -240,44 +241,43 @@ export default {
             data.toDate = `${toDate.month}-${toDate.day}-${toDate.year}`;
 
 			// get route color and remove color wheel
-			const routeColorInput = document.getElementById((this as any).destination.name + "_routeColor") as HTMLInputElement;
+			const routeColorInput = document.getElementById(this.destination.name + "_routeColor") as HTMLInputElement;
 			if(routeColorInput) data.routeColor = routeColorInput.value;
 
-            const colorWheel = document.getElementById((this as any).destination.name + "_colorWheel");
+            const colorWheel = document.getElementById(this.destination.name + "_colorWheel");
             if(colorWheel && colorWheel.parentNode) colorWheel.parentNode.removeChild(colorWheel);
 
 			// update data source with new info
 			//@ts-ignore 
 			this.$root.updateDestination(data);
 
-			(this as any).isEditing = false;
+			this.isEditing = false;
 		},
 		cancelChanges: function(): void {
 			// make sure destination name goes back to being uneditable
-			const name = (this as any).destination.name;
+			const name = this.destination.name;
 			const destTitle = document.getElementById(name);
 			destTitle?.setAttribute('contenteditable', "false");
 
-			const currData = JSON.parse(JSON.stringify((this as any).editSnapshot));
+			const currData = JSON.parse(JSON.stringify(this.editSnapshot));
 			for(const data in currData) {
-				(this as any).destination[data] = currData[data];
+				this.destination[data] = currData[data];
             }
-			(this as any).editSnapshot = {};
-			(this as any).isEditing = false;
+			this.editSnapshot = {};
+			this.isEditing = false;
 		},
         uploadImage: function(evt: any): void {
             const img = new Image();
             const reader = new FileReader();
 			const file = evt.target.files[0];
 
-			reader.onloadend = () => {
-
+			reader.onloadend = (): void => {
                 const imgSrcStr = reader.result as string;
 
 				img.src = imgSrcStr;
 
 				// update data
-				const data: Destination = JSON.parse(JSON.stringify((this as any).destination)); // making a copy
+				const data: Destination = JSON.parse(JSON.stringify(this.destination)); // making a copy
 				data.images.push(imgSrcStr);
 
 				//@ts-ignore 
@@ -287,7 +287,7 @@ export default {
             reader.readAsDataURL(file);
 		},
         clickInput: function(): void {
-			const inputElement = document.getElementById((this as any).destination.name + "_importImage");
+			const inputElement = document.getElementById(this.destination.name + "_importImage");
             inputElement?.click();
 		},
 		enlargeImage: function(evt: any): void {
@@ -339,14 +339,14 @@ export default {
 			let imageIndex = evt.target.id.split("_");
 			imageIndex = parseInt(imageIndex[imageIndex.length - 1]);
 
-            (this as any).destination.images.splice(imageIndex, 1);
+            this.destination.images.splice(imageIndex, 1);
         },
 		showColorWheel: function(): void {
-            const location = document.getElementById((this as any).destination.name + '_editRouteColor');
+            const location = document.getElementById(this.destination.name + '_editRouteColor');
 
 			const size = "200";
             const colorWheel = document.createElement('canvas');
-            colorWheel.id = (this as any).destination.name + "_colorWheel";
+            colorWheel.id = this.destination.name + "_colorWheel";
             colorWheel.setAttribute('width', size);
             colorWheel.setAttribute('height', size);
 
@@ -399,7 +399,7 @@ export default {
 					const colorPicked = (colorWheel.getContext('2d')).getImageData(x, y, 1, 1).data;
 					// convert to hex?
 					const colorCode = 'rgb(' + colorPicked[0] + ',' + colorPicked[1] + ',' + colorPicked[2] + ')';
-                    const colorInput = document.getElementById((this as any).destination.name + "_routeColor") as HTMLInputElement;
+                    const colorInput = document.getElementById(this.destination.name + "_routeColor") as HTMLInputElement;
 					if(colorInput) {
 						colorInput.value = colorCode;
 						colorInput.style.backgroundColor = colorCode;
@@ -410,7 +410,7 @@ export default {
 			if(location) location.appendChild(colorWheel);
         }
 	}
-};
+});
 </script>
 
 <style scoped>
@@ -447,7 +447,7 @@ export default {
     li {
         margin: 0 10px 10px;
         color: #000;
-        background-color: #D9E5AE;
+        background-color: #daf08b;
     }
 
 	label {

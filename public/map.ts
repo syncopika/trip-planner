@@ -149,7 +149,7 @@ class MapBoxWrapper {
 	}
 	
 	removeSingleMarker(): boolean {
-		// TODO
+		// TODO: is this needed?
 		return true;
 	}
 	

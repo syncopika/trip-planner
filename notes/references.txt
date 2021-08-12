@@ -75,6 +75,9 @@ for the 'Use the latest vue-eslint-parser' error see: https://eslint.vuejs.org/u
 initial `npm run serve` generates errors but after that things seem fine?? see: https://github.com/vuejs/vue-cli/issues/3065
 maybe a cache thing?
 
+// seems to be a difference using just `export default` vs `export default Vue.extend` 
+https://stackoverflow.com/questions/55755623/all-vue-props-and-data-give-the-error-property-does-not-exist-on-type-wit
+
 TESTING:
 https://stackoverflow.com/questions/42711175/what-does-the-symbol-do-in-javascript-imports - saw this in the test example in tests/unit
 https://technology.doximity.com/articles/five-traps-to-avoid-while-unit-testing-vue-js

@@ -134,7 +134,7 @@ export default {
 	background-color: #fff;
 	color: #000;
 	text-align: center;
-	border-radius: 20px;
+	border-radius: 12px;
 }
 
 .dropContent a:hover { background-color: #ddd}

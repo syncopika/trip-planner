@@ -7,9 +7,9 @@ type databaseRow = {
 	// or define in some other file like definitions.ts and use here
 }
 
-interface dbInterface {
+export interface dbInterface {
 	// find the closest n destinations within a certain radius given lat and long
-	getClosestDestinations(maxResults: number, latitude: number, longitude: number, radius: number): {destinations: any}; // destinations should be an array of trip data
+	getClosestDestinations(maxResults: number, latitude: number, longitude: number, radius: number): {destinations: any[]}; // destinations should be an array of trip data
 	
-	getUserDestinations(username: string): {trips: any}; // trips should be an array of trip data
+	getUserDestinations(username: string): {trips: any[]}; // trips should be an array of trip data
 }
