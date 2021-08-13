@@ -25,14 +25,14 @@ export class PostgresInterface implements dbInterface {
 		// todo
 	}
 	
-	getClosestDestinations(maxResults: number, latitude: number, longitude: number, radius: number): any[] {
+	getClosestDestinations(maxResults: number, latitude: number, longitude: number, radius: number): {destinations: any[]} {
 		// todo
-		//return destinations: any[]
+		return {destinations: []};
 	}
 	
-	getUserDestinations(username: string): any[] {
+	getUserDestinations(username: string): {trips: any[]} {
 		// todo
-		//trips: any[]
+		return {trips: []};
 	}
 	
-}
+};

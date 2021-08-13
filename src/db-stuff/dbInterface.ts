@@ -5,11 +5,11 @@
 type databaseRow = {
 	// todo: define the type matching whatever a row in the db should look like?
 	// or define in some other file like definitions.ts and use here
-}
+};
 
 export interface dbInterface {
 	// find the closest n destinations within a certain radius given lat and long
 	getClosestDestinations(maxResults: number, latitude: number, longitude: number, radius: number): {destinations: any[]}; // destinations should be an array of trip data
 	
 	getUserDestinations(username: string): {trips: any[]}; // trips should be an array of trip data
-}
+};

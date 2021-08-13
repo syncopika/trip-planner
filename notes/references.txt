@@ -146,6 +146,8 @@ https://stackoverflow.com/questions/32129380/css-overlay-not-scrolling
 https://www.w3schools.com/howto/howto_css_responsive_iframes.asp
 https://stackoverflow.com/questions/30883684/set-the-margin-top-of-a-div-relative-to-screen-resolution -> I keep forgetting about vh
 https://stackoverflow.com/questions/9894176/make-li-fit-the-width-of-the-ul-using-css
+https://css-tricks.com/considerations-styling-modal/
+https://stackoverflow.com/questions/60234774/hold-promise-resolve-reject-function-reference-waiting-on-user-input
 
 ========================
 anything in src gets processed by webpack.put stuff in /public and then reference with relative path like './mapIframe.html'
