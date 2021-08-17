@@ -2,6 +2,7 @@
 // https://docs.mapbox.com/mapbox-gl-js/api/
 
 import mapboxgl, { Map, Marker, Popup } from 'mapbox-gl';
+import { Modal } from '../src/modal';
 import { Destination } from '../src/triproute';
 
 class MapBoxWrapper {
@@ -60,13 +61,14 @@ class MapBoxWrapper {
 		// disable double-click zoom so we can configure double-click for adding a new destination
 		map["doubleClickZoom"].disable();
 
-		map.on('dblclick', (evt) => {
+		map.on('dblclick', async (evt) => {
 			// add marker 
 			// confirm if selection ok
-			let addMarker = confirm("add this spot as a destination?");
+			const modal = new Modal();
+			const addMarker = await modal.createQuestionModal("add this spot as a destination?");
 			if(addMarker){
 				// get name of destination. make sure it's a new name not already used.
-				const name = prompt("enter destination name");
+				const name = await modal.createInputModal("enter destination name");
 				
 				if(name && this.isUniqueDestName(name)){
 					const data = {
@@ -86,8 +88,8 @@ class MapBoxWrapper {
 					
 					this.markers.push(marker);
 					this.destNames.add(name);
-				}else{
-					alert('You already have a destination with the name: ' + name + '. Please choose a different name.');
+				}else if(!this.isUniqueDestName(name)){
+					await modal.createMessageModal('You already have a destination with the name: ' + name + '. Please choose a different name.');
 				}
 			}
 		});
