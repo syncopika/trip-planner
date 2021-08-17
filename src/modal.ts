@@ -6,11 +6,29 @@ export class Modal {
 
 	constructor(){
 		this.modalStyle = {
-			// TODO
+			position: "fixed",
+			top: "50%",
+			left: "50%",
+			transform: "translate(-50%, -50%)",
+			zIndex: "1010",
+			textAlign: "center",
+			padding: "5px",
+			backgroundColor: "#fff",
+			width: "20%",
+			height: "auto",
+			//paddingTop: "2%",
+			boxShadow: "2px 2px 5px #ccc",
 		};
 		
 		this.modalOverlayStyle = {
-			// TODO
+			zIndex: "1000",
+			position: "fixed",
+			top: "0",
+			left: "0",
+			width: "100%",
+			height: "100%",
+			backgroundColor: "#aaa",
+			opacity: "0.2",
 		};
 	}
 
@@ -18,18 +36,7 @@ export class Modal {
 	createInputModal(text: string): Promise<string> {
 		const modal = document.createElement('div');
 		modal.id = "modal";
-		modal.style.position = "fixed";
-		modal.style.top = "50%";
-		modal.style.left = "50%";
-		modal.style.transform = "translate(-50%, -50%)";
-		modal.style.zIndex = "1010";
-		modal.style.textAlign = "center";
-		modal.style.padding = "5px";
-		modal.style.backgroundColor = "#fff";
-		modal.style.width = "20%";
-		modal.style.height = "15%";
-		modal.style.paddingTop = "2%";
-		modal.style.boxShadow = "2px 2px 5px #ccc";
+		Object.assign(modal.style, this.modalStyle);
 		
 		const displayText = document.createElement('p');
 		displayText.textContent = text;
@@ -46,19 +53,14 @@ export class Modal {
 		const cancelBtn = document.createElement('button');
 		cancelBtn.innerText = "cancel";
 		
+		modal.appendChild(document.createElement('br'));
+		modal.appendChild(document.createElement('br'));
 		modal.appendChild(submitBtn);
 		modal.appendChild(cancelBtn);
 		
 		const modalOverlay = document.createElement('div');
 		modalOverlay.id = "modal-overlay";
-		modalOverlay.style.zIndex = "1000";
-		modalOverlay.style.position = "fixed";
-		modalOverlay.style.top = "0";
-		modalOverlay.style.left = "0";
-		modalOverlay.style.width = "100%";
-		modalOverlay.style.height = "100%";
-		modalOverlay.style.backgroundColor = "#aaa";
-		modalOverlay.style.opacity = "0.2";
+		Object.assign(modalOverlay.style, this.modalOverlayStyle);
 		
 		document.body.appendChild(modal);
 		document.body.appendChild(modalOverlay);
@@ -83,17 +85,7 @@ export class Modal {
 	createMessageModal(text: string): Promise<boolean> {
 		const modal = document.createElement('div');
 		modal.id = "modal";
-		modal.style.position = "fixed";
-		modal.style.top = "50%";
-		modal.style.left = "50%";
-		modal.style.transform = "translate(-50%, -50%)";
-		modal.style.zIndex = "1010";
-		modal.style.textAlign = "center";
-		modal.style.padding = "5px";
-		modal.style.backgroundColor = "#fff";
-		modal.style.width = "25%";
-		modal.style.height = "25%";
-		modal.style.boxShadow = "2px 2px 5px #ccc";
+		Object.assign(modal.style, this.modalStyle);
 		
 		//const text = document.createElement('h2');
 		const displayText = document.createElement('p');
@@ -107,14 +99,7 @@ export class Modal {
 		
 		const modalOverlay = document.createElement('div');
 		modalOverlay.id = "modal-overlay";
-		modalOverlay.style.zIndex = "1000";
-		modalOverlay.style.position = "fixed";
-		modalOverlay.style.top = "0";
-		modalOverlay.style.left = "0";
-		modalOverlay.style.width = "100%";
-		modalOverlay.style.height = "100%";
-		modalOverlay.style.backgroundColor = "#aaa";
-		modalOverlay.style.opacity = "0.2";
+		Object.assign(modalOverlay.style, this.modalOverlayStyle);
 		
 		document.body.appendChild(modal);
 		document.body.appendChild(modalOverlay);
@@ -134,17 +119,7 @@ export class Modal {
 	createQuestionModal(text: string): Promise<boolean> {
 		const modal = document.createElement('div');
 		modal.id = "modal";
-		modal.style.position = "fixed";
-		modal.style.top = "50%";
-		modal.style.left = "50%";
-		modal.style.transform = "translate(-50%, -50%)";
-		modal.style.zIndex = "1010";
-		modal.style.textAlign = "center";
-		modal.style.padding = "5px";
-		modal.style.backgroundColor = "#fff";
-		modal.style.width = "25%";
-		modal.style.height = "25%";
-		modal.style.boxShadow = "2px 2px 5px #ccc";
+		Object.assign(modal.style, this.modalStyle);
 		
 		const displayText = document.createElement('p');
 		displayText.textContent = text;
@@ -162,14 +137,7 @@ export class Modal {
 		
 		const modalOverlay = document.createElement('div');
 		modalOverlay.id = "modal-overlay";
-		modalOverlay.style.zIndex = "1000";
-		modalOverlay.style.position = "fixed";
-		modalOverlay.style.top = "0";
-		modalOverlay.style.left = "0";
-		modalOverlay.style.width = "100%";
-		modalOverlay.style.height = "100%";
-		modalOverlay.style.backgroundColor = "#aaa";
-		modalOverlay.style.opacity = "0.2";
+		Object.assign(modalOverlay.style, this.modalOverlayStyle);
 		
 		document.body.appendChild(modal);
 		document.body.appendChild(modalOverlay);
