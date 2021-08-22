@@ -242,7 +242,40 @@ new Vue({
         })
 		.catch(error => {
 			// database couldn't be connected to
-			// in this case we can't get suggested next hops when a new destination is added
+			// we can't get suggested next hops when a new destination is added
+			// give fake data instead for now
+			(this as any).suggestedNextDest = [
+				{
+					"username": "test_user1",
+					"destname": "test_place1",
+					"tripname": "test_trip1",	
+					"latitude": 39.002833520960156,
+					"longitude": -76.55210937499908,
+					"index": 0,
+					"metadata": {
+						"notes": "hello world2 sdfsdf",
+						"fromDate": "01-05-2020",
+						"toDate": "01-07-2020",
+						"images": [],
+						"routeColor": "#888"
+					}
+				},
+				{
+					"username": "test_user1",
+					"destname": "test_place2",
+					"tripname": "test_trip1",	
+					"latitude": 39.048987979347004,
+					"longitude": -76.91640380859292,
+					"index": 1,
+					"metadata": {
+						"notes": "hello world2 sdfsdf sdfgsdfg",
+						"fromDate": "01-05-2020",
+						"toDate": "01-07-2020",
+						"images": [],
+						"routeColor": "#888"
+					}
+				},
+			];
 		});
     }
 }).$mount('#app') // #app is in /public/index.html
