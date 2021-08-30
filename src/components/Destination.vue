@@ -18,23 +18,23 @@
 		
 		<div :id="destination.name + '_content'" class="content">
 			<!-- show from/to dates -->
-			<div :id="destination.name + '_dates'" class="row">
-				<div class="col">
-					<h3> from: </h3>
+			<div :id="destination.name + '_dates'">
+				<div class="row">
 					<Calendar
 						:dest-name="destination.name + '_from_'"
 						:date="destination.fromDate"
 						:is-editing="isEditing"
 						:ref="destination.name + '_fromDate'"
+						:header="'to'"
 					></Calendar>
 				</div>
-				<div class="col">
-					<h3> to: </h3>
+				<div class="row">
 					<Calendar
 						:dest-name="destination.name + '_to_'"
 						:date="destination.toDate"
 						:is-editing="isEditing"
 						:ref="destination.name + '_toDate'"
+						:header="'from'"
 					></Calendar>
 				</div>
 			</div>
@@ -101,10 +101,10 @@
 
 			<p class='latlng'> lat: {{destination.latitude}}, long: {{destination.longitude}} </p>
 
-			<button v-on:click="toggleEdit"> edit </button>
+			<button v-on:click="toggleEdit" v-if="!isEditing"> edit </button>
 
 			<input class="inputFile" type="file" accept="image/*" :id="destination.name + '_importImage'" @change="uploadImage">
-			<button v-on:click="clickInput"> upload image </button>
+			<button v-if="isEditing" v-on:click="clickInput"> upload image </button>
 
 			<button class="editButton"
 					v-if="isEditing"
@@ -151,6 +151,7 @@ export default Vue.extend({
 				dest.style.border = '2px solid #fff';
 			}
 		},
+		
         dehighlightBorder: function(): void {
 			const name = this.destination.name;
 			const dest = document.getElementById(name + '_dest');
@@ -158,6 +159,7 @@ export default Vue.extend({
 				dest.style.border = '2px solid #000';
 			}	
 		},
+		
         toggleVisibility: function(): void {
 			const name = this.destination.name;
 			const content = document.getElementById(name + '_content');
@@ -172,6 +174,7 @@ export default Vue.extend({
 
 			this.expanded = !this.expanded;
 		},
+		
         toggleEdit: function(evt: any): void {
 			// prevent div from closing
 			evt.stopPropagation();
@@ -196,6 +199,7 @@ export default Vue.extend({
 			const notes = document.getElementById(name + '_notes');
 			if(notes !== null) notes.removeAttribute('disabled');
 		},
+		
         removeDestination: function(evt: any): void {
 			// remove a destination
 			// calls a method of the Vue root instance
@@ -207,6 +211,7 @@ export default Vue.extend({
 				this.$root.removeDestination(name);
 			}
 		},
+		
         saveChanges: function(): void {
 			// note: when save is clicked and the data is sent to the root
 			// to update state, the destination name, if edited, will be
@@ -253,6 +258,7 @@ export default Vue.extend({
 
 			this.isEditing = false;
 		},
+		
 		cancelChanges: function(): void {
 			// make sure destination name goes back to being uneditable
 			const name = this.destination.name;
@@ -266,6 +272,7 @@ export default Vue.extend({
 			this.editSnapshot = {};
 			this.isEditing = false;
 		},
+		
         uploadImage: function(evt: any): void {
             const img = new Image();
             const reader = new FileReader();
@@ -286,10 +293,12 @@ export default Vue.extend({
             //read the file as a URL
             reader.readAsDataURL(file);
 		},
+		
         clickInput: function(): void {
 			const inputElement = document.getElementById(this.destination.name + "_importImage");
             inputElement?.click();
 		},
+		
 		enlargeImage: function(evt: any): void {
             const imageDiv = document.createElement('div');
             imageDiv.style.opacity = "0.98";
@@ -311,7 +320,7 @@ export default Vue.extend({
                 document.body.style.overflow = "visible";
             });
 
-			if (document.body.clientHeight < enlargedImage.height ||
+			if(document.body.clientHeight < enlargedImage.height ||
 				document.body.clientWidth < enlargedImage.width) {
 				// reduce size of enlarged image if larger than the page
                 // or rescale using a canvas?
@@ -334,6 +343,7 @@ export default Vue.extend({
 
 			document.body.appendChild(imageDiv);
 		},
+		
 		deleteImage: function(evt: any): void {
 			// get index of image from id
 			let imageIndex = evt.target.id.split("_");
@@ -341,6 +351,7 @@ export default Vue.extend({
 
             this.destination.images.splice(imageIndex, 1);
         },
+		
 		showColorWheel: function(): void {
             const location = document.getElementById(this.destination.name + '_editRouteColor');
 
@@ -445,7 +456,6 @@ export default Vue.extend({
 	}
 
     li {
-        margin: 0 10px 10px;
         color: #000;
         background-color: #daf08b;
     }
@@ -463,7 +473,7 @@ export default Vue.extend({
     .dest {
         padding: 3px;
         border: 2px solid #000;
-        border-radius: 15px;
+        /*border-radius: 15px;*/
         text-align: center;
     }
 
@@ -478,6 +488,10 @@ export default Vue.extend({
     .col {
         flex: 50%;
     }
+	
+	.date {
+		display: inline-block;
+	}
 
     .delete {
         color: #8b0000;

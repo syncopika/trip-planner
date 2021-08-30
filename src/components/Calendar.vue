@@ -1,6 +1,7 @@
 <template>
     <div>
         <div class="calendar" v-if="isEditing">
+			<p> {{header}}: </p>
             <input :id="destName + 'month'" type="text" size="2" maxlength="2" placeholder="mm" />
             <p> / </p>
             <input :id="destName + 'day'" type="text" size="2" maxlength="2" placeholder="dd" />
@@ -8,7 +9,7 @@
             <input :id="destName + 'year'" type="text" size="4" maxlength="4" placeholder="yyyy" />
         </div>
         <div class="calendar" v-if="!isEditing">
-            <h3>{{date}}</h3>
+            <h3>{{header}}:  {{date.length === 2 ? "" : date.replaceAll("-", "/")}} (MM/DD/YYYY)</h3>
         </div>
     </div>
 </template>
@@ -24,7 +25,8 @@ export default Vue.extend({
     props: {
         destName: { required: true, type: String },
         isEditing: { required: true, type: Boolean },
-        date: { required: true, type: String }
+        date: { required: true, type: String },
+		header: { required: true, type: String },
     },
     methods: {
         getDateInfo: function(): {month: string; day: string; year: string} {
