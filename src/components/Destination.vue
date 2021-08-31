@@ -354,10 +354,16 @@ export default Vue.extend({
 		
 		showColorWheel: function(): void {
             const location = document.getElementById(this.destination.name + '_editRouteColor');
-
+			const colorWheelId = this.destination.name + "_colorWheel";
+			
+			if(document.getElementById(colorWheelId)){
+				// don't add a new one if there already is one
+				return;
+			}
+			
 			const size = "200";
             const colorWheel = document.createElement('canvas');
-            colorWheel.id = this.destination.name + "_colorWheel";
+            colorWheel.id = colorWheelId;
             colorWheel.setAttribute('width', size);
             colorWheel.setAttribute('height', size);
 

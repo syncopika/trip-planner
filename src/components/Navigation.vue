@@ -10,7 +10,6 @@
 			</li>
 
 			<li> | </li>
-
 			<li class='dropdown'>
 				<p class='dropbtn'> select trip </p>
 				<div class='dropContent'>
@@ -154,7 +153,6 @@ ul {
 
 ul li {
 	display: table-cell;
-	width: auto;
-	text-align: left;
+	text-align: center;
 }
 </style>
