@@ -225,7 +225,17 @@ class MapBoxWrapper {
 				popupContent += "<p> long: " + dest.longitude + "</p>";
 				popupContent += "<p> lat: " + dest.latitude + "</p>";
 			}
-
+			
+			// we should also make each suggested next destination
+			// able to be selected as a next destination by the user
+			popupContent += `<button onclick='function addThisToDestList(evt){
+				const lng = ${dest.longitude};
+				const lat = ${dest.latitude};
+				
+				alert("lat: " + lat + ", lng: " + lng);
+				
+			}; addThisToDestList()'> select as next destination? </button>`
+			
 			if(popupContent) {
 				const popup = new mapboxgl.Popup({ offset: 25 });
 				popup.setHTML(popupContent);
@@ -236,7 +246,7 @@ class MapBoxWrapper {
 			newMarker.addTo(this.map);
         }
     }
-
+	
 	drawLineBetweenMarkers() {
 		for(let i = 0; i < this.markers.length - 1; i++) {
 			const currDest = this.markers[i];
