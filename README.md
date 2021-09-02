@@ -1,11 +1,15 @@
 # trip-planner    
     
-An experimental application idea to help plan out your future trips! or record old ones. One cool feature is that every time you add a new destination to your trip, you have the option of being recommended potential next destinations (which are places in close proximity to your last-added destination, based on destinations of other users in the database). The ideal version of this application would allow users to see and click specific places/landmarks/restaurants/etc. on the map to add as destinations for a trip.   
+An experimental application idea to help plan out your future trips! or record old ones. One cool feature is that every time you add a new destination to your trip, you have the option of being recommended potential next destinations (which are places in close proximity to your last-added destination, based on destinations of other users in the database).    
+    
+The ideal version of this application would allow users to see and click specific places/landmarks/restaurants/etc. on the map to add as destinations for a trip.   
     
 This project optionally makes use of the MapBox API and so you may need a token, which you can get for free (and comes with 50000 free API requests/month).    
     
 My build is kinda weird right now in that I'm using an iframe to hold the MapBox map, which I'm storing in the public folder and building separately from the rest of the project (I still need to understand how vue-cli works 😅).       
     
+You can also export trips as a .json file (but exporting uploaded images as well is currently a no-go) and import them.    
+	
 some screenshots:    
 ![the main page](screenshots/screenshot.png)    
 the main page    
@@ -39,8 +43,10 @@ Make sure to run the backend server via `node api-server.js`. The Vue app makes 
 ### Compiles and hot-reloads for development
 ```
 npm run serve
-```
-
+```    
+    
+Note that I have a `vue.config.js` file set up such that you'll want to navigate to `http://localhost:8080/trip-planner`.    
+    
 ### Compiles and minifies for production
 ```
 npm run build

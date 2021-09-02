@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import axios from 'axios';
+import { Modal } from './modal';
 import { Destination } from './triproute';
 
 Vue.config.productionTip = false
@@ -150,11 +151,10 @@ new Vue({
 		importData: function(evt: any): void {
 			const reader = new FileReader();
 			const file = evt.target.files[0];
-			const tripData = this.tripData;
 			
 			if(file){
-				reader.onload = (function(){
-					return function(e: any){ 
+				reader.onload = (() => {
+					return (e: any) => { 
 						const data: any = JSON.parse(e.target.result);
 						
 						if(!data.length || !data[0].tripName || !data[0].listOfDest){
@@ -163,7 +163,8 @@ new Vue({
 						}
 						
 						// switch current trip to this one
-						tripData.push(data[0]);
+						this.tripData.push(data[0]);
+						this.currTripIndex = this.tripData.length - 1;
 					}
 				})();
 				
@@ -171,7 +172,7 @@ new Vue({
 			}
 		},
 		
-        exportData: function(): void {
+        exportData: async function(): Promise<void> {
             const data = JSON.parse(JSON.stringify(this.tripData)); // make a copy
             for(const trip of data) {
                 for(const dest of trip.listOfDest) {
@@ -183,7 +184,11 @@ new Vue({
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
-            link.download = "trip-planner-data.json"; // TODO: ask user for file name
+            
+			const modal = new Modal();
+			const filename = await modal.createInputModal("What would you like to name the exported file?");
+			link.download = filename ? `${filename}.json` : "trip-planner-data.json";
+			
             link.click();
         }
     },
