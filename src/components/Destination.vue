@@ -125,6 +125,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Destination } from '../triproute';
+import { Modal } from '../modal';
 import Calendar from './Calendar.vue';
 
 // get info passed from parent component (i.e. Sidebar)
@@ -200,10 +201,11 @@ export default Vue.extend({
 			if(notes !== null) notes.removeAttribute('disabled');
 		},
 		
-        removeDestination: function(evt: any): void {
+        removeDestination: async function(evt: any): Promise<void> {
 			// remove a destination
 			// calls a method of the Vue root instance
-			const remove = confirm("Are you sure you want to remove this destination?");
+			const modal = new Modal();
+			const remove = await modal.createQuestionModal("Are you sure you want to remove this destination?");
 			if (remove) {
 				const name = evt.target.id.split("_")[0]; // i.e. name_dest, and we want name
 
@@ -446,14 +448,11 @@ export default Vue.extend({
 	}
 
     button {
-        padding: 4px;
         background-color: #6A5ACD;
         border-radius: 10px;
         border: 1px solid #483D8B;
         color: #fff;
         display: inline;
-        margin-left: 2px;
-        margin-right: 2px;
     }
 
 	ul {

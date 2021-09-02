@@ -76,11 +76,11 @@ export default class TripRouteMap extends Vue {
 	showSuggestedNextHops = false;
 
 	@Watch('listOfDest', { deep: true })
-	onDestChange(newVal: Array<Destination>, oldVal: Array<Destination>): void {
-		// note that we shouldn't need to care about the old value
+	onDestChange(newVal: Array<Destination>, _: Array<Destination>): void {
+		// note that we shouldn't need to care about the old value (the 2nd arg)
 		this.updateMap(newVal);
-		console.log(newVal);
-		console.log(oldVal);
+		//console.log(newVal);
+		//console.log(oldVal);
 
 		// whenever listOfDest changes, suggestedNextDest should too
         if(this.showSuggestedNextHops) {
@@ -94,14 +94,14 @@ export default class TripRouteMap extends Vue {
         const mapIframe = document.getElementById('mapContainer') as HTMLIFrameElement;
 
         if(mapIframe !== null && mapIframe.contentDocument !== null) {
-            console.log("sending data to the iframe for event: " + eventName);
+            //console.log("sending data to the iframe for event: " + eventName);
             mapIframe.contentDocument.dispatchEvent(updateMapEvent);
         }
     }
 	
     updateMap(data: Array<Destination>): void {
 		// take new destination data and update the MapBox map markers as needed
-		console.log("I'm supposed to update the map!");
+		//console.log("I'm supposed to update the map!");
 		this.dispatchEventToMap('updateMap', data);
 	}
 
@@ -224,10 +224,11 @@ a{
 }
 
 button {
-	padding: 4px;
 	background-color: #6A5ACD;
 	border-radius: 10px;
 	border: 1px solid #483D8B;
 	color: #fff;
+	margin-left: 2px;
+	margin-right: 2px;
 }
 </style>

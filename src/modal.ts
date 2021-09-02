@@ -18,6 +18,7 @@ export class Modal {
 			height: "auto",
 			//paddingTop: "2%",
 			boxShadow: "2px 2px 5px #ccc",
+			fontFamily: "monospace",
 		};
 		
 		this.modalOverlayStyle = {

@@ -7,6 +7,7 @@
             <input :id="destName + 'day'" type="text" size="2" maxlength="2" placeholder="dd" />
             <p> / </p>
             <input :id="destName + 'year'" type="text" size="4" maxlength="4" placeholder="yyyy" />
+            <h3> (MM/DD/YYYY) </h3>
         </div>
         <div class="calendar" v-if="!isEditing">
             <h3>{{header}}:  {{date.length === 2 ? "" : date.replaceAll("-", "/")}} (MM/DD/YYYY)</h3>

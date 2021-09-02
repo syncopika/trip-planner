@@ -62,8 +62,6 @@ class MapBoxWrapper {
 		map["doubleClickZoom"].disable();
 
 		map.on('dblclick', async (evt) => {
-			// add marker 
-			// confirm if selection ok
 			const modal = new Modal();
 			const addMarker = await modal.createQuestionModal("add this spot as a destination?");
 			if(addMarker) this.addMarker(evt.lngLat.lat, evt.lngLat.lng);
@@ -151,11 +149,6 @@ class MapBoxWrapper {
 		});
 		
 		return newMarker;
-	}
-	
-	removeSingleMarker(): boolean {
-		// TODO: is this needed?
-		return true;
 	}
 	
 	removeMarkers(): boolean {
