@@ -1,4 +1,3 @@
-
 interface Destination {
 	name:       string;
 	newName?:   string;

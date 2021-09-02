@@ -38,7 +38,6 @@ TODO:
 - pay attention to eslint warnings and fix them?
 - testing for core components
 - get a dummy map tile iframe for demoing? done but this one might be good to use too: https://maputnik.github.io/osm-liberty/
-- be able to use a suggested next destination marker for adding a next destination 
 
 now:
 - set zoom level?
@@ -46,7 +45,6 @@ now:
 - reorder dests
 - customize note text properties (i.e. font color, font size)? think accessibility?
 - expected data format for importing/exported files?
-- instead of using prompt, make a new component to handle those things
 
 later:
 - emit events rather than calling root?
