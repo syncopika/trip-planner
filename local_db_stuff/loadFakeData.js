@@ -1,3 +1,5 @@
+// note that we are using Postgres here
+
 const pg = require('pg');
 const fs = require('fs');
 

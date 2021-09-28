@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import axios from 'axios';
+import { Modal } from './modal';
 import { Destination } from './triproute';
 
 Vue.config.productionTip = false
@@ -70,7 +71,7 @@ new Vue({
             });
         },
         
-		findDestination: function (destName: string): boolean {
+		findDestination: function(destName: string): boolean {
             const listOfDest = this.tripData[this.currTripIndex].listOfDest;
             for (const dest of listOfDest) {
                 if (dest.name === destName) {
@@ -80,7 +81,7 @@ new Vue({
             return false;
         },
         
-		removeDestination: function (destName: string): void {
+		removeDestination: function(destName: string): void {
             const currDests = this.tripData[this.currTripIndex].listOfDest;
             this.tripData[this.currTripIndex].listOfDest = currDests.filter(dest => dest.name !== destName);
 			
@@ -88,7 +89,7 @@ new Vue({
 			// if so, take the current last dest and show next hop suggestions for that dest (if show next hops option selected)
         },
         
-		updateDestination: function (data: Destination): void {
+		updateDestination: function(data: Destination): void {
             // called from Destination.vue
             // TODO: is there a better way to do this update?
             const listOfDest = this.tripData[this.currTripIndex].listOfDest;
@@ -111,7 +112,7 @@ new Vue({
                 }
             }
 
-            for (let i = 0; i < listOfDest.length; i++) {
+            for(let i = 0; i < listOfDest.length; i++) {
                 const dest = listOfDest[i];
                 if(dest.name === currName) {
                     // TODO: just do for prop in dest, reassign?
@@ -133,7 +134,7 @@ new Vue({
             }
         },
         
-		addNewTrip: function (name: string): void {
+		addNewTrip: function(name: string): void {
             // TODO: check for existing trip name? allow duplicate names?
             const newTrip = {
                 tripName: name,
@@ -143,18 +144,17 @@ new Vue({
             this.currTripIndex = this.tripData.length - 1;
         },
         
-		selectTrip: function (tripIndex: number): void {
+		selectTrip: function(tripIndex: number): void {
             this.currTripIndex = tripIndex;
         },
 		
-		importData: function (evt: any): void {
+		importData: function(evt: any): void {
 			const reader = new FileReader();
 			const file = evt.target.files[0];
-			const tripData = this.tripData;
 			
 			if(file){
-				reader.onload = (function(){
-					return function(e: any){ 
+				reader.onload = (() => {
+					return (e: any) => { 
 						const data: any = JSON.parse(e.target.result);
 						
 						if(!data.length || !data[0].tripName || !data[0].listOfDest){
@@ -163,7 +163,8 @@ new Vue({
 						}
 						
 						// switch current trip to this one
-						tripData.push(data[0]);
+						this.tripData.push(data[0]);
+						this.currTripIndex = this.tripData.length - 1;
 					}
 				})();
 				
@@ -171,7 +172,7 @@ new Vue({
 			}
 		},
 		
-        exportData: function(): void {
+        exportData: async function(): Promise<void> {
             const data = JSON.parse(JSON.stringify(this.tripData)); // make a copy
             for(const trip of data) {
                 for(const dest of trip.listOfDest) {
@@ -183,7 +184,11 @@ new Vue({
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
-            link.download = "trip-planner-data.json"; // TODO: ask user for file name
+            
+			const modal = new Modal();
+			const filename = await modal.createInputModal("What would you like to name the exported file?");
+			link.download = filename ? `${filename}.json` : "trip-planner-data.json";
+			
             link.click();
         }
     },
@@ -228,7 +233,7 @@ new Vue({
             username: "user1"
         })
 		.then(res => {
-            this.tripData = res.data.trips; // get user's trips
+            this.tripData = res.data.trips;      // get user's trips
 			this.canGetSuggestedNextDest = true; // since we can connect to the database
 			
 			// get suggested next hops using the currently last destination in the current trip
@@ -242,7 +247,40 @@ new Vue({
         })
 		.catch(error => {
 			// database couldn't be connected to
-			// in this case we can't get suggested next hops when a new destination is added
+			// we can't get suggested next hops when a new destination is added
+			// give fake data instead for now
+			(this as any).suggestedNextDest = [
+				{
+					"username": "test_user1",
+					"destname": "test_place1",
+					"tripname": "test_trip1",	
+					"latitude": 39.002833520960156,
+					"longitude": -76.55210937499908,
+					"index": 0,
+					"metadata": {
+						"notes": "hello world2 sdfsdf",
+						"fromDate": "01-05-2020",
+						"toDate": "01-07-2020",
+						"images": [],
+						"routeColor": "#888"
+					}
+				},
+				{
+					"username": "test_user1",
+					"destname": "test_place2",
+					"tripname": "test_trip1",	
+					"latitude": 39.048987979347004,
+					"longitude": -76.91640380859292,
+					"index": 1,
+					"metadata": {
+						"notes": "hello world2 sdfsdf sdfgsdfg",
+						"fromDate": "01-05-2020",
+						"toDate": "01-07-2020",
+						"images": [],
+						"routeColor": "#888"
+					}
+				},
+			];
 		});
     }
 }).$mount('#app') // #app is in /public/index.html

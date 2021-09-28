@@ -2,6 +2,7 @@
 // https://docs.mapbox.com/mapbox-gl-js/api/
 
 import mapboxgl, { Map, Marker, Popup } from 'mapbox-gl';
+import { Modal } from '../src/modal';
 import { Destination } from '../src/triproute';
 
 class MapBoxWrapper {
@@ -21,7 +22,7 @@ class MapBoxWrapper {
 		
 		// default style that doesn't require a mapbox key
 		// https://docs.mapbox.com/mapbox-gl-js/example/map-tiles/
-		let mapStyle : any = {
+		let mapStyle: any = {
 			'version': 8,
 			'sources': {
 				'raster-tiles': {
@@ -50,7 +51,7 @@ class MapBoxWrapper {
 			mapStyle = 'mapbox://styles/mapbox/streets-v11';
 		}
 		
-		let map = new mapboxgl.Map({
+		const map = new mapboxgl.Map({
 			container: mapContainer,
 			style: mapStyle,
 			center: [-77.04, 38.907],
@@ -60,41 +61,43 @@ class MapBoxWrapper {
 		// disable double-click zoom so we can configure double-click for adding a new destination
 		map["doubleClickZoom"].disable();
 
-		map.on('dblclick', (evt) => {
-			// add marker 
-			// confirm if selection ok
-			let addMarker = confirm("add this spot as a destination?");
-			if(addMarker){
-				// get name of destination. make sure it's a new name not already used.
-				let name = prompt("enter destination name");
-				
-				if(name && this.isUniqueDestName(name)){
-					const data = {
-						name: name,
-						longitude: evt.lngLat.lng, 
-						latitude: evt.lngLat.lat
-					}
-
-					const marker = this.addMarkerToMap(data); // TODO: why not just add the marker to this.markers within the method?
-					
-					// send info to parent to add new destination to destination list
-					const addDestEvent = new CustomEvent('addDest', {
-						detail: data
-					});
-					
-					parent.document.dispatchEvent(addDestEvent);
-					
-					this.markers.push(marker);
-					this.destNames.add(name);
-				}else{
-					alert('You already have a destination with the name: ' + name + '. Please choose a different name.');
-				}
-			}
+		map.on('dblclick', async (evt) => {
+			const modal = new Modal();
+			const addMarker = await modal.createQuestionModal("add this spot as a destination?");
+			if(addMarker) this.addMarker(evt.lngLat.lat, evt.lngLat.lng);
 		});
 
 		map.addControl(new mapboxgl.NavigationControl());
 		
 		this.map = map;
+	}
+	
+	async addMarker(latitude: number, longitude: number){
+		// get name of destination. make sure it's a new name not already used.
+		const modal = new Modal();
+		const name = await modal.createInputModal("enter destination name");
+		
+		if(name && this.isUniqueDestName(name)){
+			const data = {
+				name,
+				longitude, 
+				latitude,
+			};
+
+			const marker = this.addMarkerToMap(data); // TODO: why not just add the marker to this.markers within the method?
+			
+			// send info to parent to add new destination to destination list
+			const addDestEvent = new CustomEvent('addDest', {
+				detail: data
+			});
+			
+			parent.document.dispatchEvent(addDestEvent);
+			
+			this.markers.push(marker);
+			this.destNames.add(name);
+		}else if(!this.isUniqueDestName(name)){
+			await modal.createMessageModal(`You already have a destination with the name: ${name}. Please choose a different name.`);
+		}
 	}
 	
 	getMap(): Map {
@@ -105,12 +108,12 @@ class MapBoxWrapper {
 		return this.container;
 	}
 	
-	isUniqueDestName(name : string) {
+	isUniqueDestName(name: string) {
 		return !this.destNames.has(name);
 	}
 	
-	addMarkerToMap(data : any){
-		let newMarker = new mapboxgl.Marker();
+	addMarkerToMap(data: any) {
+		const newMarker = new mapboxgl.Marker();
 		let popupContent = "";
 		
 		if(data.name){
@@ -133,7 +136,7 @@ class MapBoxWrapper {
 		}
 		
 		if(popupContent){
-			let popup = new mapboxgl.Popup({offset: 25});
+			const popup = new mapboxgl.Popup({offset: 25});
 			popup.setHTML(popupContent);
 			newMarker.setPopup(popup);
 		}
@@ -148,12 +151,8 @@ class MapBoxWrapper {
 		return newMarker;
 	}
 	
-	removeSingleMarker() : boolean {
-		// TODO
-		return true;
-	}
-	
-	removeMarkers() : boolean {
+	removeMarkers(): boolean {
+		this.clearLines();
 		for(let marker of this.markers){
 			marker.remove();
 		}
@@ -167,9 +166,26 @@ class MapBoxWrapper {
 		return true;
 	}
 	
+	clearLines() {
+		this.markers.forEach((marker, idx) => {
+			const routeId = 'route' + idx;
+			const sourceId = 'source' + idx;
+
+			if(this.map.getLayer(routeId)) {
+				this.map.removeLayer(routeId);
+			}
+
+			if(this.map.getSource(sourceId)) {
+				this.map.removeSource(sourceId);
+			}
+		});
+	}
+	
 	updateMarkers(listOfDest : Array<Destination>): void {
+		this.clearLines();
+		
 		for(let dest of listOfDest){
-			let marker = this.addMarkerToMap(dest);		
+			const marker = this.addMarkerToMap(dest);		
 			this.destNames.add(dest.name);
 
 			// add route color property to marker with route color
@@ -191,57 +207,59 @@ class MapBoxWrapper {
 		// show markers for suggested next hops
 		for(let dest of listOfLocations){
 			// make sure to denote these markers in a different way from the user's actual destination markers
-			let newMarker = new mapboxgl.Marker({ color: "#B22222"}); // brickred marker
+			const newMarker = new mapboxgl.Marker({ color: "#B22222"}); // brickred marker
 
-			let popupContent = "";
+			const popupContent = document.createElement("div");
 
 			if(dest.destname) {
-				popupContent += "<h3>" + dest.destname + "</h3>";
+				const destName = document.createElement("h3");
+				destName.textContent = dest.destname;
+				popupContent.appendChild(destName);
 			}
 
 			if(dest.longitude && dest.latitude) {
 				newMarker.setLngLat([parseFloat(dest.longitude), parseFloat(dest.latitude)]);
-				popupContent += "<br />";
-				popupContent += "<p> long: " + dest.longitude + "</p>";
-				popupContent += "<p> lat: " + dest.latitude + "</p>";
+				popupContent.appendChild(document.createElement("br"));
+				
+				const destLng = document.createElement("p");
+				destLng.textContent = dest.longitude;
+				
+				const destLat = document.createElement("p");
+				destLat.textContent = dest.latitude;
+				
+				popupContent.appendChild(destLng);
+				popupContent.appendChild(destLat);
+				
+				// we should also make each suggested next destination
+				// able to be selected as a next destination by the user
+				const selectBtn = document.createElement("button");
+				selectBtn.textContent = "select as next destination?";
+				popupContent.appendChild(selectBtn);
+				
+				selectBtn.addEventListener("click", () => {
+					this.addMarker(dest.latitude, dest.longitude);
+				});
 			}
-
-			if(popupContent) {
-				let popup = new mapboxgl.Popup({ offset: 25 });
-				popup.setHTML(popupContent);
-				newMarker.setPopup(popup);
-			}
+			
+			const popup = new mapboxgl.Popup({ offset: 25 });
+			popup.setDOMContent(popupContent);
+			newMarker.setPopup(popup);
 
 			this.suggestedNextHops.push(newMarker);
 			newMarker.addTo(this.map);
         }
     }
-
+	
 	drawLineBetweenMarkers() {
-		// clear old lines first
-		this.markers.forEach((marker, idx) => {
-			let routeId = 'route' + idx;
-			let sourceId = 'source' + idx;
-
-			if(this.map.getLayer(routeId)) {
-				this.map.removeLayer(routeId);
-			}
-
-			if(this.map.getSource(sourceId)) {
-				this.map.removeSource(sourceId);
-			}
-		});
-
 		for(let i = 0; i < this.markers.length - 1; i++) {
+			const currDest = this.markers[i];
+			const nextDest = this.markers[i + 1];
 
-			let currDest = this.markers[i];
-			let nextDest = this.markers[i + 1];
+			const loc = currDest.getLngLat();
+			const nextLoc = nextDest.getLngLat();
 
-			let loc = currDest.getLngLat();
-			let nextLoc = nextDest.getLngLat();
-
-			let routeId = 'route' + i;
-			let sourceId = 'source' + i;
+			const routeId = 'route' + i;
+			const sourceId = 'source' + i;
 
 			this.map.addSource(sourceId, {
 				'type': 'geojson',
@@ -267,12 +285,18 @@ class MapBoxWrapper {
 					'line-cap': 'round'
 				},
 				'paint': {
-					//@ts-ignore - b/c I added a new property to Marker
+					//@ts-ignore - b/c I added a new property to Marker - is there a better way to do this?
 					'line-color': currDest.routeColor,
 					'line-width': 7
 				}
 			});
         }
+	}
+	
+	createMarkerPopup() {
+		// TODO -  this should return an html node containing
+		// all the stuff in a marker popup
+		// we can then pass it to marker.setDOMContent
 	}
 
 }

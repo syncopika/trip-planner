@@ -75,12 +75,16 @@ for the 'Use the latest vue-eslint-parser' error see: https://eslint.vuejs.org/u
 initial `npm run serve` generates errors but after that things seem fine?? see: https://github.com/vuejs/vue-cli/issues/3065
 maybe a cache thing?
 
+// seems to be a difference using just `export default` vs `export default Vue.extend` 
+https://stackoverflow.com/questions/55755623/all-vue-props-and-data-give-the-error-property-does-not-exist-on-type-wit
+
 TESTING:
 https://stackoverflow.com/questions/42711175/what-does-the-symbol-do-in-javascript-imports - saw this in the test example in tests/unit
 https://technology.doximity.com/articles/five-traps-to-avoid-while-unit-testing-vue-js
 https://www.digitalocean.com/community/tutorials/vuejs-vue-testing
 https://vuejs.org/v2/cookbook/unit-testing-vue-components.html#Real-World-Example
 https://kentcdodds.com/blog/testing-implementation-details
+
 ========================
 typescript stuff
 
@@ -96,6 +100,7 @@ https://stackoverflow.com/questions/40158889/interface-issue-with-typescript
 https://github.com/vuejs/eslint-plugin-vue/issues/811
 https://stackoverflow.com/questions/57802057/eslint-configuring-no-unused-vars-for-typescript -> why the heck is this so hard and frustrating!!? >:(
   - @typescript-eslint/no-unused-vars should be set to 'off' but some people are saying 'error' (why?).
+https://stackoverflow.com/questions/25719834/how-can-i-define-a-typescript-object-return-value-for-a-function
 
 ========================
 useful mapbox stuff:
@@ -140,6 +145,9 @@ https://stackoverflow.com/questions/9280258/prevent-body-scrolling-but-allow-ove
 https://stackoverflow.com/questions/32129380/css-overlay-not-scrolling
 https://www.w3schools.com/howto/howto_css_responsive_iframes.asp
 https://stackoverflow.com/questions/30883684/set-the-margin-top-of-a-div-relative-to-screen-resolution -> I keep forgetting about vh
+https://stackoverflow.com/questions/9894176/make-li-fit-the-width-of-the-ul-using-css
+https://css-tricks.com/considerations-styling-modal/
+https://stackoverflow.com/questions/60234774/hold-promise-resolve-reject-function-reference-waiting-on-user-input
 
 ========================
 anything in src gets processed by webpack.put stuff in /public and then reference with relative path like './mapIframe.html'

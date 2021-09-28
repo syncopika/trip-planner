@@ -17,12 +17,10 @@ import TripRouteMap from './components/TripRoute.vue';
 })
 
 export default class App extends Vue {
-    @Prop({ required: true }) public listOfDest!: Array<Object>;
+    @Prop({ required: true }) public listOfDest!: Array<Record<string, any>>;
     @Prop({ required: true }) public tripName!: string;
     @Prop({ required: true }) public listOfTripNames!: Array<string>;
     @Prop({ required: true }) public suggestedNextDest!: any[];
-
-    mounted() {}
 }
 </script>
 

@@ -1,35 +1,40 @@
 <template>
     <div>
         <div class="calendar" v-if="isEditing">
+			<p> {{header}}: </p>
             <input :id="destName + 'month'" type="text" size="2" maxlength="2" placeholder="mm" />
             <p> / </p>
             <input :id="destName + 'day'" type="text" size="2" maxlength="2" placeholder="dd" />
             <p> / </p>
             <input :id="destName + 'year'" type="text" size="4" maxlength="4" placeholder="yyyy" />
+            <h3> (MM/DD/YYYY) </h3>
         </div>
         <div class="calendar" v-if="!isEditing">
-            <h3>{{date}}</h3>
+            <h3>{{header}}:  {{date.length === 2 ? "" : date.replaceAll("-", "/")}} (MM/DD/YYYY)</h3>
         </div>
     </div>
 </template>
 
 
 <script lang="ts">
-export default {
+import Vue from 'vue';
+
+export default Vue.extend({
     data(){
         return {}
     },
     props: {
         destName: { required: true, type: String },
         isEditing: { required: true, type: Boolean },
-        date: { required: true, type: String }
-        },
+        date: { required: true, type: String },
+		header: { required: true, type: String },
+    },
     methods: {
-        getDateInfo: function(): {month: string, day: string, year: string} {
-            let destName = (this as any).destName;
-            let month: HTMLInputElement = document.getElementById(destName + "month") as HTMLInputElement;
-            let day: HTMLInputElement = document.getElementById(destName + "day") as HTMLInputElement;
-            let year: HTMLInputElement = document.getElementById(destName + "year") as HTMLInputElement;
+        getDateInfo: function(): {month: string; day: string; year: string} {
+            const destName = this.destName;
+            const month: HTMLInputElement = document.getElementById(destName + "month") as HTMLInputElement;
+            const day: HTMLInputElement = document.getElementById(destName + "day") as HTMLInputElement;
+            const year: HTMLInputElement = document.getElementById(destName + "year") as HTMLInputElement;
             return {
                 month: month.value,
                 day: day.value,
@@ -38,21 +43,21 @@ export default {
         }
     },
     updated: function(){
-        if((this as any).date && (this as any).isEditing){
+        if(this.date && this.isEditing){
             // show the input fields with the date filled in
-            let dateParts = (this as any).date.split("-"); // dates should be delimited by "-"
-            let destName = (this as any).destName;
+            const dateParts = this.date.split("-"); // dates should be delimited by "-"
+            const destName = this.destName;
 
-            let month: HTMLInputElement = document.getElementById(destName + "month") as HTMLInputElement;
-            let day : HTMLInputElement = document.getElementById(destName + "day") as HTMLInputElement;
-            let year: HTMLInputElement = document.getElementById(destName + "year") as HTMLInputElement;
+            const month: HTMLInputElement = document.getElementById(destName + "month") as HTMLInputElement;
+            const day: HTMLInputElement = document.getElementById(destName + "day") as HTMLInputElement;
+            const year: HTMLInputElement = document.getElementById(destName + "year") as HTMLInputElement;
 
             if(month && dateParts.length > 0) month.value = dateParts[0];
             if(day && dateParts.length > 1) day.value = dateParts[1];
             if(year && dateParts.length > 2) year.value = dateParts[2];
         }
     }
-}
+});
 </script>
 
 <style scoped>

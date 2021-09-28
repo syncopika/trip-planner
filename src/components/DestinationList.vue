@@ -24,6 +24,6 @@ import Destination from './Destination.vue';
 })
 
 export default class DestinationList extends Vue {
-	@Prop({ required: true }) public listOfDest!: Array<Object>;
+	@Prop({ required: true }) public listOfDest!: Array<Record<string, any>>;
 }
 </script>
