@@ -6,12 +6,14 @@ describe('Calendar.vue', () => {
 	const date = "12-23-2020";
 	const destName = "test";
 	const isEditing = true;
+	const header = "to:";
 	
 	const wrapper = shallowMount(Calendar, {
 		propsData: {
 			destName,
 			isEditing,
-			date
+			date,
+			header,
 		}
 	});
 	
