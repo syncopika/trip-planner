@@ -12,4 +12,4 @@ export interface dbInterface {
 	getClosestDestinations(maxResults: number, latitude: number, longitude: number, radius: number): {destinations: any[]}; // destinations should be an array of trip data
 	
 	getUserDestinations(username: string): {trips: any[]}; // trips should be an array of trip data
-};
+}

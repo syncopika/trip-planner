@@ -136,7 +136,7 @@ app.post("/api/userDestinations", (req, res) => {
 			const results = dbRes.rows;
 			const response = {};
 			
-			for(let row of results) {
+			for(const row of results) {
 				row.metadata.name = row.destname;
 				row.metadata.latitude = row.latitude;
 				row.metadata.longitude = row.longitude;
@@ -150,7 +150,7 @@ app.post("/api/userDestinations", (req, res) => {
 
 			const data = [];
 			
-			for(let trip in response) {
+			for(const trip in response) {
 				const newTrip = {};
 				newTrip.tripName = trip;
 				newTrip.listOfDest = response[trip];

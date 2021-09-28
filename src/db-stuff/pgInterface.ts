@@ -35,4 +35,4 @@ export class PostgresInterface implements dbInterface {
 		return {trips: []};
 	}
 	
-};
+}

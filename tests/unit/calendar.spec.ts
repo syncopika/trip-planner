@@ -27,7 +27,7 @@ describe('Calendar.vue', () => {
 	// TODO: this is correct because the input boxes shouldn't be populated with values until
 	// the updated lifecycle hook function is called. probably should separate the function and put in methods instead.
 	wrapper.findAll("input").wrappers.forEach((inputWrapper) => {
-		const inputEl : HTMLInputElement = (inputWrapper as Wrapper<Vue>).element as HTMLInputElement;
+		const inputEl: HTMLInputElement = (inputWrapper as Wrapper<Vue>).element as HTMLInputElement;
 		expect(inputEl.value).toBe("");
 	});
 	

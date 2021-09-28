@@ -5,7 +5,7 @@ import { Destination } from '@/triproute'
 // TODO: not test implementation details
 describe('Destination.vue', () => {
   it('renders destination info when passed a Destination object', () => {
-	const dest : Destination = {
+	const dest: Destination = {
 		"name": "test",
 		"latitude": 38.9486650738765,
 		"longitude": -77.01459411621002,
@@ -26,7 +26,7 @@ describe('Destination.vue', () => {
     expect(wrapper.find("#test").text()).toEqual(dest.name);
 	
 	// make sure destination notes are there
-	const notes : HTMLInputElement = wrapper.find("#test_notes").element as HTMLInputElement;
+	const notes: HTMLInputElement = wrapper.find("#test_notes").element as HTMLInputElement;
 	expect(notes.value).toEqual(dest.notes);
 	
 	const locationText = wrapper.find(".latlng").text();

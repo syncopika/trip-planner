@@ -1,8 +1,8 @@
 
 export class Modal {
 	
-	modalStyle: any;
-	modalOverlayStyle: any;
+	modalStyle: Record<string, string>;
+	modalOverlayStyle: Record<string, string>;
 
 	constructor(){
 		this.modalStyle = {
@@ -37,7 +37,7 @@ export class Modal {
 	createInputModal(text: string): Promise<string> {
 		const modal = document.createElement('div');
 		modal.id = "modal";
-		Object.assign(modal.style, this.modalStyle);
+		Object.assign(modal.style, this.modalStyle); // add attributes from this.modalStyle to modal.style
 		
 		const displayText = document.createElement('p');
 		displayText.textContent = text;
