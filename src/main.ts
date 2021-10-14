@@ -280,6 +280,21 @@ new Vue({
 						"routeColor": "#888"
 					}
 				},
+				{
+					"username": "test_user1",
+					"destname": "test_place3",
+					"tripname": "test_trip1",	
+					"latitude": 38.848987979347004,
+					"longitude": -77.01640380859292,
+					"index": 2,
+					"metadata": {
+						"notes": "hello world2 sdfsdf sdfgsdfg",
+						"fromDate": "01-05-2020",
+						"toDate": "01-07-2020",
+						"images": [],
+						"routeColor": "#888"
+					}
+				},
 			];
 		});
     }

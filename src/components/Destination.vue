@@ -181,8 +181,7 @@ export default Vue.extend({
 			evt.stopPropagation();
 			
 			const name = this.destination.name;
-		
-			// set flag
+			
 			this.isEditing = true;
 
 			// take a snapshot of all current data so we can cancel changes easily
@@ -266,6 +265,9 @@ export default Vue.extend({
 			const name = this.destination.name;
 			const destTitle = document.getElementById(name);
 			destTitle?.setAttribute('contenteditable', "false");
+			
+			const notes = document.getElementById(name + '_notes');
+			notes?.setAttribute('disabled', 'true');
 
 			const currData = JSON.parse(JSON.stringify(this.editSnapshot));
 			for(const data in currData) {

@@ -41,7 +41,7 @@
 			<navigation :list-of-trip-names="listOfTripNames"></navigation>
 			
 			<div id='tripInfo'>
-				<h1 id='tripTitle'>{{tripName}}</h1>
+				<h1 class='tripTitle' v-on:click="toggleEdit">{{tripName}}</h1>
 				<destinationList :list-of-dest="listOfDest"></destinationList>
 			</div>
 			
@@ -134,6 +134,11 @@ export default class TripRouteMap extends Vue {
         }
 	}
 	
+	toggleEdit(evt: any){
+		//console.log(evt);
+		evt.target.setAttribute('contenteditable', "true");
+	}
+	
 	mounted(){
 		// the iframe might not be ready?
 		// so listen for the ready event first
@@ -162,7 +167,6 @@ label{
 #main{
 	display: flex;
 	flex-direction: row;
-	font-family: monospace;
 	background-color: black;
 }
 
@@ -231,4 +235,5 @@ button {
 	margin-left: 2px;
 	margin-right: 2px;
 }
+
 </style>

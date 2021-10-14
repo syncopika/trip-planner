@@ -9,7 +9,7 @@
 				new trip
 			</li>
 
-			<li> | </li>
+			<li> - </li>
 			<li class='dropdown'>
 				<p class='dropbtn'> select trip </p>
 				<div class='dropContent'>
@@ -25,18 +25,22 @@
 				</div>
 			</li>
 
-			<li> | </li>
+			<li> - </li>
 			<li class="selectOption" @click="triggerImport"> import </li>
 			<input type='file' @change="importData" id='importTripData'>
 
-			<li> | </li>
+			<li> - </li>
 			<li class="selectOption" @click="exportData"> export </li>
 
-			<li> | </li>
+			<!-- TODO 
+			
+			<li> - </li>
 			<li class="" @click="saveData"> save </li>
 
-			<li> | </li>
+			<li> - </li>
 			<li class=""> logout </li>
+			
+			-->
 		</ul>
 	</div>
 </template>
