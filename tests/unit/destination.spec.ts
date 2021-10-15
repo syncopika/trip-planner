@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils'
 import DestinationComponent from '@/components/Destination.vue'
-import { Destination } from '@/triproute'
+import { Destination } from '@/utils/triproute'
 
 // TODO: not test implementation details
 describe('Destination.vue', () => {

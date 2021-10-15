@@ -2,7 +2,7 @@ db stuff
 
 db name: trip_planner_test
 
-2 tables:
+3 tables (users, destinations, userdestinations):
 users 
 =======
 id serial
@@ -11,13 +11,18 @@ password varchar(60)
 
 destinations
 ============
-username varchar(60)
+id serial
 destname varchar(60)
 tripname varchar(60)
-index int 		// the index of the destination for the trip it belongs to
+index int 		// the index of the destination for the trip it belongs to. not sure this is a good idea.
 latitude decimal (10,8)
 longitude decimal (11,8)
-metadata jsonb
+metadata jsonb          // contains info about the destination like notes, start date, end date, etc.
+
+userdestinations (matches users to their destinations)
+===============
+user_id
+destination_id
 
 
 ///// accessing db locally
@@ -41,10 +46,12 @@ TODO:
 
 now:
 - set zoom level?
-- rename trip title
+- rename trip title (partially done - need to update the actual data set with the new edit though if the change is valid)
 - reorder dests
 - customize note text properties (i.e. font color, font size)? think accessibility?
 - expected data format for importing/exported files?
+- show the range for suggested next hops as a circle (this one will be challenging because we need to pass the radius around
+  and we are not set up for that :/)
 
 later:
 - emit events rather than calling root?

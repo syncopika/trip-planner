@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
 import axios from 'axios';
-import { Modal } from './modal';
-import { Destination } from './triproute';
+import { Modal } from './utils/modal';
+import { Destination } from './utils/triproute';
 
 Vue.config.productionTip = false
 
@@ -195,9 +195,10 @@ new Vue({
 	
     mounted: function() {
         // TODO: at some point we want to load in all the trip routes of this user
-        // (after we have user profiles and stuff set up)
 		
 		// listen for the custom event 'addDest' from the iframe (which is the map)
+		// every time we add a new destination and the user wants next destination suggestions,
+		// we make a call to the API server to fetch those suggestions.
 		document.addEventListener('addDest', (evt) => {
 			// if adding a new destination was successful to the iframe map, a custom addDest event will be
 			// emitted from the iframe along with that new destination's data, which gets received here.
@@ -239,9 +240,9 @@ new Vue({
 			// get suggested next hops using the currently last destination in the current trip
 			const currTripDestList: Array<Destination> = this.tripData[this.currTripIndex].listOfDest;
 			const lat = currTripDestList[currTripDestList.length-1].latitude;
-			const ln = currTripDestList[currTripDestList.length-1].longitude;
+			const lng = currTripDestList[currTripDestList.length-1].longitude;
 			
-			(this as any).requestSuggestedNextHops(lat, ln).then((data: any) => {
+			(this as any).requestSuggestedNextHops(lat, lng).then((data: any) => {
 				this.suggestedNextDest = data;
 			});
         })

@@ -41,7 +41,7 @@
 			<navigation :list-of-trip-names="listOfTripNames"></navigation>
 			
 			<div id='tripInfo'>
-				<h1 class='tripTitle' v-on:click="toggleEdit">{{tripName}}</h1>
+				<h1 class='tripTitle'>{{tripName}}</h1>
 				<destinationList :list-of-dest="listOfDest"></destinationList>
 			</div>
 			
@@ -57,7 +57,8 @@
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 import DestinationList from './DestinationList.vue';
 import Navigation from './Navigation.vue';
-import { Destination } from '../triproute';
+import { Destination } from '../utils/triproute';
+import { Modal } from '../utils/modal';
 
 @Component({
 	components: {
@@ -68,7 +69,7 @@ import { Destination } from '../triproute';
 
 export default class TripRouteMap extends Vue {
 	
-	@Prop({ required: true }) public listOfDest!: Array<Destination>; // the ! == not null
+	@Prop({ required: true }) public listOfDest!: Array<Destination>; // the ! means 'not null'
     @Prop({ required: true }) public listOfTripNames!: Array<string>;
 	@Prop({ required: true }) public tripName!: string;
 	@Prop({ required: true }) public suggestedNextDest!: any[];
@@ -79,8 +80,6 @@ export default class TripRouteMap extends Vue {
 	onDestChange(newVal: Array<Destination>, _: Array<Destination>): void {
 		// note that we shouldn't need to care about the old value (the 2nd arg)
 		this.updateMap(newVal);
-		//console.log(newVal);
-		//console.log(oldVal);
 
 		// whenever listOfDest changes, suggestedNextDest should too
         if(this.showSuggestedNextHops) {
@@ -120,6 +119,34 @@ export default class TripRouteMap extends Vue {
         }
     }
 	
+	// TODO: not completely implemented but this is for changing a trip name
+	async toggleTripTitleEdit(evt: any): Promise<void> {
+		if(evt.target.classList.contains("tripTitle")){
+			evt.target.setAttribute("contenteditable", "true");
+		}else{
+			// check if we should edit the trip title. if the current text is of another
+			// trip that already exists, don't allow it and reset the text
+			// otherwise, update
+			const trip = document.querySelector(".tripTitle"); // there should only be one trip shown at a time
+			
+			if(trip){
+				const editedTripName = trip.textContent!.trim();
+				if(editedTripName !== this.tripName && this.listOfTripNames.includes(editedTripName)){
+					// TODO: having trouble figuring out the right logic to handle this when switching between trips from the dropdown
+					// because this seems to get triggered, even though re-render is not a click event??
+					//const modal = new Modal();
+					//await modal.createMessageModal(`A trip named "${editedTripName}" already exists!`);
+					trip.textContent = this.tripName;
+				}else{
+					// TODO: use a data or computed property based on the prop's value to update this.tripName
+					// also, how would saving this trip work? the new name change would have to bubble up to the map holding all the trips in main.ts I think
+					//this.tripName = editedTripName;
+				}
+				trip.setAttribute("contenteditable", "false");
+			}
+		}
+	}
+	
     _handleIframeLogs(evt: any): void {
 		console.log(evt);
 	}
@@ -134,11 +161,6 @@ export default class TripRouteMap extends Vue {
         }
 	}
 	
-	toggleEdit(evt: any){
-		//console.log(evt);
-		evt.target.setAttribute('contenteditable', "true");
-	}
-	
 	mounted(){
 		// the iframe might not be ready?
 		// so listen for the ready event first
@@ -146,6 +168,9 @@ export default class TripRouteMap extends Vue {
 		
 		// set up listeners for any messages that come from the iframe
 		window.document.addEventListener('iframeLogs', this._handleIframeLogs, false);
+		
+		// allow user to stop the trip title from being editable when clicking elsewhere other than the title text
+		window.document.addEventListener('click', this.toggleTripTitleEdit);
 	}
 }
 </script>

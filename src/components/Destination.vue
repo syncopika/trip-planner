@@ -124,9 +124,9 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Destination } from '../triproute';
-import { Modal } from '../modal';
 import Calendar from './Calendar.vue';
+import { Destination } from '../utils/triproute';
+import { Modal } from '../utils/modal';
 
 // get info passed from parent component (i.e. Sidebar)
 export default Vue.extend({

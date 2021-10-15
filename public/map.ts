@@ -230,8 +230,7 @@ class MapBoxWrapper {
 				popupContent.appendChild(destLng);
 				popupContent.appendChild(destLat);
 				
-				// we should also make each suggested next destination
-				// able to be selected as a next destination by the user
+				// make each suggested next destination selectable as a next destination by the user
 				const selectBtn = document.createElement("button");
 				selectBtn.textContent = "select as next destination?";
 				popupContent.appendChild(selectBtn);
