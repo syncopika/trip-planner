@@ -153,7 +153,7 @@ export default Vue.extend({
 			}
 		},
 		
-        dehighlightBorder: function(): void {
+		dehighlightBorder: function(): void {
 			const name = this.destination.name;
 			const dest = document.getElementById(name + '_dest');
 			if(dest !== null){
@@ -161,7 +161,7 @@ export default Vue.extend({
 			}	
 		},
 		
-        toggleVisibility: function(): void {
+		toggleVisibility: function(): void {
 			const name = this.destination.name;
 			const content = document.getElementById(name + '_content');
 
@@ -176,7 +176,7 @@ export default Vue.extend({
 			this.expanded = !this.expanded;
 		},
 		
-        toggleEdit: function(evt: any): void {
+		toggleEdit: function(evt: any): void {
 			// prevent div from closing
 			evt.stopPropagation();
 			
@@ -200,7 +200,7 @@ export default Vue.extend({
 			if(notes !== null) notes.removeAttribute('disabled');
 		},
 		
-        removeDestination: async function(evt: any): Promise<void> {
+		removeDestination: async function(evt: any): Promise<void> {
 			// remove a destination
 			// calls a method of the Vue root instance
 			const modal = new Modal();
@@ -213,7 +213,7 @@ export default Vue.extend({
 			}
 		},
 		
-        saveChanges: function(): void {
+		saveChanges: function(): void {
 			// note: when save is clicked and the data is sent to the root
 			// to update state, the destination name, if edited, will be
 			// checked to make sure its new desired name is not already taken
@@ -223,18 +223,18 @@ export default Vue.extend({
 			const destTitle = document.getElementById(name);
 			const newName = destTitle?.textContent?.trim().split(' ')[0];
 
-            // if new name is valid, the change will happen
-            // if it doesn't happen, we'll at least have restored the dest title to its original
+			// if new name is valid, the change will happen
+			// if it doesn't happen, we'll at least have restored the dest title to its original
 			if (destTitle) {
 				destTitle.textContent = this.currDestTitle;
-                destTitle.setAttribute('contenteditable', "false");
+				destTitle.setAttribute('contenteditable', "false");
 			}
 
 			const notes = document.getElementById(name + '_notes');
 			notes?.setAttribute('disabled', 'true');
 
 			const data: Destination = JSON.parse(JSON.stringify(this.destination)); // make a copy
-            data.notes = (notes as HTMLTextAreaElement)?.value;
+			data.notes = (notes as HTMLTextAreaElement)?.value;
 			data.newName = newName;
 
 			// get from and to dates
@@ -244,14 +244,14 @@ export default Vue.extend({
 			const toDate = this.$refs[name + "_toDate"].getDateInfo();
 
 			data.fromDate = `${fromDate.month}-${fromDate.day}-${fromDate.year}`;
-            data.toDate = `${toDate.month}-${toDate.day}-${toDate.year}`;
+			data.toDate = `${toDate.month}-${toDate.day}-${toDate.year}`;
 
 			// get route color and remove color wheel
 			const routeColorInput = document.getElementById(this.destination.name + "_routeColor") as HTMLInputElement;
 			if(routeColorInput) data.routeColor = routeColorInput.value;
 
-            const colorWheel = document.getElementById(this.destination.name + "_colorWheel");
-            if(colorWheel && colorWheel.parentNode) colorWheel.parentNode.removeChild(colorWheel);
+			const colorWheel = document.getElementById(this.destination.name + "_colorWheel");
+			if(colorWheel && colorWheel.parentNode) colorWheel.parentNode.removeChild(colorWheel);
 
 			// update data source with new info
 			//@ts-ignore 
@@ -272,18 +272,18 @@ export default Vue.extend({
 			const currData = JSON.parse(JSON.stringify(this.editSnapshot));
 			for(const data in currData) {
 				this.destination[data] = currData[data];
-            }
+			}
 			this.editSnapshot = {};
 			this.isEditing = false;
 		},
 		
-        uploadImage: function(evt: any): void {
-            const img = new Image();
-            const reader = new FileReader();
+		uploadImage: function(evt: any): void {
+			const img = new Image();
+			const reader = new FileReader();
 			const file = evt.target.files[0];
 
 			reader.onloadend = (): void => {
-                const imgSrcStr = reader.result as string;
+				const imgSrcStr = reader.result as string;
 
 				img.src = imgSrcStr;
 
@@ -293,25 +293,25 @@ export default Vue.extend({
 
 				//@ts-ignore 
 				this.$root.updateDestination(data);
-            };
-            //read the file as a URL
-            reader.readAsDataURL(file);
+			};
+			//read the file as a URL
+			reader.readAsDataURL(file);
 		},
 		
-        clickInput: function(): void {
+		clickInput: function(): void {
 			const inputElement = document.getElementById(this.destination.name + "_importImage");
             inputElement?.click();
 		},
 		
 		enlargeImage: function(evt: any): void {
-            const imageDiv = document.createElement('div');
-            imageDiv.style.opacity = "0.98";
-            imageDiv.style.backgroundColor = "#383838";
-            imageDiv.style.position = "fixed";
-            imageDiv.style.top = "0";
+			const imageDiv = document.createElement('div');
+			imageDiv.style.opacity = "0.98";
+			imageDiv.style.backgroundColor = "#383838";
+			imageDiv.style.position = "fixed";
+			imageDiv.style.top = "0";
 			imageDiv.style.left = "0";
 			imageDiv.style.height = "100%";
-            imageDiv.style.width = "100%";
+			imageDiv.style.width = "100%";
 			imageDiv.style.textAlign = "center";
 			imageDiv.style.overflow = "scroll";
 
@@ -319,31 +319,31 @@ export default Vue.extend({
 
 			const enlargedImage = new Image();
 			enlargedImage.src = evt.target.src;
-            enlargedImage.addEventListener("dblclick", () => {
+			enlargedImage.addEventListener("dblclick", () => {
 				imageDiv?.parentNode?.removeChild(imageDiv);
-                document.body.style.overflow = "visible";
-            });
+				document.body.style.overflow = "visible";
+			});
 
 			if(document.body.clientHeight < enlargedImage.height ||
 				document.body.clientWidth < enlargedImage.width) {
 				// reduce size of enlarged image if larger than the page
-                // or rescale using a canvas?
-            }
+				// or rescale using a canvas?
+			}
 
-            imageDiv.appendChild(enlargedImage);
+			imageDiv.appendChild(enlargedImage);
 
-            const cancel = document.createElement('h3');
+			const cancel = document.createElement('h3');
 			cancel.textContent = "close";
 			cancel.style.fontFamily = "Montserrat";
 			cancel.style.fontWeight = "bold";
 			cancel.style.fontSize = "2em";
-            cancel.style.color = "#fff";
+			cancel.style.color = "#fff";
 			cancel.style.marginTop = "1%";
-            cancel.addEventListener("click", () => {
+			cancel.addEventListener("click", () => {
 				imageDiv?.parentNode?.removeChild(imageDiv);
-                document.body.style.overflow = "visible";
-            });
-            imageDiv.appendChild(cancel);
+				document.body.style.overflow = "visible";
+			});
+			imageDiv.appendChild(cancel);
 
 			document.body.appendChild(imageDiv);
 		},
@@ -353,11 +353,11 @@ export default Vue.extend({
 			let imageIndex = evt.target.id.split("_");
 			imageIndex = parseInt(imageIndex[imageIndex.length - 1]);
 
-            this.destination.images.splice(imageIndex, 1);
-        },
+			this.destination.images.splice(imageIndex, 1);
+		},
 		
 		showColorWheel: function(): void {
-            const location = document.getElementById(this.destination.name + '_editRouteColor');
+			const location = document.getElementById(this.destination.name + '_editRouteColor');
 			const colorWheelId = this.destination.name + "_colorWheel";
 			
 			if(document.getElementById(colorWheelId)){
@@ -366,18 +366,18 @@ export default Vue.extend({
 			}
 			
 			const size = "200";
-            const colorWheel = document.createElement('canvas');
-            colorWheel.id = colorWheelId;
-            colorWheel.setAttribute('width', size);
-            colorWheel.setAttribute('height', size);
+			const colorWheel = document.createElement('canvas');
+			colorWheel.id = colorWheelId;
+			colorWheel.setAttribute('width', size);
+			colorWheel.setAttribute('height', size);
 
-            const colorWheelContext = colorWheel.getContext('2d');
-            const x = colorWheel.width / 2;
-            const y = colorWheel.height / 2;
-            const radius = 90;
+			const colorWheelContext = colorWheel.getContext('2d');
+			const x = colorWheel.width / 2;
+			const y = colorWheel.height / 2;
+			const radius = 90;
 
-            // why 5600??
-            if(colorWheelContext) {
+			// why 5600??
+			if(colorWheelContext) {
 				for(let angle = 0;angle <= 5600;angle++) {
 					const startAngle = (angle - 2) * Math.PI / 180; //convert angles to radians
 					const endAngle = (angle) * Math.PI / 180;
@@ -420,7 +420,7 @@ export default Vue.extend({
 					const colorPicked = (colorWheel.getContext('2d')).getImageData(x, y, 1, 1).data;
 					// convert to hex?
 					const colorCode = 'rgb(' + colorPicked[0] + ',' + colorPicked[1] + ',' + colorPicked[2] + ')';
-                    const colorInput = document.getElementById(this.destination.name + "_routeColor") as HTMLInputElement;
+					const colorInput = document.getElementById(this.destination.name + "_routeColor") as HTMLInputElement;
 					if(colorInput) {
 						colorInput.value = colorCode;
 						colorInput.style.backgroundColor = colorCode;
@@ -429,7 +429,7 @@ export default Vue.extend({
 			}
 
 			if(location) location.appendChild(colorWheel);
-        }
+		}
 	}
 });
 </script>

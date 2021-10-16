@@ -82,31 +82,31 @@ export default class TripRouteMap extends Vue {
 		this.updateMap(newVal);
 
 		// whenever listOfDest changes, suggestedNextDest should too
-        if(this.showSuggestedNextHops) {
-            this.updateSuggestedNextHops(this.suggestedNextDest);
-        }
+		if(this.showSuggestedNextHops) {
+			this.updateSuggestedNextHops(this.suggestedNextDest);
+		}
 	}
 
 	dispatchEventToMap(eventName: string, data: Array<Destination>): void {
-        // send a custom event to the map iframe along with the data
-        const updateMapEvent = new CustomEvent(eventName, { detail: data });
-        const mapIframe = document.getElementById('mapContainer') as HTMLIFrameElement;
+		// send a custom event to the map iframe along with the data
+		const updateMapEvent = new CustomEvent(eventName, { detail: data });
+		const mapIframe = document.getElementById('mapContainer') as HTMLIFrameElement;
 
-        if(mapIframe !== null && mapIframe.contentDocument !== null) {
-            //console.log("sending data to the iframe for event: " + eventName);
-            mapIframe.contentDocument.dispatchEvent(updateMapEvent);
-        }
-    }
+		if(mapIframe !== null && mapIframe.contentDocument !== null) {
+			//console.log("sending data to the iframe for event: " + eventName);
+			mapIframe.contentDocument.dispatchEvent(updateMapEvent);
+		}
+	}
 	
-    updateMap(data: Array<Destination>): void {
+	updateMap(data: Array<Destination>): void {
 		// take new destination data and update the MapBox map markers as needed
 		//console.log("I'm supposed to update the map!");
 		this.dispatchEventToMap('updateMap', data);
 	}
 
 	updateSuggestedNextHops(data: Array<Destination>): void {
-        this.dispatchEventToMap('updateSuggestedNextHops', data);
-    }
+		this.dispatchEventToMap('updateSuggestedNextHops', data);
+	}
 
 	toggleTripSuggestions(): void {
 		this.showSuggestedNextHops = !this.showSuggestedNextHops;
@@ -115,9 +115,9 @@ export default class TripRouteMap extends Vue {
 		if(!this.showSuggestedNextHops) {
 			this.updateSuggestedNextHops([]);
 		} else {
-            this.updateSuggestedNextHops(this.suggestedNextDest);
-        }
-    }
+			this.updateSuggestedNextHops(this.suggestedNextDest);
+		}
+	}
 	
 	// TODO: not completely implemented but this is for changing a trip name
 	async toggleTripTitleEdit(evt: any): Promise<void> {
@@ -147,21 +147,21 @@ export default class TripRouteMap extends Vue {
 		}
 	}
 	
-    _handleIframeLogs(evt: any): void {
+	_handleIframeLogs(evt: any): void {
 		console.log(evt);
 	}
 	
-    _handleReady(): void {
+	_handleReady(): void {
 		console.log("got iframe ready message!!");
 		this.updateMap(this.listOfDest);
 
 		// this is false by default so not sure yet when this will ever happen
-        if(this.showSuggestedNextHops) {
+		if(this.showSuggestedNextHops) {
 			this.updateSuggestedNextHops(this.suggestedNextDest);
-        }
+		}
 	}
 	
-	mounted(){
+	mounted(): void{
 		// the iframe might not be ready?
 		// so listen for the ready event first
 		window.document.addEventListener('imready', this._handleReady, false);		

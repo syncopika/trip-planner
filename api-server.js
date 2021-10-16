@@ -155,7 +155,7 @@ app.post("/api/userDestinations", (req, res) => {
 				newTrip.tripName = trip;
 				newTrip.listOfDest = response[trip];
 				data.push(newTrip);
-            }
+			}
 
 			res.json({ trips: data });
 		}

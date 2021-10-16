@@ -91,7 +91,7 @@ export default {
 		saveData: function(): void {
 			// TODO: save current trip data to database
 		}
-    }
+	}
 }
 </script>
 
