@@ -435,10 +435,8 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-	@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
-	
 	textarea {
-		font-family: 'Montserrat', Arial, sans-serif;
+		font-family: inherit;
 		background-color: transparent;
 		color: #000;
 	}
@@ -452,7 +450,7 @@ export default Vue.extend({
 	}
 
     button {
-		font-family: 'Montserrat', Arial, sans-serif;
+		font-family: inherit;
         background-color: #6A5ACD;
         border-radius: 10px;
         border: 1px solid #483D8B;

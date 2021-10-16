@@ -151,6 +151,7 @@ https://stackoverflow.com/questions/30883684/set-the-margin-top-of-a-div-relativ
 https://stackoverflow.com/questions/9894176/make-li-fit-the-width-of-the-ul-using-css
 https://css-tricks.com/considerations-styling-modal/
 https://stackoverflow.com/questions/60234774/hold-promise-resolve-reject-function-reference-waiting-on-user-input
+https://stackoverflow.com/questions/26140050/why-is-font-family-not-inherited-in-button-tags-automatically/26140154
 
 ========================
 anything in src gets processed by webpack.put stuff in /public and then reference with relative path like './mapIframe.html'
