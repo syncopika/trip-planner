@@ -11,9 +11,9 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import TripRouteMap from './components/TripRoute.vue';
 
 @Component({
-  components: {
-    TripRouteMap
-  }
+	components: {
+		TripRouteMap
+	}
 })
 
 export default class App extends Vue {
@@ -26,8 +26,10 @@ export default class App extends Vue {
 
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
 #app {
-  /*font-family: Avenir, Helvetica, Arial, sans-serif;*/
+  font-family: 'Montserrat', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

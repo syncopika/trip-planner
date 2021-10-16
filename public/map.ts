@@ -2,8 +2,8 @@
 // https://docs.mapbox.com/mapbox-gl-js/api/
 
 import mapboxgl, { Map, Marker, Popup } from 'mapbox-gl';
-import { Modal } from '../src/modal';
-import { Destination } from '../src/triproute';
+import { Modal } from '../src/utils/modal';
+import { Destination } from '../src/utils/triproute';
 
 class MapBoxWrapper {
 	key: 		       string;
@@ -230,8 +230,7 @@ class MapBoxWrapper {
 				popupContent.appendChild(destLng);
 				popupContent.appendChild(destLat);
 				
-				// we should also make each suggested next destination
-				// able to be selected as a next destination by the user
+				// make each suggested next destination selectable as a next destination by the user
 				const selectBtn = document.createElement("button");
 				selectBtn.textContent = "select as next destination?";
 				popupContent.appendChild(selectBtn);

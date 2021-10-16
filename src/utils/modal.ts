@@ -12,13 +12,11 @@ export class Modal {
 			transform: "translate(-50%, -50%)",
 			zIndex: "1010",
 			textAlign: "center",
-			padding: "5px",
+			padding: "8px",
 			backgroundColor: "#fff",
 			width: "20%",
 			height: "auto",
-			//paddingTop: "2%",
 			boxShadow: "2px 2px 5px #ccc",
-			fontFamily: "monospace",
 		};
 		
 		this.modalOverlayStyle = {
@@ -41,11 +39,13 @@ export class Modal {
 		
 		const displayText = document.createElement('p');
 		displayText.textContent = text;
+		displayText.style.marginBottom = "0px";
 		
 		const textInput = document.createElement('input');
 		textInput.type = "text";
 		
 		modal.appendChild(displayText);
+		modal.appendChild(document.createElement('br'));
 		modal.appendChild(textInput);
 		
 		const submitBtn = document.createElement('button');
