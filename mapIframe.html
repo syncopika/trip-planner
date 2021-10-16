@@ -1,0 +1,41 @@
+<!doctype html>
+
+<html>
+
+	<head>
+		<link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
+	</head>
+	
+	<style>
+		#map {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			width: 99%;
+		}
+		
+		/* match the style outside the iframe */
+		/* see TripRoute.vue */
+		button {
+			background-color: #6A5ACD;
+			border-radius: 10px;
+			border: 1px solid #483D8B;
+			color: #fff;
+			margin-left: 2px;
+			margin-right: 2px;
+		}
+		
+		body {
+			font-family: monospace;
+		}
+	</style>
+	
+	<body>
+		<div id='map'>
+		</div>
+	</body>
+	
+	
+	<script src='./bundle.js'></script>
+
+</html>
