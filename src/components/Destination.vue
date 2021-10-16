@@ -334,11 +334,11 @@ export default Vue.extend({
 
             const cancel = document.createElement('h3');
 			cancel.textContent = "close";
+			cancel.style.fontFamily = "Montserrat";
 			cancel.style.fontWeight = "bold";
 			cancel.style.fontSize = "2em";
             cancel.style.color = "#fff";
 			cancel.style.marginTop = "1%";
-			cancel.style.fontFamily = "monospace";
             cancel.addEventListener("click", () => {
 				imageDiv?.parentNode?.removeChild(imageDiv);
                 document.body.style.overflow = "visible";
@@ -435,8 +435,10 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-
+	@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+	
 	textarea {
+		font-family: 'Montserrat', Arial, sans-serif;
 		background-color: transparent;
 		color: #000;
 	}
@@ -450,6 +452,7 @@ export default Vue.extend({
 	}
 
     button {
+		font-family: 'Montserrat', Arial, sans-serif;
         background-color: #6A5ACD;
         border-radius: 10px;
         border: 1px solid #483D8B;

@@ -2,8 +2,8 @@
 // https://docs.mapbox.com/mapbox-gl-js/api/
 
 import mapboxgl, { Map, Marker, Popup } from 'mapbox-gl';
-import { Modal } from '../src/modal';
-import { Destination } from '../src/triproute';
+import { Modal } from '../src/utils/modal';
+import { Destination } from '../src/utils/triproute';
 
 class MapBoxWrapper {
 	key: 		       string;

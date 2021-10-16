@@ -187,9 +187,11 @@ new Vue({
             
 			const modal = new Modal();
 			const filename = await modal.createInputModal("What would you like to name the exported file?");
-			link.download = filename ? `${filename}.json` : "trip-planner-data.json";
 			
-            link.click();
+			if(filename){
+				link.download = filename ? `${filename}.json` : "trip-planner-data.json";
+				link.click();
+			}
         }
     },
 	

@@ -10,7 +10,7 @@
     "setup-map-dev": "webpack --mode development"
   },
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.4",
     "core-js": "^3.8.1",
     "mapbox-gl": "^1.13.0",
     "vue": "^2.6.12",
@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@types/jest": "^24.9.1",
-	"@types/mapbox-gl": "^1.13.0",
+    "@types/mapbox-gl": "^1.13.0",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
     "@vue/cli-plugin-babel": "^4.5.9",
@@ -30,12 +30,12 @@
     "@vue/eslint-config-typescript": "^5.1.0",
     "@vue/test-utils": "^1.1.2",
     "babel-eslint": "^10.1.0",
-	"body-parser": "^1.19.0",
-	"cors": "^2.8.5",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
     "eslint": "^6.8.0",
     "eslint-plugin-vue": "^6.2.2",
-	"express": "^4.17.1",
-	"pg": "^8.5.1",
+    "express": "^4.17.1",
+    "pg": "^8.5.1",
     "typescript": "^3.9.7",
     "vue-template-compiler": "^2.6.12",
     "webpack-cli": "^3.3.12"
