@@ -28,6 +28,21 @@ export default class App extends Vue {
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
+html, body {
+	font-family: 'Montserrat', Arial, sans-serif;
+}
+
+button{
+	font-family: inherit;
+	background-color: #6A5ACD;
+	border-radius: 10px;
+	border: 1px solid #483D8B;
+	color: #fff;
+	margin-left: 2px;
+	margin-right: 2px;
+}
+
+
 #app {
   font-family: 'Montserrat', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

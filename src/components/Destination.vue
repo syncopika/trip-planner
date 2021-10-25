@@ -456,6 +456,8 @@ export default Vue.extend({
         border: 1px solid #483D8B;
         color: #fff;
         display: inline;
+        margin-left: 2px;
+        margin-right: 2px;
     }
 
 	ul {
