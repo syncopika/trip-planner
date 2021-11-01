@@ -16,49 +16,6 @@ const client = new pg.Client({
 
 client.connect();
 
-/*
-const query = `
-INSERT INTO users (username, password)
-VALUES ('test_user', 'test')
-`;
-
-client.query(query, (err, res) => {
-	if(err){
-		console.log(err);
-	}
-	console.log('insert successful!');
-	client.end();
-});
-*/
-
-/*
-const query = `
-SELECT * FROM destinations
-`;
-client.query(query, (err, dbRes) => {
-	if(err){
-		console.log(err);
-	}
-	console.log(dbRes.rows);
-	client.end();
-});
-*/
-
-/*
-const query = `
-INSERT INTO destinations (username, destname, tripname, index, latitude, longitude, metadata)
-VALUES ('test_user', 'test_dest', 'test_trip', 0, 25.0785476, 121.2326428, '{}')
-`;
-client.query(query, (err, res) => {
-	if(err){
-		console.log(err);
-	}else{
-		console.log('insert successful!');
-	}
-	client.end();
-});
-*/
-
 const app = express();
 app.use(bodyParser.json());
 

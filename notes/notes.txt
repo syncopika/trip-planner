@@ -5,13 +5,13 @@ db name: trip_planner_test
 3 tables (users, destinations, userdestinations):
 users 
 =======
-id serial
+id serial // primary key
 username varchar(60) unique => make primary key instead and delete id?
 password varchar(60)
 
 destinations
 ============
-id serial
+id serial // primary key
 destname varchar(60)
 tripname varchar(60)
 index int 		// the index of the destination for the trip it belongs to. not sure this is a good idea.
