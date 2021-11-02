@@ -11,77 +11,62 @@ const client = new pg.Client({
 	password: 'password',
 	port: 5432,
 });
-client.connect();
 
-async function clearAll(){
+async function resetDB(){
+    await client.connect();
+    
     // clear the tables
     await client.query(`truncate destinations`);
     console.log("destinations table is now empty");
-    
-    // add fake user destination data
-    fs.readFile('test_destinations.json', 'utf8', (err, data) => {
-        // read json and insert
-        const jsonData = JSON.parse(data);
 
-        // load in the data
-        jsonData.forEach((record) => {
-            const query = `
-            INSERT INTO destinations (username, destname, tripname, index, latitude, longitude, metadata)
-            VALUES($1, $2, $3, $4, $5, $6, $7)
-            `;
-            
-            const values = [record.username, record.destname, record.tripname, record.index, record.latitude, record.longitude, JSON.stringify(record.metadata)];
-            
-            client.query(query, values, (err, res) => {
-                if(err){
-                    console.log(err);
-                }else{
-                    console.log('insert destinations successful!');
-                }
-            });
-        });
+    let data = await fs.readFileSync('test_destinations.json', 'utf8');
+    const destData = JSON.parse(data);
+    destData.forEach(async (record) => {
+        const query = `
+        INSERT INTO destinations (username, destname, tripname, index, latitude, longitude, metadata)
+        VALUES($1, $2, $3, $4, $5, $6, $7)
+        `;
+        
+        const values = [record.username, record.destname, record.tripname, record.index, record.latitude, record.longitude, JSON.stringify(record.metadata)];
+        
+        await client.query(query, values);
     });
+    console.log('insert destinations successful!');
     
     await client.query(`truncate users`);
     console.log("users table is now empty");
     
-        // add fake user data
-    fs.readFile('test_users.json', 'utf8', (err, data) => {
-        // read json and insert
-        const jsonData = JSON.parse(data);
-
-        // load in the data
-        jsonData.forEach((record) => {
-            const query = `
-            INSERT INTO users (username, password)
-            VALUES($1, $2)
-            `;
-            
-            const values = [record.username, record.password];
-            
-            client.query(query, values, (err, res) => {
-                if(err){
-                    console.log(err);
-                }else{
-                    console.log('insert users successful!');
-                }
-            });
-        });
-    });
+    data = await fs.readFileSync('test_users.json', 'utf8');
+    const userData = JSON.parse(data);
+    userData.forEach(async (record) => {
+        const query = `
+        INSERT INTO users (username, password)
+        VALUES($1, $2)
+        `;
         
+        const values = [record.username, record.password];
+        
+        await client.query(query, values);
+    });
+    
+    console.log('insert users successful!');
+    
+    return new Promise((resolve, _) => resolve("done"));
+}
+
+resetDB().then((msg) => {
+    console.log(msg);
+    
     /*
-    client.query(`truncate userdestinations`, (err, dbRes) => {
+    // why is this throwing an error even when called here?
+    client.end(err => {
+        console.log("disconnected");
         if(err){
-            console.log(err);
-        }else{
-            console.log("userdestinations table is now empty");
+            console.log(err.stack);
         }
     });
     */
-}
-
-clearAll();
-
+});
 
 /*
 const query = `

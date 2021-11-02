@@ -2,11 +2,11 @@ db stuff
 
 db name: trip_planner_test
 
-3 tables (users, destinations, userdestinations):
+2 tables (users, destinations):
 users 
 =======
 id serial // primary key
-username varchar(60) unique => make primary key instead and delete id?
+username varchar(60) unique
 password varchar(60)
 
 destinations
@@ -18,12 +18,10 @@ index int 		// the index of the destination for the trip it belongs to. not sure
 latitude decimal (10,8)
 longitude decimal (11,8)
 metadata jsonb          // contains info about the destination like notes, start date, end date, etc.
+username                 // foreign key to match with users
 
-userdestinations (matches users to their destinations)
-===============
-user_id
-destination_id
-
+if we want to find all destinations for a user we can do:
+SELECT users.username, destname FROM destinations FULL JOIN users on destinations.username = users.username;
 
 ///// accessing db locally
 >psql -U postgres
@@ -38,8 +36,12 @@ https://stackoverflow.com/questions/6583916/delete-duplicate-rows-from-small-tab
 // we should prevent duplicate records from being inserted (but to know that we need to look at multiple columns I think)
 maybe helpful? https://dba.stackexchange.com/questions/9759/postgresql-multi-column-unique-constraint-and-null-values
 
+// very helpful!
+https://launchschool.com/books/sql_first_edition/read/multi_tables
+https://newbedev.com/postgresql-foreign-key-on-delete-cascade
+https://dev.to/studio_hungry/how-to-seed-a-postgres-database-with-node-384i
+
 TODO:
-- ui improvements + make more mobile friendly (i.e. collapse navbar into a hamburger menu?)
 - pay attention to eslint warnings and fix them?
 - testing for core components
 - get a dummy map tile iframe for demoing? done but this one might be good to use too: https://maputnik.github.io/osm-liberty/
