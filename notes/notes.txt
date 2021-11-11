@@ -52,8 +52,7 @@ now:
 - reorder dests
 - customize note text properties (i.e. font color, font size)? think accessibility?
 - expected data format for importing/exported files?
-- show the range for suggested next hops as a circle (this one will be challenging because we need to pass the radius around
-  and we are not set up for that :/)
+- allow user to set radius of area to get suggested next dests from
 
 later:
 - emit events rather than calling root?

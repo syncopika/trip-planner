@@ -249,10 +249,10 @@ new Vue({
 				});
 			})
 			.catch(error => {
-			// database couldn't be connected to
-			// we can't get suggested next hops when a new destination is added
-			// give fake data instead for now
-				(this as any).suggestedNextDest = [
+				// database couldn't be connected to
+				// we can't get suggested next hops when a new destination is added
+				// give fake data instead for now
+				const fakeSuggestions = [
 					{
 						"username": "test_user1",
 						"destname": "test_place1",
@@ -298,7 +298,35 @@ new Vue({
 							"routeColor": "#888"
 						}
 					},
+					{
+						"username": "test_user1",
+						"destname": "test_place4",
+						"tripname": "test_trip1",	
+						"latitude": 37.948987979347004,
+						"longitude": -77.01640380859292,
+						"index": 3,
+						"metadata": {
+							"notes": "something",
+							"fromDate": "01-05-2020",
+							"toDate": "01-07-2020",
+							"images": [],
+							"routeColor": "#888"
+						}
+					},
 				];
+                
+				// filter based on proximity
+				const currTripDestList: Array<Destination> = this.tripData[this.currTripIndex].listOfDest;
+				const lat = (currTripDestList[currTripDestList.length-1].latitude * Math.PI) / 180;
+				const lng = (currTripDestList[currTripDestList.length-1].longitude * Math.PI) / 180;
+
+				const newSuggestions = fakeSuggestions.filter((x) => {
+					const lngRad = (x.longitude * Math.PI) / 180;
+					const latRad = (x.latitude * Math.PI) / 180;
+					return Math.acos(Math.sin(lat) * Math.sin(latRad) + Math.cos(lat) * Math.cos(latRad) * Math.cos(lng - lngRad)) * 6371 <= 20;
+				});
+                
+				(this as any).suggestedNextDest = newSuggestions;
 			});
 	}
 }).$mount('#app') // #app is in /public/index.html
