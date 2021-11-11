@@ -48,11 +48,11 @@ TODO:
 
 now:
 - set zoom level?
-- rename trip title (partially done - need to update the actual data set with the new edit though if the change is valid)
 - reorder dests
 - customize note text properties (i.e. font color, font size)? think accessibility?
 - expected data format for importing/exported files?
 - allow user to set radius of area to get suggested next dests from
+- get rid of using any and ts-ignores as much as possible
 
 later:
 - emit events rather than calling root?
