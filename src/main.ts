@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import axios from 'axios';
 import { Modal } from './utils/modal';
-import { Destination } from './utils/triproute';
+import { Destination, Trip } from './utils/triproute';
 
 Vue.config.productionTip = false
 
@@ -50,6 +50,68 @@ new Vue({
 		'currTripIndex': 0,
 		'suggestedNextDest': [],
 		'canGetSuggestedNextDest': false,
+		'fakeSuggestions': [
+			{
+				"username": "test_user1",
+				"destname": "test_place1",
+				"tripname": "test_trip1",	
+				"latitude": 39.002833520960156,
+				"longitude": -76.55210937499908,
+				"index": 0,
+				"metadata": {
+					"notes": "hello world2 sdfsdf",
+					"fromDate": "01-05-2020",
+					"toDate": "01-07-2020",
+					"images": [],
+					"routeColor": "#888"
+				}
+			},
+			{
+				"username": "test_user1",
+				"destname": "test_place2",
+				"tripname": "test_trip1",	
+				"latitude": 39.048987979347004,
+				"longitude": -76.91640380859292,
+				"index": 1,
+				"metadata": {
+					"notes": "hello world2 sdfsdf sdfgsdfg",
+					"fromDate": "01-05-2020",
+					"toDate": "01-07-2020",
+					"images": [],
+					"routeColor": "#888"
+				}
+			},
+			{
+				"username": "test_user1",
+				"destname": "test_place3",
+				"tripname": "test_trip1",	
+				"latitude": 38.848987979347004,
+				"longitude": -77.01640380859292,
+				"index": 2,
+				"metadata": {
+					"notes": "hello world2 sdfsdf sdfgsdfg",
+					"fromDate": "01-05-2020",
+					"toDate": "01-07-2020",
+					"images": [],
+					"routeColor": "#888"
+				}
+			},
+			{
+				"username": "test_user1",
+				"destname": "test_place4",
+				"tripname": "test_trip1",	
+				"latitude": 37.948987979347004,
+				"longitude": -77.01640380859292,
+				"index": 3,
+				"metadata": {
+					"notes": "something",
+					"fromDate": "01-05-2020",
+					"toDate": "01-07-2020",
+					"images": [],
+					"routeColor": "#888"
+				}
+			},
+		],
 	},
 	methods: {
 		requestSuggestedNextHops: function(lat: number, long: number): Promise<any[]> {
@@ -87,6 +149,11 @@ new Vue({
 			
 			// TODO: check to see if the last destination of the list was removed and if there is a new last destination. 
 			// if so, take the current last dest and show next hop suggestions for that dest (if show next hops option selected)
+			// right now just handle when demoing
+			if(!this.canGetSuggestedNextDest){
+				//@ts-ignore TODO: investigate this? (TS-2339)
+				(this as any).suggestedNextDest = this.getFakeSuggestions();
+			}
 		},
         
 		updateDestination: function(data: Destination): void {
@@ -131,6 +198,15 @@ new Vue({
 
 					break;
 				}
+			}
+		},
+        
+		updateTripName: function(name: string): void {
+			if(!this.tripData.some((x: Trip) => x.tripName === name)){
+				// no other trip exists with this name so we can update
+				const currTrip = this.tripData[this.currTripIndex];
+				currTrip.tripName = name;
+				console.log("trip name updated");
 			}
 		},
         
@@ -192,12 +268,27 @@ new Vue({
 				link.download = filename ? `${filename}.json` : "trip-planner-data.json";
 				link.click();
 			}
-		}
+		},
+        
+		// TODO: figure out the correct typing for fakeSuggestions elements and don't use any. they aren't Destination... 
+		getFakeSuggestions: function(): Array<any> {
+			// filter based on proximity (this is just for when using fake data. the database is supposed to
+			// handle finding the closest destinations)
+			const currTripDestList: Array<Destination> = this.tripData[this.currTripIndex].listOfDest;
+			const lat = (currTripDestList[currTripDestList.length-1].latitude * Math.PI) / 180;
+			const lng = (currTripDestList[currTripDestList.length-1].longitude * Math.PI) / 180;
+            
+			const newSuggestions = this.fakeSuggestions.filter((x: any) => {
+				const lngRad = (x.longitude * Math.PI) / 180;
+				const latRad = (x.latitude * Math.PI) / 180;
+				return Math.acos(Math.sin(lat) * Math.sin(latRad) + Math.cos(lat) * Math.cos(latRad) * Math.cos(lng - lngRad)) * 6371 <= 20;
+			});
+            
+			return newSuggestions;
+		},
 	},
 	
 	mounted: function(): void {
-		// TODO: at some point we want to load in all the trip routes of this user
-		
 		// listen for the custom event 'addDest' from the iframe (which is the map)
 		// every time we add a new destination and the user wants next destination suggestions,
 		// we make a call to the API server to fetch those suggestions.
@@ -226,6 +317,10 @@ new Vue({
 					(this as any).requestSuggestedNextHops(location.latitude, location.longitude).then((data: any) => {
 						this.suggestedNextDest = data;
 					});					
+				}else{
+					// for demoing
+					//@ts-ignore TODO: investigate this? (TS-2339)
+					(this as any).suggestedNextDest = this.getFakeSuggestions();
 				}
 			}
 		});
@@ -249,56 +344,11 @@ new Vue({
 				});
 			})
 			.catch(error => {
-			// database couldn't be connected to
-			// we can't get suggested next hops when a new destination is added
-			// give fake data instead for now
-				(this as any).suggestedNextDest = [
-					{
-						"username": "test_user1",
-						"destname": "test_place1",
-						"tripname": "test_trip1",	
-						"latitude": 39.002833520960156,
-						"longitude": -76.55210937499908,
-						"index": 0,
-						"metadata": {
-							"notes": "hello world2 sdfsdf",
-							"fromDate": "01-05-2020",
-							"toDate": "01-07-2020",
-							"images": [],
-							"routeColor": "#888"
-						}
-					},
-					{
-						"username": "test_user1",
-						"destname": "test_place2",
-						"tripname": "test_trip1",	
-						"latitude": 39.048987979347004,
-						"longitude": -76.91640380859292,
-						"index": 1,
-						"metadata": {
-							"notes": "hello world2 sdfsdf sdfgsdfg",
-							"fromDate": "01-05-2020",
-							"toDate": "01-07-2020",
-							"images": [],
-							"routeColor": "#888"
-						}
-					},
-					{
-						"username": "test_user1",
-						"destname": "test_place3",
-						"tripname": "test_trip1",	
-						"latitude": 38.848987979347004,
-						"longitude": -77.01640380859292,
-						"index": 2,
-						"metadata": {
-							"notes": "hello world2 sdfsdf sdfgsdfg",
-							"fromDate": "01-05-2020",
-							"toDate": "01-07-2020",
-							"images": [],
-							"routeColor": "#888"
-						}
-					},
-				];
+				// database couldn't be connected to
+				// we can't get suggested next hops when a new destination is added
+				// use fake data instead for now
+				//@ts-ignore TODO: investigate this? (TS-2339)
+				(this as any).suggestedNextDest = this.getFakeSuggestions();
 			});
 	}
 }).$mount('#app') // #app is in /public/index.html

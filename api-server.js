@@ -16,49 +16,6 @@ const client = new pg.Client({
 
 client.connect();
 
-/*
-const query = `
-INSERT INTO users (username, password)
-VALUES ('test_user', 'test')
-`;
-
-client.query(query, (err, res) => {
-	if(err){
-		console.log(err);
-	}
-	console.log('insert successful!');
-	client.end();
-});
-*/
-
-/*
-const query = `
-SELECT * FROM destinations
-`;
-client.query(query, (err, dbRes) => {
-	if(err){
-		console.log(err);
-	}
-	console.log(dbRes.rows);
-	client.end();
-});
-*/
-
-/*
-const query = `
-INSERT INTO destinations (username, destname, tripname, index, latitude, longitude, metadata)
-VALUES ('test_user', 'test_dest', 'test_trip', 0, 25.0785476, 121.2326428, '{}')
-`;
-client.query(query, (err, res) => {
-	if(err){
-		console.log(err);
-	}else{
-		console.log('insert successful!');
-	}
-	client.end();
-});
-*/
-
 const app = express();
 app.use(bodyParser.json());
 
@@ -74,11 +31,13 @@ app.get("/api", (req, res) => {
 
 app.post("/api/destinations", (req, res) => {
 	// find closest destinations to a given lat and lng
-	// formula: dist = arccos(sin(lat1) · sin(lat2) + cos(lat1) · cos(lat2) · cos(lon1 - lon2)) · R    //needs to be in radians!
+	// formula: dist = arccos(sin(lat1)*sin(lat2) + cos(lat1)*cos(lat2)*cos(long1 - long2))*radius    // needs to be in radians!
 	// from: http://janmatuschek.de/LatitudeLongitudeBoundingCoordinates
-	const lat = (req.body.latitude * Math.PI) / 180; // need radians
+	const lat = (req.body.latitude * Math.PI) / 180;
 	const long = (req.body.longitude * Math.PI) / 180;
 	const radius = req.body.radius;
+    
+	// 6371 comes from the earth's approx radius
 	const query = `SELECT * FROM destinations WHERE acos(sin(${lat}) * sin(radians(latitude)) + cos(${lat}) * cos(radians(latitude)) * cos(${long} - radians(longitude))) * 6371 <= ${radius}`;
 
 	client.query(query, (err, dbRes) => {

@@ -132,15 +132,10 @@ export default class TripRouteMap extends Vue {
 			if(trip){
 				const editedTripName = trip.textContent!.trim();
 				if(editedTripName !== this.tripName && this.listOfTripNames.includes(editedTripName)){
-					// TODO: having trouble figuring out the right logic to handle this when switching between trips from the dropdown
-					// because this seems to get triggered, even though re-render is not a click event??
-					//const modal = new Modal();
-					//await modal.createMessageModal(`A trip named "${editedTripName}" already exists!`);
 					trip.textContent = this.tripName;
 				}else{
-					// TODO: use a data or computed property based on the prop's value to update this.tripName
-					// also, how would saving this trip work? the new name change would have to bubble up to the map holding all the trips in main.ts I think
-					//this.tripName = editedTripName;
+					//@ts-ignore TODO: can we fix this without ignoring? (TS-2339)
+					this.$root.updateTripName(editedTripName);
 				}
 				trip.setAttribute("contenteditable", "false");
 			}

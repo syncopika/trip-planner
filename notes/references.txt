@@ -101,6 +101,7 @@ https://github.com/vuejs/eslint-plugin-vue/issues/811
 https://stackoverflow.com/questions/57802057/eslint-configuring-no-unused-vars-for-typescript -> why the heck is this so hard and frustrating!!? >:(
   - @typescript-eslint/no-unused-vars should be set to 'off' but some people are saying 'error' (why?).
 https://stackoverflow.com/questions/25719834/how-can-i-define-a-typescript-object-return-value-for-a-function
+https://github.com/DefinitelyTyped/DefinitelyTyped/issues/14877
 
 ========================
 useful mapbox stuff:

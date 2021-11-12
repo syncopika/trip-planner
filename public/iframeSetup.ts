@@ -16,24 +16,25 @@ window.document.addEventListener('updateSuggestedNextHops', showSuggestedNextHop
 // as soon as this iframe is setup,
 // send a customevent to the parent telling it to send data
 mapbox.getMap().on('load', () => {
-	const readyEvent = new CustomEvent('imready');
-	window.parent.document.dispatchEvent(readyEvent);
+    const readyEvent = new CustomEvent('imready');
+    window.parent.document.dispatchEvent(readyEvent);
 });
 
 function updateMap(evt : any){
-	// send back logs to parent window to confirm iframe received data
-	const ackEvent = new CustomEvent('iframeLogs', {detail: "hi parent, I got the data. thanks!"});
-	window.parent.document.dispatchEvent(ackEvent);
+    // send back logs to parent window to confirm iframe received data
+    const ackEvent = new CustomEvent('iframeLogs', {detail: "hi parent, I got the data. thanks!"});
+    window.parent.document.dispatchEvent(ackEvent);
 
-	// update the mapbox
-	mapbox.removeMarkers();
-	mapbox.updateMarkers(evt.detail);
+    // update the mapbox
+    mapbox.removeMarkers();
+    mapbox.updateMarkers(evt.detail);
+    mapbox.drawLineBetweenMarkers();
 }
 
 function showSuggestedNextHops(evt: any) {
-	const ackEvent = new CustomEvent('iframeLogs', { detail: "hi parent, got the data for suggested next hops!" });
-	window.parent.document.dispatchEvent(ackEvent);
+    const ackEvent = new CustomEvent('iframeLogs', { detail: "hi parent, got the data for suggested next hops!" });
+    window.parent.document.dispatchEvent(ackEvent);
 
-	// show suggested next hop markers on map
-	mapbox.showSuggestedNextHops(evt.detail);
+    // show suggested next hop markers on map
+    mapbox.showSuggestedNextHops(evt.detail);
 }

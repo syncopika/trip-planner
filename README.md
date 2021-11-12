@@ -4,7 +4,7 @@ An experimental application idea to help plan out your future trips! or record o
     
 The ideal version of this application would allow users to see and click specific places/landmarks/restaurants/etc. on the map to add as destinations for a trip.   
     
-This project optionally makes use of the MapBox API and so you may need a token, which you can get for free (and comes with 50000 free API requests/month).    
+This project makes use of the MapBox API, which may need a token for certain features like specific MapBox tiles. You can get a MapBox API token for free (and comes with 50000 free API requests/month).    
     
 My build is kinda weird right now in that I'm using an iframe to hold the MapBox map, which I'm storing in the public folder and building separately from the rest of the project (I still need to understand how vue-cli works 😅).       
     
@@ -24,17 +24,17 @@ marker tooltip info
 choosing a different trip (can have multiple trips!)    
     
 ![next destination suggestions](screenshots/next-dest-suggestion.png)    
-next destination suggestion feature (see red marker)    
+next destination suggestion feature within a particular radius (the red markers are suggestions)    
     
 ## Project setup
 ```
 npm install
 ```
     
-For setting up the iframe that contains the map, run `npm run setup-map-dev`. This will create a `bundle.js` file used by `mapIframe.html` in `/public`. You'll have to add your MapBox API token to `iframeSetup.ts` first to use a MapBox map style. Otherwise, I have a default map style and tiles that we can use for free thanks to [Stamen Design](http://maps.stamen.com/#terrain/12/37.7706/-122.3782).    
+For setting up the iframe that contains the map, run `npm run setup-map-dev`. This will create a `bundle.js` file used by `mapIframe.html` in `/public` (which contains all the components needed for building the iframe). You'll have to add your MapBox API token to `iframeSetup.ts` first to use a MapBox map style. Otherwise, I have a default map style and tiles that we can use for free thanks to [Stamen Design](http://maps.stamen.com/#terrain/12/37.7706/-122.3782).    
     
 ### database/api server setup    
-For the backend, I went with PostgreSQL. For this project my test db is `trip_planner_test` and I have 2 tables called `users` and `destinations`. I currently don't have any login functionality so the `users` table is not important atm. `destinations` is where all users' destination information is supposed to go. See notes.txt for more info about those tables. 
+For the backend, I went with PostgreSQL. For this project my test db is called `trip_planner_test` and I have 2 tables called `users` and `destinations`. I currently don't have any login functionality so the `users` table is not important atm. `destinations` is where all users' destination information is supposed to go. See notes.txt for more info about those tables. 
 
 After postgres is setup, see `loadFakeData.js` in the `db_stuff` folder. Adjust any postgres-specific variables like username/password/database name and run `node loadFakeData.js` to import the data from `test_destinations.json` into the database.    
 
@@ -46,6 +46,8 @@ npm run serve
 ```    
     
 Note that I have a `vue.config.js` file set up such that you'll want to navigate to `http://localhost:8080/trip-planner`.    
+    
+Also, everything should work "out-of-the-box" so you can play with the app (without the need to set up the backend) with just `npm run serve`. For the next destination suggestion feature I have some fake suggestions that show up on the map if they're within 20km of your current last trip destination.    
     
 ### Compiles and minifies for production
 ```

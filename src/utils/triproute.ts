@@ -10,6 +10,11 @@ interface Destination {
 	routeColor: string;
 }
 
+interface Trip {
+    tripName: string;
+    listOfDest: Destination[];
+}
+
 class TripRoute {
 
 	name:		  string;
@@ -42,5 +47,6 @@ class TripRoute {
 
 export {
 	TripRoute,
-	Destination
+	Destination,
+	Trip
 }
