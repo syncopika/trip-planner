@@ -24,7 +24,7 @@ marker tooltip info
 choosing a different trip (can have multiple trips!)    
     
 ![next destination suggestions](screenshots/next-dest-suggestion.png)    
-next destination suggestion feature (see red marker)    
+next destination suggestion feature (see red markers)    
     
 ## Project setup
 ```
@@ -46,6 +46,7 @@ npm run serve
 ```    
     
 Note that I have a `vue.config.js` file set up such that you'll want to navigate to `http://localhost:8080/trip-planner`.    
+Also, everything should work "out-of-the-box" so you can play with the app (without the need to set up the backend) with just `npm run serve`. For the next destination suggestion feature I have some fake suggestions that show up on the map if they're within 20km of your current last trip destination.    
     
 ### Compiles and minifies for production
 ```
