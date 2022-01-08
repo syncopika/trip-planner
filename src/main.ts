@@ -118,18 +118,15 @@ new Vue({
 			//console.log("requesting next hop suggestions");
 			return new Promise((resolve) => {
 				// should be based on last destination in list
-				axios.post("http://localhost:8081/api/destinations", {
-					latitude: lat,
-					longitude: long,
-					radius: 5, // 5 km for now?
-				})
-					.then(res => {
-						const suggestedNextDestinations: any[] = (res as any).data.destinations;
-						resolve(suggestedNextDestinations);
-					})
-					.catch(error => {
-						resolve([]); // database could not be connected to
-					});
+                // use 5 km radius for now
+				axios.get(`http://localhost:8081/api/destinations?latitude=${lat}&longitude=${long}&radius=${5}`)
+                    .then(res => {
+                        const suggestedNextDestinations: any[] = (res as any).data.destinations;
+                        resolve(suggestedNextDestinations);
+                    })
+                    .catch(error => {
+                        resolve([]); // database could not be connected to
+                    });
 			});
 		},
         
@@ -327,28 +324,27 @@ new Vue({
 
 		// make a call for all the trip info for this user
 		// for now use 'user1' as the username to demo
-		axios.post("http://localhost:8081/api/userDestinations", {
-			username: "user1"
-		})
-			.then(res => {
-				this.tripData = res.data.trips;      // get user's trips
-				this.canGetSuggestedNextDest = true; // since we can connect to the database
-			
-				// get suggested next hops using the currently last destination in the current trip
-				const currTripDestList: Array<Destination> = this.tripData[this.currTripIndex].listOfDest;
-				const lat = currTripDestList[currTripDestList.length-1].latitude;
-				const lng = currTripDestList[currTripDestList.length-1].longitude;
-			
-				(this as any).requestSuggestedNextHops(lat, lng).then((data: any) => {
-					this.suggestedNextDest = data;
-				});
-			})
-			.catch(error => {
-				// database couldn't be connected to
-				// we can't get suggested next hops when a new destination is added
-				// use fake data instead for now
-				//@ts-ignore TODO: investigate this? (TS-2339)
-				(this as any).suggestedNextDest = this.getFakeSuggestions();
-			});
+        const username = "user1";
+		axios.get(`http://localhost:8081/api/userDestinations?username=${username}`)
+            .then(res => {
+                this.tripData = res.data.trips;      // get user's trips
+                this.canGetSuggestedNextDest = true; // since we can connect to the database
+            
+                // get suggested next hops using the currently last destination in the current trip
+                const currTripDestList: Array<Destination> = this.tripData[this.currTripIndex].listOfDest;
+                const lat = currTripDestList[currTripDestList.length-1].latitude;
+                const lng = currTripDestList[currTripDestList.length-1].longitude;
+            
+                (this as any).requestSuggestedNextHops(lat, lng).then((data: any) => {
+                    this.suggestedNextDest = data;
+                });
+            })
+            .catch(error => {
+                // database couldn't be connected to
+                // we can't get suggested next hops when a new destination is added
+                // use fake data instead for now
+                //@ts-ignore TODO: investigate this? (TS-2339)
+                (this as any).suggestedNextDest = this.getFakeSuggestions();
+            });
 	}
 }).$mount('#app') // #app is in /public/index.html

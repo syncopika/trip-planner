@@ -29,13 +29,19 @@ app.get("/api", (req, res) => {
 	res.json({message: "hello there"});
 });
 
-app.post("/api/destinations", (req, res) => {
-	// find closest destinations to a given lat and lng
+app.get("/api/destinations", (req, res) => {
+	// TODO: validate query string
+    console.log(req.query);
+    console.log(req.query.latitude);
+    console.log(req.query.longitude);
+    console.log(req.query.radius);
+    
+    // find closest destinations to a given lat and lng
 	// formula: dist = arccos(sin(lat1)*sin(lat2) + cos(lat1)*cos(lat2)*cos(long1 - long2))*radius    // needs to be in radians!
 	// from: http://janmatuschek.de/LatitudeLongitudeBoundingCoordinates
-	const lat = (req.body.latitude * Math.PI) / 180;
-	const long = (req.body.longitude * Math.PI) / 180;
-	const radius = req.body.radius;
+	const lat = (req.query.latitude * Math.PI) / 180;
+	const long = (req.query.longitude * Math.PI) / 180;
+	const radius = req.query.radius;
     
 	// 6371 comes from the earth's approx radius
 	const query = `SELECT * FROM destinations WHERE acos(sin(${lat}) * sin(radians(latitude)) + cos(${lat}) * cos(radians(latitude)) * cos(${long} - radians(longitude))) * 6371 <= ${radius}`;
@@ -49,9 +55,8 @@ app.post("/api/destinations", (req, res) => {
 	});
 });
 
-app.post("/api/userDestinations", (req, res) => {
-	const body = req.body;
-	const user = req.body.username;
+app.get("/api/userDestinations", (req, res) => {
+	const user = req.query.username;
 	const query = `SELECT * FROM destinations WHERE username = '${user}'`;
 
 	client.query(query, (err, dbRes) => {
