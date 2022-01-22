@@ -9,6 +9,13 @@ id serial // primary key
 username varchar(60) unique
 password varchar(60)
 
+  Column  |         Type          | Collation | Nullable |              Default
+----------+-----------------------+-----------+----------+-----------------------------------
+ username | character varying(12) |           |          |
+ id       | integer               |           | not null | nextval('users_id_seq'::regclass)
+ password | character varying(60) |           |          |
+
+
 destinations
 ============
 id serial // primary key
@@ -19,6 +26,17 @@ latitude decimal (10,8)
 longitude decimal (11,8)
 metadata jsonb          // contains info about the destination like notes, start date, end date, etc.
 username                 // foreign key to match with users
+
+
+  Column   |         Type          | Collation | Nullable | Default
+-----------+-----------------------+-----------+----------+---------
+ username  | character varying(60) |           |          |
+ destname  | character varying(60) |           |          |
+ tripname  | character varying(60) |           |          |
+ index     | integer               |           |          |
+ latitude  | numeric(10,8)         |           |          |
+ longitude | numeric(11,8)         |           |          |
+ metadata  | jsonb                 |           |          |
 
 if we want to find all destinations for a user we can do:
 SELECT users.username, destname FROM destinations FULL JOIN users on destinations.username = users.username;

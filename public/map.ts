@@ -157,10 +157,12 @@ class MapBoxWrapper {
             marker.remove();
         }
 
+        // TODO: make separate method
         for(let marker of this.suggestedNextHops){
             marker.remove();
         }
         this.suggestedNextHops = [];
+        
         this.markers = [];
         this.destNames.clear();
         return true;

@@ -1,4 +1,4 @@
-// note that we are using Postgres here
+// note that we are using PostgreSQL here
 
 const pg = require('pg');
 const fs = require('fs');
