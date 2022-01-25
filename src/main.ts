@@ -47,6 +47,7 @@ new Vue({
 				]
 			}
 		],
+		'username': 'user1',
 		'currTripIndex': 0,
 		'suggestedNextDest': [],
 		'canGetSuggestedNextDest': false,
@@ -118,11 +119,8 @@ new Vue({
 			//console.log("requesting next hop suggestions");
 			return new Promise((resolve) => {
 				// should be based on last destination in list
-				axios.post("http://localhost:8081/api/destinations", {
-					latitude: lat,
-					longitude: long,
-					radius: 5, // 5 km for now?
-				})
+				// use 20 km radius for now
+				axios.get(`http://localhost:8081/api/destinations?username=${this.username}&latitude=${lat}&longitude=${long}&radius=${20}`)
 					.then(res => {
 						const suggestedNextDestinations: any[] = (res as any).data.destinations;
 						resolve(suggestedNextDestinations);
@@ -309,36 +307,34 @@ new Vue({
 					routeColor: "#888"
 				};
 				
-				this.tripData[this.currTripIndex].listOfDest.push(newDest);
-				
 				if(this.canGetSuggestedNextDest){
 					// Make a call to the db with the newly added dest's lat and lng to look up possible next hops
 					// when we get that info back, update the prop so the change will get propagated to TripRoute.vue.
 					(this as any).requestSuggestedNextHops(location.latitude, location.longitude).then((data: any) => {
 						this.suggestedNextDest = data;
+						this.tripData[this.currTripIndex].listOfDest.push(newDest);
 					});					
 				}else{
 					// for demoing
 					//@ts-ignore TODO: investigate this? (TS-2339)
 					(this as any).suggestedNextDest = this.getFakeSuggestions();
+					this.tripData[this.currTripIndex].listOfDest.push(newDest);
 				}
 			}
 		});
 
 		// make a call for all the trip info for this user
 		// for now use 'user1' as the username to demo
-		axios.post("http://localhost:8081/api/userDestinations", {
-			username: "user1"
-		})
+		axios.get(`http://localhost:8081/api/userDestinations?username=${this.username}`)
 			.then(res => {
 				this.tripData = res.data.trips;      // get user's trips
 				this.canGetSuggestedNextDest = true; // since we can connect to the database
-			
+            
 				// get suggested next hops using the currently last destination in the current trip
 				const currTripDestList: Array<Destination> = this.tripData[this.currTripIndex].listOfDest;
 				const lat = currTripDestList[currTripDestList.length-1].latitude;
 				const lng = currTripDestList[currTripDestList.length-1].longitude;
-			
+            
 				(this as any).requestSuggestedNextHops(lat, lng).then((data: any) => {
 					this.suggestedNextDest = data;
 				});
