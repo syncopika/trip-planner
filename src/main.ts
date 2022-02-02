@@ -325,7 +325,7 @@ new Vue({
 
 		// make a call for all the trip info for this user
 		// for now use 'user1' as the username to demo
-		axios.get(`http://localhost:8081/api/userDestinations?username=${this.username}`)
+		axios.get(`http://localhost:8081/api/user-destinations/${this.username}`)
 			.then(res => {
 				this.tripData = res.data.trips;      // get user's trips
 				this.canGetSuggestedNextDest = true; // since we can connect to the database

@@ -29,7 +29,7 @@ app.get("/api", (req, res) => {
     res.json({message: "hello there"});
 });
 
-app.get("/getUsers", (req, res) => {
+app.get("/api/users", (req, res) => {
     // TODO
 });
 
@@ -62,8 +62,9 @@ app.get("/api/destinations", (req, res) => {
     });
 });
 
-app.get("/api/userDestinations", (req, res) => {
-    const user = req.query.username;
+app.get("/api/user-destinations/:userName", (req, res) => {
+    const user = req.params.userName;
+    console.log(user);
     const query = `SELECT * FROM destinations WHERE username = '${user}'`;
 
     client.query(query, (err, dbRes) => {

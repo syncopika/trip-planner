@@ -155,6 +155,13 @@ https://stackoverflow.com/questions/60234774/hold-promise-resolve-reject-functio
 https://stackoverflow.com/questions/26140050/why-is-font-family-not-inherited-in-button-tags-automatically/26140154
 
 ========================
+RESTful API stuff:
+https://restfulapi.net/
+https://restfulapi.net/rest-api-design-tutorial-with-example/
+https://stackoverflow.com/questions/30967822/when-do-i-use-path-params-vs-query-params-in-a-restful-api
+
+
+========================
 anything in src gets processed by webpack.put stuff in /public and then reference with relative path like './mapIframe.html'
 I got super confused though because I got it working with the relative path after I moved my mapIframe.html and its js file 
 to src/assets. but then it stopped working and moving those files to /public got it working again :/ 
