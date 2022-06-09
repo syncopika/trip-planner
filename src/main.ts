@@ -225,23 +225,23 @@ new Vue({
 		importData: function(evt: any): void {
 			const reader = new FileReader();
 			const file = evt.target.files[0];
-			
+            
 			if(file){
 				reader.onload = (() => {
 					return (evt: any): void => { 
-						const data: any = JSON.parse(evt.target.result);
-						
-						if(!data.length || !data[0].tripName || !data[0].listOfDest){
-							alert("sorry, trip data could not be imported! please check the format.");
-							return;
-						}
-						
-						// switch current trip to this one
-						this.tripData.push(data[0]);
-						this.currTripIndex = this.tripData.length - 1;
+						const data: Array<any> = JSON.parse(evt.target.result); // should be a list of trips
+                        
+						data.forEach(trip => {
+							if(!trip.tripName || !trip.listOfDest){
+								alert("sorry, trip data could not be imported! tripName and listOfDest fields must be provided for each trip.");
+								return;
+							}
+						});
+                        
+						this.tripData = data;
 					}
 				})();
-				
+                
 				reader.readAsText(file);
 			}
 		},

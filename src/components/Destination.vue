@@ -221,9 +221,9 @@ export default Vue.extend({
 
 			const name = this.destination.name;
 			const destTitle = document.getElementById(name);
-			const newName = destTitle?.textContent?.trim().split(' ')[0];
+			const newName = destTitle?.textContent?.trim();
 
-			// if new name is valid, the change will happen
+			// if new name is valid (i.e. not an empty string), the change will happen
 			// if it doesn't happen, we'll at least have restored the dest title to its original
 			if (destTitle) {
 				destTitle.textContent = this.currDestTitle;

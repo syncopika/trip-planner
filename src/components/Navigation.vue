@@ -72,8 +72,10 @@ export default {
 		},
 		
 		triggerImport: function(): void {
-			const importButton = document.getElementById('importTripData');
-			importButton?.click();
+			if(confirm("Do you want to save or export your current data first? Importing will overwrite your current trip data.")){
+				const importButton = document.getElementById('importTripData');
+                importButton?.click();
+			}
 		},
 		
 		importData: function(evt: MouseEvent): void {
