@@ -61,10 +61,10 @@ import { Destination } from '../utils/triproute';
 import { Modal } from '../utils/modal';
 
 @Component({
-	components: {
-		DestinationList,
-		Navigation
-	}
+    components: {
+        DestinationList,
+        Navigation
+    }
 })
 
 export default class TripRouteMap extends Vue {
@@ -78,94 +78,94 @@ export default class TripRouteMap extends Vue {
 
 	@Watch('listOfDest', { deep: true })
 	onDestChange(newVal: Array<Destination>, _: Array<Destination>): void {
-		// note that we shouldn't need to care about the old value (the 2nd arg)
-		this.updateMap(newVal);
+	    // note that we shouldn't need to care about the old value (the 2nd arg)
+	    this.updateMap(newVal);
 
-		// whenever listOfDest changes, suggestedNextDest should too
-		if(this.showSuggestedNextHops) {
-			this.updateSuggestedNextHops(this.suggestedNextDest);
-		}
+	    // whenever listOfDest changes, suggestedNextDest should too
+	    if(this.showSuggestedNextHops) {
+	        this.updateSuggestedNextHops(this.suggestedNextDest);
+	    }
 	}
 
 	dispatchEventToMap(eventName: string, data: Array<Destination>): void {
-		// send a custom event to the map iframe along with the data
-		const updateMapEvent = new CustomEvent(eventName, { detail: data });
-		const mapIframe = document.getElementById('mapContainer') as HTMLIFrameElement;
+	    // send a custom event to the map iframe along with the data
+	    const updateMapEvent = new CustomEvent(eventName, { detail: data });
+	    const mapIframe = document.getElementById('mapContainer') as HTMLIFrameElement;
 
-		if(mapIframe !== null && mapIframe.contentDocument !== null) {
-			//console.log("sending data to the iframe for event: " + eventName);
-			mapIframe.contentDocument.dispatchEvent(updateMapEvent);
-		}
+	    if(mapIframe !== null && mapIframe.contentDocument !== null) {
+	        //console.log("sending data to the iframe for event: " + eventName);
+	        mapIframe.contentDocument.dispatchEvent(updateMapEvent);
+	    }
 	}
 	
 	updateMap(data: Array<Destination>): void {
-		// take new destination data and update the MapBox map markers as needed
-		//console.log("I'm supposed to update the map!");
-		this.dispatchEventToMap('updateMap', data);
+	    // take new destination data and update the MapBox map markers as needed
+	    //console.log("I'm supposed to update the map!");
+	    this.dispatchEventToMap('updateMap', data);
 	}
 
 	updateSuggestedNextHops(data: Array<Destination>): void {
-		this.dispatchEventToMap('updateSuggestedNextHops', data);
+	    this.dispatchEventToMap('updateSuggestedNextHops', data);
 	}
 
 	toggleTripSuggestions(): void {
-		this.showSuggestedNextHops = !this.showSuggestedNextHops;
+	    this.showSuggestedNextHops = !this.showSuggestedNextHops;
 
-		// make sure map reflects new value
-		if(!this.showSuggestedNextHops) {
-			this.updateSuggestedNextHops([]);
-		} else {
-			this.updateSuggestedNextHops(this.suggestedNextDest);
-		}
+	    // make sure map reflects new value
+	    if(!this.showSuggestedNextHops) {
+	        this.updateSuggestedNextHops([]);
+	    } else {
+	        this.updateSuggestedNextHops(this.suggestedNextDest);
+	    }
 	}
 	
 	// TODO: not completely implemented but this is for changing a trip name
 	async toggleTripTitleEdit(evt: any): Promise<void> {
-		if(evt.target.classList.contains("tripTitle")){
-			evt.target.setAttribute("contenteditable", "true");
-		}else{
-			// check if we should edit the trip title. if the current text is of another
-			// trip that already exists, don't allow it and reset the text
-			// otherwise, update
-			const trip = document.querySelector(".tripTitle"); // there should only be one trip shown at a time
+	    if(evt.target.classList.contains("tripTitle")){
+	        evt.target.setAttribute("contenteditable", "true");
+	    }else{
+	        // check if we should edit the trip title. if the current text is of another
+	        // trip that already exists, don't allow it and reset the text
+	        // otherwise, update
+	        const trip = document.querySelector(".tripTitle"); // there should only be one trip shown at a time
 			
-			if(trip){
-				const editedTripName = trip.textContent!.trim();
-				if(editedTripName !== this.tripName && this.listOfTripNames.includes(editedTripName)){
-					trip.textContent = this.tripName;
-				}else{
-					//@ts-ignore TODO: can we fix this without ignoring? (TS-2339)
-					this.$root.updateTripName(editedTripName);
-				}
-				trip.setAttribute("contenteditable", "false");
-			}
-		}
+	        if(trip){
+	            const editedTripName = trip.textContent!.trim();
+	            if(editedTripName !== this.tripName && this.listOfTripNames.includes(editedTripName)){
+	                trip.textContent = this.tripName;
+	            }else{
+	                //@ts-ignore TODO: can we fix this without ignoring? (TS-2339)
+	                this.$root.updateTripName(editedTripName);
+	            }
+	            trip.setAttribute("contenteditable", "false");
+	        }
+	    }
 	}
 	
 	_handleIframeLogs(evt: any): void {
-		console.log(evt);
+	    console.log(evt);
 	}
 	
 	_handleReady(): void {
-		console.log("got iframe ready message!!");
-		this.updateMap(this.listOfDest);
+	    console.log("got iframe ready message!!");
+	    this.updateMap(this.listOfDest);
 
-		// this is false by default so not sure yet when this will ever happen
-		if(this.showSuggestedNextHops) {
-			this.updateSuggestedNextHops(this.suggestedNextDest);
-		}
+	    // this is false by default so not sure yet when this will ever happen
+	    if(this.showSuggestedNextHops) {
+	        this.updateSuggestedNextHops(this.suggestedNextDest);
+	    }
 	}
 	
 	mounted(): void{
-		// the iframe might not be ready?
-		// so listen for the ready event first
-		window.document.addEventListener('imready', this._handleReady, false);		
+	    // the iframe might not be ready?
+	    // so listen for the ready event first
+	    window.document.addEventListener('imready', this._handleReady, false);		
 		
-		// set up listeners for any messages that come from the iframe
-		window.document.addEventListener('iframeLogs', this._handleIframeLogs, false);
+	    // set up listeners for any messages that come from the iframe
+	    window.document.addEventListener('iframeLogs', this._handleIframeLogs, false);
 		
-		// allow user to stop the trip title from being editable when clicking elsewhere other than the title text
-		window.document.addEventListener('click', this.toggleTripTitleEdit);
+	    // allow user to stop the trip title from being editable when clicking elsewhere other than the title text
+	    window.document.addEventListener('click', this.toggleTripTitleEdit);
 	}
 }
 </script>

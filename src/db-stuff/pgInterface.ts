@@ -21,18 +21,18 @@ client.connect();
 
 export class PostgresInterface implements dbInterface {
 	
-	constructor(){
-		// todo
-	}
+    constructor(){
+        // todo
+    }
 	
-	getClosestDestinations(maxResults: number, latitude: number, longitude: number, radius: number): {destinations: any[]} {
-		// todo
-		return {destinations: []};
-	}
+    getClosestDestinations(maxResults: number, latitude: number, longitude: number, radius: number): {destinations: any[]} {
+        // todo
+        return {destinations: []};
+    }
 	
-	getUserDestinations(username: string): {trips: any[]} {
-		// todo
-		return {trips: []};
-	}
+    getUserDestinations(username: string): {trips: any[]} {
+        // todo
+        return {trips: []};
+    }
 	
 }

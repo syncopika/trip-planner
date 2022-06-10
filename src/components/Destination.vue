@@ -130,66 +130,66 @@ import { Modal } from '../utils/modal';
 
 // get info passed from parent component (i.e. Sidebar)
 export default Vue.extend({
-	data(){
-		return {
-			expanded: false,
-			isEditing: false,
-			editSnapshot: {},
-			currDestTitle: ""
-		}
-	},
-	components: {
-		Calendar
-	},
-	props: {
-		destination: {required: true, type: Object}
-	},
-	methods: {
-		highlightBorder: function(): void {
-			const name = this.destination.name;
-			const dest = document.getElementById(name + '_dest');
-			if(dest !== null){
-				dest.style.border = '2px solid #fff';
-			}
-		},
+    data(){
+        return {
+            expanded: false,
+            isEditing: false,
+            editSnapshot: {},
+            currDestTitle: ""
+        }
+    },
+    components: {
+        Calendar
+    },
+    props: {
+        destination: {required: true, type: Object}
+    },
+    methods: {
+        highlightBorder: function(): void {
+            const name = this.destination.name;
+            const dest = document.getElementById(name + '_dest');
+            if(dest !== null){
+                dest.style.border = '2px solid #fff';
+            }
+        },
 		
-		dehighlightBorder: function(): void {
-			const name = this.destination.name;
-			const dest = document.getElementById(name + '_dest');
-			if(dest !== null){
-				dest.style.border = '2px solid #000';
-			}	
-		},
+        dehighlightBorder: function(): void {
+            const name = this.destination.name;
+            const dest = document.getElementById(name + '_dest');
+            if(dest !== null){
+                dest.style.border = '2px solid #000';
+            }	
+        },
 		
-		toggleVisibility: function(): void {
-			const name = this.destination.name;
-			const content = document.getElementById(name + '_content');
+        toggleVisibility: function(): void {
+            const name = this.destination.name;
+            const content = document.getElementById(name + '_content');
 
-			if(content !== null){
-				if(this.expanded && !this.isEditing){
-					content.style.display = "none";
-				}else{
-					content.style.display = "block";
-				}
-			}
+            if(content !== null){
+                if(this.expanded && !this.isEditing){
+                    content.style.display = "none";
+                }else{
+                    content.style.display = "block";
+                }
+            }
 
-			this.expanded = !this.expanded;
-		},
+            this.expanded = !this.expanded;
+        },
 		
-		toggleEdit: function(evt: any): void {
-			// prevent div from closing
-			evt.stopPropagation();
+        toggleEdit: function(evt: any): void {
+            // prevent div from closing
+            evt.stopPropagation();
 			
-			const name = this.destination.name;
+            const name = this.destination.name;
 			
-			this.isEditing = true;
+            this.isEditing = true;
 
-			// take a snapshot of all current data so we can cancel changes easily
-			//console.log(this.destination);
-			this.editSnapshot = JSON.parse(JSON.stringify(this.destination));
+            // take a snapshot of all current data so we can cancel changes easily
+            //console.log(this.destination);
+            this.editSnapshot = JSON.parse(JSON.stringify(this.destination));
 			
-			// make destination name editable
-			const destTitle = document.getElementById(name);
+            // make destination name editable
+            const destTitle = document.getElementById(name);
 			destTitle?.setAttribute('contenteditable', "true");
 
 			// save the current title so we can restore it if it can't be changed
@@ -198,39 +198,39 @@ export default Vue.extend({
 			// make content editable
 			const notes = document.getElementById(name + '_notes');
 			if(notes !== null) notes.removeAttribute('disabled');
-		},
+        },
 		
-		removeDestination: async function(evt: any): Promise<void> {
-			// remove a destination
-			// calls a method of the Vue root instance
-			const modal = new Modal();
-			const remove = await modal.createQuestionModal("Are you sure you want to remove this destination?");
-			if (remove) {
-				const name = evt.target.id.split("_")[0]; // i.e. name_dest, and we want name
+        removeDestination: async function(evt: any): Promise<void> {
+            // remove a destination
+            // calls a method of the Vue root instance
+            const modal = new Modal();
+            const remove = await modal.createQuestionModal("Are you sure you want to remove this destination?");
+            if (remove) {
+                const name = evt.target.id.split("_")[0]; // i.e. name_dest, and we want name
 
-				//@ts-ignore TODO: can we fix this without ignoring? (TS-2339)
-				this.$root.removeDestination(name);
-			}
-		},
+                //@ts-ignore TODO: can we fix this without ignoring? (TS-2339)
+                this.$root.removeDestination(name);
+            }
+        },
 		
-		saveChanges: function(): void {
-			// note: when save is clicked and the data is sent to the root
-			// to update state, the destination name, if edited, will be
-			// checked to make sure its new desired name is not already taken
-			// by another destination
+        saveChanges: function(): void {
+            // note: when save is clicked and the data is sent to the root
+            // to update state, the destination name, if edited, will be
+            // checked to make sure its new desired name is not already taken
+            // by another destination
 
-			const name = this.destination.name;
-			const destTitle = document.getElementById(name);
-			const newName = destTitle?.textContent?.trim();
+            const name = this.destination.name;
+            const destTitle = document.getElementById(name);
+            const newName = destTitle?.textContent?.trim();
 
-			// if new name is valid (i.e. not an empty string), the change will happen
-			// if it doesn't happen, we'll at least have restored the dest title to its original
-			if (destTitle) {
-				destTitle.textContent = this.currDestTitle;
-				destTitle.setAttribute('contenteditable', "false");
-			}
+            // if new name is valid (i.e. not an empty string), the change will happen
+            // if it doesn't happen, we'll at least have restored the dest title to its original
+            if (destTitle) {
+                destTitle.textContent = this.currDestTitle;
+                destTitle.setAttribute('contenteditable', "false");
+            }
 
-			const notes = document.getElementById(name + '_notes');
+            const notes = document.getElementById(name + '_notes');
 			notes?.setAttribute('disabled', 'true');
 
 			const data: Destination = JSON.parse(JSON.stringify(this.destination)); // make a copy
@@ -258,12 +258,12 @@ export default Vue.extend({
 			this.$root.updateDestination(data);
 
 			this.isEditing = false;
-		},
+        },
 		
-		cancelChanges: function(): void {
-			// make sure destination name goes back to being uneditable
-			const name = this.destination.name;
-			const destTitle = document.getElementById(name);
+        cancelChanges: function(): void {
+            // make sure destination name goes back to being uneditable
+            const name = this.destination.name;
+            const destTitle = document.getElementById(name);
 			destTitle?.setAttribute('contenteditable', "false");
 			
 			const notes = document.getElementById(name + '_notes');
@@ -271,166 +271,166 @@ export default Vue.extend({
 
 			const currData = JSON.parse(JSON.stringify(this.editSnapshot));
 			for(const data in currData) {
-				this.destination[data] = currData[data];
+			    this.destination[data] = currData[data];
 			}
 			this.editSnapshot = {};
 			this.isEditing = false;
-		},
+        },
 		
-		uploadImage: function(evt: any): void {
-			const img = new Image();
-			const reader = new FileReader();
-			const file = evt.target.files[0];
+        uploadImage: function(evt: any): void {
+            const img = new Image();
+            const reader = new FileReader();
+            const file = evt.target.files[0];
 
-			reader.onloadend = (): void => {
-				const imgSrcStr = reader.result as string;
+            reader.onloadend = (): void => {
+                const imgSrcStr = reader.result as string;
 
-				img.src = imgSrcStr;
+                img.src = imgSrcStr;
 
-				// update data
-				const data: Destination = JSON.parse(JSON.stringify(this.destination)); // making a copy
-				data.images.push(imgSrcStr);
+                // update data
+                const data: Destination = JSON.parse(JSON.stringify(this.destination)); // making a copy
+                data.images.push(imgSrcStr);
 
-				//@ts-ignore 
-				this.$root.updateDestination(data);
-			};
-			//read the file as a URL
-			reader.readAsDataURL(file);
-		},
+                //@ts-ignore 
+                this.$root.updateDestination(data);
+            };
+            //read the file as a URL
+            reader.readAsDataURL(file);
+        },
 		
-		clickInput: function(): void {
-			const inputElement = document.getElementById(this.destination.name + "_importImage");
+        clickInput: function(): void {
+            const inputElement = document.getElementById(this.destination.name + "_importImage");
             inputElement?.click();
-		},
+        },
 		
-		enlargeImage: function(evt: any): void {
-			const imageDiv = document.createElement('div');
-			imageDiv.style.opacity = "0.98";
-			imageDiv.style.backgroundColor = "#383838";
-			imageDiv.style.position = "fixed";
-			imageDiv.style.top = "0";
-			imageDiv.style.left = "0";
-			imageDiv.style.height = "100%";
-			imageDiv.style.width = "100%";
-			imageDiv.style.textAlign = "center";
-			imageDiv.style.overflow = "scroll";
+        enlargeImage: function(evt: any): void {
+            const imageDiv = document.createElement('div');
+            imageDiv.style.opacity = "0.98";
+            imageDiv.style.backgroundColor = "#383838";
+            imageDiv.style.position = "fixed";
+            imageDiv.style.top = "0";
+            imageDiv.style.left = "0";
+            imageDiv.style.height = "100%";
+            imageDiv.style.width = "100%";
+            imageDiv.style.textAlign = "center";
+            imageDiv.style.overflow = "scroll";
 
-			document.body.style.overflow = "hidden";
+            document.body.style.overflow = "hidden";
 
-			const enlargedImage = new Image();
-			enlargedImage.src = evt.target.src;
-			enlargedImage.addEventListener("dblclick", () => {
+            const enlargedImage = new Image();
+            enlargedImage.src = evt.target.src;
+            enlargedImage.addEventListener("dblclick", () => {
 				imageDiv?.parentNode?.removeChild(imageDiv);
 				document.body.style.overflow = "visible";
-			});
+            });
 
-			if(document.body.clientHeight < enlargedImage.height ||
+            if(document.body.clientHeight < enlargedImage.height ||
 				document.body.clientWidth < enlargedImage.width) {
-				// reduce size of enlarged image if larger than the page
-				// or rescale using a canvas?
-			}
+                // reduce size of enlarged image if larger than the page
+                // or rescale using a canvas?
+            }
 
-			imageDiv.appendChild(enlargedImage);
+            imageDiv.appendChild(enlargedImage);
 
-			const cancel = document.createElement('h3');
-			cancel.textContent = "close";
-			cancel.style.fontFamily = "Montserrat";
-			cancel.style.fontWeight = "bold";
-			cancel.style.fontSize = "2em";
-			cancel.style.color = "#fff";
-			cancel.style.marginTop = "1%";
-			cancel.addEventListener("click", () => {
+            const cancel = document.createElement('h3');
+            cancel.textContent = "close";
+            cancel.style.fontFamily = "Montserrat";
+            cancel.style.fontWeight = "bold";
+            cancel.style.fontSize = "2em";
+            cancel.style.color = "#fff";
+            cancel.style.marginTop = "1%";
+            cancel.addEventListener("click", () => {
 				imageDiv?.parentNode?.removeChild(imageDiv);
 				document.body.style.overflow = "visible";
-			});
-			imageDiv.appendChild(cancel);
+            });
+            imageDiv.appendChild(cancel);
 
-			document.body.appendChild(imageDiv);
-		},
+            document.body.appendChild(imageDiv);
+        },
 		
-		deleteImage: function(evt: any): void {
-			// get index of image from id
-			let imageIndex = evt.target.id.split("_");
-			imageIndex = parseInt(imageIndex[imageIndex.length - 1]);
+        deleteImage: function(evt: any): void {
+            // get index of image from id
+            let imageIndex = evt.target.id.split("_");
+            imageIndex = parseInt(imageIndex[imageIndex.length - 1]);
 
-			this.destination.images.splice(imageIndex, 1);
-		},
+            this.destination.images.splice(imageIndex, 1);
+        },
 		
-		showColorWheel: function(): void {
-			const location = document.getElementById(this.destination.name + '_editRouteColor');
-			const colorWheelId = this.destination.name + "_colorWheel";
+        showColorWheel: function(): void {
+            const location = document.getElementById(this.destination.name + '_editRouteColor');
+            const colorWheelId = this.destination.name + "_colorWheel";
 			
-			if(document.getElementById(colorWheelId)){
-				// don't add a new one if there already is one
-				return;
-			}
+            if(document.getElementById(colorWheelId)){
+                // don't add a new one if there already is one
+                return;
+            }
 			
-			const size = "200";
-			const colorWheel = document.createElement('canvas');
-			colorWheel.id = colorWheelId;
-			colorWheel.setAttribute('width', size);
-			colorWheel.setAttribute('height', size);
+            const size = "200";
+            const colorWheel = document.createElement('canvas');
+            colorWheel.id = colorWheelId;
+            colorWheel.setAttribute('width', size);
+            colorWheel.setAttribute('height', size);
 
-			const colorWheelContext = colorWheel.getContext('2d');
-			const x = colorWheel.width / 2;
-			const y = colorWheel.height / 2;
-			const radius = 90;
+            const colorWheelContext = colorWheel.getContext('2d');
+            const x = colorWheel.width / 2;
+            const y = colorWheel.height / 2;
+            const radius = 90;
 
-			// why 5600??
-			if(colorWheelContext) {
-				for(let angle = 0;angle <= 5600;angle++) {
-					const startAngle = (angle - 2) * Math.PI / 180; //convert angles to radians
-					const endAngle = (angle) * Math.PI / 180;
-					colorWheelContext.beginPath();
-					colorWheelContext.moveTo(x, y);
-					//.arc(x, y, radius, startAngle, endAngle, anticlockwise)
-					colorWheelContext.arc(x, y, radius, startAngle, endAngle, false);
-					colorWheelContext.closePath();
-					//use .createRadialGradient to get a different color for each angle
-					//createRadialGradient(x0, y0, r0, x1, y1, r1)
-					const gradient = colorWheelContext.createRadialGradient(x, y, 0, startAngle, endAngle, radius);
-					gradient.addColorStop(0, 'hsla(' + angle + ', 10%, 100%, 1)');
-					gradient.addColorStop(1, 'hsla(' + angle + ', 100%, 50%, 1)');
-					colorWheelContext.fillStyle = gradient;
-					colorWheelContext.fill();
-				}
+            // why 5600??
+            if(colorWheelContext) {
+                for(let angle = 0;angle <= 5600;angle++) {
+                    const startAngle = (angle - 2) * Math.PI / 180; //convert angles to radians
+                    const endAngle = (angle) * Math.PI / 180;
+                    colorWheelContext.beginPath();
+                    colorWheelContext.moveTo(x, y);
+                    //.arc(x, y, radius, startAngle, endAngle, anticlockwise)
+                    colorWheelContext.arc(x, y, radius, startAngle, endAngle, false);
+                    colorWheelContext.closePath();
+                    //use .createRadialGradient to get a different color for each angle
+                    //createRadialGradient(x0, y0, r0, x1, y1, r1)
+                    const gradient = colorWheelContext.createRadialGradient(x, y, 0, startAngle, endAngle, radius);
+                    gradient.addColorStop(0, 'hsla(' + angle + ', 10%, 100%, 1)');
+                    gradient.addColorStop(1, 'hsla(' + angle + ', 100%, 50%, 1)');
+                    colorWheelContext.fillStyle = gradient;
+                    colorWheelContext.fill();
+                }
 
-				// make black a pickable color
-				colorWheelContext.fillStyle = "#000";
-				colorWheelContext.beginPath();
-				colorWheelContext.arc(10, 10, 8, 0, 2 * Math.PI);
-				colorWheelContext.fill();
+                // make black a pickable color
+                colorWheelContext.fillStyle = "#000";
+                colorWheelContext.beginPath();
+                colorWheelContext.arc(10, 10, 8, 0, 2 * Math.PI);
+                colorWheelContext.fill();
 
-				// make white pickable too
-				// black outline
-				colorWheelContext.beginPath();
-				colorWheelContext.arc(30, 10, 8, 0, 2 * Math.PI); // border around the white 
-				colorWheelContext.stroke();
+                // make white pickable too
+                // black outline
+                colorWheelContext.beginPath();
+                colorWheelContext.arc(30, 10, 8, 0, 2 * Math.PI); // border around the white 
+                colorWheelContext.stroke();
 
-				// make sure circle is filled with #fff
-				colorWheelContext.fillStyle = "#fff";
-				colorWheelContext.arc(30, 10, 8, 0, 2 * Math.PI);
-				colorWheelContext.fill();
+                // make sure circle is filled with #fff
+                colorWheelContext.fillStyle = "#fff";
+                colorWheelContext.arc(30, 10, 8, 0, 2 * Math.PI);
+                colorWheelContext.fill();
 
-				colorWheel.addEventListener('click', (e) => {
-					const x = e.offsetX;
-					const y = e.offsetY;
+                colorWheel.addEventListener('click', (e) => {
+                    const x = e.offsetX;
+                    const y = e.offsetY;
 
-					//@ts-ignore (2531)
-					const colorPicked = (colorWheel.getContext('2d')).getImageData(x, y, 1, 1).data;
-					// convert to hex?
-					const colorCode = 'rgb(' + colorPicked[0] + ',' + colorPicked[1] + ',' + colorPicked[2] + ')';
-					const colorInput = document.getElementById(this.destination.name + "_routeColor") as HTMLInputElement;
-					if(colorInput) {
-						colorInput.value = colorCode;
-						colorInput.style.backgroundColor = colorCode;
-					}
-				});
-			}
+                    //@ts-ignore (2531)
+                    const colorPicked = (colorWheel.getContext('2d')).getImageData(x, y, 1, 1).data;
+                    // convert to hex?
+                    const colorCode = 'rgb(' + colorPicked[0] + ',' + colorPicked[1] + ',' + colorPicked[2] + ')';
+                    const colorInput = document.getElementById(this.destination.name + "_routeColor") as HTMLInputElement;
+                    if(colorInput) {
+                        colorInput.value = colorCode;
+                        colorInput.style.backgroundColor = colorCode;
+                    }
+                });
+            }
 
-			if(location) location.appendChild(colorWheel);
-		}
-	}
+            if(location) location.appendChild(colorWheel);
+        }
+    }
 });
 </script>
 

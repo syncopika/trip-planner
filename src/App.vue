@@ -11,9 +11,9 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import TripRouteMap from './components/TripRoute.vue';
 
 @Component({
-	components: {
-		TripRouteMap
-	}
+    components: {
+        TripRouteMap
+    }
 })
 
 export default class App extends Vue {

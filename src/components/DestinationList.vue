@@ -18,9 +18,9 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import Destination from './Destination.vue';
 
 @Component({
-	components: {
-		Destination
-	}
+    components: {
+        Destination
+    }
 })
 
 export default class DestinationList extends Vue {

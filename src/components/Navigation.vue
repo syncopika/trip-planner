@@ -49,51 +49,51 @@
 import { Modal } from "../utils/modal";
 
 export default {
-	props: {
-		listOfTripNames: { required: true, type: Array }
-	},
-	methods: {
-		addNewTrip: async function(): Promise<void> {
-			const modalHandler = new Modal();
-			const newTripName = await modalHandler.createInputModal("please enter the name of the new trip:");
+    props: {
+        listOfTripNames: { required: true, type: Array }
+    },
+    methods: {
+        addNewTrip: async function(): Promise<void> {
+            const modalHandler = new Modal();
+            const newTripName = await modalHandler.createInputModal("please enter the name of the new trip:");
 			
-			if(newTripName) {
-				//@ts-ignore (TS-2339)
-				this.$root.addNewTrip(newTripName);
-			}
-		},
+            if(newTripName) {
+                //@ts-ignore (TS-2339)
+                this.$root.addNewTrip(newTripName);
+            }
+        },
 		
-		selectTrip: function(evt: MouseEvent): void {
-			if(evt){
-				const index = parseInt((evt.target as HTMLParagraphElement).id.split("_")[1]);
-				// @ts-ignore (TS-2339)
-				this.$root.selectTrip(index);
-			}
-		},
+        selectTrip: function(evt: MouseEvent): void {
+            if(evt){
+                const index = parseInt((evt.target as HTMLParagraphElement).id.split("_")[1]);
+                // @ts-ignore (TS-2339)
+                this.$root.selectTrip(index);
+            }
+        },
 		
-		triggerImport: function(): void {
-			if(confirm("Do you want to save or export your current data first? Importing will overwrite your current trip data.")){
-				const importButton = document.getElementById('importTripData');
+        triggerImport: function(): void {
+            if(confirm("Do you want to save or export your current data first? Importing will overwrite your current trip data.")){
+                const importButton = document.getElementById('importTripData');
                 importButton?.click();
-			}
-		},
+            }
+        },
 		
-		importData: function(evt: MouseEvent): void {
-			// call root to import data
-			// @ts-ignore
-			this.$root.importData(evt);
-		},
+        importData: function(evt: MouseEvent): void {
+            // call root to import data
+            // @ts-ignore
+            this.$root.importData(evt);
+        },
 		
-		exportData: function(): void {
-			// call root to download trip data
-			// @ts-ignore
-			this.$root.exportData();
-		},
+        exportData: function(): void {
+            // call root to download trip data
+            // @ts-ignore
+            this.$root.exportData();
+        },
 		
-		saveData: function(): void {
-			// TODO: save current trip data to database
-		}
-	}
+        saveData: function(): void {
+            // TODO: save current trip data to database
+        }
+    }
 }
 </script>
 
