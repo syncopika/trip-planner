@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="calendar" v-if="isEditing">
-			<p> {{header}}: </p>
+            <p> {{header}}: </p>
             <input :id="destName + 'month'" type="text" size="2" maxlength="2" placeholder="mm" />
             <p> / </p>
             <input :id="destName + 'day'" type="text" size="2" maxlength="2" placeholder="dd" />

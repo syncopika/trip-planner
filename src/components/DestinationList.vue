@@ -1,15 +1,15 @@
 <template>
-	<div>
-		<ul id="stops">
-			<!-- each list element is a destination -->
-			<destination 
-				v-for="dest in listOfDest" 
-				v-bind:key="dest.name+dest.latitude+dest.longitude"
-				:destination="dest"
-			>
-			</destination>
-		</ul>
-	</div>
+    <div>
+        <ul id="stops">
+            <!-- each list element is a destination -->
+            <destination 
+                v-for="dest in listOfDest" 
+                v-bind:key="dest.name+dest.latitude+dest.longitude"
+                :destination="dest"
+            >
+            </destination>
+        </ul>
+    </div>
 </template>
 
 
@@ -24,6 +24,6 @@ import Destination from './Destination.vue';
 })
 
 export default class DestinationList extends Vue {
-	@Prop({ required: true }) public listOfDest!: Array<Record<string, any>>;
+    @Prop({ required: true }) public listOfDest!: Array<Record<string, any>>;
 }
 </script>

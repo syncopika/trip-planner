@@ -1,125 +1,125 @@
 <template>
-	<!-- one li is one destination -->
-	<li :id="destination.name + '_dest'"
-		class="dest"
-		v-on:mouseover="highlightBorder"
-		v-on:mouseleave="dehighlightBorder"
-		>
+    <!-- one li is one destination -->
+    <li :id="destination.name + '_dest'"
+        class="dest"
+        v-on:mouseover="highlightBorder"
+        v-on:mouseleave="dehighlightBorder"
+        >
 
-		<!-- name of destination -->
-		<h1 :id="destination.name" v-on:click="toggleVisibility"> 
-			{{destination.name}} 
-		</h1>
-		<p 
-			:id="destination.name + '_delete'"
-			v-on:click="removeDestination"
-			class="delete"
-		> x </p>
-		
-		<div :id="destination.name + '_content'" class="content">
-			<!-- show from/to dates -->
-			<div :id="destination.name + '_dates'">
-				<div class="row">
-					<Calendar
-						:dest-name="destination.name + '_from_'"
-						:date="destination.fromDate"
-						:is-editing="isEditing"
-						:ref="destination.name + '_fromDate'"
-						:header="'to'"
-					></Calendar>
-				</div>
-				<div class="row">
-					<Calendar
-						:dest-name="destination.name + '_to_'"
-						:date="destination.toDate"
-						:is-editing="isEditing"
-						:ref="destination.name + '_toDate'"
-						:header="'from'"
-					></Calendar>
-				</div>
-			</div>
-			<!-- notes section -->
-			<h3> notes: </h3>
-			<div>
-				<textarea 
-					:value="destination.notes" 
-					:id="destination.name + '_notes'" 
-					rows="5"
-					cols="50" 
-					disabled
-				>
-				</textarea>
-				<br />
-			</div>
+        <!-- name of destination -->
+        <h1 :id="destination.name" v-on:click="toggleVisibility"> 
+            {{destination.name}} 
+        </h1>
+        <p 
+            :id="destination.name + '_delete'"
+            v-on:click="removeDestination"
+            class="delete"
+        > x </p>
+        
+        <div :id="destination.name + '_content'" class="content">
+            <!-- show from/to dates -->
+            <div :id="destination.name + '_dates'">
+                <div class="row">
+                    <Calendar
+                        :dest-name="destination.name + '_from_'"
+                        :date="destination.fromDate"
+                        :is-editing="isEditing"
+                        :ref="destination.name + '_fromDate'"
+                        :header="'to'"
+                    ></Calendar>
+                </div>
+                <div class="row">
+                    <Calendar
+                        :dest-name="destination.name + '_to_'"
+                        :date="destination.toDate"
+                        :is-editing="isEditing"
+                        :ref="destination.name + '_toDate'"
+                        :header="'from'"
+                    ></Calendar>
+                </div>
+            </div>
+            <!-- notes section -->
+            <h3> notes: </h3>
+            <div>
+                <textarea 
+                    :value="destination.notes" 
+                    :id="destination.name + '_notes'" 
+                    rows="5"
+                    cols="50" 
+                    disabled
+                >
+                </textarea>
+                <br />
+            </div>
 
-			<br />
-			<h3> images: </h3>
-			<div :id="destination.name + '_images'">
-				<div v-for="(image, index) in destination.images" 
+            <br />
+            <h3> images: </h3>
+            <div :id="destination.name + '_images'">
+                <div v-for="(image, index) in destination.images" 
                      v-bind:key="'div_' + destination.name + '_image_' + index"
                      style="margin-right:2px"
                      class="imageContainer"
-				>
-					<img
-						v-bind:key="destination.name + '_image_' + index"
-						:src="image"
-						@mouseover="function($event){$event.target.style.border='1px solid #e0ffff'}"
-						@mouseout="function($event){$event.target.style.border='1px solid #000'}"
-						@dblclick="enlargeImage($event)" 
-					/>
-					<h3
-						:id="'delete_' + destination.name + '_image_' + index"
-						v-if="isEditing"
-						style="color:red"
-						@click="deleteImage($event)"
-					>
-						x
-					</h3>
-				</div>
-			</div>
+                >
+                    <img
+                        v-bind:key="destination.name + '_image_' + index"
+                        :src="image"
+                        @mouseover="function($event){$event.target.style.border='1px solid #e0ffff'}"
+                        @mouseout="function($event){$event.target.style.border='1px solid #000'}"
+                        @dblclick="enlargeImage($event)" 
+                    />
+                    <h3
+                        :id="'delete_' + destination.name + '_image_' + index"
+                        v-if="isEditing"
+                        style="color:red"
+                        @click="deleteImage($event)"
+                    >
+                        x
+                    </h3>
+                </div>
+            </div>
 
-			<br />
-			<div v-if="isEditing" style="text-align: left" :id="destination.name + '_editRouteColor'">
-				<label :for="destination.name + '_routeColor'"> route color: </label>
-				<input 
-					:id="destination.name + '_routeColor'" 
-					:name="destination.name + '_routeColor'"
-					:style="'background-color: ' + destination.routeColor"
-					:value="destination.routeColor"
-					type="text"
-					size="7"
-				/>
-				<button style="display: inline-block" :id="destination.name + '_routeColor_btn'" @click="showColorWheel">
-					show color wheel
-				</button>
-			</div>
-			<h3 v-if="!isEditing"> route color: 
-				<span :style="'background-color: ' + destination.routeColor">{{destination.routeColor}}</span>
-			</h3>
+            <br />
+            <div v-if="isEditing" style="text-align: left" :id="destination.name + '_editRouteColor'">
+                <label :for="destination.name + '_routeColor'"> route color: </label>
+                <input 
+                    :id="destination.name + '_routeColor'" 
+                    :name="destination.name + '_routeColor'"
+                    :style="'background-color: ' + destination.routeColor"
+                    :value="destination.routeColor"
+                    type="text"
+                    size="7"
+                />
+                <button style="display: inline-block" :id="destination.name + '_routeColor_btn'" @click="showColorWheel">
+                    show color wheel
+                </button>
+            </div>
+            <h3 v-if="!isEditing"> route color: 
+                <span :style="'background-color: ' + destination.routeColor">{{destination.routeColor}}</span>
+            </h3>
 
-			<hr />
+            <hr />
 
-			<p class='latlng'> lat: {{destination.latitude}}, long: {{destination.longitude}} </p>
+            <p class='latlng'> lat: {{destination.latitude}}, long: {{destination.longitude}} </p>
 
-			<button v-on:click="toggleEdit" v-if="!isEditing"> edit </button>
+            <button v-on:click="toggleEdit" v-if="!isEditing"> edit </button>
 
-			<input class="inputFile" type="file" accept="image/*" :id="destination.name + '_importImage'" @change="uploadImage">
-			<button v-if="isEditing" v-on:click="clickInput"> upload image </button>
+            <input class="inputFile" type="file" accept="image/*" :id="destination.name + '_importImage'" @change="uploadImage">
+            <button v-if="isEditing" v-on:click="clickInput"> upload image </button>
 
-			<button class="editButton"
-					v-if="isEditing"
-					v-on:click="saveChanges">
-				save
-			</button>
+            <button class="editButton"
+                    v-if="isEditing"
+                    v-on:click="saveChanges">
+                save
+            </button>
 
-			<button class="editButton"
-					v-if="isEditing"
-					v-on:click="cancelChanges">
-				cancel
-			</button>
+            <button class="editButton"
+                    v-if="isEditing"
+                    v-on:click="cancelChanges">
+                cancel
+            </button>
 
-		</div>
-	</li>
+        </div>
+    </li>
 </template>
 
 <script lang="ts">
@@ -152,15 +152,15 @@ export default Vue.extend({
                 dest.style.border = '2px solid #fff';
             }
         },
-		
+        
         dehighlightBorder: function(): void {
             const name = this.destination.name;
             const dest = document.getElementById(name + '_dest');
             if(dest !== null){
                 dest.style.border = '2px solid #000';
-            }	
+            }    
         },
-		
+        
         toggleVisibility: function(): void {
             const name = this.destination.name;
             const content = document.getElementById(name + '_content');
@@ -175,31 +175,31 @@ export default Vue.extend({
 
             this.expanded = !this.expanded;
         },
-		
+        
         toggleEdit: function(evt: any): void {
             // prevent div from closing
             evt.stopPropagation();
-			
+            
             const name = this.destination.name;
-			
+            
             this.isEditing = true;
 
             // take a snapshot of all current data so we can cancel changes easily
             //console.log(this.destination);
             this.editSnapshot = JSON.parse(JSON.stringify(this.destination));
-			
+            
             // make destination name editable
             const destTitle = document.getElementById(name);
-			destTitle?.setAttribute('contenteditable', "true");
+            destTitle?.setAttribute('contenteditable', "true");
 
-			// save the current title so we can restore it if it can't be changed
-			this.currDestTitle = destTitle?.textContent || "";
+            // save the current title so we can restore it if it can't be changed
+            this.currDestTitle = destTitle?.textContent || "";
 
-			// make content editable
-			const notes = document.getElementById(name + '_notes');
-			if(notes !== null) notes.removeAttribute('disabled');
+            // make content editable
+            const notes = document.getElementById(name + '_notes');
+            if(notes !== null) notes.removeAttribute('disabled');
         },
-		
+        
         removeDestination: async function(evt: any): Promise<void> {
             // remove a destination
             // calls a method of the Vue root instance
@@ -212,7 +212,7 @@ export default Vue.extend({
                 this.$root.removeDestination(name);
             }
         },
-		
+        
         saveChanges: function(): void {
             // note: when save is clicked and the data is sent to the root
             // to update state, the destination name, if edited, will be
@@ -231,52 +231,52 @@ export default Vue.extend({
             }
 
             const notes = document.getElementById(name + '_notes');
-			notes?.setAttribute('disabled', 'true');
+            notes?.setAttribute('disabled', 'true');
 
-			const data: Destination = JSON.parse(JSON.stringify(this.destination)); // make a copy
-			data.notes = (notes as HTMLTextAreaElement)?.value;
-			data.newName = newName;
+            const data: Destination = JSON.parse(JSON.stringify(this.destination)); // make a copy
+            data.notes = (notes as HTMLTextAreaElement)?.value;
+            data.newName = newName;
 
-			// get from and to dates
-			//@ts-ignore (TS-2339)
-			const fromDate = this.$refs[name + "_fromDate"].getDateInfo();
-			//@ts-ignore (TS-2339)
-			const toDate = this.$refs[name + "_toDate"].getDateInfo();
+            // get from and to dates
+            //@ts-ignore (TS-2339)
+            const fromDate = this.$refs[name + "_fromDate"].getDateInfo();
+            //@ts-ignore (TS-2339)
+            const toDate = this.$refs[name + "_toDate"].getDateInfo();
 
-			data.fromDate = `${fromDate.month}-${fromDate.day}-${fromDate.year}`;
-			data.toDate = `${toDate.month}-${toDate.day}-${toDate.year}`;
+            data.fromDate = `${fromDate.month}-${fromDate.day}-${fromDate.year}`;
+            data.toDate = `${toDate.month}-${toDate.day}-${toDate.year}`;
 
-			// get route color and remove color wheel
-			const routeColorInput = document.getElementById(this.destination.name + "_routeColor") as HTMLInputElement;
-			if(routeColorInput) data.routeColor = routeColorInput.value;
+            // get route color and remove color wheel
+            const routeColorInput = document.getElementById(this.destination.name + "_routeColor") as HTMLInputElement;
+            if(routeColorInput) data.routeColor = routeColorInput.value;
 
-			const colorWheel = document.getElementById(this.destination.name + "_colorWheel");
-			if(colorWheel && colorWheel.parentNode) colorWheel.parentNode.removeChild(colorWheel);
+            const colorWheel = document.getElementById(this.destination.name + "_colorWheel");
+            if(colorWheel && colorWheel.parentNode) colorWheel.parentNode.removeChild(colorWheel);
 
-			// update data source with new info
-			//@ts-ignore 
-			this.$root.updateDestination(data);
+            // update data source with new info
+            //@ts-ignore 
+            this.$root.updateDestination(data);
 
-			this.isEditing = false;
+            this.isEditing = false;
         },
-		
+        
         cancelChanges: function(): void {
             // make sure destination name goes back to being uneditable
             const name = this.destination.name;
             const destTitle = document.getElementById(name);
-			destTitle?.setAttribute('contenteditable', "false");
-			
-			const notes = document.getElementById(name + '_notes');
-			notes?.setAttribute('disabled', 'true');
+            destTitle?.setAttribute('contenteditable', "false");
+            
+            const notes = document.getElementById(name + '_notes');
+            notes?.setAttribute('disabled', 'true');
 
-			const currData = JSON.parse(JSON.stringify(this.editSnapshot));
-			for(const data in currData) {
-			    this.destination[data] = currData[data];
-			}
-			this.editSnapshot = {};
-			this.isEditing = false;
+            const currData = JSON.parse(JSON.stringify(this.editSnapshot));
+            for(const data in currData) {
+                this.destination[data] = currData[data];
+            }
+            this.editSnapshot = {};
+            this.isEditing = false;
         },
-		
+        
         uploadImage: function(evt: any): void {
             const img = new Image();
             const reader = new FileReader();
@@ -297,12 +297,12 @@ export default Vue.extend({
             //read the file as a URL
             reader.readAsDataURL(file);
         },
-		
+        
         clickInput: function(): void {
             const inputElement = document.getElementById(this.destination.name + "_importImage");
             inputElement?.click();
         },
-		
+        
         enlargeImage: function(evt: any): void {
             const imageDiv = document.createElement('div');
             imageDiv.style.opacity = "0.98";
@@ -320,12 +320,12 @@ export default Vue.extend({
             const enlargedImage = new Image();
             enlargedImage.src = evt.target.src;
             enlargedImage.addEventListener("dblclick", () => {
-				imageDiv?.parentNode?.removeChild(imageDiv);
-				document.body.style.overflow = "visible";
+                imageDiv?.parentNode?.removeChild(imageDiv);
+                document.body.style.overflow = "visible";
             });
 
             if(document.body.clientHeight < enlargedImage.height ||
-				document.body.clientWidth < enlargedImage.width) {
+                document.body.clientWidth < enlargedImage.width) {
                 // reduce size of enlarged image if larger than the page
                 // or rescale using a canvas?
             }
@@ -340,14 +340,14 @@ export default Vue.extend({
             cancel.style.color = "#fff";
             cancel.style.marginTop = "1%";
             cancel.addEventListener("click", () => {
-				imageDiv?.parentNode?.removeChild(imageDiv);
-				document.body.style.overflow = "visible";
+                imageDiv?.parentNode?.removeChild(imageDiv);
+                document.body.style.overflow = "visible";
             });
             imageDiv.appendChild(cancel);
 
             document.body.appendChild(imageDiv);
         },
-		
+        
         deleteImage: function(evt: any): void {
             // get index of image from id
             let imageIndex = evt.target.id.split("_");
@@ -355,16 +355,16 @@ export default Vue.extend({
 
             this.destination.images.splice(imageIndex, 1);
         },
-		
+        
         showColorWheel: function(): void {
             const location = document.getElementById(this.destination.name + '_editRouteColor');
             const colorWheelId = this.destination.name + "_colorWheel";
-			
+            
             if(document.getElementById(colorWheelId)){
                 // don't add a new one if there already is one
                 return;
             }
-			
+            
             const size = "200";
             const colorWheel = document.createElement('canvas');
             colorWheel.id = colorWheelId;
@@ -435,22 +435,22 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-	textarea {
-		font-family: inherit;
-		background-color: transparent;
-		color: #000;
-	}
-	
-	h3 {
-		text-align: left;
-	}
-	
-	h1 {
-		display: inline;
-	}
+    textarea {
+        font-family: inherit;
+        background-color: transparent;
+        color: #000;
+    }
+    
+    h3 {
+        text-align: left;
+    }
+    
+    h1 {
+        display: inline;
+    }
 
     button {
-		font-family: inherit;
+        font-family: inherit;
         background-color: #6A5ACD;
         border-radius: 10px;
         border: 1px solid #483D8B;
@@ -460,19 +460,19 @@ export default Vue.extend({
         margin-right: 2px;
     }
 
-	ul {
-		list-style-type: none;
-		padding: 0;
-	}
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
 
     li {
         color: #000;
         background-color: #daf08b;
     }
 
-	label {
-		font-weight: bold;
-	}
+    label {
+        font-weight: bold;
+    }
 
     img {
         height: 15%;
@@ -498,10 +498,10 @@ export default Vue.extend({
     .col {
         flex: 50%;
     }
-	
-	.date {
-		display: inline-block;
-	}
+    
+    .date {
+        display: inline-block;
+    }
 
     .delete {
         color: #8b0000;
@@ -522,7 +522,7 @@ export default Vue.extend({
 
     .imageContainer h3 {
         text-align: center;
-		margin-top: 0;
+        margin-top: 0;
     }
 
 </style>

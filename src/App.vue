@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <trip-route-map :list-of-dest="listOfDest" :trip-name="tripName" :list-of-trip-names="listOfTripNames" :suggestedNextDest="suggestedNextDest">
-	</trip-route-map>
+    </trip-route-map>
   </div>
 </template>
 
@@ -29,17 +29,17 @@ export default class App extends Vue {
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
 html, body {
-	font-family: 'Montserrat', Arial, sans-serif;
+    font-family: 'Montserrat', Arial, sans-serif;
 }
 
 button{
-	font-family: inherit;
-	background-color: #6A5ACD;
-	border-radius: 10px;
-	border: 1px solid #483D8B;
-	color: #fff;
-	margin-left: 2px;
-	margin-right: 2px;
+    font-family: inherit;
+    background-color: #6A5ACD;
+    border-radius: 10px;
+    border: 1px solid #483D8B;
+    color: #fff;
+    margin-left: 2px;
+    margin-right: 2px;
 }
 
 
