@@ -72,7 +72,7 @@ export default class TripRouteMap extends Vue {
     @Prop({ required: true }) public listOfDest!: Array<Destination>; // the ! means 'not null'
     @Prop({ required: true }) public listOfTripNames!: Array<string>;
     @Prop({ required: true }) public tripName!: string;
-    @Prop({ required: true }) public suggestedNextDest!: any[];
+    @Prop({ required: true }) public suggestedNextDest!: Destination[];
 
     showSuggestedNextHops = false;
 
@@ -82,14 +82,14 @@ export default class TripRouteMap extends Vue {
         this.updateMap(newVal);
 
         // whenever listOfDest changes, suggestedNextDest should too
-        if(this.showSuggestedNextHops) {
+        if(this.showSuggestedNextHops){
             this.updateSuggestedNextHops(this.suggestedNextDest);
         }
     }
 
     dispatchEventToMap(eventName: string, data: Array<Destination>): void {
         // send a custom event to the map iframe along with the data
-        const updateMapEvent = new CustomEvent(eventName, { detail: data });
+        const updateMapEvent = new CustomEvent(eventName, {detail: data});
         const mapIframe = document.getElementById('mapContainer') as HTMLIFrameElement;
 
         if(mapIframe !== null && mapIframe.contentDocument !== null) {
@@ -112,7 +112,7 @@ export default class TripRouteMap extends Vue {
         this.showSuggestedNextHops = !this.showSuggestedNextHops;
 
         // make sure map reflects new value
-        if(!this.showSuggestedNextHops) {
+        if(!this.showSuggestedNextHops){
             this.updateSuggestedNextHops([]);
         } else {
             this.updateSuggestedNextHops(this.suggestedNextDest);
@@ -120,9 +120,13 @@ export default class TripRouteMap extends Vue {
     }
     
     // TODO: not completely implemented but this is for changing a trip name
-    async toggleTripTitleEdit(evt: any): Promise<void> {
-        if(evt.target.classList.contains("tripTitle")){
-            evt.target.setAttribute("contenteditable", "true");
+    async toggleTripTitleEdit(evt: Event): Promise<void> {
+        const el = evt.target as HTMLElement;
+        
+        if(el === null) return;
+        
+        if(el.classList.contains("tripTitle")){
+            el.setAttribute("contenteditable", "true");
         }else{
             // check if we should edit the trip title. if the current text is of another
             // trip that already exists, don't allow it and reset the text
@@ -130,7 +134,7 @@ export default class TripRouteMap extends Vue {
             const trip = document.querySelector(".tripTitle"); // there should only be one trip shown at a time
             
             if(trip){
-                const editedTripName = trip.textContent!.trim();
+                const editedTripName = trip.textContent ? trip.textContent.trim() : "";
                 if(editedTripName !== this.tripName && this.listOfTripNames.includes(editedTripName)){
                     trip.textContent = this.tripName;
                 }else{
@@ -151,12 +155,12 @@ export default class TripRouteMap extends Vue {
         this.updateMap(this.listOfDest);
 
         // this is false by default so not sure yet when this will ever happen
-        if(this.showSuggestedNextHops) {
+        if(this.showSuggestedNextHops){
             this.updateSuggestedNextHops(this.suggestedNextDest);
         }
     }
     
-    mounted(): void{
+    mounted(): void {
         // the iframe might not be ready?
         // so listen for the ready event first
         window.document.addEventListener('imready', this._handleReady, false);        

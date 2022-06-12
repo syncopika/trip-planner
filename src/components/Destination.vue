@@ -176,7 +176,7 @@ export default Vue.extend({
             this.expanded = !this.expanded;
         },
         
-        toggleEdit: function(evt: any): void {
+        toggleEdit: function(evt: Event): void {
             // prevent div from closing
             evt.stopPropagation();
             
@@ -277,10 +277,16 @@ export default Vue.extend({
             this.isEditing = false;
         },
         
-        uploadImage: function(evt: any): void {
+        uploadImage: function(evt: Event): void {
             const img = new Image();
             const reader = new FileReader();
-            const file = evt.target.files[0];
+            const files = (evt.target as HTMLInputElement).files;
+            
+            if(files === null || files.length !== 1){
+                return;
+            }
+            
+            const file = files[0];
 
             reader.onloadend = (): void => {
                 const imgSrcStr = reader.result as string;
@@ -303,7 +309,7 @@ export default Vue.extend({
             inputElement?.click();
         },
         
-        enlargeImage: function(evt: any): void {
+        enlargeImage: function(evt: Event): void {
             const imageDiv = document.createElement('div');
             imageDiv.style.opacity = "0.98";
             imageDiv.style.backgroundColor = "#383838";
@@ -318,7 +324,7 @@ export default Vue.extend({
             document.body.style.overflow = "hidden";
 
             const enlargedImage = new Image();
-            enlargedImage.src = evt.target.src;
+            enlargedImage.src = (evt.target as HTMLImageElement).src;
             enlargedImage.addEventListener("dblclick", () => {
                 imageDiv?.parentNode?.removeChild(imageDiv);
                 document.body.style.overflow = "visible";
@@ -348,10 +354,10 @@ export default Vue.extend({
             document.body.appendChild(imageDiv);
         },
         
-        deleteImage: function(evt: any): void {
+        deleteImage: function(evt: Event): void {
             // get index of image from id
-            let imageIndex = evt.target.id.split("_");
-            imageIndex = parseInt(imageIndex[imageIndex.length - 1]);
+            const imageIndexStr = (evt.target as HTMLElement).id.split("_");
+            const imageIndex = parseInt(imageIndexStr[imageIndexStr.length - 1]);
 
             this.destination.images.splice(imageIndex, 1);
         },

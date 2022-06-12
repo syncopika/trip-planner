@@ -1,4 +1,4 @@
-interface Destination {
+export interface Destination {
     name:       string;
     newName?:   string;
     toDate:     string;
@@ -10,12 +10,30 @@ interface Destination {
     routeColor: string;
 }
 
-interface Trip {
+interface DestinationSuggestionMetadata {
+    notes:      string;
+    fromDate:   string;
+    toDate:     string;
+    images:     string[];
+    routeColor: string;
+}
+
+export interface DestinationSuggestion {
+    username:   string;
+    destname:   string;
+    tripname:   string;	
+    latitude:   number;
+    longitude:  number;
+    index:      number;
+    metadata:   DestinationSuggestionMetadata;
+}
+
+export interface Trip {
     tripName: string;
     listOfDest: Destination[];
 }
 
-class TripRoute {
+export class TripRoute {
 
     name:          string;
     destinations: Destination[];
@@ -43,10 +61,4 @@ class TripRoute {
         return this.destinations[stopNumber-1];
     }
 
-}
-
-export {
-    TripRoute,
-    Destination,
-    Trip
 }

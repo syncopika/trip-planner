@@ -15,6 +15,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Destination as DestinationInterface } from '../utils/triproute';
 import Destination from './Destination.vue';
 
 @Component({
@@ -24,6 +25,6 @@ import Destination from './Destination.vue';
 })
 
 export default class DestinationList extends Vue {
-    @Prop({ required: true }) public listOfDest!: Array<Record<string, any>>;
+    @Prop({ required: true }) public listOfDest!: Array<Record<string, DestinationInterface>>;
 }
 </script>

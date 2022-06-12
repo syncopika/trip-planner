@@ -8,6 +8,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Destination } from './utils/triproute';
 import TripRouteMap from './components/TripRoute.vue';
 
 @Component({
@@ -17,10 +18,10 @@ import TripRouteMap from './components/TripRoute.vue';
 })
 
 export default class App extends Vue {
-    @Prop({ required: true }) public listOfDest!: Array<Record<string, any>>;
+    @Prop({ required: true }) public listOfDest!: Array<Record<string, Destination>>;
     @Prop({ required: true }) public tripName!: string;
     @Prop({ required: true }) public listOfTripNames!: Array<string>;
-    @Prop({ required: true }) public suggestedNextDest!: any[];
+    @Prop({ required: true }) public suggestedNextDest!: Destination[];
 }
 </script>
 
@@ -32,7 +33,7 @@ html, body {
     font-family: 'Montserrat', Arial, sans-serif;
 }
 
-button{
+button {
     font-family: inherit;
     background-color: #6A5ACD;
     border-radius: 10px;

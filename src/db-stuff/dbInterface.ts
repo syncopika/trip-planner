@@ -7,7 +7,7 @@ type databaseRow = {
 	// or define in some other file like definitions.ts and use here
 };
 
-export interface dbInterface {
+export interface DatabaseInterface {
 	// find the closest n destinations within a certain radius given lat and long
 	getClosestDestinations(maxResults: number, latitude: number, longitude: number, radius: number): {destinations: any[]}; // destinations should be an array of trip data
 	

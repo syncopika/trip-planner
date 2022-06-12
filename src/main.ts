@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import axios from 'axios';
 import { Modal } from './utils/modal';
-import { Destination, Trip } from './utils/triproute';
+import { Destination, DestinationSuggestion, Trip } from './utils/triproute';
 
 Vue.config.productionTip = false
 
@@ -115,14 +115,14 @@ new Vue({
         ],
     },
     methods: {
-        requestSuggestedNextHops: function(lat: number, long: number): Promise<any[]> {
+        requestSuggestedNextHops: function(lat: number, long: number): Promise<DestinationSuggestion[]> {
             //console.log("requesting next hop suggestions");
             return new Promise((resolve) => {
                 // should be based on last destination in list
                 // use 20 km radius for now
                 axios.get(`http://localhost:8081/api/destinations?username=${this.username}&latitude=${lat}&longitude=${long}&radius=${20}`)
                     .then(res => {
-                        const suggestedNextDestinations: any[] = (res as any).data.destinations;
+                        const suggestedNextDestinations: DestinationSuggestion[] = (res as any).data.destinations;
                         resolve(suggestedNextDestinations);
                     })
                     .catch(error => {
@@ -222,14 +222,20 @@ new Vue({
             this.currTripIndex = tripIndex;
         },
 		
-        importData: function(evt: any): void {
+        importData: function(evt: Event): void {
             const reader = new FileReader();
-            const file = evt.target.files[0];
+            const files = (evt.target as HTMLInputElement).files;
+            
+            if(files === null || files.length !== 1){
+                return;
+            }
+            
+            const file = files[0];
             
             if(file){
                 reader.onload = (() => {
-                    return (evt: any): void => { 
-                        const data: Array<any> = JSON.parse(evt.target.result); // should be a list of trips
+                    return (evt: Event): void => {
+                        const data: Array<Trip> = JSON.parse(reader.result as string); // should be a list of trips
                         
                         data.forEach(trip => {
                             if(!trip.tripName || !trip.listOfDest){
@@ -239,6 +245,7 @@ new Vue({
                         });
                         
                         this.tripData = data;
+                        this.currTripIndex = 0;
                     }
                 })();
                 
@@ -269,14 +276,14 @@ new Vue({
         },
         
         // TODO: figure out the correct typing for fakeSuggestions elements and don't use any. they aren't Destination... 
-        getFakeSuggestions: function(): Array<any> {
+        getFakeSuggestions: function(): Array<DestinationSuggestion> {
             // filter based on proximity (this is just for when using fake data. the database is supposed to
             // handle finding the closest destinations)
             const currTripDestList: Array<Destination> = this.tripData[this.currTripIndex].listOfDest;
             const lat = (currTripDestList[currTripDestList.length-1].latitude * Math.PI) / 180;
             const lng = (currTripDestList[currTripDestList.length-1].longitude * Math.PI) / 180;
             
-            const newSuggestions = this.fakeSuggestions.filter((x: any) => {
+            const newSuggestions = this.fakeSuggestions.filter((x: DestinationSuggestion) => {
                 const lngRad = (x.longitude * Math.PI) / 180;
                 const latRad = (x.latitude * Math.PI) / 180;
                 return Math.acos(Math.sin(lat) * Math.sin(latRad) + Math.cos(lat) * Math.cos(latRad) * Math.cos(lng - lngRad)) * 6371 <= 20;
@@ -310,6 +317,9 @@ new Vue({
                 if(this.canGetSuggestedNextDest){
                     // Make a call to the db with the newly added dest's lat and lng to look up possible next hops
                     // when we get that info back, update the prop so the change will get propagated to TripRoute.vue.
+                    
+                    // TODO: setting data to type Destination results in:
+                    // Type 'Destination' is missing the following properties from type 'never[]': length, pop, push, concat, and 28 more.
                     (this as any).requestSuggestedNextHops(location.latitude, location.longitude).then((data: any) => {
                         this.suggestedNextDest = data;
                         this.tripData[this.currTripIndex].listOfDest.push(newDest);
