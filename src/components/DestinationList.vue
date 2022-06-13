@@ -29,11 +29,7 @@ import Destination from './Destination.vue';
 
 export default class DestinationList extends Vue {
 
-    @Prop({ required: true }) public listOfDest!: Array<Record<string, DestinationInterface>>;
-    
-    func(){
-        console.log("heyyy");
-    }
+    @Prop({ required: true }) public listOfDest!: Array<DestinationInterface>;
     
     onDrop(evt: DragEvent): void {
         const thisEl = evt.target as HTMLElement;
@@ -41,24 +37,16 @@ export default class DestinationList extends Vue {
         if(evt.dataTransfer){
             const currDragElementId = evt.dataTransfer.getData("currentDraggedElementId");
             
-            
             // update order of destinations in the list
-            /*
             if(thisEl && currDragElementId !== thisEl.id){
-                // find the index of the currentDraggedElement
-                // get the index of this target element
-                // splice currentDraggedElement to after target's index
                 if(evt.dataTransfer){
                     const currDragName = currDragElementId.split("_")[0]; // extract the destination name from the id
                     const currDraggedElementIndex = this.listOfDest.findIndex(dest => dest.name === currDragName);
                     const targetName = thisEl.id.split("_")[0];
                     const targetElementIndex = this.listOfDest.findIndex(dest => dest.name === targetName);
-                    
-                    console.log("curr drag idx: " + currDraggedElementIndex);
-                    console.log("target element index: " + targetElementIndex);
-                    this.listOfDest.splice(targetElementIndex, 1, this.listOfDest[currDraggedElementIndex]);
+                    this.listOfDest.splice(targetElementIndex, 0, this.listOfDest.splice(currDraggedElementIndex, 1)[0]);
                 }
-            }*/
+            }
         }
     }
     

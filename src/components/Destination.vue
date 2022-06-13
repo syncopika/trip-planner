@@ -449,8 +449,6 @@ export default Vue.extend({
                     evt.dataTransfer.effectAllowed = "move";
                     evt.dataTransfer.setData("currentDraggedElementId", thisEl.id);
                 }
-                
-                console.log(thisEl.id);
             }
         }
     }
