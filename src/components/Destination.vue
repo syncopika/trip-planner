@@ -2,17 +2,19 @@
     <!-- one li is one destination -->
     <li :id="destination.name + '_dest'"
         class="dest"
-        v-on:mouseover="highlightBorder"
-        v-on:mouseleave="dehighlightBorder"
+        @mouseover="highlightBorder"
+        @mouseleave="dehighlightBorder"
+        draggable
+        @dragstart="onDragStart"
         >
 
         <!-- name of destination -->
-        <h1 :id="destination.name" v-on:click="toggleVisibility"> 
+        <h1 :id="destination.name" @click="toggleVisibility"> 
             {{destination.name}} 
         </h1>
         <p 
             :id="destination.name + '_delete'"
-            v-on:click="removeDestination"
+            @click="removeDestination"
             class="delete"
         > x </p>
         
@@ -101,20 +103,20 @@
 
             <p class='latlng'> lat: {{destination.latitude}}, long: {{destination.longitude}} </p>
 
-            <button v-on:click="toggleEdit" v-if="!isEditing"> edit </button>
+            <button @click="toggleEdit" v-if="!isEditing"> edit </button>
 
             <input class="inputFile" type="file" accept="image/*" :id="destination.name + '_importImage'" @change="uploadImage">
-            <button v-if="isEditing" v-on:click="clickInput"> upload image </button>
+            <button v-if="isEditing" @click="clickInput"> upload image </button>
 
             <button class="editButton"
                     v-if="isEditing"
-                    v-on:click="saveChanges">
+                    @click="saveChanges">
                 save
             </button>
 
             <button class="editButton"
                     v-if="isEditing"
-                    v-on:click="cancelChanges">
+                    @click="cancelChanges">
                 cancel
             </button>
 
@@ -200,13 +202,13 @@ export default Vue.extend({
             if(notes !== null) notes.removeAttribute('disabled');
         },
         
-        removeDestination: async function(evt: any): Promise<void> {
+        removeDestination: async function(evt: Event): Promise<void> {
             // remove a destination
             // calls a method of the Vue root instance
             const modal = new Modal();
             const remove = await modal.createQuestionModal("Are you sure you want to remove this destination?");
             if (remove) {
-                const name = evt.target.id.split("_")[0]; // i.e. name_dest, and we want name
+                const name = (evt.target as HTMLElement).id.split("_")[0]; // i.e. name_dest, and we want name
 
                 //@ts-ignore TODO: can we fix this without ignoring? (TS-2339)
                 this.$root.removeDestination(name);
@@ -435,6 +437,21 @@ export default Vue.extend({
             }
 
             if(location) location.appendChild(colorWheel);
+        },
+        
+        onDragStart: function(evt: DragEvent): void {
+            evt.stopPropagation();
+            
+            const thisEl = evt.target as HTMLElement;
+            if(thisEl){
+                if(evt.dataTransfer){
+                    evt.dataTransfer.dropEffect = "move";
+                    evt.dataTransfer.effectAllowed = "move";
+                    evt.dataTransfer.setData("currentDraggedElementId", thisEl.id);
+                }
+                
+                console.log(thisEl.id);
+            }
         }
     }
 });

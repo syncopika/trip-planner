@@ -92,7 +92,7 @@ export default class TripRouteMap extends Vue {
         const updateMapEvent = new CustomEvent(eventName, {detail: data});
         const mapIframe = document.getElementById('mapContainer') as HTMLIFrameElement;
 
-        if(mapIframe !== null && mapIframe.contentDocument !== null) {
+        if(mapIframe !== null && mapIframe.contentDocument !== null){
             //console.log("sending data to the iframe for event: " + eventName);
             mapIframe.contentDocument.dispatchEvent(updateMapEvent);
         }
@@ -146,7 +146,7 @@ export default class TripRouteMap extends Vue {
         }
     }
     
-    _handleIframeLogs(evt: any): void {
+    _handleIframeLogs(evt: Event): void {
         console.log(evt);
     }
     
