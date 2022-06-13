@@ -1,5 +1,5 @@
 // interface for interacting with Postgres
-import { dbInterface } from "./dbInterface";
+import { DatabaseInterface } from "./dbInterface";
 
 /*
 const pg = require('pg');
@@ -19,20 +19,20 @@ const client = new pg.Client({
 client.connect();
 */
 
-export class PostgresInterface implements dbInterface {
+export class PostgresInterface implements DatabaseInterface {
 	
-	constructor(){
-		// todo
-	}
+    constructor(){
+        // todo
+    }
 	
-	getClosestDestinations(maxResults: number, latitude: number, longitude: number, radius: number): {destinations: any[]} {
-		// todo
-		return {destinations: []};
-	}
+    getClosestDestinations(maxResults: number, latitude: number, longitude: number, radius: number): {destinations: any[]} {
+        // todo
+        return {destinations: []};
+    }
 	
-	getUserDestinations(username: string): {trips: any[]} {
-		// todo
-		return {trips: []};
-	}
+    getUserDestinations(username: string): {trips: any[]} {
+        // todo
+        return {trips: []};
+    }
 	
 }

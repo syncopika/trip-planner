@@ -57,9 +57,10 @@
     },
     "rules": {
       "no-unused-vars": "off",
+      "@typescript-eslint/no-var-requires": "off",
       "@typescript-eslint/no-unused-vars": "off",
       "@typescript-eslint/ban-ts-ignore": "off",
-	  "indent": ["error", "tab"]
+	  "indent": ["error", 4]
     },
     "overrides": [
       {
