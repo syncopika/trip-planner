@@ -280,16 +280,20 @@ new Vue({
             // filter based on proximity (this is just for when using fake data. the database is supposed to
             // handle finding the closest destinations)
             const currTripDestList: Array<Destination> = this.tripData[this.currTripIndex].listOfDest;
-            const lat = (currTripDestList[currTripDestList.length-1].latitude * Math.PI) / 180;
-            const lng = (currTripDestList[currTripDestList.length-1].longitude * Math.PI) / 180;
-            
-            const newSuggestions = this.fakeSuggestions.filter((x: DestinationSuggestion) => {
-                const lngRad = (x.longitude * Math.PI) / 180;
-                const latRad = (x.latitude * Math.PI) / 180;
-                return Math.acos(Math.sin(lat) * Math.sin(latRad) + Math.cos(lat) * Math.cos(latRad) * Math.cos(lng - lngRad)) * 6371 <= 20;
-            });
-            
-            return newSuggestions;
+            if(currTripDestList.length){
+                const lat = (currTripDestList[currTripDestList.length-1].latitude * Math.PI) / 180;
+                const lng = (currTripDestList[currTripDestList.length-1].longitude * Math.PI) / 180;
+                
+                const newSuggestions = this.fakeSuggestions.filter((x: DestinationSuggestion) => {
+                    const lngRad = (x.longitude * Math.PI) / 180;
+                    const latRad = (x.latitude * Math.PI) / 180;
+                    return Math.acos(Math.sin(lat) * Math.sin(latRad) + Math.cos(lat) * Math.cos(latRad) * Math.cos(lng - lngRad)) * 6371 <= 20;
+                });
+                
+                return newSuggestions;
+            }else{
+                return [];
+            }
         },
     },
 	
