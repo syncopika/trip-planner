@@ -8,7 +8,6 @@ now:
 - expected data format for importing/exported files?
 - allow user to set radius of area to get suggested next dests from
 - get rid of using any and ts-ignores as much as possible
-- bug with showing next dest -> seems to show in-range suggestions for the prev dest?
 
 later:
 - emit events rather than calling root?

@@ -15,7 +15,7 @@ new Vue({
                 'listOfDest': this.tripData[this.currTripIndex].listOfDest,
                 'tripName': this.tripData[this.currTripIndex].tripName,
                 'listOfTripNames': this.tripData.map(trip => trip.tripName),
-                'suggestedNextDest': this.suggestedNextDest, // should be based on last destination in list
+                'suggestedNextDests': this.suggestedNextDests, // should be based on last destination in listOfDest
             }
         });
     },
@@ -49,8 +49,8 @@ new Vue({
         ],
         'username': 'user1',
         'currTripIndex': 0,
-        'suggestedNextDest': [],
-        'canGetSuggestedNextDest': false,
+        'suggestedNextDests': [],
+        'canGetSuggestedNextDests': false,
         'fakeSuggestions': [
             {
                 "username": "test_user1",
@@ -148,9 +148,9 @@ new Vue({
             // TODO: check to see if the last destination of the list was removed and if there is a new last destination. 
             // if so, take the current last dest and show next hop suggestions for that dest (if show next hops option selected)
             // right now just handle when demoing
-            if(!this.canGetSuggestedNextDest){
+            if(!this.canGetSuggestedNextDests){
                 //@ts-ignore TODO: investigate this? (TS-2339)
-                (this as any).suggestedNextDest = this.getFakeSuggestions();
+                (this as any).suggestedNextDests = this.getFakeSuggestions();
             }
         },
         
@@ -318,21 +318,22 @@ new Vue({
                     routeColor: "#888"
                 };
 				
-                if(this.canGetSuggestedNextDest){
+                if(this.canGetSuggestedNextDests){
                     // Make a call to the db with the newly added dest's lat and lng to look up possible next hops
                     // when we get that info back, update the prop so the change will get propagated to TripRoute.vue.
                     
                     // TODO: setting data to type Destination results in:
                     // Type 'Destination' is missing the following properties from type 'never[]': length, pop, push, concat, and 28 more.
                     (this as any).requestSuggestedNextHops(location.latitude, location.longitude).then((data: any) => {
-                        this.suggestedNextDest = data;
+                        this.suggestedNextDests = data;
                         this.tripData[this.currTripIndex].listOfDest.push(newDest);
                     });					
                 }else{
                     // for demoing
-                    //@ts-ignore TODO: investigate this? (TS-2339)
-                    (this as any).suggestedNextDest = this.getFakeSuggestions();
                     this.tripData[this.currTripIndex].listOfDest.push(newDest);
+                    
+                    //@ts-ignore TODO: investigate this? (TS-2339)
+                    (this as any).suggestedNextDests = this.getFakeSuggestions();
                 }
             }
         });
@@ -342,7 +343,7 @@ new Vue({
         axios.get(`http://localhost:8081/api/user-destinations/${this.username}`)
             .then(res => {
                 this.tripData = res.data.trips;      // get user's trips
-                this.canGetSuggestedNextDest = true; // since we can connect to the database
+                this.canGetSuggestedNextDests = true; // since we can connect to the database
             
                 // get suggested next hops using the currently last destination in the current trip
                 const currTripDestList: Array<Destination> = this.tripData[this.currTripIndex].listOfDest;
@@ -350,7 +351,7 @@ new Vue({
                 const lng = currTripDestList[currTripDestList.length-1].longitude;
             
                 (this as any).requestSuggestedNextHops(lat, lng).then((data: any) => {
-                    this.suggestedNextDest = data;
+                    this.suggestedNextDests = data;
                 });
             })
             .catch(error => {
@@ -358,7 +359,7 @@ new Vue({
                 // we can't get suggested next hops when a new destination is added
                 // use fake data instead for now
                 //@ts-ignore TODO: investigate this? (TS-2339)
-                (this as any).suggestedNextDest = this.getFakeSuggestions();
+                (this as any).suggestedNextDests = this.getFakeSuggestions();
             });
     }
 }).$mount('#app') // #app is in /public/index.html

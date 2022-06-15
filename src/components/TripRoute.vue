@@ -26,7 +26,7 @@
                 <div v-if="showSuggestedNextHops">
                     <h3> check out these suggestions! </h3>
                     <ul>
-                        <li v-for="(nextDest, index) in suggestedNextDest"
+                        <li v-for="(nextDest, index) in suggestedNextDests"
                             v-bind:key="'li_nextDest_' + index"
                         >
                             <p>{{ nextDest }}</p>
@@ -72,7 +72,7 @@ export default class TripRouteMap extends Vue {
     @Prop({ required: true }) public listOfDest!: Array<Destination>; // the ! means 'not null'
     @Prop({ required: true }) public listOfTripNames!: Array<string>;
     @Prop({ required: true }) public tripName!: string;
-    @Prop({ required: true }) public suggestedNextDest!: Destination[];
+    @Prop({ required: true }) public suggestedNextDests!: Destination[];
 
     showSuggestedNextHops = false;
 
@@ -81,9 +81,9 @@ export default class TripRouteMap extends Vue {
         // note that we shouldn't need to care about the old value (the 2nd arg)
         this.updateMap(newVal);
 
-        // whenever listOfDest changes, suggestedNextDest should too
+        // whenever listOfDest changes, suggestedNextDests should too
         if(this.showSuggestedNextHops){
-            this.updateSuggestedNextHops(this.suggestedNextDest);
+            this.updateSuggestedNextHops(this.suggestedNextDests);
         }
     }
 
@@ -115,7 +115,7 @@ export default class TripRouteMap extends Vue {
         if(!this.showSuggestedNextHops){
             this.updateSuggestedNextHops([]);
         } else {
-            this.updateSuggestedNextHops(this.suggestedNextDest);
+            this.updateSuggestedNextHops(this.suggestedNextDests);
         }
     }
     
@@ -156,7 +156,7 @@ export default class TripRouteMap extends Vue {
 
         // this is false by default so not sure yet when this will ever happen
         if(this.showSuggestedNextHops){
-            this.updateSuggestedNextHops(this.suggestedNextDest);
+            this.updateSuggestedNextHops(this.suggestedNextDests);
         }
     }
     

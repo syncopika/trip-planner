@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <trip-route-map :list-of-dest="listOfDest" :trip-name="tripName" :list-of-trip-names="listOfTripNames" :suggestedNextDest="suggestedNextDest">
+    <trip-route-map :list-of-dest="listOfDest" :trip-name="tripName" :list-of-trip-names="listOfTripNames" :suggestedNextDests="suggestedNextDests">
     </trip-route-map>
   </div>
 </template>
@@ -21,7 +21,7 @@ export default class App extends Vue {
     @Prop({ required: true }) public listOfDest!: Array<Record<string, Destination>>;
     @Prop({ required: true }) public tripName!: string;
     @Prop({ required: true }) public listOfTripNames!: Array<string>;
-    @Prop({ required: true }) public suggestedNextDest!: Destination[];
+    @Prop({ required: true }) public suggestedNextDests!: Destination[];
 }
 </script>
 
