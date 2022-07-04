@@ -104,6 +104,25 @@ class MapBoxWrapper {
         return this.map;
     }
     
+    changeMapStyle(mapType: string): void {
+        // maybe helpful? https://github.com/mapbox/mapbox-gl-js/issues/2941
+        const currStyle = this.map.getStyle() as any;  // TODO: don't use any?
+        if(currStyle === null){
+            return;
+        }
+
+        let newMapType = 'https://stamen-tiles.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg';
+
+        if(mapType === "toner"){
+            newMapType = 'https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png';
+        }else if(mapType === "terrain"){
+            newMapType = 'https://stamen-tiles.a.ssl.fastly.net/terrain/{z}/{x}/{y}.jpg';
+        }
+        
+        currStyle.sources["raster-tiles"].tiles = [newMapType];
+        this.map.setStyle(currStyle);
+    }
+    
     getContainer(): HTMLElement {
         return this.container;
     }
