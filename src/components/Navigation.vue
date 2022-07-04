@@ -26,11 +26,28 @@
             </li>
 
             <li> • </li>
+            <li class="dropdown">
+                <p class="dropbtn"> change map style </p>
+                <div class='dropContent'>
+                    <a href="#" @click="changeMapStyle('watercolor')">
+                        watercolor
+                    </a>
+                    <a href="#" @click="changeMapStyle('terrain')">
+                        terrain
+                    </a>
+                    <a href="#" @click="changeMapStyle('toner')">
+                        toner
+                    </a>
+                </div>
+            </li>
+
+            <li> • </li>
             <li class="selectOption" @click="triggerImport"> import </li>
             <input type='file' @change="importData" id='importTripData'>
 
             <li> • </li>
             <li class="selectOption" @click="exportData"> export </li>
+            
 
             <!-- TODO 
             
@@ -92,6 +109,17 @@ export default {
         
         saveData: function(): void {
             // TODO: save current trip data to database
+        },
+        
+        // update the map style
+        changeMapStyle(mapStyleName: string): void {
+            // send a custom event to the map iframe along with the mapStyleName
+            const updateMapEvent = new CustomEvent('changeMapStyle', {detail: mapStyleName});
+            const mapIframe = document.getElementById('mapContainer') as HTMLIFrameElement;
+
+            if(mapIframe !== null && mapIframe.contentDocument !== null){
+                mapIframe.contentDocument.dispatchEvent(updateMapEvent);
+            }
         }
     }
 }
