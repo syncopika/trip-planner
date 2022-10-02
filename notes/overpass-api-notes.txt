@@ -1,0 +1,40 @@
+// http://overpass-turbo.eu/
+
+// using a specific area (here it's Maryland)
+[out:json][timeout:25];
+area(id:3600162112)->.searchArea;
+(
+++node["tourism"="museum"](area.searchArea);
+++way["tourism"="museum"](area.searchArea);
+++relation["tourism"="museum"](area.searchArea);
+);
+out+body;
+>;
+out+skel+qt;
+
+
+// using lng lat for a specific location and radius around (note that 15 == 15 meters)
+[out:json][timeout:25];
+(
+++node["tourism"="museum"](around:15,38.9486650738765, -77.01459411621002);
+++way["tourism"="museum"](around:15,38.9486650738765, -77.01459411621002);
+++relation["tourism"="museum"](around:15,38.9486650738765, -77.01459411621002);
+);
+out+body;
+>;
+out+skel+qt;
+
+// limiting to 2 results
+[out:json][timeout:25];
+(
+node["tourism"="museum"](around:33000,38.9486650738765, -77.01459411621002);
+);
+out body 2;
+>;
+out skel qt;
+
+
+data: 
+%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%0Aarea(id%3A3600162112)-%3E.searchArea%3B%0A(%0A++node%5B%22tourism%22%3D%22museum%22%5D(area.searchArea)%3B%0A++way%5B%22tourism%22%3D%22museum%22%5D(area.searchArea)%3B%0A++relation%5B%22tourism%22%3D%22museum%22%5D(area.searchArea)%3B%0A)%3B%0Aout+body%3B%0A%3E%3B%0Aout+skel+qt%3B
+
+curl -d "data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%0Aarea(id%3A3600162112)-%3E.searchArea%3B%0A(%0A++node%5B%22tourism%22%3D%22museum%22%5D(area.searchArea)%3B%0A++way%5B%22tourism%22%3D%22museum%22%5D(area.searchArea)%3B%0A++relation%5B%22tourism%22%3D%22museum%22%5D(area.searchArea)%3B%0A)%3B%0Aout+body%3B%0A%3E%3B%0Aout+skel+qt%3B" -X POST -H "Content-Type: application/x-www-form-urlencoded; charset=UTF-8" "http://overpass-api.de/api/interpreter"
