@@ -284,6 +284,13 @@ new Vue({
                 const lat = (currTripDestList[currTripDestList.length-1].latitude * Math.PI) / 180;
                 const lng = (currTripDestList[currTripDestList.length-1].longitude * Math.PI) / 180;
                 
+                // TODO: remove - just testing for now
+                // also figure out why we get the error: Property 'getDestinationSuggestionsFromOverpass' does not exist on type 'CombinedVueInstance<Vue...
+                (this as any).getDestinationSuggestionsFromOverpass(
+                    currTripDestList[currTripDestList.length-1].latitude,
+                    currTripDestList[currTripDestList.length-1].longitude
+                );
+                
                 const newSuggestions = this.fakeSuggestions.filter((x: DestinationSuggestion) => {
                     const lngRad = (x.longitude * Math.PI) / 180;
                     const latRad = (x.latitude * Math.PI) / 180;
@@ -294,6 +301,26 @@ new Vue({
             }else{
                 return [];
             }
+        },
+        
+        // TODO: fix up so that return value is like Promise<DestinationSuggestion[]>?
+        getDestinationSuggestionsFromOverpass: function(lat: number, long: number): Promise<any> {
+            // find 5 museums in a 3000 meter radius at lat, long
+            // %5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%0A(%0Anode%5B%22tourism%22%3D%22museum%22%5D(around%3A20000%2C38.9486650738765%2C+-77.01459411621002)%3B%0A)%3B%0Aout+body+5%3B%0A%3E%3B%0Aout+skel+qt%3B
+            const url = "http://overpass-api.de/api/interpreter";
+            const query = `%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%0A(%0Anode%5B%22tourism%22%3D%22museum%22%5D(around%3A20000%2C${lat}%2C+${long})%3B%0A)%3B%0Aout+body+5%3B%0A%3E%3B%0Aout+skel+qt%3B`;
+            const config = {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            };
+            
+            return new Promise((resolve) => {
+                axios.post(url, `data=${query}`, config).then((response) => {
+                    console.log(response.data);
+                    resolve(response);
+                });
+            });
         },
     },
 	
