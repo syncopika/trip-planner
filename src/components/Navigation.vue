@@ -4,7 +4,7 @@
         <ul>
             <li id="createNewTrip"
                 class="selectOption"
-                v-on:click="addNewTrip"
+                @click="addNewTrip"
             >
                 new trip
             </li>
@@ -27,7 +27,7 @@
 
             <li> • </li>
             <li class="dropdown">
-                <p class="dropbtn"> change map style </p>
+                <p class="dropbtn"> map style </p>
                 <div class='dropContent'>
                     <a href="#" @click="changeMapStyle('watercolor')">
                         watercolor
@@ -48,7 +48,6 @@
             <li> • </li>
             <li class="selectOption" @click="exportData"> export </li>
             
-
             <!-- TODO 
             
             <li> • </li>
