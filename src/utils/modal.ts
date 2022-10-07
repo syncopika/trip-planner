@@ -1,4 +1,3 @@
-
 export class Modal {
     
     modalStyle: Record<string, string>;
@@ -127,6 +126,104 @@ export class Modal {
         
         modal.appendChild(displayText);
         
+        const okBtn = document.createElement('button');
+        okBtn.innerText = "ok";
+        
+        const cancelBtn = document.createElement('button');
+        cancelBtn.innerText = "cancel";
+        
+        modal.appendChild(okBtn);
+        modal.appendChild(cancelBtn);
+        
+        const modalOverlay = document.createElement('div');
+        modalOverlay.id = "modal-overlay";
+        Object.assign(modalOverlay.style, this.modalOverlayStyle);
+        
+        document.body.appendChild(modal);
+        document.body.appendChild(modalOverlay);
+        
+        return new Promise<boolean>((resolve) => {
+            okBtn.onclick = (): void => {
+                resolve(true);
+            };
+            cancelBtn.onclick = (): void => {
+                resolve(false);
+            };
+        }).finally((): void => {
+            // make sure to close modal
+            document.body.removeChild(modal);
+            document.body.removeChild(modalOverlay);
+        });
+    }
+    
+    createOptionsModal(): Promise<boolean> {
+        const modal = document.createElement('div');
+        modal.id = "modal";
+        Object.assign(modal.style, this.modalStyle);
+
+        const displayText = document.createElement('h1');
+        displayText.textContent = "options";
+        
+        modal.appendChild(displayText);
+        
+        const destinationSuggestionSourceText = document.createElement('p');
+        destinationSuggestionSourceText.textContent = "choose source for destination suggestions:";
+        modal.appendChild(destinationSuggestionSourceText);
+        
+        // database option radio button
+        const databaseOption = document.createElement('input');
+        databaseOption.type = "radio";
+        databaseOption.name = "destinationSuggestionSource";
+        databaseOption.value = "database";
+        databaseOption.id = "databaseOption";
+        
+        const databaseOptionLabel = document.createElement('label');
+        databaseOptionLabel.textContent = "other users from database";
+        databaseOptionLabel.htmlFor = "databaseOption";
+        
+        modal.appendChild(databaseOption);
+        modal.appendChild(databaseOptionLabel);
+        modal.appendChild(document.createElement('br'));
+        
+        // overpass api radio button
+        const overpassApiOption = document.createElement('input');
+        overpassApiOption.type = "radio";
+        overpassApiOption.name = "destinationSuggestionSource";
+        overpassApiOption.value = "overpassApi";
+        overpassApiOption.id = "overpassApiOption";
+        
+        const overpassApiOptionLabel = document.createElement('label');
+        overpassApiOptionLabel.textContent = "Overpass API";
+        overpassApiOptionLabel.htmlFor = "overpassApiOption";
+        
+        modal.appendChild(overpassApiOption);
+        modal.appendChild(overpassApiOptionLabel);
+        modal.appendChild(document.createElement('br'));
+        modal.appendChild(document.createElement('br'));
+        
+        // select for type of suggested destinations to show
+        const overpassApiSelect = document.createElement('select');
+        overpassApiSelect.disabled = true;
+        ["restaurant", "museum"].forEach(type => {
+            const opt = document.createElement('option');
+            opt.value = type;
+            opt.textContent = type;
+            overpassApiSelect.appendChild(opt);            
+        });
+        
+        overpassApiOption.addEventListener('change', (evt) => {
+            overpassApiSelect.disabled = false;
+        });
+        
+        databaseOption.addEventListener('change', (evt) => {
+            overpassApiSelect.disabled = true;
+        });
+        
+        modal.appendChild(overpassApiSelect);
+        modal.appendChild(document.createElement('br'));
+        modal.appendChild(document.createElement('br'));
+        
+        // ok, cancel buttons
         const okBtn = document.createElement('button');
         okBtn.innerText = "ok";
         

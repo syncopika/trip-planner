@@ -298,10 +298,12 @@ new Vue({
         },
         
         // TODO: fix up so that return value is like Promise<DestinationSuggestion[]>?
-        getLocationsFromOverpass: function(lat: number, long: number): Promise<any> {
+        // keyType is like 'amenity' or 'tourism'
+        // entity is like 'restaurant' or 'museum'
+        getLocationsFromOverpass: function(lat: number, long: number, keyType: string, entity: string): Promise<any> {
             // find 5 museums in a 20000 meter radius at lat, long
             const url = "http://overpass-api.de/api/interpreter";
-            const query = `%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%0A(%0Anode%5B%22tourism%22%3D%22museum%22%5D(around%3A20000%2C${lat}%2C+${long})%3B%0A)%3B%0Aout+body+5%3B%0A%3E%3B%0Aout+skel+qt%3B`;
+            const query = `%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%0A(%0Anode%5B%22${keyType}%22%3D%22${entity}%22%5D(around%3A20000%2C${lat}%2C+${long})%3B%0A)%3B%0Aout+body+5%3B%0A%3E%3B%0Aout+skel+qt%3B`;
             const config = {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -314,7 +316,7 @@ new Vue({
                     return {
                         'latitude': el.lat,
                         'longitude': el.lon,
-                        'name': el.tags.name,
+                        'destname': el.tags.name,
                         'type': el.tags.tourism
                     };
                 });
@@ -328,12 +330,14 @@ new Vue({
             });
         },
         
-        getSuggestionsFromOverpass: function(): Promise<any> {
+        getSuggestionsFromOverpass: function(keyType: string, entity: string): Promise<any> {
             // figure out why we get the error: Property 'getDestinationSuggestionsFromOverpass' does not exist on type 'CombinedVueInstance<Vue...
             const currTripDestList: Array<Destination> = this.tripData[this.currTripIndex].listOfDest;
             return (this as any).getLocationsFromOverpass(
                 currTripDestList[currTripDestList.length-1].latitude,
-                currTripDestList[currTripDestList.length-1].longitude
+                currTripDestList[currTripDestList.length-1].longitude,
+                keyType,
+                entity
             );
         },
     },
@@ -404,7 +408,7 @@ new Vue({
                 //(this as any).suggestedNextDests = this.getFakeSuggestions();
                 
                 //@ts-ignore TODO: investigate this? (TS-2339)
-                (this as any).getSuggestionsFromOverpass().then((data) => {
+                (this as any).getSuggestionsFromOverpass("amenity", "restaurant").then((data) => {
                     console.log(data);
                     (this as any).suggestedNextDests = data;
                 });

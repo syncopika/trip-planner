@@ -1,6 +1,7 @@
 <template>
     <div id='menuHeader'>
         <h2> trip-planner </h2>
+        <p @click="openOptions"> options </p>
         <ul>
             <li id="createNewTrip"
                 class="selectOption"
@@ -119,6 +120,11 @@ export default {
             if(mapIframe !== null && mapIframe.contentDocument !== null){
                 mapIframe.contentDocument.dispatchEvent(updateMapEvent);
             }
+        },
+        
+        openOptions: async function(): Promise<void> {
+            const modal = new Modal();
+            await modal.createOptionsModal();
         }
     }
 }
@@ -138,6 +144,10 @@ export default {
 
 #menuHeader p {
     display: inline;
+}
+
+#menuHeader p:hover {
+    cursor: pointer;
 }
 
 #importTripData {

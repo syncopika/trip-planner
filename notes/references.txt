@@ -177,4 +177,6 @@ https://hann.io/articles/2020/understanding-overpass/
 https://help.openstreetmap.org/questions/80912/search-for-restaurants-around-a-distance
 https://gis.stackexchange.com/questions/426612/combining-location-from-nominatim-with-overpass-api-query-using-python
 https://osm-queries.ldodds.com/tutorial/12-radius-search.osm.html
+https://wiki.openstreetmap.org/wiki/Key:amenity
+https://wiki.openstreetmap.org/wiki/Key:tourism
 
