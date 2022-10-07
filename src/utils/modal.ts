@@ -16,6 +16,7 @@ export class Modal {
             width: "20%",
             height: "auto",
             boxShadow: "2px 2px 5px #ccc",
+            border: "1px solid #ccc",
         };
         
         this.modalOverlayStyle = {
@@ -156,7 +157,8 @@ export class Modal {
         });
     }
     
-    createOptionsModal(): Promise<boolean> {
+    // TODO: make new type for options? instead of Record<string, string>
+    createOptionsModal(): Promise<Record<string, string>> {
         const modal = document.createElement('div');
         modal.id = "modal";
         Object.assign(modal.style, this.modalStyle);
@@ -165,6 +167,7 @@ export class Modal {
         displayText.textContent = "options";
         
         modal.appendChild(displayText);
+        modal.appendChild(document.createElement('hr'));
         
         const destinationSuggestionSourceText = document.createElement('p');
         destinationSuggestionSourceText.textContent = "choose source for destination suggestions:";
@@ -180,6 +183,7 @@ export class Modal {
         const databaseOptionLabel = document.createElement('label');
         databaseOptionLabel.textContent = "other users from database";
         databaseOptionLabel.htmlFor = "databaseOption";
+        databaseOptionLabel.style.fontSize = "18px";
         
         modal.appendChild(databaseOption);
         modal.appendChild(databaseOptionLabel);
@@ -195,21 +199,28 @@ export class Modal {
         const overpassApiOptionLabel = document.createElement('label');
         overpassApiOptionLabel.textContent = "Overpass API";
         overpassApiOptionLabel.htmlFor = "overpassApiOption";
+        overpassApiOptionLabel.style.fontSize = "18px";
         
         modal.appendChild(overpassApiOption);
         modal.appendChild(overpassApiOptionLabel);
         modal.appendChild(document.createElement('br'));
-        modal.appendChild(document.createElement('br'));
         
         // select for type of suggested destinations to show
         const overpassApiSelect = document.createElement('select');
+        overpassApiSelect.id = "overpassApiSelect";
+        overpassApiSelect.style.margin = '10px';
         overpassApiSelect.disabled = true;
         ["restaurant", "museum"].forEach(type => {
             const opt = document.createElement('option');
             opt.value = type;
             opt.textContent = type;
-            overpassApiSelect.appendChild(opt);            
+            overpassApiSelect.appendChild(opt);
         });
+        
+        const overpassApiSelectLabel = document.createElement('label');
+        overpassApiSelectLabel.htmlFor = "overpassApiSelect";
+        overpassApiSelectLabel.textContent = "suggested destination type: ";
+        overpassApiSelectLabel.style.fontSize = "14px";
         
         overpassApiOption.addEventListener('change', (evt) => {
             overpassApiSelect.disabled = false;
@@ -219,17 +230,40 @@ export class Modal {
             overpassApiSelect.disabled = true;
         });
         
+        modal.appendChild(overpassApiSelectLabel);
         modal.appendChild(overpassApiSelect);
-        modal.appendChild(document.createElement('br'));
-        modal.appendChild(document.createElement('br'));
+        
+        modal.appendChild(document.createElement('hr'));
+        
+        // select for type of map to display
+        const mapTypeSelect = document.createElement('select');
+        mapTypeSelect.id = "mapTypeSelect";
+        ["watercolor", "terrain", "toner"].forEach(type => {
+            const opt = document.createElement('option');
+            opt.value = type;
+            opt.textContent = type;
+            mapTypeSelect.appendChild(opt);
+        });
+        const mapTypeSelectLabel = document.createElement('label');
+        mapTypeSelectLabel.htmlFor = "mapTypeSelect";
+        mapTypeSelectLabel.textContent = "map type: ";
+        mapTypeSelectLabel.style.fontSize = "14px";
+        
+        modal.appendChild(mapTypeSelectLabel);
+        modal.appendChild(mapTypeSelect);
+        
+        modal.appendChild(document.createElement('hr'));
         
         // ok, cancel buttons
         const okBtn = document.createElement('button');
         okBtn.innerText = "ok";
+        okBtn.style.marginTop = '6px';
         
         const cancelBtn = document.createElement('button');
         cancelBtn.innerText = "cancel";
+        cancelBtn.style.marginTop = '6px';
         
+        modal.appendChild(document.createElement('br'));
         modal.appendChild(okBtn);
         modal.appendChild(cancelBtn);
         
@@ -240,15 +274,21 @@ export class Modal {
         document.body.appendChild(modal);
         document.body.appendChild(modalOverlay);
         
-        return new Promise<boolean>((resolve) => {
+        return new Promise<Record<string, string>>((resolve) => {
             okBtn.onclick = (): void => {
-                resolve(true);
+                if(!overpassApiSelect.disabled){
+                    resolve({
+                        "overpassApiType": overpassApiSelect.value,
+                        "mapType": mapTypeSelect.value,
+                    });
+                }else{
+                    resolve({"mapType": mapTypeSelect.value});
+                }
             };
             cancelBtn.onclick = (): void => {
-                resolve(false);
+                resolve({});
             };
         }).finally((): void => {
-            // make sure to close modal
             document.body.removeChild(modal);
             document.body.removeChild(modalOverlay);
         });

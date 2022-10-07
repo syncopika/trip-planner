@@ -38,7 +38,7 @@
         
         <!-- show navigation bar, destination list -->
         <div id='column2'>
-            <navigation :list-of-trip-names="listOfTripNames"></navigation>
+            <navigation @update-options="handleUpdateOptions" :list-of-trip-names="listOfTripNames"></navigation>
             
             <div id='tripInfo'>
                 <h1 class='tripTitle'>{{tripName}}</h1>
@@ -95,6 +95,16 @@ export default class TripRouteMap extends Vue {
         if(mapIframe !== null && mapIframe.contentDocument !== null){
             //console.log("sending data to the iframe for event: " + eventName);
             mapIframe.contentDocument.dispatchEvent(updateMapEvent);
+        }
+    }
+    
+    // update any option value changes from the Navigation component
+    // TODO: don't use any and make Record<string, string> more specific
+    handleUpdateOptions(value: Record<string, string>): void {
+        //console.log("handling option updates");
+        //console.log(value);
+        if(value.overpassApiType){
+            console.log(this.$root); // update useOverpassAPI in root
         }
     }
     

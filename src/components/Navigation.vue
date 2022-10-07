@@ -1,7 +1,6 @@
 <template>
     <div id='menuHeader'>
         <h2> trip-planner </h2>
-        <p @click="openOptions"> options </p>
         <ul>
             <li id="createNewTrip"
                 class="selectOption"
@@ -27,27 +26,14 @@
             </li>
 
             <li> • </li>
-            <li class="dropdown">
-                <p class="dropbtn"> map style </p>
-                <div class='dropContent'>
-                    <a href="#" @click="changeMapStyle('watercolor')">
-                        watercolor
-                    </a>
-                    <a href="#" @click="changeMapStyle('terrain')">
-                        terrain
-                    </a>
-                    <a href="#" @click="changeMapStyle('toner')">
-                        toner
-                    </a>
-                </div>
-            </li>
-
-            <li> • </li>
             <li class="selectOption" @click="triggerImport"> import </li>
             <input type='file' @change="importData" id='importTripData'>
 
             <li> • </li>
             <li class="selectOption" @click="exportData"> export </li>
+            
+            <li> • </li>
+            <li class="selectOption" @click="openOptions"> options </li>
             
             <!-- TODO 
             
@@ -124,7 +110,14 @@ export default {
         
         openOptions: async function(): Promise<void> {
             const modal = new Modal();
-            await modal.createOptionsModal();
+            
+            // TODO: change Record<string, string> to a custom type
+            const data: Record<string, string> = await modal.createOptionsModal();
+            
+            if(data["mapType"]) this.changeMapStyle(data["mapType"]);
+            
+            // TODO: why is $emit not defined on this!? currently using any helps avoid errors and it works but need to figure that out
+            (this as any).$emit('update-options', data);
         }
     }
 }
