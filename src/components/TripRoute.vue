@@ -54,9 +54,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 import DestinationList from './DestinationList.vue';
 import Navigation from './Navigation.vue';
+
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 import { Destination } from '../utils/triproute';
 import { Modal } from '../utils/modal';
 
@@ -87,6 +88,13 @@ export default class TripRouteMap extends Vue {
         }
     }
 
+    @Watch('suggestedNextDests', { deep: true })
+    onSuggestedDestChange(): void {
+        if(this.showSuggestedNextHops){
+            this.updateSuggestedNextHops(this.suggestedNextDests);
+        }
+    }
+
     dispatchEventToMap(eventName: string, data: Array<Destination>): void {
         // send a custom event to the map iframe along with the data
         const updateMapEvent = new CustomEvent(eventName, {detail: data});
@@ -101,10 +109,12 @@ export default class TripRouteMap extends Vue {
     // update any option value changes from the Navigation component
     // TODO: don't use any and make Record<string, string> more specific
     handleUpdateOptions(value: Record<string, string>): void {
-        //console.log("handling option updates");
-        //console.log(value);
-        if(value.overpassApiType){
-            console.log(this.$root); // update useOverpassAPI in root
+        if(value.dataSource === "overpassApi"){
+            //@ts-ignore TODO: can we fix this without ignoring? (TS-2339)
+            this.$root.setOverpassApiUse(true, value.overpassApiEntity); // update useOverpassAPI in root
+        }else{
+            //@ts-ignore TODO: can we fix this without ignoring? (TS-2339)
+            this.$root.setOverpassApiUse(false);
         }
     }
     

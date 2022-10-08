@@ -50,8 +50,10 @@ new Vue({
         'username': 'user1',
         'currTripIndex': 0,
         'suggestedNextDests': [],
-        'canGetSuggestedNextDests': false,
-        'useOverpassAPI': true, // flag for using overpass api for getting nearby locations
+        'canGetSuggestedNextDests': false, // can get destinations from the database
+        'useOverpassAPI': false,            // flag for using overpass api for getting nearby locations
+        'overpassApiEntityToFind': "restaurant",
+        'overpassApiKeyToFind': "amenity",
         'fakeSuggestions': [
             {
                 "username": "test_user1",
@@ -163,24 +165,24 @@ new Vue({
             let changeName = false;
             let newName = "";
 
-            if (data.newName) {
+            if(data.newName){
                 newName = data.newName; // new desired destination name
 
                 //@ts-ignore TODO: investigate this? (TS-2339)
                 const destWithNewNameExists = this.findDestination(newName);
 
-                if (currName !== newName && !destWithNewNameExists) {
+                if(currName !== newName && !destWithNewNameExists){
                     changeName = true;
-                } else if (currName !== newName && destWithNewNameExists) {
+                }else if(currName !== newName && destWithNewNameExists){
                     // a destination with the new name already exists
                     // just don't update the destination name but alert the user
                     alert("Can't change name because a destination already exists with the same name!");
                 }
             }
 
-            for(let i = 0; i < listOfDest.length; i++) {
+            for(let i = 0; i < listOfDest.length; i++){
                 const dest = listOfDest[i];
-                if(dest.name === currName) {
+                if(dest.name === currName){
                     // TODO: just do for prop in dest, reassign?
                     // so we don't have to manually update this each time there's a new prop
                     dest.notes = data.notes;
@@ -189,9 +191,9 @@ new Vue({
                     dest.images = data.images;
                     dest.routeColor = data.routeColor;
 
-                    if (changeName) {
+                    if(changeName){
                         dest.name = newName;
-                    } else {
+                    }else{
                         dest.name = currName;
                     }
 
@@ -340,6 +342,32 @@ new Vue({
                 entity
             );
         },
+        
+        setOverpassApiUse: function(val: boolean, entity: string): void {
+            this.useOverpassAPI = val;
+            if(val){
+                const overpassApiEntityKeyMap: Record<string, string> = {
+                    "restaurant": "amenity",
+                    "museum": "tourism",
+                };
+                if(entity){
+                    this.overpassApiEntityToFind = entity;
+                    this.overpassApiKeyToFind = overpassApiEntityKeyMap[entity];
+                    
+                    //@ts-ignore TODO: investigate this? (TS-2339)
+                    (this as any).getSuggestionsFromOverpass(this.overpassApiKeyToFind, this.overpassApiEntityToFind).then((data) => {
+                        (this as any).suggestedNextDests = data;
+                    });
+                }
+            }
+        },
+        
+        getCurrentOptions: function(): Record<string, any> {
+            return {
+                useOverpassAPI: this.useOverpassAPI,
+                selectedOverpassApiEntity: this.overpassApiEntityToFind,
+            };
+        }
     },
 	
     mounted: function(): void {
@@ -363,7 +391,7 @@ new Vue({
                     routeColor: "#888"
                 };
 				
-                if(this.canGetSuggestedNextDests){
+                if(this.canGetSuggestedNextDests && !this.useOverpassAPI){
                     // Make a call to the db with the newly added dest's lat and lng to look up possible next hops
                     // when we get that info back, update the prop so the change will get propagated to TripRoute.vue.
                     
@@ -377,8 +405,15 @@ new Vue({
                     // for demoing
                     this.tripData[this.currTripIndex].listOfDest.push(newDest);
                     
-                    //@ts-ignore TODO: investigate this? (TS-2339)
-                    (this as any).suggestedNextDests = this.getFakeSuggestions();
+                    if(this.useOverpassAPI){
+                        //@ts-ignore TODO: investigate this? (TS-2339)
+                        (this as any).getSuggestionsFromOverpass(this.overpassApiKeyToFind, this.overpassApiEntityToFind).then((data) => {
+                            (this as any).suggestedNextDests = data;
+                        });
+                    }else{
+                        //@ts-ignore TODO: investigate this? (TS-2339)
+                        (this as any).suggestedNextDests = this.getFakeSuggestions();
+                    }
                 }
             }
         });
@@ -404,14 +439,15 @@ new Vue({
                 // we can't get suggested next hops when a new destination is added
                 // use fake data instead for now
                 
-                //@ts-ignore TODO: investigate this? (TS-2339)
-                //(this as any).suggestedNextDests = this.getFakeSuggestions();
-                
-                //@ts-ignore TODO: investigate this? (TS-2339)
-                (this as any).getSuggestionsFromOverpass("amenity", "restaurant").then((data) => {
-                    console.log(data);
-                    (this as any).suggestedNextDests = data;
-                });
+                if(this.useOverpassAPI){                    
+                    //@ts-ignore TODO: investigate this? (TS-2339)
+                    (this as any).getSuggestionsFromOverpass(this.overpassApiKeyToFind, this.overpassApiEntityToFind).then((data) => {
+                        (this as any).suggestedNextDests = data;
+                    });
+                }else{
+                    //@ts-ignore TODO: investigate this? (TS-2339)
+                    (this as any).suggestedNextDests = this.getFakeSuggestions();
+                }
             });
     }
 }).$mount('#app') // #app is in /public/index.html

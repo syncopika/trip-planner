@@ -111,8 +111,9 @@ export default {
         openOptions: async function(): Promise<void> {
             const modal = new Modal();
             
-            // TODO: change Record<string, string> to a custom type
-            const data: Record<string, string> = await modal.createOptionsModal();
+            // TODO: change Record<string, string> to a custom type + don't use any
+            const currOptions = (this as any).$root.getCurrentOptions();
+            const data: Record<string, string> = await modal.createOptionsModal(currOptions);
             
             if(data["mapType"]) this.changeMapStyle(data["mapType"]);
             

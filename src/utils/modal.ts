@@ -158,10 +158,14 @@ export class Modal {
     }
     
     // TODO: make new type for options? instead of Record<string, string>
-    createOptionsModal(): Promise<Record<string, string>> {
+    createOptionsModal(currOptions: Record<string, any>): Promise<Record<string, string>> {
         const modal = document.createElement('div');
         modal.id = "modal";
         Object.assign(modal.style, this.modalStyle);
+        
+        // get current option values so we can set them
+        const overpassApiEnabled: boolean = currOptions.useOverpassAPI;
+        const selectedOverpassApiEntity: string = currOptions.selectedOverpassApiEntity;
 
         const displayText = document.createElement('h1');
         displayText.textContent = "options";
@@ -179,6 +183,7 @@ export class Modal {
         databaseOption.name = "destinationSuggestionSource";
         databaseOption.value = "database";
         databaseOption.id = "databaseOption";
+        databaseOption.checked = !overpassApiEnabled;
         
         const databaseOptionLabel = document.createElement('label');
         databaseOptionLabel.textContent = "other users from database";
@@ -195,6 +200,7 @@ export class Modal {
         overpassApiOption.name = "destinationSuggestionSource";
         overpassApiOption.value = "overpassApi";
         overpassApiOption.id = "overpassApiOption";
+        overpassApiOption.checked = overpassApiEnabled;
         
         const overpassApiOptionLabel = document.createElement('label');
         overpassApiOptionLabel.textContent = "Overpass API";
@@ -209,11 +215,16 @@ export class Modal {
         const overpassApiSelect = document.createElement('select');
         overpassApiSelect.id = "overpassApiSelect";
         overpassApiSelect.style.margin = '10px';
-        overpassApiSelect.disabled = true;
+        overpassApiSelect.disabled = !overpassApiEnabled;
         ["restaurant", "museum"].forEach(type => {
             const opt = document.createElement('option');
             opt.value = type;
             opt.textContent = type;
+            
+            if(type === selectedOverpassApiEntity){
+                opt.selected = true;
+            }
+            
             overpassApiSelect.appendChild(opt);
         });
         
@@ -276,14 +287,11 @@ export class Modal {
         
         return new Promise<Record<string, string>>((resolve) => {
             okBtn.onclick = (): void => {
-                if(!overpassApiSelect.disabled){
-                    resolve({
-                        "overpassApiType": overpassApiSelect.value,
-                        "mapType": mapTypeSelect.value,
-                    });
-                }else{
-                    resolve({"mapType": mapTypeSelect.value});
-                }
+                resolve({
+                    "dataSource": !overpassApiSelect.disabled ? "overpassApi" : "database",
+                    "overpassApiEntity": overpassApiSelect.value,
+                    "mapType": mapTypeSelect.value,
+                });
             };
             cancelBtn.onclick = (): void => {
                 resolve({});
