@@ -67,6 +67,24 @@ class MapBoxWrapper {
             if(addMarker) this.addMarker(evt.lngLat.lat, evt.lngLat.lng);
         });
 
+        // support doubletap on mobile for double-click
+        let tapped: any = undefined;
+        map.on('touchstart', async (evt) => {
+            if(!tapped){
+                tapped = setTimeout(() => {
+                    tapped = undefined;
+                }, 300);
+            }else{
+                clearTimeout(tapped);
+                tapped = undefined;
+
+                // double-tap occurred
+                const modal = new Modal();
+                const addMarker = await modal.createQuestionModal("add this spot as a destination?");
+                if(addMarker) this.addMarker(evt.lngLat.lat, evt.lngLat.lng);
+            }
+        });
+
         map.addControl(new mapboxgl.NavigationControl());
         
         this.map = map;

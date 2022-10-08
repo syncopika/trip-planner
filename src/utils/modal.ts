@@ -13,10 +13,11 @@ export class Modal {
             textAlign: "center",
             padding: "8px",
             backgroundColor: "#fff",
-            width: "20%",
+            width: "auto",
             height: "auto",
             boxShadow: "2px 2px 5px #ccc",
             border: "1px solid #ccc",
+            overflowY: "auto",
         };
         
         this.modalOverlayStyle = {
