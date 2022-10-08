@@ -26,7 +26,7 @@ choosing a different trip
 ![next destination suggestions](screenshots/next-dest-suggestion.png)    
 next destination suggestion feature within a particular radius (the red markers are suggestions)    
     
-![option menu](screenshots/option-menu.png)    
+![option menu](screenshots/options-menu.png)    
 option menu    
     
 ## Project setup
