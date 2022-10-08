@@ -4,7 +4,7 @@
         <ul>
             <li id="createNewTrip"
                 class="selectOption"
-                v-on:click="addNewTrip"
+                @click="addNewTrip"
             >
                 new trip
             </li>
@@ -26,29 +26,15 @@
             </li>
 
             <li> • </li>
-            <li class="dropdown">
-                <p class="dropbtn"> change map style </p>
-                <div class='dropContent'>
-                    <a href="#" @click="changeMapStyle('watercolor')">
-                        watercolor
-                    </a>
-                    <a href="#" @click="changeMapStyle('terrain')">
-                        terrain
-                    </a>
-                    <a href="#" @click="changeMapStyle('toner')">
-                        toner
-                    </a>
-                </div>
-            </li>
-
-            <li> • </li>
             <li class="selectOption" @click="triggerImport"> import </li>
             <input type='file' @change="importData" id='importTripData'>
 
             <li> • </li>
             <li class="selectOption" @click="exportData"> export </li>
             
-
+            <li> • </li>
+            <li class="selectOption" @click="openOptions"> options </li>
+            
             <!-- TODO 
             
             <li> • </li>
@@ -63,9 +49,10 @@
 </template>
 
 <script lang="ts">
+import Vue from "vue";
 import { Modal } from "../utils/modal";
 
-export default {
+export default Vue.extend({
     props: {
         listOfTripNames: { required: true, type: Array }
     },
@@ -75,16 +62,14 @@ export default {
             const newTripName = await modalHandler.createInputModal("please enter the name of the new trip:");
             
             if(newTripName) {
-                //@ts-ignore (TS-2339)
-                this.$root.addNewTrip(newTripName);
+                (this.$root as any).addNewTrip(newTripName);
             }
         },
         
         selectTrip: function(evt: MouseEvent): void {
             if(evt){
                 const index = parseInt((evt.target as HTMLParagraphElement).id.split("_")[1]);
-                // @ts-ignore (TS-2339)
-                this.$root.selectTrip(index);
+                (this.$root as any).selectTrip(index);
             }
         },
         
@@ -97,14 +82,12 @@ export default {
         
         importData: function(evt: MouseEvent): void {
             // call root to import data
-            // @ts-ignore
-            this.$root.importData(evt);
+            (this.$root as any).importData(evt);
         },
         
         exportData: function(): void {
             // call root to download trip data
-            // @ts-ignore
-            this.$root.exportData();
+            (this.$root as any).exportData();
         },
         
         saveData: function(): void {
@@ -120,9 +103,21 @@ export default {
             if(mapIframe !== null && mapIframe.contentDocument !== null){
                 mapIframe.contentDocument.dispatchEvent(updateMapEvent);
             }
+        },
+        
+        openOptions: async function(): Promise<void> {
+            const modal = new Modal();
+            
+            // TODO: change Record<string, string> to a custom type + don't use any
+            const currOptions = (this.$root as any).getCurrentOptions();
+            const data: Record<string, string> = await modal.createOptionsModal(currOptions);
+            
+            if(data["mapType"]) this.changeMapStyle(data["mapType"]);
+            
+            this.$emit('update-options', data);
         }
     }
-}
+});
 </script>
 
 <style scoped>
@@ -139,6 +134,10 @@ export default {
 
 #menuHeader p {
     display: inline;
+}
+
+#menuHeader p:hover {
+    cursor: pointer;
 }
 
 #importTripData {

@@ -4,7 +4,7 @@ An experimental application idea to help plan out your future trips! or record o
     
 The ideal version of this application would allow users to see and click specific places/landmarks/restaurants/etc. on the map to add as destinations for a trip.   
     
-This project makes use of the MapBox API, which may need a token for certain features like specific MapBox tiles. You can get a MapBox API token for free (and comes with 50000 free API requests/month).    
+This project makes use of the MapBox API, which may need a token for certain features like specific MapBox tiles. You can get a MapBox API token for free (and comes with 50000 free API requests/month). The [Overpass API](https://wiki.openstreetmap.org/wiki/Overpass_API) is also available as an optional source for suggested potential next destinations - thanks very much to all involved for making it available for free!    
     
 My build is kinda weird right now in that I'm using an iframe to hold the MapBox map, which I'm storing in the public folder and building separately from the rest of the project (I still need to understand how vue-cli works 😅).       
     
@@ -21,10 +21,13 @@ destination details
 marker tooltip info    
     
 ![trip dropdown menu](screenshots/screenshot3.png)    
-choosing a different trip (can have multiple trips!)    
+choosing a different trip    
     
 ![next destination suggestions](screenshots/next-dest-suggestion.png)    
 next destination suggestion feature within a particular radius (the red markers are suggestions)    
+    
+![option menu](screenshots/options-menu.png)    
+option menu    
     
 ## Project setup
 ```

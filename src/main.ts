@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue, {CreateElement, VNode} from 'vue'
 import App from './App.vue'
 import axios from 'axios';
 import { Modal } from './utils/modal';
@@ -8,7 +8,7 @@ Vue.config.productionTip = false
 
 // root instance
 new Vue({
-    render(h){
+    render(h: CreateElement): VNode {
         // TODO: fetch user's tripdata from db here??
         return h(App, {
             props: {
@@ -49,8 +49,11 @@ new Vue({
         ],
         'username': 'user1',
         'currTripIndex': 0,
-        'suggestedNextDests': [],
-        'canGetSuggestedNextDests': false,
+        'suggestedNextDests': [] as DestinationSuggestion[],
+        'canGetSuggestedNextDests': false, // can get destinations from the database
+        'useOverpassAPI': false,            // flag for using overpass api for getting nearby locations
+        'overpassApiEntityToFind': "restaurant",
+        'overpassApiKeyToFind': "amenity",
         'fakeSuggestions': [
             {
                 "username": "test_user1",
@@ -149,8 +152,7 @@ new Vue({
             // if so, take the current last dest and show next hop suggestions for that dest (if show next hops option selected)
             // right now just handle when demoing
             if(!this.canGetSuggestedNextDests){
-                //@ts-ignore TODO: investigate this? (TS-2339)
-                (this as any).suggestedNextDests = this.getFakeSuggestions();
+                this.suggestedNextDests = this.getFakeSuggestions();
             }
         },
         
@@ -162,24 +164,24 @@ new Vue({
             let changeName = false;
             let newName = "";
 
-            if (data.newName) {
+            if(data.newName){
                 newName = data.newName; // new desired destination name
 
                 //@ts-ignore TODO: investigate this? (TS-2339)
                 const destWithNewNameExists = this.findDestination(newName);
 
-                if (currName !== newName && !destWithNewNameExists) {
+                if(currName !== newName && !destWithNewNameExists){
                     changeName = true;
-                } else if (currName !== newName && destWithNewNameExists) {
+                }else if(currName !== newName && destWithNewNameExists){
                     // a destination with the new name already exists
                     // just don't update the destination name but alert the user
                     alert("Can't change name because a destination already exists with the same name!");
                 }
             }
 
-            for(let i = 0; i < listOfDest.length; i++) {
+            for(let i = 0; i < listOfDest.length; i++){
                 const dest = listOfDest[i];
-                if(dest.name === currName) {
+                if(dest.name === currName){
                     // TODO: just do for prop in dest, reassign?
                     // so we don't have to manually update this each time there's a new prop
                     dest.notes = data.notes;
@@ -188,9 +190,9 @@ new Vue({
                     dest.images = data.images;
                     dest.routeColor = data.routeColor;
 
-                    if (changeName) {
+                    if(changeName){
                         dest.name = newName;
-                    } else {
+                    }else{
                         dest.name = currName;
                     }
 
@@ -295,6 +297,74 @@ new Vue({
                 return [];
             }
         },
+        
+        // TODO: fix up so that return value is like Promise<DestinationSuggestion[]>?
+        // keyType is like 'amenity' or 'tourism'
+        // entity is like 'restaurant' or 'museum'
+        getLocationsFromOverpass: function(lat: number, long: number, keyType: string, entity: string): Promise<any> {
+            // find 5 museums in a 20000 meter radius at lat, long
+            const url = "http://overpass-api.de/api/interpreter";
+            const query = `%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%0A(%0Anode%5B%22${keyType}%22%3D%22${entity}%22%5D(around%3A20000%2C${lat}%2C+${long})%3B%0A)%3B%0Aout+body+5%3B%0A%3E%3B%0Aout+skel+qt%3B`;
+            const config = {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            };
+            
+            function getResults(response: any): Array<any> {
+                const elements = response.data.elements;
+                return elements.map((el: any) => {
+                    return {
+                        'latitude': el.lat,
+                        'longitude': el.lon,
+                        'destname': el.tags.name,
+                        'type': el.tags.tourism
+                    };
+                });
+            }
+            
+            return new Promise((resolve) => {
+                axios.post(url, `data=${query}`, config).then((response) => {
+                    //console.log(getResults(response));
+                    resolve(getResults(response));
+                });
+            });
+        },
+        
+        getSuggestionsFromOverpass: function(keyType: string, entity: string): Promise<any> {
+            const currTripDestList: Array<Destination> = this.tripData[this.currTripIndex].listOfDest;
+            return this.getLocationsFromOverpass(
+                currTripDestList[currTripDestList.length-1].latitude,
+                currTripDestList[currTripDestList.length-1].longitude,
+                keyType,
+                entity
+            );
+        },
+        
+        setOverpassApiUse: function(val: boolean, entity: string): void {
+            this.useOverpassAPI = val;
+            if(val){
+                const overpassApiEntityKeyMap: Record<string, string> = {
+                    "restaurant": "amenity",
+                    "museum": "tourism",
+                };
+                if(entity){
+                    this.overpassApiEntityToFind = entity;
+                    this.overpassApiKeyToFind = overpassApiEntityKeyMap[entity];
+                    
+                    this.getSuggestionsFromOverpass(this.overpassApiKeyToFind, this.overpassApiEntityToFind).then((data) => {
+                        this.suggestedNextDests = data;
+                    });
+                }
+            }
+        },
+        
+        getCurrentOptions: function(): Record<string, any> {
+            return {
+                useOverpassAPI: this.useOverpassAPI,
+                selectedOverpassApiEntity: this.overpassApiEntityToFind,
+            };
+        }
     },
 	
     mounted: function(): void {
@@ -318,13 +388,13 @@ new Vue({
                     routeColor: "#888"
                 };
 				
-                if(this.canGetSuggestedNextDests){
+                if(this.canGetSuggestedNextDests && !this.useOverpassAPI){
                     // Make a call to the db with the newly added dest's lat and lng to look up possible next hops
                     // when we get that info back, update the prop so the change will get propagated to TripRoute.vue.
                     
                     // TODO: setting data to type Destination results in:
                     // Type 'Destination' is missing the following properties from type 'never[]': length, pop, push, concat, and 28 more.
-                    (this as any).requestSuggestedNextHops(location.latitude, location.longitude).then((data: any) => {
+                    this.requestSuggestedNextHops(location.latitude, location.longitude).then((data: any) => {
                         this.suggestedNextDests = data;
                         this.tripData[this.currTripIndex].listOfDest.push(newDest);
                     });					
@@ -332,8 +402,15 @@ new Vue({
                     // for demoing
                     this.tripData[this.currTripIndex].listOfDest.push(newDest);
                     
-                    //@ts-ignore TODO: investigate this? (TS-2339)
-                    (this as any).suggestedNextDests = this.getFakeSuggestions();
+                    if(this.useOverpassAPI){
+                        //@ts-ignore TODO: investigate this? (TS-2339)
+                        this.getSuggestionsFromOverpass(this.overpassApiKeyToFind, this.overpassApiEntityToFind).then((data) => {
+                            this.suggestedNextDests = data;
+                        });
+                    }else{
+                        //@ts-ignore TODO: investigate this? (TS-2339)
+                        this.suggestedNextDests = this.getFakeSuggestions();
+                    }
                 }
             }
         });
@@ -350,7 +427,7 @@ new Vue({
                 const lat = currTripDestList[currTripDestList.length-1].latitude;
                 const lng = currTripDestList[currTripDestList.length-1].longitude;
             
-                (this as any).requestSuggestedNextHops(lat, lng).then((data: any) => {
+                this.requestSuggestedNextHops(lat, lng).then((data: any) => {
                     this.suggestedNextDests = data;
                 });
             })
@@ -358,8 +435,14 @@ new Vue({
                 // database couldn't be connected to
                 // we can't get suggested next hops when a new destination is added
                 // use fake data instead for now
-                //@ts-ignore TODO: investigate this? (TS-2339)
-                (this as any).suggestedNextDests = this.getFakeSuggestions();
+                
+                if(this.useOverpassAPI){
+                    this.getSuggestionsFromOverpass(this.overpassApiKeyToFind, this.overpassApiEntityToFind).then((data) => {
+                        this.suggestedNextDests = data;
+                    });
+                }else{
+                    this.suggestedNextDests = this.getFakeSuggestions();
+                }
             });
     }
 }).$mount('#app') // #app is in /public/index.html

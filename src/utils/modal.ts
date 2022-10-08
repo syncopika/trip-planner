@@ -1,4 +1,3 @@
-
 export class Modal {
     
     modalStyle: Record<string, string>;
@@ -17,6 +16,7 @@ export class Modal {
             width: "20%",
             height: "auto",
             boxShadow: "2px 2px 5px #ccc",
+            border: "1px solid #ccc",
         };
         
         this.modalOverlayStyle = {
@@ -152,6 +152,151 @@ export class Modal {
             };
         }).finally((): void => {
             // make sure to close modal
+            document.body.removeChild(modal);
+            document.body.removeChild(modalOverlay);
+        });
+    }
+    
+    // TODO: make new type for options? instead of Record<string, string>
+    createOptionsModal(currOptions: Record<string, any>): Promise<Record<string, string>> {
+        const modal = document.createElement('div');
+        modal.id = "modal";
+        Object.assign(modal.style, this.modalStyle);
+        
+        // get current option values so we can set them
+        const overpassApiEnabled: boolean = currOptions.useOverpassAPI;
+        const selectedOverpassApiEntity: string = currOptions.selectedOverpassApiEntity;
+
+        const displayText = document.createElement('h1');
+        displayText.textContent = "options";
+        
+        modal.appendChild(displayText);
+        modal.appendChild(document.createElement('hr'));
+        
+        const destinationSuggestionSourceText = document.createElement('p');
+        destinationSuggestionSourceText.textContent = "choose source for destination suggestions:";
+        modal.appendChild(destinationSuggestionSourceText);
+        
+        // database option radio button
+        const databaseOption = document.createElement('input');
+        databaseOption.type = "radio";
+        databaseOption.name = "destinationSuggestionSource";
+        databaseOption.value = "database";
+        databaseOption.id = "databaseOption";
+        databaseOption.checked = !overpassApiEnabled;
+        
+        const databaseOptionLabel = document.createElement('label');
+        databaseOptionLabel.textContent = "other users from database";
+        databaseOptionLabel.htmlFor = "databaseOption";
+        databaseOptionLabel.style.fontSize = "18px";
+        
+        modal.appendChild(databaseOption);
+        modal.appendChild(databaseOptionLabel);
+        modal.appendChild(document.createElement('br'));
+        
+        // overpass api radio button
+        const overpassApiOption = document.createElement('input');
+        overpassApiOption.type = "radio";
+        overpassApiOption.name = "destinationSuggestionSource";
+        overpassApiOption.value = "overpassApi";
+        overpassApiOption.id = "overpassApiOption";
+        overpassApiOption.checked = overpassApiEnabled;
+        
+        const overpassApiOptionLabel = document.createElement('label');
+        overpassApiOptionLabel.textContent = "Overpass API";
+        overpassApiOptionLabel.htmlFor = "overpassApiOption";
+        overpassApiOptionLabel.style.fontSize = "18px";
+        
+        modal.appendChild(overpassApiOption);
+        modal.appendChild(overpassApiOptionLabel);
+        modal.appendChild(document.createElement('br'));
+        
+        // select for type of suggested destinations to show
+        const overpassApiSelect = document.createElement('select');
+        overpassApiSelect.id = "overpassApiSelect";
+        overpassApiSelect.style.margin = '10px';
+        overpassApiSelect.disabled = !overpassApiEnabled;
+        ["restaurant", "museum"].forEach(type => {
+            const opt = document.createElement('option');
+            opt.value = type;
+            opt.textContent = type;
+            
+            if(type === selectedOverpassApiEntity){
+                opt.selected = true;
+            }
+            
+            overpassApiSelect.appendChild(opt);
+        });
+        
+        const overpassApiSelectLabel = document.createElement('label');
+        overpassApiSelectLabel.htmlFor = "overpassApiSelect";
+        overpassApiSelectLabel.textContent = "suggested destination type: ";
+        overpassApiSelectLabel.style.fontSize = "14px";
+        
+        overpassApiOption.addEventListener('change', (evt) => {
+            overpassApiSelect.disabled = false;
+        });
+        
+        databaseOption.addEventListener('change', (evt) => {
+            overpassApiSelect.disabled = true;
+        });
+        
+        modal.appendChild(overpassApiSelectLabel);
+        modal.appendChild(overpassApiSelect);
+        
+        modal.appendChild(document.createElement('hr'));
+        
+        // select for type of map to display
+        const mapTypeSelect = document.createElement('select');
+        mapTypeSelect.id = "mapTypeSelect";
+        ["watercolor", "terrain", "toner"].forEach(type => {
+            const opt = document.createElement('option');
+            opt.value = type;
+            opt.textContent = type;
+            mapTypeSelect.appendChild(opt);
+        });
+        const mapTypeSelectLabel = document.createElement('label');
+        mapTypeSelectLabel.htmlFor = "mapTypeSelect";
+        mapTypeSelectLabel.textContent = "map type: ";
+        mapTypeSelectLabel.style.fontSize = "14px";
+        
+        modal.appendChild(mapTypeSelectLabel);
+        modal.appendChild(mapTypeSelect);
+        
+        modal.appendChild(document.createElement('hr'));
+        
+        // ok, cancel buttons
+        const okBtn = document.createElement('button');
+        okBtn.innerText = "ok";
+        okBtn.style.marginTop = '6px';
+        
+        const cancelBtn = document.createElement('button');
+        cancelBtn.innerText = "cancel";
+        cancelBtn.style.marginTop = '6px';
+        
+        modal.appendChild(document.createElement('br'));
+        modal.appendChild(okBtn);
+        modal.appendChild(cancelBtn);
+        
+        const modalOverlay = document.createElement('div');
+        modalOverlay.id = "modal-overlay";
+        Object.assign(modalOverlay.style, this.modalOverlayStyle);
+        
+        document.body.appendChild(modal);
+        document.body.appendChild(modalOverlay);
+        
+        return new Promise<Record<string, string>>((resolve) => {
+            okBtn.onclick = (): void => {
+                resolve({
+                    "dataSource": !overpassApiSelect.disabled ? "overpassApi" : "database",
+                    "overpassApiEntity": overpassApiSelect.value,
+                    "mapType": mapTypeSelect.value,
+                });
+            };
+            cancelBtn.onclick = (): void => {
+                resolve({});
+            };
+        }).finally((): void => {
             document.body.removeChild(modal);
             document.body.removeChild(modalOverlay);
         });
