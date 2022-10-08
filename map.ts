@@ -264,6 +264,7 @@ class MapBoxWrapper {
         }
     }
 
+    // TODO: use a type and not any
     showSuggestedNextHops(listOfLocations: Array<any>): void {
         // clear first
         for(let marker of this.suggestedNextHops){
