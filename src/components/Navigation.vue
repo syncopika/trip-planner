@@ -49,9 +49,10 @@
 </template>
 
 <script lang="ts">
+import Vue from "vue";
 import { Modal } from "../utils/modal";
 
-export default {
+export default Vue.extend({
     props: {
         listOfTripNames: { required: true, type: Array }
     },
@@ -61,16 +62,14 @@ export default {
             const newTripName = await modalHandler.createInputModal("please enter the name of the new trip:");
             
             if(newTripName) {
-                //@ts-ignore (TS-2339)
-                this.$root.addNewTrip(newTripName);
+                (this.$root as any).addNewTrip(newTripName);
             }
         },
         
         selectTrip: function(evt: MouseEvent): void {
             if(evt){
                 const index = parseInt((evt.target as HTMLParagraphElement).id.split("_")[1]);
-                // @ts-ignore (TS-2339)
-                this.$root.selectTrip(index);
+                (this.$root as any).selectTrip(index);
             }
         },
         
@@ -83,14 +82,12 @@ export default {
         
         importData: function(evt: MouseEvent): void {
             // call root to import data
-            // @ts-ignore
-            this.$root.importData(evt);
+            (this.$root as any).importData(evt);
         },
         
         exportData: function(): void {
             // call root to download trip data
-            // @ts-ignore
-            this.$root.exportData();
+            (this.$root as any).exportData();
         },
         
         saveData: function(): void {
@@ -112,16 +109,15 @@ export default {
             const modal = new Modal();
             
             // TODO: change Record<string, string> to a custom type + don't use any
-            const currOptions = (this as any).$root.getCurrentOptions();
+            const currOptions = (this.$root as any).getCurrentOptions();
             const data: Record<string, string> = await modal.createOptionsModal(currOptions);
             
             if(data["mapType"]) this.changeMapStyle(data["mapType"]);
             
-            // TODO: why is $emit not defined on this!? currently using any helps avoid errors and it works but need to figure that out
-            (this as any).$emit('update-options', data);
+            this.$emit('update-options', data);
         }
     }
-}
+});
 </script>
 
 <style scoped>

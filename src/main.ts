@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue, {CreateElement, VNode} from 'vue'
 import App from './App.vue'
 import axios from 'axios';
 import { Modal } from './utils/modal';
@@ -8,7 +8,7 @@ Vue.config.productionTip = false
 
 // root instance
 new Vue({
-    render(h){
+    render(h: CreateElement): VNode {
         // TODO: fetch user's tripdata from db here??
         return h(App, {
             props: {
@@ -49,7 +49,7 @@ new Vue({
         ],
         'username': 'user1',
         'currTripIndex': 0,
-        'suggestedNextDests': [],
+        'suggestedNextDests': [] as DestinationSuggestion[],
         'canGetSuggestedNextDests': false, // can get destinations from the database
         'useOverpassAPI': false,            // flag for using overpass api for getting nearby locations
         'overpassApiEntityToFind': "restaurant",
@@ -152,8 +152,7 @@ new Vue({
             // if so, take the current last dest and show next hop suggestions for that dest (if show next hops option selected)
             // right now just handle when demoing
             if(!this.canGetSuggestedNextDests){
-                //@ts-ignore TODO: investigate this? (TS-2339)
-                (this as any).suggestedNextDests = this.getFakeSuggestions();
+                this.suggestedNextDests = this.getFakeSuggestions();
             }
         },
         
@@ -333,9 +332,8 @@ new Vue({
         },
         
         getSuggestionsFromOverpass: function(keyType: string, entity: string): Promise<any> {
-            // figure out why we get the error: Property 'getDestinationSuggestionsFromOverpass' does not exist on type 'CombinedVueInstance<Vue...
             const currTripDestList: Array<Destination> = this.tripData[this.currTripIndex].listOfDest;
-            return (this as any).getLocationsFromOverpass(
+            return this.getLocationsFromOverpass(
                 currTripDestList[currTripDestList.length-1].latitude,
                 currTripDestList[currTripDestList.length-1].longitude,
                 keyType,
@@ -354,9 +352,8 @@ new Vue({
                     this.overpassApiEntityToFind = entity;
                     this.overpassApiKeyToFind = overpassApiEntityKeyMap[entity];
                     
-                    //@ts-ignore TODO: investigate this? (TS-2339)
-                    (this as any).getSuggestionsFromOverpass(this.overpassApiKeyToFind, this.overpassApiEntityToFind).then((data) => {
-                        (this as any).suggestedNextDests = data;
+                    this.getSuggestionsFromOverpass(this.overpassApiKeyToFind, this.overpassApiEntityToFind).then((data) => {
+                        this.suggestedNextDests = data;
                     });
                 }
             }
@@ -397,7 +394,7 @@ new Vue({
                     
                     // TODO: setting data to type Destination results in:
                     // Type 'Destination' is missing the following properties from type 'never[]': length, pop, push, concat, and 28 more.
-                    (this as any).requestSuggestedNextHops(location.latitude, location.longitude).then((data: any) => {
+                    this.requestSuggestedNextHops(location.latitude, location.longitude).then((data: any) => {
                         this.suggestedNextDests = data;
                         this.tripData[this.currTripIndex].listOfDest.push(newDest);
                     });					
@@ -407,12 +404,12 @@ new Vue({
                     
                     if(this.useOverpassAPI){
                         //@ts-ignore TODO: investigate this? (TS-2339)
-                        (this as any).getSuggestionsFromOverpass(this.overpassApiKeyToFind, this.overpassApiEntityToFind).then((data) => {
-                            (this as any).suggestedNextDests = data;
+                        this.getSuggestionsFromOverpass(this.overpassApiKeyToFind, this.overpassApiEntityToFind).then((data) => {
+                            this.suggestedNextDests = data;
                         });
                     }else{
                         //@ts-ignore TODO: investigate this? (TS-2339)
-                        (this as any).suggestedNextDests = this.getFakeSuggestions();
+                        this.suggestedNextDests = this.getFakeSuggestions();
                     }
                 }
             }
@@ -430,7 +427,7 @@ new Vue({
                 const lat = currTripDestList[currTripDestList.length-1].latitude;
                 const lng = currTripDestList[currTripDestList.length-1].longitude;
             
-                (this as any).requestSuggestedNextHops(lat, lng).then((data: any) => {
+                this.requestSuggestedNextHops(lat, lng).then((data: any) => {
                     this.suggestedNextDests = data;
                 });
             })
@@ -439,14 +436,12 @@ new Vue({
                 // we can't get suggested next hops when a new destination is added
                 // use fake data instead for now
                 
-                if(this.useOverpassAPI){                    
-                    //@ts-ignore TODO: investigate this? (TS-2339)
-                    (this as any).getSuggestionsFromOverpass(this.overpassApiKeyToFind, this.overpassApiEntityToFind).then((data) => {
-                        (this as any).suggestedNextDests = data;
+                if(this.useOverpassAPI){
+                    this.getSuggestionsFromOverpass(this.overpassApiKeyToFind, this.overpassApiEntityToFind).then((data) => {
+                        this.suggestedNextDests = data;
                     });
                 }else{
-                    //@ts-ignore TODO: investigate this? (TS-2339)
-                    (this as any).suggestedNextDests = this.getFakeSuggestions();
+                    this.suggestedNextDests = this.getFakeSuggestions();
                 }
             });
     }
