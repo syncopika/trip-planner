@@ -45,10 +45,10 @@
                 <destinationList :list-of-dest="listOfDest"></destinationList>
             </div>
             
-            <!-- TODO: https://developer.mozilla.org/en-US/docs/Web/CSS/Layout_cookbook/Sticky_footers -->
-            <div id='footer'>
-                <p> footer </p>
-            </div>
+            <!-- https://developer.mozilla.org/en-US/docs/Web/CSS/Layout_cookbook/Sticky_footers -->
+            <footer id='footer'>
+                <a href='https://github.com/syncopika/trip-planner' target='_blank'> source </a>
+            </footer>
         </div>
     </div>
 </template>
@@ -198,23 +198,23 @@ export default class TripRouteMap extends Vue {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 
-h1, h2, label{
+h1, h2, label {
     padding: 5px;
     margin: 0;
     color: #000;
 }
 
-label{
+label {
     font-size: 20px;
 }
 
-#main{
+#main {
     display: flex;
-    flex-direction: row;
+    flex-direction: row; /* TODO: flex-direction: column; might be helpful for mobile view? */
     background-color: black;
 }
 
-#mapContainer{
+#mapContainer {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -224,7 +224,7 @@ label{
     right: 0;
 }
 
-#container{
+#container {
     position: relative;
     text-align: center;
     border-top: 1px solid #000;
@@ -235,7 +235,7 @@ label{
     overflow: hidden;
 }
 
-#suggestions{
+#suggestions {
     border-bottom: 1px solid #000;
     border-left: 1px solid #000;
     height: auto;
@@ -243,38 +243,52 @@ label{
 
 #column1 {
     flex: 3;
-    background-color: #DEE6ED;
+    background-color: #dee6ed;
 }
 
 #column2 {
     flex: 1;
     border: 1px solid #000;
-    background-color: #F9F4E1;
+    background-color: #f9f4e1;
     padding: 3px;
+    display: flex;
+    flex-direction: column;
+}
+
+#footer {
+    flex-grow: 0;
+    flex-shrink: 0;
+    padding: 5px;
 }
 
 #tripInfo {
-    background-color: #EBDBD4;
+    background-color: #ebdbd4;
     border-bottom: 1px solid #000;
+    flex-grow: 1;
 }
 
-ul{
+ul {
   list-style-type: none;
   padding: 0;
 }
 
-li{
+li {
   margin: 0 10px 10px;
 }
 
-a{
-  color: #42b983;
+a {
+  color: #000;
+  text-decoration: none;
+}
+
+a:hover {
+    color: #bbb;
 }
 
 button {
-    background-color: #6A5ACD;
+    background-color: #6a5acd;
     border-radius: 10px;
-    border: 1px solid #483D8B;
+    border: 1px solid #483d8b;
     color: #fff;
     margin-left: 2px;
     margin-right: 2px;

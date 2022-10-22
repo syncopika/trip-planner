@@ -1,13 +1,12 @@
 TODO:
 - testing for core components
-- get a dummy map tile iframe for demoing? done but this one might be good to use too: https://maputnik.github.io/osm-liberty/
 - get locations of places via Overpass API
   - list some potential destinations (museums, landmarks, restaurants, hotels)
   - users can look up places to find exact coords?
 
 now:
 - set zoom level?
-- customize note text properties (i.e. font color, font size)? think accessibility?
+- customize note text properties (i.e. font color, font size)? accessibility?
 - expected data format for importing/exported files?
 - allow user to set radius of area to get suggested next dests from
 - get rid of using any and ts-ignores as much as possible
@@ -16,4 +15,5 @@ later:
 - emit events rather than calling root?
 - use Vuex to store trip data upon loading from some source?
 - geocoding> get closest city? guess name of destination?
+- different color schemes?
 

@@ -122,7 +122,7 @@ export default Vue.extend({
 
 <style scoped>
 #menuHeader {
-    background-color: #F9F4E1;
+    background-color: #f9f4e1;
     padding: 2px;
     padding-right: 5px;
     text-align: right;
@@ -172,7 +172,9 @@ export default Vue.extend({
     text-align: center;
 }
 
-.dropContent a:hover { background-color: #ddd}
+.dropContent a:hover { 
+    background-color: #ddd
+}
 
 .dropdown:hover .dropContent { 
     display: block;

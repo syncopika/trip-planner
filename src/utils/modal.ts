@@ -256,6 +256,8 @@ export class Modal {
             opt.textContent = type;
             mapTypeSelect.appendChild(opt);
         });
+        mapTypeSelect.style.margin = "3px";
+        
         const mapTypeSelectLabel = document.createElement('label');
         mapTypeSelectLabel.htmlFor = "mapTypeSelect";
         mapTypeSelectLabel.textContent = "map type: ";
@@ -269,13 +271,13 @@ export class Modal {
         // ok, cancel buttons
         const okBtn = document.createElement('button');
         okBtn.innerText = "ok";
-        okBtn.style.marginTop = '6px';
+        okBtn.style.margin = '6px 3px 6px 6px';
         
         const cancelBtn = document.createElement('button');
         cancelBtn.innerText = "cancel";
-        cancelBtn.style.marginTop = '6px';
+        cancelBtn.style.margin = '6px 6px 6px 3px';
         
-        modal.appendChild(document.createElement('br'));
+        //modal.appendChild(document.createElement('br'));
         modal.appendChild(okBtn);
         modal.appendChild(cancelBtn);
         
