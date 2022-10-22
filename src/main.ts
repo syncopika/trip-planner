@@ -303,7 +303,7 @@ new Vue({
         // entity is like 'restaurant' or 'museum'
         getLocationsFromOverpass: function(lat: number, long: number, keyType: string, entity: string): Promise<any> {
             // find 5 museums in a 20000 meter radius at lat, long
-            const url = "http://overpass-api.de/api/interpreter";
+            const url = "https://overpass-api.de/api/interpreter";
             const query = `%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%0A(%0Anode%5B%22${keyType}%22%3D%22${entity}%22%5D(around%3A20000%2C${lat}%2C+${long})%3B%0A)%3B%0Aout+body+5%3B%0A%3E%3B%0Aout+skel+qt%3B`;
             const config = {
                 headers: {
@@ -376,7 +376,7 @@ new Vue({
             // emitted from the iframe along with that new destination's data, which gets received here.
             const location = (evt as CustomEvent).detail;
 
-            if(location) {
+            if(location){
                 const newDest: Destination = {
                     name: location.name,
                     latitude: location.latitude,
