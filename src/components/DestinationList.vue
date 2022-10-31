@@ -17,9 +17,19 @@
 
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import Vue, { PropType } from 'vue';
+import Component from 'vue-class-component';
 import { Destination as DestinationInterface } from '../utils/triproute';
 import Destination from './Destination.vue';
+
+const DestinationListProps = Vue.extend({
+    props: {
+        listOfDest: {
+            type: Array as PropType<Array<DestinationInterface>>,
+            required: true
+        }
+    }
+})
 
 @Component({
     components: {
@@ -27,9 +37,7 @@ import Destination from './Destination.vue';
     }
 })
 
-export default class DestinationList extends Vue {
-
-    @Prop({ required: true }) public listOfDest!: Array<DestinationInterface>;
+export default class DestinationList extends DestinationListProps {
     
     onDrop(evt: DragEvent): void {
         const thisEl = evt.target as HTMLElement;

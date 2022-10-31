@@ -57,9 +57,31 @@
 import DestinationList from './DestinationList.vue';
 import Navigation from './Navigation.vue';
 
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
+import Vue, { PropType } from 'vue';
+import Component from 'vue-class-component';
 import { Destination } from '../utils/triproute';
 import { Modal } from '../utils/modal';
+
+const TripRouteMapProps = Vue.extend({
+    props: {
+        listOfDest: {
+            required: true,
+            type: Array as PropType<Array<Destination>>
+        },
+        tripName: {
+            required: true,
+            type: String
+        },
+        listOfTripNames: {
+            required: true,
+            type: Array as PropType<Array<string>>
+        },
+        suggestedNextDests: {
+            required: true,
+            type: Array as PropType<Array<Destination>>
+        }
+    }
+})
 
 @Component({
     components: {
@@ -68,31 +90,25 @@ import { Modal } from '../utils/modal';
     }
 })
 
-export default class TripRouteMap extends Vue {
-
-    @Prop({ required: true }) public listOfDest!: Array<Destination>; // the ! means 'not null'
-    @Prop({ required: true }) public listOfTripNames!: Array<string>;
-    @Prop({ required: true }) public tripName!: string;
-    @Prop({ required: true }) public suggestedNextDests!: Destination[];
+export default class TripRouteMap extends TripRouteMapProps {
 
     showSuggestedNextHops = false;
 
-    @Watch('listOfDest', { deep: true })
-    onDestChange(newVal: Array<Destination>, _: Array<Destination>): void {
-        // note that we shouldn't need to care about the old value (the 2nd arg)
-        this.updateMap(newVal);
+    created(): void {
+        this.$watch('listOfDest', (newVal: Array<Destination>) => {
+            this.updateMap(newVal);
 
-        // whenever listOfDest changes, suggestedNextDests should too
-        if(this.showSuggestedNextHops){
-            this.updateSuggestedNextHops(this.suggestedNextDests);
-        }
-    }
+            // whenever listOfDest changes, suggestedNextDests should too
+            if(this.showSuggestedNextHops){
+                this.updateSuggestedNextHops(this.suggestedNextDests);
+            }
+        }, {deep: true});
 
-    @Watch('suggestedNextDests', { deep: true })
-    onSuggestedDestChange(): void {
-        if(this.showSuggestedNextHops){
-            this.updateSuggestedNextHops(this.suggestedNextDests);
-        }
+        this.$watch('suggestedNextDests', () => {
+            if(this.showSuggestedNextHops){
+                this.updateSuggestedNextHops(this.suggestedNextDests);
+            }
+        }, {deep: true});
     }
 
     dispatchEventToMap(eventName: string, data: Array<Destination>): void {
@@ -138,8 +154,7 @@ export default class TripRouteMap extends Vue {
             this.updateSuggestedNextHops(this.suggestedNextDests);
         }
     }
-    
-    // TODO: not completely implemented but this is for changing a trip name
+
     async toggleTripTitleEdit(evt: Event): Promise<void> {
         const el = evt.target as HTMLElement;
         
@@ -156,10 +171,13 @@ export default class TripRouteMap extends Vue {
             if(trip){
                 const editedTripName = trip.textContent ? trip.textContent.trim() : "";
                 if(editedTripName !== this.tripName && this.listOfTripNames.includes(editedTripName)){
+                    // the new trip name already exists
                     trip.textContent = this.tripName;
                 }else{
                     //@ts-ignore TODO: can we fix this without ignoring? (TS-2339)
                     this.$root.updateTripName(editedTripName);
+
+                    // TODO: update db with new name?
                 }
                 trip.setAttribute("contenteditable", "false");
             }
