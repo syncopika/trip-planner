@@ -7,9 +7,32 @@
 
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import Vue, { PropType } from 'vue';
+import Component from 'vue-class-component';
 import { Destination } from './utils/triproute';
 import TripRouteMap from './components/TripRoute.vue';
+
+const TripPlannerAppProps = Vue.extend({
+    props: {
+        listOfDest: {
+            required: true,
+            type: Array as PropType<Array<Record<string, Destination>>>
+        },
+        tripName: {
+            required: true,
+            type: String
+        },
+        listOfTripNames: {
+            required: true,
+            type: Array as PropType<Array<string>>
+        },
+        suggestedNextDests: {
+            required: true,
+            type: Array as PropType<Array<Destination>>
+        }
+    }
+})
+
 
 @Component({
     components: {
@@ -17,12 +40,7 @@ import TripRouteMap from './components/TripRoute.vue';
     }
 })
 
-export default class App extends Vue {
-    @Prop({ required: true }) public listOfDest!: Array<Record<string, Destination>>;
-    @Prop({ required: true }) public tripName!: string;
-    @Prop({ required: true }) public listOfTripNames!: Array<string>;
-    @Prop({ required: true }) public suggestedNextDests!: Destination[];
-}
+export default class App extends TripPlannerAppProps {}
 </script>
 
 

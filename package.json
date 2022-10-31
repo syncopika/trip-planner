@@ -14,8 +14,7 @@
     "core-js": "^3.8.1",
     "mapbox-gl": "^1.13.0",
     "vue": "^2.6.12",
-    "vue-class-component": "^7.2.6",
-    "vue-property-decorator": "^8.5.1"
+    "vue-class-component": "^7.2.6"
   },
   "devDependencies": {
     "@types/jest": "^24.9.1",
@@ -60,7 +59,10 @@
       "@typescript-eslint/no-var-requires": "off",
       "@typescript-eslint/no-unused-vars": "off",
       "@typescript-eslint/ban-ts-ignore": "off",
-	  "indent": ["error", 4]
+      "indent": [
+        "error",
+        4
+      ]
     },
     "overrides": [
       {

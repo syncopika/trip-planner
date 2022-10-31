@@ -78,6 +78,14 @@ maybe a cache thing?
 // seems to be a difference using just `export default` vs `export default Vue.extend` 
 https://stackoverflow.com/questions/55755623/all-vue-props-and-data-give-the-error-property-does-not-exist-on-type-wit
 
+// can use PropType type when specifying a prop type that's not a generic Object
+https://stackoverflow.com/questions/64831745/props-typing-in-vue-js-3-with-typescript
+
+// Vue with Typescript is pretty frustrating sometimes. I tried to do stuff without using 3rd party libs for decorators like vue-property-decorator
+// but it seems to be really hard to do without them?? :sad:
+https://www.reddit.com/r/vuejs/comments/czme8n/switching_to_vue_typescript_makes_it_hard_wait/
+https://github.com/vuejs/vue/issues/8721
+
 TESTING:
 https://stackoverflow.com/questions/42711175/what-does-the-symbol-do-in-javascript-imports - saw this in the test example in tests/unit
 https://technology.doximity.com/articles/five-traps-to-avoid-while-unit-testing-vue-js

@@ -61,7 +61,7 @@ export default Vue.extend({
             const modalHandler = new Modal();
             const newTripName = await modalHandler.createInputModal("please enter the name of the new trip:");
             
-            if(newTripName) {
+            if(newTripName){
                 (this.$root as any).addNewTrip(newTripName);
             }
         },
