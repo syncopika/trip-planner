@@ -217,7 +217,9 @@ export class Modal {
         overpassApiSelect.id = "overpassApiSelect";
         overpassApiSelect.style.margin = '10px';
         overpassApiSelect.disabled = !overpassApiEnabled;
-        ["restaurant", "museum"].forEach(type => {
+
+        const overpassEntities: string[] = currOptions.overpassEntities;
+        overpassEntities.forEach(type => {
             const opt = document.createElement('option');
             opt.value = type;
             opt.textContent = type;
@@ -250,7 +252,9 @@ export class Modal {
         // select for type of map to display
         const mapTypeSelect = document.createElement('select');
         mapTypeSelect.id = "mapTypeSelect";
-        ["watercolor", "terrain", "toner"].forEach(type => {
+
+        const mapTypes = ["watercolor", "terrain", "toner"];
+        mapTypes.forEach(type => {
             const opt = document.createElement('option');
             opt.value = type;
             opt.textContent = type;

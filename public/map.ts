@@ -3,7 +3,12 @@
 
 import mapboxgl, { Map, Marker, Popup } from 'mapbox-gl';
 import { Modal } from '../src/utils/modal';
-import { Destination } from '../src/utils/triproute';
+import {
+    Destination,
+    DestinationSuggestion,
+    UserDestinationSuggestion,
+    OverpassAPIDestinationSuggestion
+} from '../src/utils/triproute';
 
 class MapBoxWrapper {
     key:                string;
@@ -282,8 +287,13 @@ class MapBoxWrapper {
         }
     }
 
-    // TODO: use a type and not any
-    showSuggestedNextHops(listOfLocations: Array<any>): void {
+    appendTextToMarker(container: HTMLDivElement, textContent: string): void {
+        const paragraphElement = document.createElement("p");
+        paragraphElement.textContent = textContent;
+        container.appendChild(paragraphElement);
+    }
+
+    showSuggestedNextHops(listOfLocations: Array<DestinationSuggestion | UserDestinationSuggestion | OverpassAPIDestinationSuggestion>): void {
         // clear first
         for(let marker of this.suggestedNextHops){
             marker.remove();
@@ -294,7 +304,7 @@ class MapBoxWrapper {
         // show markers for suggested next hops
         for(let dest of listOfLocations){
             // make sure to denote these markers in a different way from the user's actual destination markers
-            const newMarker = new mapboxgl.Marker({ color: "#B22222"}); // brickred marker
+            const newMarker = new mapboxgl.Marker({color: "#B22222"}); // brickred marker
 
             const popupContent = document.createElement("div");
 
@@ -305,17 +315,11 @@ class MapBoxWrapper {
             }
 
             if(dest.longitude && dest.latitude) {
-                newMarker.setLngLat([parseFloat(dest.longitude), parseFloat(dest.latitude)]);
+                newMarker.setLngLat([dest.longitude, dest.latitude]);
                 popupContent.appendChild(document.createElement("br"));
                 
-                const destLng = document.createElement("p");
-                destLng.textContent = dest.longitude;
-                
-                const destLat = document.createElement("p");
-                destLat.textContent = dest.latitude;
-                
-                popupContent.appendChild(destLng);
-                popupContent.appendChild(destLat);
+                this.appendTextToMarker(popupContent, `longitude: ${dest.longitude}`);
+                this.appendTextToMarker(popupContent, `latitude: ${dest.latitude}`);
                 
                 // make each suggested next destination selectable as a next destination by the user
                 const selectBtn = document.createElement("button");
@@ -327,6 +331,11 @@ class MapBoxWrapper {
                 });
             }
             
+            if('website' in dest && dest.website){
+                popupContent.appendChild(document.createElement("br"));
+                this.appendTextToMarker(popupContent, `website: ${dest.website}`);
+            }
+
             const popup = new mapboxgl.Popup({ offset: 25 });
             popup.setDOMContent(popupContent);
             newMarker.setPopup(popup);

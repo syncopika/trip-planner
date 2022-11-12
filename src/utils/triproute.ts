@@ -19,13 +19,37 @@ interface DestinationSuggestionMetadata {
 }
 
 export interface DestinationSuggestion {
-    username:   string;
     destname:   string;
-    tripname:   string;	
     latitude:   number;
     longitude:  number;
+}
+
+export interface UserDestinationSuggestion extends DestinationSuggestion {
+    username:   string;
+    tripname:   string;
     index:      number;
     metadata:   DestinationSuggestionMetadata;
+}
+
+export interface OverpassAPIDestinationSuggestion extends DestinationSuggestion {
+    website?:   string;
+    address?:   string;
+    type?:      string;
+}
+
+export interface OverpassAPINode {
+    id:   number;
+    lat:  number;
+    lon:  number;
+    tags: Record<string, string>;
+    type: string;
+}
+
+export interface OverpassAPIData {
+    generator: string;
+    version:   number;
+    osm3s:     Record<string, string>;
+    elements:  OverpassAPINode[]
 }
 
 export interface Trip {

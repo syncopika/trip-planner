@@ -2,7 +2,15 @@ import Vue, {CreateElement, VNode} from 'vue'
 import App from './App.vue'
 import axios from 'axios';
 import { Modal } from './utils/modal';
-import { Destination, DestinationSuggestion, Trip } from './utils/triproute';
+import {
+    Destination,
+    DestinationSuggestion,
+    UserDestinationSuggestion,
+    Trip,
+    OverpassAPINode,
+    OverpassAPIData,
+    OverpassAPIDestinationSuggestion
+} from './utils/triproute';
 
 Vue.config.productionTip = false
 
@@ -54,6 +62,7 @@ new Vue({
         'useOverpassAPI': false,            // flag for using overpass api for getting nearby locations
         'overpassApiEntityToFind': "restaurant",
         'overpassApiKeyToFind': "amenity",
+        // TODO: maybe we can pull these fake suggestions from a json file?
         'fakeSuggestions': [
             {
                 "username": "test_user1",
@@ -118,14 +127,14 @@ new Vue({
         ],
     },
     methods: {
-        requestSuggestedNextHops: function(lat: number, long: number): Promise<DestinationSuggestion[]> {
+        requestSuggestedNextHops: function(lat: number, long: number): Promise<UserDestinationSuggestion[]> {
             //console.log("requesting next hop suggestions");
             return new Promise((resolve) => {
                 // should be based on last destination in list
                 // use 20 km radius for now
                 axios.get(`http://localhost:8081/api/destinations?username=${this.username}&latitude=${lat}&longitude=${long}&radius=${20}`)
                     .then(res => {
-                        const suggestedNextDestinations: DestinationSuggestion[] = (res as any).data.destinations;
+                        const suggestedNextDestinations: UserDestinationSuggestion[] = (res as any).data.destinations;
                         resolve(suggestedNextDestinations);
                     })
                     .catch(error => {
@@ -277,8 +286,8 @@ new Vue({
             }
         },
         
-        // TODO: figure out the correct typing for fakeSuggestions elements and don't use any. they aren't Destination... 
-        getFakeSuggestions: function(): Array<DestinationSuggestion> {
+
+        getFakeSuggestions: function(): Array<UserDestinationSuggestion> {
             // filter based on proximity (this is just for when using fake data. the database is supposed to
             // handle finding the closest destinations)
             const currTripDestList: Array<Destination> = this.tripData[this.currTripIndex].listOfDest;
@@ -286,7 +295,7 @@ new Vue({
                 const lat = (currTripDestList[currTripDestList.length-1].latitude * Math.PI) / 180;
                 const lng = (currTripDestList[currTripDestList.length-1].longitude * Math.PI) / 180;
                 
-                const newSuggestions = this.fakeSuggestions.filter((x: DestinationSuggestion) => {
+                const newSuggestions = this.fakeSuggestions.filter((x: UserDestinationSuggestion) => {
                     const lngRad = (x.longitude * Math.PI) / 180;
                     const latRad = (x.latitude * Math.PI) / 180;
                     return Math.acos(Math.sin(lat) * Math.sin(latRad) + Math.cos(lat) * Math.cos(latRad) * Math.cos(lng - lngRad)) * 6371 <= 20;
@@ -297,11 +306,10 @@ new Vue({
                 return [];
             }
         },
-        
-        // TODO: fix up so that return value is like Promise<DestinationSuggestion[]>?
+
         // keyType is like 'amenity' or 'tourism'
         // entity is like 'restaurant' or 'museum'
-        getLocationsFromOverpass: function(lat: number, long: number, keyType: string, entity: string): Promise<any> {
+        getLocationsFromOverpass: function(lat: number, long: number, keyType: string, entity: string): Promise<OverpassAPIDestinationSuggestion[]> {
             // find 5 museums in a 20000 meter radius at lat, long
             const url = "https://overpass-api.de/api/interpreter";
             const query = `%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%0A(%0Anode%5B%22${keyType}%22%3D%22${entity}%22%5D(around%3A20000%2C${lat}%2C+${long})%3B%0A)%3B%0Aout+body+5%3B%0A%3E%3B%0Aout+skel+qt%3B`;
@@ -311,27 +319,29 @@ new Vue({
                 }
             };
             
-            function getResults(response: any): Array<any> {
-                const elements = response.data.elements;
-                return elements.map((el: any) => {
+            function getResults(responseData: OverpassAPIData): OverpassAPIDestinationSuggestion[] {
+                const elements = responseData.elements;
+                return elements.map((el: OverpassAPINode) => {
+                    // TODO: add address if available (e.g. addr:city, addr:street, addr:state, etc.)
                     return {
                         'latitude': el.lat,
                         'longitude': el.lon,
                         'destname': el.tags.name,
+                        'website': el.tags.website,
                         'type': el.tags.tourism
                     };
                 });
             }
             
             return new Promise((resolve) => {
-                axios.post(url, `data=${query}`, config).then((response) => {
+                axios.post<OverpassAPIData>(url, `data=${query}`, config).then(response => {
                     //console.log(getResults(response));
-                    resolve(getResults(response));
+                    resolve(getResults(response.data));
                 });
             });
         },
         
-        getSuggestionsFromOverpass: function(keyType: string, entity: string): Promise<any> {
+        getSuggestionsFromOverpass: function(keyType: string, entity: string): Promise<Array<OverpassAPIDestinationSuggestion>> {
             const currTripDestList: Array<Destination> = this.tripData[this.currTripIndex].listOfDest;
             return this.getLocationsFromOverpass(
                 currTripDestList[currTripDestList.length-1].latitude,
@@ -345,7 +355,12 @@ new Vue({
             this.useOverpassAPI = val;
             if(val){
                 const overpassApiEntityKeyMap: Record<string, string> = {
+                    "arts_centre": "amenity",
+                    "library": "amenity",
                     "restaurant": "amenity",
+                    "aquarium": "tourism",
+                    "attraction": "tourism",
+                    "hotel": "tourism",
                     "museum": "tourism",
                 };
                 if(entity){
@@ -363,6 +378,15 @@ new Vue({
             return {
                 useOverpassAPI: this.useOverpassAPI,
                 selectedOverpassApiEntity: this.overpassApiEntityToFind,
+                overpassEntities: [
+                    "arts_centre",
+                    "library",
+                    "restaurant",
+                    "aquarium",
+                    "attraction",
+                    "hotel",
+                    "museum",
+                ],
             };
         }
     },
@@ -391,10 +415,8 @@ new Vue({
                 if(this.canGetSuggestedNextDests && !this.useOverpassAPI){
                     // Make a call to the db with the newly added dest's lat and lng to look up possible next hops
                     // when we get that info back, update the prop so the change will get propagated to TripRoute.vue.
-                    
-                    // TODO: setting data to type Destination results in:
-                    // Type 'Destination' is missing the following properties from type 'never[]': length, pop, push, concat, and 28 more.
-                    this.requestSuggestedNextHops(location.latitude, location.longitude).then((data: any) => {
+
+                    this.requestSuggestedNextHops(location.latitude, location.longitude).then((data: DestinationSuggestion[]) => {
                         this.suggestedNextDests = data;
                         this.tripData[this.currTripIndex].listOfDest.push(newDest);
                     });					
@@ -419,7 +441,7 @@ new Vue({
         // for now use 'user1' as the username to demo
         axios.get(`http://localhost:8081/api/user-destinations/${this.username}`)
             .then(res => {
-                this.tripData = res.data.trips;      // get user's trips
+                this.tripData = res.data.trips;       // get user's trips
                 this.canGetSuggestedNextDests = true; // since we can connect to the database
             
                 // get suggested next hops using the currently last destination in the current trip
