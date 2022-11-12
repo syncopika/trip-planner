@@ -19,13 +19,50 @@ interface DestinationSuggestionMetadata {
 }
 
 export interface DestinationSuggestion {
-    username:   string;
     destname:   string;
-    tripname:   string;	
     latitude:   number;
     longitude:  number;
+}
+
+export interface UserDestinationSuggestion extends DestinationSuggestion {
+    username:   string;
+    tripname:   string;
     index:      number;
     metadata:   DestinationSuggestionMetadata;
+}
+
+export interface OverpassAPIDestinationSuggestion extends DestinationSuggestion {
+    website?:   string;
+    address?:   string;
+    type?:      string;
+}
+
+export interface OverpassAPINode {
+    id:   number;
+    lat:  number;
+    lon:  number;
+    tags: Record<string, string>;
+    type: string;
+}
+
+export interface OverpassAPIData {
+    generator: string;
+    version:   number;
+    osm3s:     Record<string, string>;
+    elements:  OverpassAPINode[]
+}
+
+export interface OverpassAPIOptions {
+    useOverpassAPI:            boolean;
+    selectedOverpassApiEntity: string;
+    overpassEntities:          string[]; // TODO: make a type for valid entities?
+}
+
+// selectable options from options modal
+export interface UserSelectedOptionsInModal {
+    dataSource:        'overpassApi' | 'database'; // what data source to get suggested next destinations from
+    overpassApiEntity: string;                     // the selected overpass api entity (e.g. museum, restaurant, hotel, etc.)
+    mapType:           string;                     // selected map type
 }
 
 export interface Trip {
@@ -35,10 +72,10 @@ export interface Trip {
 
 export class TripRoute {
 
-    name:          string;
+    name:         string;
     destinations: Destination[];
 
-    constructor(name: string) {
+    constructor(name: string){
         this.name = name;
         this.destinations = [];
     }

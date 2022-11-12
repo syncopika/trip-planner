@@ -1,3 +1,5 @@
+import { OverpassAPIOptions, UserSelectedOptionsInModal } from './triproute';
+
 export class Modal {
     
     modalStyle: Record<string, string>;
@@ -157,16 +159,15 @@ export class Modal {
             document.body.removeChild(modalOverlay);
         });
     }
-    
-    // TODO: make new type for options? instead of Record<string, string>
-    createOptionsModal(currOptions: Record<string, any>): Promise<Record<string, string>> {
+
+    createOptionsModal(currOptions: OverpassAPIOptions): Promise<UserSelectedOptionsInModal | Record<string, never>> {
         const modal = document.createElement('div');
         modal.id = "modal";
         Object.assign(modal.style, this.modalStyle);
         
         // get current option values so we can set them
-        const overpassApiEnabled: boolean = currOptions.useOverpassAPI;
-        const selectedOverpassApiEntity: string = currOptions.selectedOverpassApiEntity;
+        const overpassApiEnabled = currOptions.useOverpassAPI;
+        const selectedOverpassApiEntity = currOptions.selectedOverpassApiEntity;
 
         const displayText = document.createElement('h1');
         displayText.textContent = "options";
@@ -217,7 +218,9 @@ export class Modal {
         overpassApiSelect.id = "overpassApiSelect";
         overpassApiSelect.style.margin = '10px';
         overpassApiSelect.disabled = !overpassApiEnabled;
-        ["restaurant", "museum"].forEach(type => {
+
+        const overpassEntities: string[] = currOptions.overpassEntities;
+        overpassEntities.forEach(type => {
             const opt = document.createElement('option');
             opt.value = type;
             opt.textContent = type;
@@ -250,7 +253,9 @@ export class Modal {
         // select for type of map to display
         const mapTypeSelect = document.createElement('select');
         mapTypeSelect.id = "mapTypeSelect";
-        ["watercolor", "terrain", "toner"].forEach(type => {
+
+        const mapTypes = ["watercolor", "terrain", "toner"];
+        mapTypes.forEach(type => {
             const opt = document.createElement('option');
             opt.value = type;
             opt.textContent = type;
@@ -276,8 +281,7 @@ export class Modal {
         const cancelBtn = document.createElement('button');
         cancelBtn.innerText = "cancel";
         cancelBtn.style.margin = '6px 6px 6px 3px';
-        
-        //modal.appendChild(document.createElement('br'));
+
         modal.appendChild(okBtn);
         modal.appendChild(cancelBtn);
         
@@ -288,12 +292,12 @@ export class Modal {
         document.body.appendChild(modal);
         document.body.appendChild(modalOverlay);
         
-        return new Promise<Record<string, string>>((resolve) => {
+        return new Promise<UserSelectedOptionsInModal | Record<string, never>>((resolve) => {
             okBtn.onclick = (): void => {
                 resolve({
-                    "dataSource": !overpassApiSelect.disabled ? "overpassApi" : "database",
-                    "overpassApiEntity": overpassApiSelect.value,
-                    "mapType": mapTypeSelect.value,
+                    dataSource: !overpassApiSelect.disabled ? "overpassApi" : "database",
+                    overpassApiEntity: overpassApiSelect.value,
+                    mapType: mapTypeSelect.value,
                 });
             };
             cancelBtn.onclick = (): void => {
