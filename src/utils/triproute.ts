@@ -52,6 +52,19 @@ export interface OverpassAPIData {
     elements:  OverpassAPINode[]
 }
 
+export interface OverpassAPIOptions {
+    useOverpassAPI:            boolean;
+    selectedOverpassApiEntity: string;
+    overpassEntities:          string[]; // TODO: make a type for valid entities?
+}
+
+// selectable options from options modal
+export interface UserSelectedOptionsInModal {
+    dataSource:        'overpassApi' | 'database'; // what data source to get suggested next destinations from
+    overpassApiEntity: string;                     // the selected overpass api entity (e.g. museum, restaurant, hotel, etc.)
+    mapType:           string;                     // selected map type
+}
+
 export interface Trip {
     tripName: string;
     listOfDest: Destination[];
@@ -59,10 +72,10 @@ export interface Trip {
 
 export class TripRoute {
 
-    name:          string;
+    name:         string;
     destinations: Destination[];
 
-    constructor(name: string) {
+    constructor(name: string){
         this.name = name;
         this.destinations = [];
     }

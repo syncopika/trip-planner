@@ -110,6 +110,7 @@ https://stackoverflow.com/questions/57802057/eslint-configuring-no-unused-vars-f
   - @typescript-eslint/no-unused-vars should be set to 'off' but some people are saying 'error' (why?).
 https://stackoverflow.com/questions/25719834/how-can-i-define-a-typescript-object-return-value-for-a-function
 https://github.com/DefinitelyTyped/DefinitelyTyped/issues/14877
+https://stackoverflow.com/questions/45339065/typescript-empty-object-for-a-typed-variable
 
 ========================
 useful mapbox stuff:

@@ -51,6 +51,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { Modal } from "../utils/modal";
+import { OverpassAPIOptions, UserSelectedOptionsInModal } from "../utils/triproute";
 
 export default Vue.extend({
     props: {
@@ -109,8 +110,8 @@ export default Vue.extend({
             const modal = new Modal();
             
             // TODO: change Record<string, string> to a custom type + don't use any
-            const currOptions = (this.$root as any).getCurrentOptions();
-            const data: Record<string, string> = await modal.createOptionsModal(currOptions);
+            const currOptions: OverpassAPIOptions = (this.$root as any).getCurrentOptions();
+            const data: UserSelectedOptionsInModal | Record<string, never> = await modal.createOptionsModal(currOptions);
             
             if(data["mapType"]) this.changeMapStyle(data["mapType"]);
             

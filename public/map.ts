@@ -314,6 +314,11 @@ class MapBoxWrapper {
                 popupContent.appendChild(destName);
             }
 
+            if('website' in dest && dest.website){
+                popupContent.appendChild(document.createElement("br"));
+                this.appendTextToMarker(popupContent, `website: ${dest.website}`);
+            }
+
             if(dest.longitude && dest.latitude) {
                 newMarker.setLngLat([dest.longitude, dest.latitude]);
                 popupContent.appendChild(document.createElement("br"));
@@ -329,11 +334,6 @@ class MapBoxWrapper {
                 selectBtn.addEventListener("click", () => {
                     this.addMarker(dest.latitude, dest.longitude);
                 });
-            }
-            
-            if('website' in dest && dest.website){
-                popupContent.appendChild(document.createElement("br"));
-                this.appendTextToMarker(popupContent, `website: ${dest.website}`);
             }
 
             const popup = new mapboxgl.Popup({ offset: 25 });

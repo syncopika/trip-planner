@@ -9,6 +9,7 @@ import {
     Trip,
     OverpassAPINode,
     OverpassAPIData,
+    OverpassAPIOptions,
     OverpassAPIDestinationSuggestion
 } from './utils/triproute';
 
@@ -134,7 +135,7 @@ new Vue({
                 // use 20 km radius for now
                 axios.get(`http://localhost:8081/api/destinations?username=${this.username}&latitude=${lat}&longitude=${long}&radius=${20}`)
                     .then(res => {
-                        const suggestedNextDestinations: UserDestinationSuggestion[] = (res as any).data.destinations;
+                        const suggestedNextDestinations: UserDestinationSuggestion[] = res.data.destinations;
                         resolve(suggestedNextDestinations);
                     })
                     .catch(error => {
@@ -374,7 +375,7 @@ new Vue({
             }
         },
         
-        getCurrentOptions: function(): Record<string, any> {
+        getCurrentOptions: function(): OverpassAPIOptions {
             return {
                 useOverpassAPI: this.useOverpassAPI,
                 selectedOverpassApiEntity: this.overpassApiEntityToFind,
@@ -449,7 +450,7 @@ new Vue({
                 const lat = currTripDestList[currTripDestList.length-1].latitude;
                 const lng = currTripDestList[currTripDestList.length-1].longitude;
             
-                this.requestSuggestedNextHops(lat, lng).then((data: any) => {
+                this.requestSuggestedNextHops(lat, lng).then((data: DestinationSuggestion[]) => {
                     this.suggestedNextDests = data;
                 });
             })
