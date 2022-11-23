@@ -4,18 +4,18 @@
         <div id='column1'>
             <!-- TODO: make the mapContainer a component that can receive height and width? -->
             <div id='container'>
-                <div id='searchLocationBar'>
-                    <label for='nameOfLocation'>location name: </label>
-                    <input id='nameOfLocation' type='text' />
+                <div id="searchLocationBar">
+                    <label for="nameOfLocation">location name: </label>
+                    <input id="nameOfLocation" type="text" />
                     
-                    <label for='typeOfLocation'> type of location: </label>
-                    <select>
+                    <label for="typeOfLocation"> type of location: </label>
+                    <select id="typeOfLocation">
                         <option> shop </option>
                     </select>
                     
-                    <button id='searchLocationButton'> search </button>
+                    <button id="searchLocationButton" @click="searchLocationWithOverpass"> search </button>
                     
-                    <p id='searchHelp'> help </p>
+                    <p id="searchHelp"> help </p>
                 </div>
                 <iframe id='mapContainer' src='./mapIframe.html'></iframe>
             </div>
@@ -197,6 +197,21 @@ export default class TripRouteMap extends TripRouteMapProps {
         }
     }
     
+    // TODO: use this function to search for location
+    searchLocationWithOverpass(): void {
+        const locationInput = (document.getElementById('nameOfLocation') as HTMLInputElement).value;
+
+        const locationTypeSelect: HTMLSelectElement = document.getElementById('typeOfLocation') as HTMLSelectElement;
+
+        if(locationInput && locationTypeSelect){
+            const locationType = locationTypeSelect.options[locationTypeSelect.selectedIndex].value;
+            console.log(`locationInput: ${locationInput}`);
+            console.log(`locationType: ${locationType}`);
+
+            // search for locations
+        }
+    }
+
     _handleIframeLogs(evt: Event): void {
         console.log(evt);
     }
@@ -318,7 +333,8 @@ label {
     text-decoration: underline;
     color: #2427f0;
     margin-left: 5px;
-    margin-right: 8px;
+    margin-right: 9px;
+    font-weight: bold;
 }
 
 #searchHelp:hover {
