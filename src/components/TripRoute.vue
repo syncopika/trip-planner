@@ -13,7 +13,9 @@
                         <option> shop </option>
                     </select>
                     
-                    <button id="searchLocationButton" @click="searchLocationWithOverpass"> search </button>
+                    <button class="searchLocationButton" @click="searchLocationWithOverpass"> search </button>
+                    
+                    <button class="searchLocationButton" @click="clearSearchResults"> clear </button>
                     
                     <p id="searchHelp"> help </p>
                 </div>
@@ -198,6 +200,7 @@ export default class TripRouteMap extends TripRouteMapProps {
     }
     
     // TODO: use this function to search for location
+    // TODO: allow user to input a long and lat to search around?
     searchLocationWithOverpass(): void {
         const locationInput = (document.getElementById('nameOfLocation') as HTMLInputElement).value;
 
@@ -205,11 +208,17 @@ export default class TripRouteMap extends TripRouteMapProps {
 
         if(locationInput && locationTypeSelect){
             const locationType = locationTypeSelect.options[locationTypeSelect.selectedIndex].value;
-            console.log(`locationInput: ${locationInput}`);
-            console.log(`locationType: ${locationType}`);
 
-            // search for locations
+            // search for locations - this will update the map showing any results found
+            //@ts-ignore
+            this.$root.getSearchResultsFromOverpass(locationType, "name", locationInput).then(data => {
+                this.dispatchEventToMap('showSearchResults', data);
+            });
         }
+    }
+    
+    clearSearchResults(): void {
+        this.dispatchEventToMap('clearSearchResults', []);
     }
 
     _handleIframeLogs(evt: Event): void {

@@ -16,6 +16,7 @@ class MapBoxWrapper {
     map:               Map;
     markers:           Array<Marker>;
     suggestedNextHops: Array<Marker>;
+    searchResults:     Array<Marker>;
     destNames:         Set<string>;
     
     constructor(key: string, mapContainer: HTMLElement){
@@ -23,6 +24,7 @@ class MapBoxWrapper {
         this.container = mapContainer;
         this.markers = [];
         this.suggestedNextHops = [];
+        this.searchResults = [];
         this.destNames = new Set();
         
         // default style that doesn't require a mapbox key
@@ -368,6 +370,63 @@ class MapBoxWrapper {
                 }
             });
         }
+    }
+    
+    showSearchResults(listOfLocations: Array<OverpassAPIDestinationSuggestion>): void {
+        for(let marker of this.searchResults){
+            marker.remove();
+        }
+        
+        this.searchResults = [];
+        
+        for(let dest of listOfLocations){
+            // make sure to denote these markers in a different way from the user's actual destination markers
+            const newMarker = new mapboxgl.Marker({color: "#2ad156"}); // green marker
+
+            const popupContent = document.createElement("div");
+
+            if(dest.destname) {
+                const destName = document.createElement("h3");
+                destName.textContent = dest.destname;
+                popupContent.appendChild(destName);
+            }
+
+            if('website' in dest && dest.website){
+                popupContent.appendChild(document.createElement("br"));
+                this.appendTextToMarker(popupContent, `website: ${dest.website}`);
+            }
+
+            if(dest.longitude && dest.latitude) {
+                newMarker.setLngLat([dest.longitude, dest.latitude]);
+                popupContent.appendChild(document.createElement("br"));
+                
+                this.appendTextToMarker(popupContent, `longitude: ${dest.longitude}`);
+                this.appendTextToMarker(popupContent, `latitude: ${dest.latitude}`);
+                
+                // make each suggested next destination selectable as a next destination by the user
+                const selectBtn = document.createElement("button");
+                selectBtn.textContent = "select as next destination?";
+                popupContent.appendChild(selectBtn);
+                
+                selectBtn.addEventListener("click", () => {
+                    this.addMarker(dest.latitude, dest.longitude);
+                });
+            }
+
+            const popup = new mapboxgl.Popup({ offset: 25 });
+            popup.setDOMContent(popupContent);
+            newMarker.setPopup(popup);
+            newMarker.addTo(this.map);
+            
+            this.searchResults.push(newMarker);
+        }
+    }
+    
+    clearSearchResults(): void {
+        for(let marker of this.searchResults){
+            marker.remove();
+        }
+        this.searchResults = [];
     }
     
     drawLineBetweenMarkers(){

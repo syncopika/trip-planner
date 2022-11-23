@@ -318,8 +318,10 @@ new Vue({
             
             function getResults(responseData: OverpassAPIData): OverpassAPIDestinationSuggestion[] {
                 const elements = responseData.elements;
-                return elements.map((el: OverpassAPINode) => {
+                console.log(elements);
+                return elements.filter(x => x.tags && x.lon && x.lat).map((el: OverpassAPINode) => {
                     // TODO: add address if available (e.g. addr:city, addr:street, addr:state, etc.)
+                    // TODO: maybe let tag info be optional? also, sometimes "way" elements are actual places - can we derive long and lat from its nodes maybe?
                     return {
                         'latitude': el.lat,
                         'longitude': el.lon,
@@ -338,6 +340,7 @@ new Vue({
             });
         },
 
+        // TODO: allow user to set radius?
         // keyType is like 'amenity' or 'tourism'
         // entity is like 'restaurant' or 'museum'
         getLocationsFromOverpass: function(lat: number, long: number, keyType: string, entity: string): Promise<OverpassAPIDestinationSuggestion[]> {
@@ -357,8 +360,9 @@ new Vue({
             return this._makeOverpassRequest(query);
         },
 
+        // TODO: allow user to set radius?
         searchLocationsFromOverpass: function(lat: number, long: number, keyType: string, property: string, valueToFind: string): Promise<OverpassAPIDestinationSuggestion[]> {
-            // find a shop with name as Costco (can also do "operator"= or "brand"=)
+            // find a shop with name as Costco (can also do "operator"= or "brand"=). nwr = node, way, relation
             // %5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%0A(%0A++nwr%5B%22shop%22%5D%5B%22name%22%3D%22Costco%22%5D(around%3A20000%2C38.982833520960156%2C-76.95210937499908)%3B%0A)%3B%0Aout+body%3B%0A%3E%3B%0Aout+skel+qt%3B
             /*
                 [out:json][timeout:25];
@@ -387,6 +391,17 @@ new Vue({
             );
         },
         
+        getSearchResultsFromOverpass: function(keyType: string, property: string, valueToFind: string): Promise<Array<OverpassAPIDestinationSuggestion>> {
+            const currTripDestList: Array<Destination> = this.tripData[this.currTripIndex].listOfDest;
+            return this.searchLocationsFromOverpass(
+                currTripDestList[currTripDestList.length-1].latitude,
+                currTripDestList[currTripDestList.length-1].longitude,
+                keyType,
+                property,
+                valueToFind
+            );
+        },
+
         setOverpassApiUse: function(val: boolean, entity: string): void {
             this.useOverpassAPI = val;
             if(val){
