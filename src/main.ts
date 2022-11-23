@@ -311,7 +311,17 @@ new Vue({
         // keyType is like 'amenity' or 'tourism'
         // entity is like 'restaurant' or 'museum'
         getLocationsFromOverpass: function(lat: number, long: number, keyType: string, entity: string): Promise<OverpassAPIDestinationSuggestion[]> {
-            // find 5 museums in a 20000 meter radius at lat, long
+            /*
+                url-decoded query for finding a certain entity within a 20000m radius
+                
+                [out:json][timeout:25];
+                (
+                node["${keyType}"="${entity}"](around:20000,${lat},+${long});
+                );
+                out+body+5;
+                >;
+                out+skel+qt;
+            */
             const url = "https://overpass-api.de/api/interpreter";
             const query = `%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%0A(%0Anode%5B%22${keyType}%22%3D%22${entity}%22%5D(around%3A20000%2C${lat}%2C+${long})%3B%0A)%3B%0Aout+body+5%3B%0A%3E%3B%0Aout+skel+qt%3B`;
             const config = {

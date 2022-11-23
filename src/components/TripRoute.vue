@@ -2,8 +2,21 @@
     <div id='main'>
         <!-- the map and recommended destinations -->
         <div id='column1'>
-            <!-- make the mapContainer a component that can receive height and width? -->
+            <!-- TODO: make the mapContainer a component that can receive height and width? -->
             <div id='container'>
+                <div id='searchLocationBar'>
+                    <label for='nameOfLocation'>location name: </label>
+                    <input id='nameOfLocation' type='text' />
+                    
+                    <label for='typeOfLocation'> type of location: </label>
+                    <select>
+                        <option> shop </option>
+                    </select>
+                    
+                    <button id='searchLocationButton'> search </button>
+                    
+                    <p id='searchHelp'> help </p>
+                </div>
                 <iframe id='mapContainer' src='./mapIframe.html'></iframe>
             </div>
             
@@ -285,6 +298,38 @@ label {
     flex-grow: 1;
 }
 
+#searchLocationBar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    background-color: #fff;
+}
+
+#searchLocationBar label {
+    font-size: 1.1em;
+}
+
+#searchLocationBar > * {
+    display: inline-block;
+}
+
+#searchHelp {
+    text-decoration: underline;
+    color: #2427f0;
+    margin-left: 5px;
+    margin-right: 8px;
+}
+
+#searchHelp:hover {
+    cursor: pointer;
+}
+
+#searchLocationButton {
+    margin-left: 15px;
+    margin-right: 10px;
+}
+
 ul {
   list-style-type: none;
   padding: 0;
@@ -310,6 +355,11 @@ button {
     color: #fff;
     margin-left: 2px;
     margin-right: 2px;
+}
+
+button:hover {
+    background-color: #5541cc;
+    cursor: pointer;
 }
 
 </style>
