@@ -286,7 +286,6 @@ new Vue({
                 link.click();
             }
         },
-        
 
         getFakeSuggestions: function(): Array<UserDestinationSuggestion> {
             // filter based on proximity (this is just for when using fake data. the database is supposed to

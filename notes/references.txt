@@ -164,6 +164,7 @@ https://stackoverflow.com/questions/60234774/hold-promise-resolve-reject-functio
 https://stackoverflow.com/questions/26140050/why-is-font-family-not-inherited-in-button-tags-automatically/26140154
 https://learnvue.co/2020/01/how-to-add-drag-and-drop-to-your-vuejs-project/#creating-our-template-code
 https://stackoverflow.com/questions/24058241/touch-device-single-and-double-tap-events-handler-jquery-javascript
+https://stackoverflow.com/questions/53240081/css-variables-use-in-vue
 
 ========================
 RESTful API stuff:

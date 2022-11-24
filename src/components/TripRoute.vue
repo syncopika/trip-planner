@@ -17,7 +17,7 @@
                     
                     <button class="searchLocationButton" @click="clearSearchResults"> clear </button>
                     
-                    <p id="searchHelp"> help </p>
+                    <p id="searchHelp" @click="showHelpModal"> help </p>
                 </div>
                 <iframe id='mapContainer' src='./mapIframe.html'></iframe>
             </div>
@@ -211,14 +211,22 @@ export default class TripRouteMap extends TripRouteMapProps {
 
             // search for locations - this will update the map showing any results found
             //@ts-ignore
-            this.$root.getSearchResultsFromOverpass(locationType, "name", locationInput).then(data => {
+            this.$root.getSearchResultsFromOverpass(locationType, "name", locationInput).then(async (data) => {
                 this.dispatchEventToMap('showSearchResults', data);
+                
+                const modal = new Modal();
+                await modal.createMessageModal(`${data.length} result(s) found for: ${locationInput}`);
             });
         }
     }
     
     clearSearchResults(): void {
         this.dispatchEventToMap('clearSearchResults', []);
+    }
+    
+    async showHelpModal(): Promise<void> {
+        const modal = new Modal();
+        await modal.createMessageModal(`This feature allows you to search for a certain location by name using the Overpass API within a 20000m radius of the last destination in your list. Currently it's just for shops (e.g. Costco, Safeway, etc.) and only serves as a minimal example but hopefully more to come eventually!`);
     }
 
     _handleIframeLogs(evt: Event): void {
@@ -256,7 +264,7 @@ export default class TripRouteMap extends TripRouteMapProps {
 h1, h2, label {
     padding: 5px;
     margin: 0;
-    color: #000;
+    color: var(--black);
 }
 
 label {
@@ -266,7 +274,7 @@ label {
 #main {
     display: flex;
     flex-direction: row; /* TODO: flex-direction: column; might be helpful for mobile view? */
-    background-color: black;
+    background-color: var(--black);
 }
 
 #mapContainer {
@@ -282,29 +290,29 @@ label {
 #container {
     position: relative;
     text-align: center;
-    border-top: 1px solid #000;
-    border-left: 1px solid #000;
-    border-bottom: 1px solid #000;
+    border-top: 1px solid var(--black);
+    border-left: 1px solid var(--black);
+    border-bottom: 1px solid var(--black);
     width: 100%;
     padding-top: 93vh;
     overflow: hidden;
 }
 
 #suggestions {
-    border-bottom: 1px solid #000;
-    border-left: 1px solid #000;
+    border-bottom: 1px solid var(--black);
+    border-left: 1px solid var(--black);
     height: auto;
 }
 
 #column1 {
     flex: 3;
-    background-color: #dee6ed;
+    background-color: var(--pale-blue);
 }
 
 #column2 {
     flex: 1;
-    border: 1px solid #000;
-    background-color: #f9f4e1;
+    border: 1px solid var(--black);
+    background-color: var(--pale-yellow);
     padding: 3px;
     display: flex;
     flex-direction: column;
@@ -317,8 +325,8 @@ label {
 }
 
 #tripInfo {
-    background-color: #ebdbd4;
-    border-bottom: 1px solid #000;
+    background-color: var(--pale-orange);
+    border-bottom: 1px solid var(--black);
     flex-grow: 1;
 }
 
@@ -327,7 +335,7 @@ label {
     top: 0;
     left: 0;
     z-index: 100;
-    background-color: #fff;
+    background-color: var(--white);
 }
 
 #searchLocationBar label {
@@ -340,7 +348,7 @@ label {
 
 #searchHelp {
     text-decoration: underline;
-    color: #2427f0;
+    color: var(--bright-blue);
     margin-left: 5px;
     margin-right: 9px;
     font-weight: bold;
@@ -365,26 +373,12 @@ li {
 }
 
 a {
-  color: #000;
+  color: var(--black);
   text-decoration: none;
 }
 
 a:hover {
-    color: #bbb;
-}
-
-button {
-    background-color: #6a5acd;
-    border-radius: 10px;
-    border: 1px solid #483d8b;
-    color: #fff;
-    margin-left: 2px;
-    margin-right: 2px;
-}
-
-button:hover {
-    background-color: #5541cc;
-    cursor: pointer;
+    color: var(--medium-grey);
 }
 
 </style>
