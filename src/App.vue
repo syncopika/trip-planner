@@ -46,28 +46,33 @@ export default class App extends TripPlannerAppProps {}
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import './variables.css';
 
 html, body {
-    font-family: 'Montserrat', Arial, sans-serif;
+    font-family: var(--font-family);
 }
 
 button {
     font-family: inherit;
-    background-color: #6A5ACD;
+    background-color: var(--purple);
     border-radius: 10px;
-    border: 1px solid #483D8B;
-    color: #fff;
+    border: 1px solid var(--dark-slate-blue);
+    color: var(--white);
     margin-left: 2px;
     margin-right: 2px;
 }
 
+button:hover {
+    background-color: var(--dark-purple);
+    cursor: pointer;
+}
+
 
 #app {
-  font-family: 'Montserrat', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: var(--dark-blue);
   height: 100%;
  /* margin-top: 60px;*/
 }

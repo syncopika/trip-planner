@@ -13,6 +13,8 @@ const mapbox = new MapBoxWrapper("", mapContainer); // add token as first argume
 window.document.addEventListener('updateMap', updateMap, false);
 window.document.addEventListener('updateSuggestedNextHops', showSuggestedNextHops, false);
 window.document.addEventListener('changeMapStyle', changeMapStyle, false);
+window.document.addEventListener('showSearchResults', showSearchResults, false);
+window.document.addEventListener('clearSearchResults', clearSearchResults, false);
 
 function updateMap(evt : any){
     // send back logs to parent window to confirm iframe received data
@@ -25,19 +27,41 @@ function updateMap(evt : any){
     mapbox.drawLineBetweenMarkers();
 }
 
+function createAckEvent(message: string){
+    return new CustomEvent('iframeLogs', {detail: message});
+}
+
 function showSuggestedNextHops(evt: any){
-    const ackEvent = new CustomEvent('iframeLogs', {detail: "hi parent, got the data for suggested next hops!"});
-    window.parent.document.dispatchEvent(ackEvent);
+    window.parent.document.dispatchEvent(createAckEvent(
+        "hi parent, got the data for suggested next hops!"
+    ));
 
     // show suggested next hop markers on map
     mapbox.showSuggestedNextHops(evt.detail);
 }
 
 function changeMapStyle(evt: any){
-    const ackEvent = new CustomEvent('iframeLogs', {detail: "hi parent, updating the map style like you asked!"});
-    window.parent.document.dispatchEvent(ackEvent);
+    window.parent.document.dispatchEvent(createAckEvent(
+        "hi parent, updating the map style like you asked!"
+    ));
     
     mapbox.changeMapStyle(evt.detail);
+}
+
+function showSearchResults(evt: any){
+    window.parent.document.dispatchEvent(createAckEvent(
+        "hi parent, got the data for search results!"
+    ));
+    
+    mapbox.showSearchResults(evt.detail);
+}
+
+function clearSearchResults(evt: any){
+    window.parent.document.dispatchEvent(createAckEvent(
+        "hi parent, clearing search results!"
+    ));
+    
+    mapbox.clearSearchResults();
 }
 
 

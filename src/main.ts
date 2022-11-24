@@ -286,7 +286,6 @@ new Vue({
                 link.click();
             }
         },
-        
 
         getFakeSuggestions: function(): Array<UserDestinationSuggestion> {
             // filter based on proximity (this is just for when using fake data. the database is supposed to
@@ -308,12 +307,8 @@ new Vue({
             }
         },
 
-        // keyType is like 'amenity' or 'tourism'
-        // entity is like 'restaurant' or 'museum'
-        getLocationsFromOverpass: function(lat: number, long: number, keyType: string, entity: string): Promise<OverpassAPIDestinationSuggestion[]> {
-            // find 5 museums in a 20000 meter radius at lat, long
+        _makeOverpassRequest: function(query: string): Promise<OverpassAPIDestinationSuggestion[]> {
             const url = "https://overpass-api.de/api/interpreter";
-            const query = `%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%0A(%0Anode%5B%22${keyType}%22%3D%22${entity}%22%5D(around%3A20000%2C${lat}%2C+${long})%3B%0A)%3B%0Aout+body+5%3B%0A%3E%3B%0Aout+skel+qt%3B`;
             const config = {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -322,8 +317,10 @@ new Vue({
             
             function getResults(responseData: OverpassAPIData): OverpassAPIDestinationSuggestion[] {
                 const elements = responseData.elements;
-                return elements.map((el: OverpassAPINode) => {
+                console.log(elements);
+                return elements.filter(x => x.tags && x.lon && x.lat).map((el: OverpassAPINode) => {
                     // TODO: add address if available (e.g. addr:city, addr:street, addr:state, etc.)
+                    // TODO: maybe let tag info be optional? also, sometimes "way" elements are actual places - can we derive long and lat from its nodes maybe?
                     return {
                         'latitude': el.lat,
                         'longitude': el.lon,
@@ -341,7 +338,48 @@ new Vue({
                 });
             });
         },
-        
+
+        // TODO: allow user to set radius?
+        // keyType is like 'amenity' or 'tourism'
+        // entity is like 'restaurant' or 'museum'
+        getLocationsFromOverpass: function(lat: number, long: number, keyType: string, entity: string): Promise<OverpassAPIDestinationSuggestion[]> {
+            /*
+                url-decoded query for finding a certain entity within a 20000m radius
+
+                [out:json][timeout:25];
+                (
+                node["${keyType}"="${entity}"](around:20000,${lat},+${long});
+                );
+                out+body+5;
+                >;
+                out+skel+qt;
+            */
+            const query = `%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%0A(%0Anode%5B%22${keyType}%22%3D%22${entity}%22%5D(around%3A20000%2C${lat}%2C+${long})%3B%0A)%3B%0Aout+body+5%3B%0A%3E%3B%0Aout+skel+qt%3B`;
+
+            return this._makeOverpassRequest(query);
+        },
+
+        // TODO: allow user to set radius?
+        searchLocationsFromOverpass: function(lat: number, long: number, keyType: string, property: string, valueToFind: string): Promise<OverpassAPIDestinationSuggestion[]> {
+            // find a shop with name as Costco (can also do "operator"= or "brand"=). nwr = node, way, relation
+            // %5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%0A(%0A++nwr%5B%22shop%22%5D%5B%22name%22%3D%22Costco%22%5D(around%3A20000%2C38.982833520960156%2C-76.95210937499908)%3B%0A)%3B%0Aout+body%3B%0A%3E%3B%0Aout+skel+qt%3B
+            /*
+                [out:json][timeout:25];
+                (
+                  nwr["shop"]["name"="Costco"](around:20000,38.982833520960156,-76.95210937499908);
+                );
+                out body;
+                >;
+                out skel qt;
+            */
+            // keyType = shop, tourism, amenity
+            // property = name or operator or brand
+            // valueToFind
+            const query = `%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%0A(%0A++nwr%5B%22${keyType}%22%5D%5B%22${property}%22%3D%22${valueToFind}%22%5D(around%3A20000%2C${lat}%2C${long})%3B%0A)%3B%0Aout+body%3B%0A%3E%3B%0Aout+skel+qt%3B`;
+
+            return this._makeOverpassRequest(query);
+        },
+
         getSuggestionsFromOverpass: function(keyType: string, entity: string): Promise<Array<OverpassAPIDestinationSuggestion>> {
             const currTripDestList: Array<Destination> = this.tripData[this.currTripIndex].listOfDest;
             return this.getLocationsFromOverpass(
@@ -352,6 +390,17 @@ new Vue({
             );
         },
         
+        getSearchResultsFromOverpass: function(keyType: string, property: string, valueToFind: string): Promise<Array<OverpassAPIDestinationSuggestion>> {
+            const currTripDestList: Array<Destination> = this.tripData[this.currTripIndex].listOfDest;
+            return this.searchLocationsFromOverpass(
+                currTripDestList[currTripDestList.length-1].latitude,
+                currTripDestList[currTripDestList.length-1].longitude,
+                keyType,
+                property,
+                valueToFind
+            );
+        },
+
         setOverpassApiUse: function(val: boolean, entity: string): void {
             this.useOverpassAPI = val;
             if(val){

@@ -2,8 +2,23 @@
     <div id='main'>
         <!-- the map and recommended destinations -->
         <div id='column1'>
-            <!-- make the mapContainer a component that can receive height and width? -->
+            <!-- TODO: make the mapContainer a component that can receive height and width? -->
             <div id='container'>
+                <div id="searchLocationBar">
+                    <label for="nameOfLocation">location name: </label>
+                    <input id="nameOfLocation" type="text" />
+                    
+                    <label for="typeOfLocation"> type of location: </label>
+                    <select id="typeOfLocation">
+                        <option> shop </option>
+                    </select>
+                    
+                    <button class="searchLocationButton" @click="searchLocationWithOverpass"> search </button>
+                    
+                    <button class="searchLocationButton" @click="clearSearchResults"> clear </button>
+                    
+                    <p id="searchHelp" @click="showHelpModal"> help </p>
+                </div>
                 <iframe id='mapContainer' src='./mapIframe.html'></iframe>
             </div>
             
@@ -184,6 +199,36 @@ export default class TripRouteMap extends TripRouteMapProps {
         }
     }
     
+    // TODO: use this function to search for location
+    // TODO: allow user to input a long and lat to search around?
+    searchLocationWithOverpass(): void {
+        const locationInput = (document.getElementById('nameOfLocation') as HTMLInputElement).value;
+
+        const locationTypeSelect: HTMLSelectElement = document.getElementById('typeOfLocation') as HTMLSelectElement;
+
+        if(locationInput && locationTypeSelect){
+            const locationType = locationTypeSelect.options[locationTypeSelect.selectedIndex].value;
+
+            // search for locations - this will update the map showing any results found
+            //@ts-ignore
+            this.$root.getSearchResultsFromOverpass(locationType, "name", locationInput).then(async (data) => {
+                this.dispatchEventToMap('showSearchResults', data);
+                
+                const modal = new Modal();
+                await modal.createMessageModal(`${data.length} result(s) found for: ${locationInput}`);
+            });
+        }
+    }
+    
+    clearSearchResults(): void {
+        this.dispatchEventToMap('clearSearchResults', []);
+    }
+    
+    async showHelpModal(): Promise<void> {
+        const modal = new Modal();
+        await modal.createMessageModal(`This feature allows you to search for a certain location by name using the Overpass API within a 20000m radius of the last destination in your list. Currently it's just for shops (e.g. Costco, Safeway, etc.) and only serves as a minimal example but hopefully more to come eventually!`);
+    }
+
     _handleIframeLogs(evt: Event): void {
         console.log(evt);
     }
@@ -219,7 +264,7 @@ export default class TripRouteMap extends TripRouteMapProps {
 h1, h2, label {
     padding: 5px;
     margin: 0;
-    color: #000;
+    color: var(--black);
 }
 
 label {
@@ -229,7 +274,7 @@ label {
 #main {
     display: flex;
     flex-direction: row; /* TODO: flex-direction: column; might be helpful for mobile view? */
-    background-color: black;
+    background-color: var(--black);
 }
 
 #mapContainer {
@@ -245,29 +290,29 @@ label {
 #container {
     position: relative;
     text-align: center;
-    border-top: 1px solid #000;
-    border-left: 1px solid #000;
-    border-bottom: 1px solid #000;
+    border-top: 1px solid var(--black);
+    border-left: 1px solid var(--black);
+    border-bottom: 1px solid var(--black);
     width: 100%;
     padding-top: 93vh;
     overflow: hidden;
 }
 
 #suggestions {
-    border-bottom: 1px solid #000;
-    border-left: 1px solid #000;
+    border-bottom: 1px solid var(--black);
+    border-left: 1px solid var(--black);
     height: auto;
 }
 
 #column1 {
     flex: 3;
-    background-color: #dee6ed;
+    background-color: var(--pale-blue);
 }
 
 #column2 {
     flex: 1;
-    border: 1px solid #000;
-    background-color: #f9f4e1;
+    border: 1px solid var(--black);
+    background-color: var(--pale-yellow);
     padding: 3px;
     display: flex;
     flex-direction: column;
@@ -280,9 +325,42 @@ label {
 }
 
 #tripInfo {
-    background-color: #ebdbd4;
-    border-bottom: 1px solid #000;
+    background-color: var(--pale-orange);
+    border-bottom: 1px solid var(--black);
     flex-grow: 1;
+}
+
+#searchLocationBar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    background-color: var(--white);
+}
+
+#searchLocationBar label {
+    font-size: 1.1em;
+}
+
+#searchLocationBar > * {
+    display: inline-block;
+}
+
+#searchHelp {
+    text-decoration: underline;
+    color: var(--bright-blue);
+    margin-left: 5px;
+    margin-right: 9px;
+    font-weight: bold;
+}
+
+#searchHelp:hover {
+    cursor: pointer;
+}
+
+#searchLocationButton {
+    margin-left: 15px;
+    margin-right: 10px;
 }
 
 ul {
@@ -295,21 +373,12 @@ li {
 }
 
 a {
-  color: #000;
+  color: var(--black);
   text-decoration: none;
 }
 
 a:hover {
-    color: #bbb;
-}
-
-button {
-    background-color: #6a5acd;
-    border-radius: 10px;
-    border: 1px solid #483d8b;
-    color: #fff;
-    margin-left: 2px;
-    margin-right: 2px;
+    color: var(--medium-grey);
 }
 
 </style>
