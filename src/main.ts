@@ -286,6 +286,31 @@ new Vue({
                 link.click();
             }
         },
+        
+        // this opens a new tab displaying info for the currently-viewed trip in html
+        exportCurrTripHTML: function(): void {
+            // TODO: improve this some more
+            
+            const currTripName = this.tripData[this.currTripIndex].tripName;
+            const style = "<style>body{font-family:sans-serif;}</style>";
+            
+            let html = `<!doctype html><html><head><title>${currTripName}</title>${style}</head><body><h1>${currTripName}</h1><hr /><br />`;
+            
+            // add in the content
+            const currTripDestList: Array<Destination> = this.tripData[this.currTripIndex].listOfDest;
+            currTripDestList.forEach((destination) => {
+                const tripInfo = `<h2>${destination.name}</h2><h3>from: ${destination.fromDate}, to: ${destination.toDate}</h3><p>${destination.notes}</p><br />`;
+                html += tripInfo;
+            });
+            
+            html += '</body></html>';
+            
+            const tab = window.open("about:blank", currTripName);
+            if(tab){
+                tab.document.write(html);
+                tab.document.close();
+            }
+        },
 
         getFakeSuggestions: function(): Array<UserDestinationSuggestion> {
             // filter based on proximity (this is just for when using fake data. the database is supposed to

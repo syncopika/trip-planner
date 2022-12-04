@@ -165,6 +165,7 @@ https://stackoverflow.com/questions/26140050/why-is-font-family-not-inherited-in
 https://learnvue.co/2020/01/how-to-add-drag-and-drop-to-your-vuejs-project/#creating-our-template-code
 https://stackoverflow.com/questions/24058241/touch-device-single-and-double-tap-events-handler-jquery-javascript
 https://stackoverflow.com/questions/53240081/css-variables-use-in-vue
+https://stackoverflow.com/questions/67290024/how-to-open-a-string-as-a-html-content-in-a-new-tab
 
 ========================
 RESTful API stuff:

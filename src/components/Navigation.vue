@@ -30,7 +30,18 @@
             <input type='file' @change="importData" id='importTripData'>
 
             <li> • </li>
-            <li class="selectOption" @click="exportData"> export </li>
+            <!-- <li class="selectOption" @click="exportData"> export </li> -->
+            <li class='dropdown'>
+                <p class='dropbtn'> export </p>
+                <div class='dropContent'>
+                    <a href="#" @click="exportData">
+                        export .json
+                    </a>
+                    <a href="#" @click="exportCurrTripHTML">
+                        export HTML
+                    </a>
+                </div>
+            </li>
             
             <li> • </li>
             <li class="selectOption" @click="openOptions"> options </li>
@@ -89,6 +100,10 @@ export default Vue.extend({
         exportData: function(): void {
             // call root to download trip data
             (this.$root as any).exportData();
+        },
+        
+        exportCurrTripHTML: function(): void {
+            (this.$root as any).exportCurrTripHTML();
         },
         
         saveData: function(): void {
@@ -167,7 +182,7 @@ export default Vue.extend({
     text-decoration: none;
     display: block;
     border-bottom: 1px solid #000;
-    font-size: 1.5em;
+    font-size: 1.2em;
     background-color: #fff;
     color: #000;
     text-align: center;
