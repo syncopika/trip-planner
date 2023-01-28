@@ -322,6 +322,7 @@ export default Vue.extend({
             imageDiv.style.width = "100%";
             imageDiv.style.textAlign = "center";
             imageDiv.style.overflow = "scroll";
+            imageDiv.style.zIndex = "1010";
 
             document.body.style.overflow = "hidden";
 
@@ -331,6 +332,7 @@ export default Vue.extend({
                 imageDiv?.parentNode?.removeChild(imageDiv);
                 document.body.style.overflow = "visible";
             });
+            enlargedImage.style.marginTop = "1%";
 
             if(document.body.clientHeight < enlargedImage.height ||
                 document.body.clientWidth < enlargedImage.width) {

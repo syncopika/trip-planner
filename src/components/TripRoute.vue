@@ -10,7 +10,9 @@
                     
                     <label for="typeOfLocation"> type of location: </label>
                     <select id="typeOfLocation">
-                        <option> shop </option>
+                        <option v-for="(key, index) in overpassApiKeys" v-bind:key="'option_overpass_key_' + index">  
+                            {{ key }}
+                        </option>
                     </select>
                     
                     <button class="searchLocationButton" @click="searchLocationWithOverpass"> search </button>
@@ -108,6 +110,12 @@ const TripRouteMapProps = Vue.extend({
 export default class TripRouteMap extends TripRouteMapProps {
 
     showSuggestedNextHops = false;
+    
+    // e.g. https://wiki.openstreetmap.org/wiki/Key:amenity
+    overpassApiKeys: string[] = [
+        "shop",
+        "amenity",
+    ];
 
     created(): void {
         this.$watch('listOfDest', (newVal: Array<Destination>) => {
@@ -199,8 +207,9 @@ export default class TripRouteMap extends TripRouteMapProps {
         }
     }
     
-    // TODO: use this function to search for location
+    // use this function to search for location via the Overpass API
     // TODO: allow user to input a long and lat to search around?
+    // TODO: if we get Way elements in the response, can we match to a Node element? compare with results using https://overpass-turbo.eu/
     searchLocationWithOverpass(): void {
         const locationInput = (document.getElementById('nameOfLocation') as HTMLInputElement).value;
 
@@ -226,7 +235,7 @@ export default class TripRouteMap extends TripRouteMapProps {
     
     async showHelpModal(): Promise<void> {
         const modal = new Modal();
-        await modal.createMessageModal(`This feature allows you to search for a certain location by name using the Overpass API within a 20000m radius of the last destination in your list. Currently it's just for shops (e.g. Costco, Safeway, etc.) and only serves as a minimal example but hopefully more to come eventually!`);
+        await modal.createMessageModal(`This feature allows you to search for a certain location by name using the Overpass API within a 20000m radius of the last destination in your list. Currently you can only query for shops (e.g. Costco, Safeway, etc.) or amenities (e.g. McDonald's, see https://wiki.openstreetmap.org/wiki/Key:amenity) but hopefully more to come eventually!`);
     }
 
     _handleIframeLogs(evt: Event): void {
@@ -335,7 +344,7 @@ label {
     top: 0;
     left: 0;
     z-index: 100;
-    background-color: var(--white);
+    background-color: var(--transparent-white);
 }
 
 #searchLocationBar label {

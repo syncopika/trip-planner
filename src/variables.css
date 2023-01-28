@@ -11,4 +11,5 @@
     --dark-slate-blue: #483d8b;
     --purple: #6a5acd;
     --dark-purple: #5541cc;
+    --transparent-white: rgba(255, 255, 255, 0.5);
 }
