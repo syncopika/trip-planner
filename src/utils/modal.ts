@@ -160,7 +160,7 @@ export class Modal {
         });
     }
 
-    createOptionsModal(currOptions: OverpassAPIOptions): Promise<UserSelectedOptionsInModal | Record<string, never>> {
+    createOptionsModal(currOptions: OverpassAPIOptions): Promise<UserSelectedOptionsInModal | Record<string, string>> {
         const modal = document.createElement('div');
         modal.id = "modal";
         Object.assign(modal.style, this.modalStyle);
@@ -273,6 +273,28 @@ export class Modal {
         
         modal.appendChild(document.createElement('hr'));
         
+        // select theme
+        const themeSelect = document.createElement('select');
+        themeSelect.id = "themeSelect";
+        const themes = ["pastel", "gray"];
+        themes.forEach(themeName => {
+            const themeOption = document.createElement('option');
+            themeOption.textContent = themeName;
+            themeOption.value = themeName;
+            themeSelect.appendChild(themeOption);
+        });
+        themeSelect.style.margin = "3px";
+        
+        const themeSelectLabel = document.createElement('label');
+        themeSelectLabel.htmlFor = "themeSelect";
+        themeSelectLabel.textContent = "theme: ";
+        themeSelectLabel.style.fontSize = "14px";
+        
+        modal.appendChild(themeSelectLabel);
+        modal.appendChild(themeSelect);
+        
+        modal.appendChild(document.createElement('hr'));
+        
         // ok, cancel buttons
         const okBtn = document.createElement('button');
         okBtn.innerText = "ok";
@@ -292,12 +314,13 @@ export class Modal {
         document.body.appendChild(modal);
         document.body.appendChild(modalOverlay);
         
-        return new Promise<UserSelectedOptionsInModal | Record<string, never>>((resolve) => {
+        return new Promise<UserSelectedOptionsInModal | Record<string, string>>((resolve) => {
             okBtn.onclick = (): void => {
                 resolve({
                     dataSource: !overpassApiSelect.disabled ? "overpassApi" : "database",
                     overpassApiEntity: overpassApiSelect.value,
                     mapType: mapTypeSelect.value,
+                    theme: themeSelect.value,
                 });
             };
             cancelBtn.onclick = (): void => {

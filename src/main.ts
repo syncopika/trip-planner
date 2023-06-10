@@ -449,7 +449,7 @@ new Vue({
             }
         },
         
-        getCurrentOptions: function(): OverpassAPIOptions {
+        getCurrentOverpassAPIOptions: function(): OverpassAPIOptions {
             return {
                 useOverpassAPI: this.useOverpassAPI,
                 selectedOverpassApiEntity: this.overpassApiEntityToFind,

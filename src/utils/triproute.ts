@@ -63,6 +63,7 @@ export interface UserSelectedOptionsInModal {
     dataSource:        'overpassApi' | 'database'; // what data source to get suggested next destinations from
     overpassApiEntity: string;                     // the selected overpass api entity (e.g. museum, restaurant, hotel, etc.)
     mapType:           string;                     // selected map type
+    theme:             string;
 }
 
 export interface Trip {

@@ -388,9 +388,9 @@ export default Vue.extend({
 
             // why 5600??
             if(colorWheelContext) {
-                for(let angle = 0;angle <= 5600;angle++) {
+                for(let angle = 0; angle <= 5600; angle++) {
                     const startAngle = (angle - 2) * Math.PI / 180; //convert angles to radians
-                    const endAngle = (angle) * Math.PI / 180;
+                    const endAngle = angle * Math.PI / 180;
                     colorWheelContext.beginPath();
                     colorWheelContext.moveTo(x, y);
                     //.arc(x, y, radius, startAngle, endAngle, anticlockwise)
@@ -461,7 +461,7 @@ export default Vue.extend({
     textarea {
         font-family: inherit;
         background-color: transparent;
-        color: #000;
+        color: var(--black);
     }
     
     h3 {
@@ -474,10 +474,10 @@ export default Vue.extend({
 
     button {
         font-family: inherit;
-        background-color: #6A5ACD;
+        background-color: var(--btn-bg-color);
         border-radius: 10px;
-        border: 1px solid #483D8B;
-        color: #fff;
+        border: 1px solid var(--btn-border-color);
+        color: var(--btn-text-color);
         display: inline;
         margin-left: 2px;
         margin-right: 2px;
@@ -489,8 +489,8 @@ export default Vue.extend({
     }
 
     li {
-        color: #000;
-        background-color: #daf08b;
+        color: var(--destination-text-color);
+        background-color: var(--destination-bg-color);
     }
 
     label {
@@ -500,12 +500,12 @@ export default Vue.extend({
     img {
         height: 15%;
         width: 15%;
-        border:  1px solid #000;
+        border:  1px solid var(--black);
     }
 
     .dest {
         padding: 3px;
-        border: 2px solid #000;
+        border: 2px solid var(--black);
         /*border-radius: 15px;*/
         text-align: center;
     }
@@ -527,7 +527,7 @@ export default Vue.extend({
     }
 
     .delete {
-        color: #8b0000;
+        color: var(--dark-red);
         font-weight: bold;
         display: inline;
         font-size: 2em;

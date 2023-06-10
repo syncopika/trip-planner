@@ -54,16 +54,16 @@ html, body {
 
 button {
     font-family: inherit;
-    background-color: var(--purple);
+    background-color: var(--btn-bg-color);
     border-radius: 10px;
-    border: 1px solid var(--dark-slate-blue);
-    color: var(--white);
+    border: 1px solid var(--btn-border-color);
+    color: var(--btn-text-color);
     margin-left: 2px;
     margin-right: 2px;
 }
 
 button:hover {
-    background-color: var(--dark-purple);
+    background-color: var(--btn-hover-color);
     cursor: pointer;
 }
 
@@ -72,7 +72,7 @@ button:hover {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: var(--dark-blue);
+  color: var(--app-text-color);
   height: 100%;
  /* margin-top: 60px;*/
 }
