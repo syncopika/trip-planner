@@ -315,13 +315,13 @@ label {
 
 #column1 {
     flex: 3;
-    background-color: var(--pale-blue);
+    background-color: var(--column-1-bg-color);
 }
 
 #column2 {
     flex: 1;
     border: 1px solid var(--black);
-    background-color: var(--pale-yellow);
+    background-color: var(--column-2-bg-color);
     padding: 3px;
     display: flex;
     flex-direction: column;
@@ -334,7 +334,7 @@ label {
 }
 
 #tripInfo {
-    background-color: var(--pale-orange);
+    background-color: var(--destination-list-bg-color);
     border-bottom: 1px solid var(--black);
     flex-grow: 1;
 }

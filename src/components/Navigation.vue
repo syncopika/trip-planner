@@ -35,7 +35,7 @@
                 <p class='dropbtn'> export </p>
                 <div class='dropContent'>
                     <a href="#" @click="exportData">
-                        export .json
+                        export JSON
                     </a>
                     <a href="#" @click="exportCurrTripHTML">
                         export HTML
@@ -121,14 +121,34 @@ export default Vue.extend({
             }
         },
         
+        // update the style theme
+        // TODO: store theme data somewhere else?
+        changeStyleTheme(themeName: string): void {
+            if(themeName === "pastel"){
+                document.documentElement.style.setProperty('--menu-header-bg-color', 'var(--pale-yellow)');
+                document.documentElement.style.setProperty('--destination-bg-color', 'var(--yellow-green)');
+                document.documentElement.style.setProperty('--column-1-bg-color', 'var(--pale-blue)');
+                document.documentElement.style.setProperty('--column-2-bg-color', 'var(--pale-yellow)');
+                document.documentElement.style.setProperty('--destination-list-bg-color', 'var(--pale-orange)');
+            }else if(themeName === "gray"){
+                document.documentElement.style.setProperty('--menu-header-bg-color', 'var(--light-gray)');
+                document.documentElement.style.setProperty('--destination-bg-color', 'var(--white)');
+                document.documentElement.style.setProperty('--column-1-bg-color', 'var(--light-gray)');
+                document.documentElement.style.setProperty('--column-2-bg-color', 'var(--grayish-red)');
+                document.documentElement.style.setProperty('--destination-list-bg-color', 'var(--light-grayish-orange)');
+            }
+        },
+        
         openOptions: async function(): Promise<void> {
             const modal = new Modal();
             
-            // TODO: change Record<string, string> to a custom type + don't use any
-            const currOptions: OverpassAPIOptions = (this.$root as any).getCurrentOptions();
+            // TODO: don't use any
+            const currOptions: OverpassAPIOptions = (this.$root as any).getCurrentOverpassAPIOptions();
             const data: UserSelectedOptionsInModal | Record<string, never> = await modal.createOptionsModal(currOptions);
             
+            // execute some changes based on selected options
             if(data["mapType"]) this.changeMapStyle(data["mapType"]);
+            if(data["theme"]) this.changeStyleTheme(data["theme"]);
             
             this.$emit('update-options', data);
         }
@@ -138,7 +158,7 @@ export default Vue.extend({
 
 <style scoped>
 #menuHeader {
-    background-color: #f9f4e1;
+    background-color: var(--menu-header-bg-color);
     padding: 2px;
     padding-right: 5px;
     text-align: right;
@@ -161,13 +181,13 @@ export default Vue.extend({
 }
 
 .selectOption:hover {
-    color: #aaabbb;
+    color: var(--select-option-hover-color);
     cursor: pointer;
 }
 
 .dropbtn:hover {
     cursor: pointer;
-    color: #aaabbb;
+    color: var(--grayish-blue);
 }
 
 .dropContent {
@@ -181,15 +201,15 @@ export default Vue.extend({
     padding: 2px 5px;
     text-decoration: none;
     display: block;
-    border-bottom: 1px solid #000;
+    border-bottom: 1px solid var(--black);
     font-size: 1.2em;
-    background-color: #fff;
-    color: #000;
+    background-color: var(--drop-content-anchor-bg-color);
+    color: var(--drop-content-anchor-text-color);
     text-align: center;
 }
 
 .dropContent a:hover { 
-    background-color: #ddd
+    background-color: var(--drop-content-anchor-hover-color);
 }
 
 .dropdown:hover .dropContent { 

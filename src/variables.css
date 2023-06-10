@@ -1,15 +1,41 @@
 :root {
     --font-family: "Montserrat", Arial, sans-serif;
+    
+    /* colors */
     --white: #fff;
     --black: #000;
     --medium-grey: #bbb;
+    --light-gray: #d1d1d1;
+    --very-light-gray: #ddd;
+    --grayish-red: #d3cfcf;
+    --light-grayish-orange: #dbd8d6;
+    --grayish-blue: #aaabbb;
     --bright-blue: #2427f0;
     --pale-blue: #dee6ed;
     --pale-yellow: #f9f4e1;
     --pale-orange: #ebdbd4;
+    --yellow-green: #daf08b;
     --dark-blue: #2c3e50;
     --dark-slate-blue: #483d8b;
+    --dark-red: #8b0000;
     --purple: #6a5acd;
     --dark-purple: #5541cc;
     --transparent-white: rgba(255, 255, 255, 0.5);
+    
+    /* theme-related variables and their default values */
+    --btn-bg-color: #6a5acd;
+    --btn-border-color: #483d8b;
+    --btn-text-color: #fff;
+    --btn-hover-color: #5541cc;
+    --app-text-color: #2c3e50;
+    --menu-header-bg-color: #f9f4e1;
+    --destination-bg-color: #daf08b;
+    --destination-text-color: #000;
+    --select-option-hover-color: #aaabbb;
+    --drop-content-anchor-bg-color: #fff;
+    --drop-content-anchor-text-color: #000;
+    --drop-content-anchor-hover-color: #ddd;
+    --column-1-bg-color: #dee6ed;
+    --column-2-bg-color: #f9f4e1;
+    --destination-list-bg-color: #ebdbd4;
 }

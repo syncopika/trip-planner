@@ -176,7 +176,7 @@ export class Modal {
         modal.appendChild(document.createElement('hr'));
         
         const destinationSuggestionSourceText = document.createElement('p');
-        destinationSuggestionSourceText.textContent = "choose source for destination suggestions:";
+        destinationSuggestionSourceText.textContent = "source for destination suggestions:";
         modal.appendChild(destinationSuggestionSourceText);
         
         // database option radio button
@@ -261,7 +261,7 @@ export class Modal {
             opt.textContent = type;
             mapTypeSelect.appendChild(opt);
         });
-        mapTypeSelect.style.margin = "3px";
+        mapTypeSelect.style.marginBottom = "6px";
         
         const mapTypeSelectLabel = document.createElement('label');
         mapTypeSelectLabel.htmlFor = "mapTypeSelect";
@@ -270,6 +270,28 @@ export class Modal {
         
         modal.appendChild(mapTypeSelectLabel);
         modal.appendChild(mapTypeSelect);
+        
+        modal.appendChild(document.createElement('br'));
+        
+        // select theme
+        const themeSelect = document.createElement('select');
+        themeSelect.id = "themeSelect";
+        const themes = ["pastel", "gray"];
+        themes.forEach(themeName => {
+            const themeOption = document.createElement('option');
+            themeOption.textContent = themeName;
+            themeOption.value = themeName;
+            themeSelect.appendChild(themeOption);
+        });
+        themeSelect.style.marginTop = "6px";
+        
+        const themeSelectLabel = document.createElement('label');
+        themeSelectLabel.htmlFor = "themeSelect";
+        themeSelectLabel.textContent = "theme: ";
+        themeSelectLabel.style.fontSize = "14px";
+        
+        modal.appendChild(themeSelectLabel);
+        modal.appendChild(themeSelect);
         
         modal.appendChild(document.createElement('hr'));
         
@@ -298,9 +320,11 @@ export class Modal {
                     dataSource: !overpassApiSelect.disabled ? "overpassApi" : "database",
                     overpassApiEntity: overpassApiSelect.value,
                     mapType: mapTypeSelect.value,
+                    theme: themeSelect.value,
                 });
             };
             cancelBtn.onclick = (): void => {
+                // TODO: maybe just return an object with all the keys set to empty values?
                 resolve({});
             };
         }).finally((): void => {
