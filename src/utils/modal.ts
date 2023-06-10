@@ -160,7 +160,7 @@ export class Modal {
         });
     }
 
-    createOptionsModal(currOptions: OverpassAPIOptions): Promise<UserSelectedOptionsInModal | Record<string, string>> {
+    createOptionsModal(currOptions: OverpassAPIOptions): Promise<UserSelectedOptionsInModal | Record<string, never>> {
         const modal = document.createElement('div');
         modal.id = "modal";
         Object.assign(modal.style, this.modalStyle);
@@ -176,7 +176,7 @@ export class Modal {
         modal.appendChild(document.createElement('hr'));
         
         const destinationSuggestionSourceText = document.createElement('p');
-        destinationSuggestionSourceText.textContent = "choose source for destination suggestions:";
+        destinationSuggestionSourceText.textContent = "source for destination suggestions:";
         modal.appendChild(destinationSuggestionSourceText);
         
         // database option radio button
@@ -261,7 +261,7 @@ export class Modal {
             opt.textContent = type;
             mapTypeSelect.appendChild(opt);
         });
-        mapTypeSelect.style.margin = "3px";
+        mapTypeSelect.style.marginBottom = "6px";
         
         const mapTypeSelectLabel = document.createElement('label');
         mapTypeSelectLabel.htmlFor = "mapTypeSelect";
@@ -271,7 +271,7 @@ export class Modal {
         modal.appendChild(mapTypeSelectLabel);
         modal.appendChild(mapTypeSelect);
         
-        modal.appendChild(document.createElement('hr'));
+        modal.appendChild(document.createElement('br'));
         
         // select theme
         const themeSelect = document.createElement('select');
@@ -283,7 +283,7 @@ export class Modal {
             themeOption.value = themeName;
             themeSelect.appendChild(themeOption);
         });
-        themeSelect.style.margin = "3px";
+        themeSelect.style.marginTop = "6px";
         
         const themeSelectLabel = document.createElement('label');
         themeSelectLabel.htmlFor = "themeSelect";
@@ -314,7 +314,7 @@ export class Modal {
         document.body.appendChild(modal);
         document.body.appendChild(modalOverlay);
         
-        return new Promise<UserSelectedOptionsInModal | Record<string, string>>((resolve) => {
+        return new Promise<UserSelectedOptionsInModal | Record<string, never>>((resolve) => {
             okBtn.onclick = (): void => {
                 resolve({
                     dataSource: !overpassApiSelect.disabled ? "overpassApi" : "database",
@@ -324,6 +324,7 @@ export class Modal {
                 });
             };
             cancelBtn.onclick = (): void => {
+                // TODO: maybe just return an object with all the keys set to empty values?
                 resolve({});
             };
         }).finally((): void => {

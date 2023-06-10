@@ -49,7 +49,7 @@ export interface OverpassAPIData {
     generator: string;
     version:   number;
     osm3s:     Record<string, string>;
-    elements:  OverpassAPINode[]
+    elements:  OverpassAPINode[];
 }
 
 export interface OverpassAPIOptions {

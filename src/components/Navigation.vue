@@ -35,7 +35,7 @@
                 <p class='dropbtn'> export </p>
                 <div class='dropContent'>
                     <a href="#" @click="exportData">
-                        export .json
+                        export JSON
                     </a>
                     <a href="#" @click="exportCurrTripHTML">
                         export HTML
@@ -142,9 +142,9 @@ export default Vue.extend({
         openOptions: async function(): Promise<void> {
             const modal = new Modal();
             
-            // TODO: change Record<string, string> to a custom type + don't use any
+            // TODO: don't use any
             const currOptions: OverpassAPIOptions = (this.$root as any).getCurrentOverpassAPIOptions();
-            const data: UserSelectedOptionsInModal | Record<string, string> = await modal.createOptionsModal(currOptions);
+            const data: UserSelectedOptionsInModal | Record<string, never> = await modal.createOptionsModal(currOptions);
             
             // execute some changes based on selected options
             if(data["mapType"]) this.changeMapStyle(data["mapType"]);
