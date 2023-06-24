@@ -128,6 +128,7 @@ new Vue({
         ],
     },
     methods: {
+        // get next destination suggestions from database
         requestSuggestedNextHops: function(lat: number, long: number): Promise<UserDestinationSuggestion[]> {
             //console.log("requesting next hop suggestions");
             return new Promise((resolve) => {
@@ -449,10 +450,12 @@ new Vue({
             }
         },
         
+        // get the Overpass API entity options available to search for
         getCurrentOverpassAPIOptions: function(): OverpassAPIOptions {
             return {
                 useOverpassAPI: this.useOverpassAPI,
                 selectedOverpassApiEntity: this.overpassApiEntityToFind,
+                // TODO: store these entities in a map somewhere so we don't need to also update setOverpassApiUse()
                 overpassEntities: [
                     "arts_centre",
                     "library",
@@ -463,6 +466,18 @@ new Vue({
                     "museum",
                 ],
             };
+        },
+        
+        getNextDestSuggestions: function(): void {
+            if(this.useOverpassAPI){
+                //@ts-ignore TODO: investigate this? (TS-2339)
+                this.getSuggestionsFromOverpass(this.overpassApiKeyToFind, this.overpassApiEntityToFind).then((data) => {
+                    this.suggestedNextDests = data;
+                });
+            }else{
+                //@ts-ignore TODO: investigate this? (TS-2339)
+                this.suggestedNextDests = this.getFakeSuggestions();
+            }
         }
     },
 	
@@ -490,7 +505,6 @@ new Vue({
                 if(this.canGetSuggestedNextDests && !this.useOverpassAPI){
                     // Make a call to the db with the newly added dest's lat and lng to look up possible next hops
                     // when we get that info back, update the prop so the change will get propagated to TripRoute.vue.
-
                     this.requestSuggestedNextHops(location.latitude, location.longitude).then((data: DestinationSuggestion[]) => {
                         this.suggestedNextDests = data;
                         this.tripData[this.currTripIndex].listOfDest.push(newDest);
@@ -498,16 +512,7 @@ new Vue({
                 }else{
                     // for demoing
                     this.tripData[this.currTripIndex].listOfDest.push(newDest);
-                    
-                    if(this.useOverpassAPI){
-                        //@ts-ignore TODO: investigate this? (TS-2339)
-                        this.getSuggestionsFromOverpass(this.overpassApiKeyToFind, this.overpassApiEntityToFind).then((data) => {
-                            this.suggestedNextDests = data;
-                        });
-                    }else{
-                        //@ts-ignore TODO: investigate this? (TS-2339)
-                        this.suggestedNextDests = this.getFakeSuggestions();
-                    }
+                    this.getNextDestSuggestions();
                 }
             }
         });
@@ -532,14 +537,7 @@ new Vue({
                 // database couldn't be connected to
                 // we can't get suggested next hops when a new destination is added
                 // use fake data instead for now
-                
-                if(this.useOverpassAPI){
-                    this.getSuggestionsFromOverpass(this.overpassApiKeyToFind, this.overpassApiEntityToFind).then((data) => {
-                        this.suggestedNextDests = data;
-                    });
-                }else{
-                    this.suggestedNextDests = this.getFakeSuggestions();
-                }
+                this.getNextDestSuggestions();
             });
     }
 }).$mount('#app') // #app is in /public/index.html
