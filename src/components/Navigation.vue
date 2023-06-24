@@ -68,6 +68,14 @@ export default Vue.extend({
     props: {
         listOfTripNames: { required: true, type: Array }
     },
+    data: function(){
+        // default option values 
+        // TODO: make a type for these
+        return {
+            mapType: "watercolor",
+            theme: "pastel",
+        }
+    },
     methods: {
         addNewTrip: async function(): Promise<void> {
             const modalHandler = new Modal();
@@ -136,19 +144,34 @@ export default Vue.extend({
                 document.documentElement.style.setProperty('--column-1-bg-color', 'var(--light-gray)');
                 document.documentElement.style.setProperty('--column-2-bg-color', 'var(--grayish-red)');
                 document.documentElement.style.setProperty('--destination-list-bg-color', 'var(--light-grayish-orange)');
+            }else if(themeName === "beach"){
+                // https://colorhunt.co/palette/9ac5f499dbf5a7eceeffeebb
+                document.documentElement.style.setProperty('--menu-header-bg-color', 'var(--soft-blue)');
+                document.documentElement.style.setProperty('--destination-bg-color', 'var(--sky-blue)');
+                document.documentElement.style.setProperty('--column-1-bg-color', 'var(--sky-blue)');
+                document.documentElement.style.setProperty('--column-2-bg-color', 'var(--pale-turquoise)');
+                document.documentElement.style.setProperty('--destination-list-bg-color', 'var(--oasis)');
             }
         },
         
         openOptions: async function(): Promise<void> {
             const modal = new Modal();
             
-            // TODO: don't use any
-            const currOptions: OverpassAPIOptions = (this.$root as any).getCurrentOverpassAPIOptions();
-            const data: UserSelectedOptionsInModal | Record<string, never> = await modal.createOptionsModal(currOptions);
+            // TODO: don't use any + create type for otherOptions
+            const overpassOptions: OverpassAPIOptions = (this.$root as any).getCurrentOverpassAPIOptions();
+            const otherOptions: Record<string, string> = {mapType: this.mapType, theme: this.theme};
+            
+            const data: UserSelectedOptionsInModal | Record<string, never> = await modal.createOptionsModal(overpassOptions, otherOptions);
             
             // execute some changes based on selected options
-            if(data["mapType"]) this.changeMapStyle(data["mapType"]);
-            if(data["theme"]) this.changeStyleTheme(data["theme"]);
+            if(data["mapType"]){
+                this.changeMapStyle(data["mapType"]);
+                this.mapType = data["mapType"];
+            }
+            if(data["theme"]){
+                this.changeStyleTheme(data["theme"]);
+                this.theme = data["theme"];
+            }
             
             this.$emit('update-options', data);
         }

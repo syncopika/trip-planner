@@ -160,14 +160,15 @@ export class Modal {
         });
     }
 
-    createOptionsModal(currOptions: OverpassAPIOptions): Promise<UserSelectedOptionsInModal | Record<string, never>> {
+    // TODO: just one options object?
+    createOptionsModal(overpassOptions: OverpassAPIOptions, otherOptions: Record<string, string>): Promise<UserSelectedOptionsInModal | Record<string, never>> {
         const modal = document.createElement('div');
         modal.id = "modal";
         Object.assign(modal.style, this.modalStyle);
         
         // get current option values so we can set them
-        const overpassApiEnabled = currOptions.useOverpassAPI;
-        const selectedOverpassApiEntity = currOptions.selectedOverpassApiEntity;
+        const overpassApiEnabled = overpassOptions.useOverpassAPI;
+        const selectedOverpassApiEntity = overpassOptions.selectedOverpassApiEntity;
 
         const displayText = document.createElement('h1');
         displayText.textContent = "options";
@@ -219,7 +220,7 @@ export class Modal {
         overpassApiSelect.style.margin = '10px';
         overpassApiSelect.disabled = !overpassApiEnabled;
 
-        const overpassEntities: string[] = currOptions.overpassEntities;
+        const overpassEntities: string[] = overpassOptions.overpassEntities;
         overpassEntities.forEach(type => {
             const opt = document.createElement('option');
             opt.value = type;
@@ -259,6 +260,11 @@ export class Modal {
             const opt = document.createElement('option');
             opt.value = type;
             opt.textContent = type;
+            
+            if(otherOptions.mapType && otherOptions.mapType === type){
+                opt.setAttribute('selected', 'true');
+            }
+            
             mapTypeSelect.appendChild(opt);
         });
         mapTypeSelect.style.marginBottom = "6px";
@@ -276,11 +282,16 @@ export class Modal {
         // select theme
         const themeSelect = document.createElement('select');
         themeSelect.id = "themeSelect";
-        const themes = ["pastel", "gray"];
+        const themes = ["pastel", "gray", "beach"];
         themes.forEach(themeName => {
             const themeOption = document.createElement('option');
             themeOption.textContent = themeName;
             themeOption.value = themeName;
+            
+            if(otherOptions.theme && otherOptions.theme === themeName){
+                themeOption.setAttribute('selected', 'true');
+            }
+            
             themeSelect.appendChild(themeOption);
         });
         themeSelect.style.marginTop = "6px";

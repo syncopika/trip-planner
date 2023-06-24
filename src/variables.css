@@ -20,6 +20,10 @@
     --dark-red: #8b0000;
     --purple: #6a5acd;
     --dark-purple: #5541cc;
+    --soft-blue: #9ac5f4;
+    --sky-blue: #99dbf5;
+    --pale-turquoise: #a7ecee;
+    --oasis: #ffeebb;
     --transparent-white: rgba(255, 255, 255, 0.5);
     
     /* theme-related variables and their default values */
