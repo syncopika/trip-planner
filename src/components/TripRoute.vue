@@ -282,8 +282,16 @@ label {
 
 #main {
     display: flex;
-    flex-direction: row; /* TODO: flex-direction: column; might be helpful for mobile view? */
+    flex-direction: row;
     background-color: var(--black);
+}
+
+@media screen and (max-width: 800px) {
+    #main {
+        display: flex;
+        flex-direction: column;
+        background-color: var(--black);
+    }
 }
 
 #mapContainer {
