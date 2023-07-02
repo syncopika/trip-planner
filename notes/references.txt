@@ -168,6 +168,7 @@ https://stackoverflow.com/questions/53240081/css-variables-use-in-vue
 https://stackoverflow.com/questions/67290024/how-to-open-a-string-as-a-html-content-in-a-new-tab
 https://stackoverflow.com/questions/37801882/how-to-change-css-root-color-variables-in-javascript
 https://stackoverflow.com/questions/9686538/align-labels-in-form-next-to-input
+https://www.jenniferbland.com/how-to-reduce-your-vue-js-bundle-size-with-webpack/
 
 ========================
 RESTful API stuff:
