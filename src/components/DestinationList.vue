@@ -80,6 +80,7 @@ export default class DestinationList extends DestinationListProps {
             data.name = destinationData.name;
             data.latitude = parseFloat(destinationData.latitude);
             data.longitude = parseFloat(destinationData.longitude);
+            data.notes = destinationData.notes;
             
             if(!isNaN(data.latitude) && !isNaN(data.longitude)){
                 console.log("adding new destination manually");

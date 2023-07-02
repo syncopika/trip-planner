@@ -355,6 +355,11 @@ export class Modal {
         displayText.textContent = "destination details";
         modal.appendChild(displayText);
         
+        const inputsDiv = document.createElement('div');
+        inputsDiv.style.display = "grid";
+        inputsDiv.style.gridTemplateColumns = "1fr 50%";
+        inputsDiv.style.gridGap = "8px";
+        
         // destination name
         const destinationName = document.createElement('input');
         destinationName.type = "text";
@@ -363,13 +368,12 @@ export class Modal {
         destinationName.id = "destinationName";
         
         const destinationNameLabel = document.createElement('label');
-        destinationNameLabel.textContent = "destination name: ";
+        destinationNameLabel.textContent = "name: ";
         destinationNameLabel.htmlFor = "destinationName";
         destinationNameLabel.style.fontSize = "18px";
         
-        modal.appendChild(destinationNameLabel);
-        modal.appendChild(destinationName);
-        modal.appendChild(document.createElement('br'));
+        inputsDiv.appendChild(destinationNameLabel);
+        inputsDiv.appendChild(destinationName);
         
         // latitude
         const destinationLat = document.createElement('input');
@@ -383,9 +387,8 @@ export class Modal {
         destinationLatLabel.htmlFor = "destinationLat";
         destinationLatLabel.style.fontSize = "18px";
         
-        modal.appendChild(destinationLatLabel);
-        modal.appendChild(destinationLat);
-        modal.appendChild(document.createElement('br'));
+        inputsDiv.appendChild(destinationLatLabel);
+        inputsDiv.appendChild(destinationLat);
         
         // longitude
         const destinationLong = document.createElement('input');
@@ -399,8 +402,20 @@ export class Modal {
         destinationLongLabel.htmlFor = "destinationLong";
         destinationLongLabel.style.fontSize = "18px";
         
-        modal.appendChild(destinationLongLabel);
-        modal.appendChild(destinationLong);
+        inputsDiv.appendChild(destinationLongLabel);
+        inputsDiv.appendChild(destinationLong);
+        
+        const destinationNotes = document.createElement('textarea');
+        destinationNotes.id = "destinationNotes";
+        const destinationNotesLabel = document.createElement('label');
+        destinationNotesLabel.textContent = "notes: ";
+        destinationNotesLabel.htmlFor = "destinationNotes";
+        destinationNotesLabel.style.fontSize = "18px";
+        
+        inputsDiv.appendChild(destinationNotesLabel);
+        inputsDiv.appendChild(destinationNotes);
+        
+        modal.appendChild(inputsDiv);
         modal.appendChild(document.createElement('br'));
         
         const modalOverlay = document.createElement('div');
@@ -425,6 +440,7 @@ export class Modal {
                     name: destinationName.value,
                     latitude: destinationLat.value,
                     longitude: destinationLong.value,
+                    notes: destinationNotes.value,
                 };
                 
                 if(data.name === "" || data.latitude === "" || data.longitude === ""){
