@@ -1,4 +1,5 @@
 <template>
+    <div>
         <ul 
             id="stops"
             @drop="onDrop" 
@@ -13,6 +14,8 @@
             >
             </destination>
         </ul>
+        <button @click="addDestinationManually"> add destination manually </button>
+    </div>
 </template>
 
 
@@ -20,6 +23,7 @@
 import Vue, { PropType } from 'vue';
 import Component from 'vue-class-component';
 import { Destination as DestinationInterface } from '../utils/triproute';
+import { Modal } from "../utils/modal";
 import Destination from './Destination.vue';
 
 const DestinationListProps = Vue.extend({
@@ -54,6 +58,34 @@ export default class DestinationList extends DestinationListProps {
                     const targetElementIndex = this.listOfDest.findIndex(dest => dest.name === targetName);
                     this.listOfDest.splice(targetElementIndex, 0, this.listOfDest.splice(currDraggedElementIndex, 1)[0]);
                 }
+            }
+        }
+    }
+    
+    async addDestinationManually(): Promise<void> {
+        const data: DestinationInterface = {
+            name: "",
+            toDate:     "",
+            fromDate:   "",
+            latitude:   0,
+            longitude:  0,
+            notes:      "",
+            images:     [],
+            routeColor: "#888",
+        };
+        
+        const modal = new Modal();
+        const destinationData: Record<string, string> = await modal.addNewDestinationModal();
+        if(destinationData.name && destinationData.latitude && destinationData.longitude){
+            data.name = destinationData.name;
+            data.latitude = parseFloat(destinationData.latitude);
+            data.longitude = parseFloat(destinationData.longitude);
+            
+            if(!isNaN(data.latitude) && !isNaN(data.longitude)){
+                console.log("adding new destination manually");
+                // update data source with new info
+                //@ts-ignore 
+                this.$root.addNewDestination(data);
             }
         }
     }

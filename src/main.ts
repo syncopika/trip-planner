@@ -221,6 +221,20 @@ new Vue({
             }
         },
         
+        // add new destination manually via button
+        addNewDestination(newDest: Destination): void {
+            // add the new destination to our current list
+            this.tripData[this.currTripIndex].listOfDest.push(newDest);
+            
+            // make sure map markers are updated
+            const updateMapEvent = new CustomEvent('updateMap', {detail: this.tripData[this.currTripIndex].listOfDest});
+            const mapIframe = document.getElementById('mapContainer') as HTMLIFrameElement;
+
+            if(mapIframe !== null && mapIframe.contentDocument !== null){
+                mapIframe.contentDocument.dispatchEvent(updateMapEvent);
+            }
+        },
+        
         addNewTrip: function(name: string): void {
             // TODO: check for existing trip name? allow duplicate names?
             const newTrip = {
