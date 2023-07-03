@@ -14,7 +14,7 @@
             >
             </destination>
         </ul>
-        <button @click="addDestinationManually"> add destination manually </button>
+        <button @click="addDestinationManually"> add destination </button>
     </div>
 </template>
 
