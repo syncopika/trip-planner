@@ -1,6 +1,11 @@
 <template>
   <div id="app">
-    <trip-route-map :list-of-dest="listOfDest" :trip-name="tripName" :list-of-trip-names="listOfTripNames" :suggestedNextDests="suggestedNextDests">
+    <trip-route-map 
+        :list-of-dest="listOfDest" 
+        :trip-name="tripName" 
+        :list-of-trip-names="listOfTripNames" 
+        :suggestedNextDests="suggestedNextDests"
+    >
     </trip-route-map>
   </div>
 </template>

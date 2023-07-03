@@ -532,6 +532,10 @@ export default Vue.extend({
         display: inline;
         font-size: 2em;
     }
+    
+    .delete:hover {
+        cursor: pointer;
+    }
 
     .inputFile {
         display: none;

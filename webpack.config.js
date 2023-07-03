@@ -5,6 +5,8 @@
 
 //const path = require('path');
 
+const bundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 module.exports = {
     entry: './public/iframeSetup.ts',
     module: {
@@ -23,4 +25,5 @@ module.exports = {
         filename: 'bundle.js',
         path: __dirname + '/public',
     },
+    plugins: [new bundleAnalyzerPlugin()],
 };

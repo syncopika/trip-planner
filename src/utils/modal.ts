@@ -160,7 +160,7 @@ export class Modal {
         });
     }
 
-    // TODO: just one options object?
+    // TODO: just one options object? instead of a separate one for overpass options
     createOptionsModal(overpassOptions: OverpassAPIOptions, otherOptions: Record<string, string>): Promise<UserSelectedOptionsInModal | Record<string, never>> {
         const modal = document.createElement('div');
         modal.id = "modal";
@@ -339,6 +339,121 @@ export class Modal {
                 resolve({});
             };
         }).finally((): void => {
+            document.body.removeChild(modal);
+            document.body.removeChild(modalOverlay);
+        });
+    }
+    
+    // modal for adding a new destination manually
+    // TODO: make a specific type instead of using Record<string, string>
+    addNewDestinationModal(): Promise<Record<string, string>> {
+        const modal = document.createElement('div');
+        modal.id = "modal";
+        Object.assign(modal.style, this.modalStyle);
+        
+        const displayText = document.createElement('h1');
+        displayText.textContent = "destination details";
+        modal.appendChild(displayText);
+        
+        const inputsDiv = document.createElement('div');
+        inputsDiv.style.display = "grid";
+        inputsDiv.style.gridTemplateColumns = "1fr 50%";
+        inputsDiv.style.gridGap = "8px";
+        
+        // destination name
+        const destinationName = document.createElement('input');
+        destinationName.type = "text";
+        destinationName.name = "destinationName";
+        destinationName.value = "";
+        destinationName.id = "destinationName";
+        
+        const destinationNameLabel = document.createElement('label');
+        destinationNameLabel.textContent = "name: ";
+        destinationNameLabel.htmlFor = "destinationName";
+        destinationNameLabel.style.fontSize = "18px";
+        
+        inputsDiv.appendChild(destinationNameLabel);
+        inputsDiv.appendChild(destinationName);
+        
+        // latitude
+        const destinationLat = document.createElement('input');
+        destinationLat.type = "text";
+        destinationLat.name = "destinationLat";
+        destinationLat.value = "";
+        destinationLat.id = "destinationLat";
+        
+        const destinationLatLabel = document.createElement('label');
+        destinationLatLabel.textContent = "latitude: ";
+        destinationLatLabel.htmlFor = "destinationLat";
+        destinationLatLabel.style.fontSize = "18px";
+        
+        inputsDiv.appendChild(destinationLatLabel);
+        inputsDiv.appendChild(destinationLat);
+        
+        // longitude
+        const destinationLong = document.createElement('input');
+        destinationLong.type = "text";
+        destinationLong.name = "longitude: ";
+        destinationLong.value = "";
+        destinationLong.id = "destinationLong";
+        
+        const destinationLongLabel = document.createElement('label');
+        destinationLongLabel.textContent = "longitude: ";
+        destinationLongLabel.htmlFor = "destinationLong";
+        destinationLongLabel.style.fontSize = "18px";
+        
+        inputsDiv.appendChild(destinationLongLabel);
+        inputsDiv.appendChild(destinationLong);
+        
+        const destinationNotes = document.createElement('textarea');
+        destinationNotes.id = "destinationNotes";
+        const destinationNotesLabel = document.createElement('label');
+        destinationNotesLabel.textContent = "notes: ";
+        destinationNotesLabel.htmlFor = "destinationNotes";
+        destinationNotesLabel.style.fontSize = "18px";
+        
+        inputsDiv.appendChild(destinationNotesLabel);
+        inputsDiv.appendChild(destinationNotes);
+        
+        modal.appendChild(inputsDiv);
+        modal.appendChild(document.createElement('br'));
+        
+        const modalOverlay = document.createElement('div');
+        modalOverlay.id = "modal-overlay";
+        Object.assign(modalOverlay.style, this.modalOverlayStyle);
+        
+        document.body.appendChild(modal);
+        document.body.appendChild(modalOverlay);
+        
+        const okBtn = document.createElement('button');
+        okBtn.innerText = "ok";
+        
+        const cancelBtn = document.createElement('button');
+        cancelBtn.innerText = "cancel";
+        
+        modal.appendChild(okBtn);
+        modal.appendChild(cancelBtn);
+        
+        return new Promise<Record<string, string>>((resolve) => {
+            okBtn.onclick = (): void => {
+                const data = {
+                    name: destinationName.value,
+                    latitude: destinationLat.value,
+                    longitude: destinationLong.value,
+                    notes: destinationNotes.value,
+                };
+                
+                if(data.name === "" || data.latitude === "" || data.longitude === ""){
+                    resolve({});
+                }else{
+                    resolve(data);
+                }
+            };
+            cancelBtn.onclick = (): void => {
+                resolve({});
+            };
+        }).finally((): void => {
+            // make sure to close modal
             document.body.removeChild(modal);
             document.body.removeChild(modalOverlay);
         });

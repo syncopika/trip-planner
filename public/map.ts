@@ -11,7 +11,7 @@ import {
 } from '../src/utils/triproute';
 
 class MapBoxWrapper {
-    key:                string;
+    key:               string;
     container:         HTMLElement;
     map:               Map;
     markers:           Array<Marker>;
