@@ -24,7 +24,7 @@
                 <iframe id='mapContainer' src='./mapIframe.html'></iframe>
             </div>
             
-            <div id='suggestions'>
+            <div v-if="appearanceOptions.showSuggestedDestinations" id='suggestions'>
                 <label for="tripSuggestionsOption"> 
                     show suggestions for next dest in trip route? 
                 </label>

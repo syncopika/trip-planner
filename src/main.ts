@@ -75,6 +75,7 @@ new Vue({
         } as Record<string, string>,
         'appearanceOptions': {
             'showLocationLookup': false,
+            'showSuggestedDestinations': false,
         },
         // TODO: maybe we can pull these fake suggestions from a json file?
         'fakeSuggestions': [
@@ -482,6 +483,7 @@ new Vue({
         
         updateAppearancePerOptions: function(options: Record<string, string>): void {
             this.appearanceOptions.showLocationLookup = options["showLocationLookup"] === "true";
+            this.appearanceOptions.showSuggestedDestinations = options["showSuggestedDestinations"] === "true";
         },
         
         // get the Overpass API entity options available to search for

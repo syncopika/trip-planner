@@ -75,6 +75,7 @@ export default Vue.extend({
             mapType: "watercolor",
             theme: "pastel",
             showLocationLookup: false,
+            showSuggestedDestinations: false,
         }
     },
     methods: {
@@ -164,23 +165,27 @@ export default Vue.extend({
                 mapType: this.mapType, 
                 theme: this.theme,
                 showLocationLookup: this.showLocationLookup.toString(),
+                showSuggestedDestinations: this.showSuggestedDestinations.toString(),
             };
             
-            const data: UserSelectedOptionsInModal | Record<string, never> = await modal.createOptionsModal(overpassOptions, otherOptions);
+            const data: UserSelectedOptionsInModal | null = await modal.createOptionsModal(overpassOptions, otherOptions);
             
-            // execute some changes based on selected options
-            // TODO: should this component really be making these changes? maybe have TripRoute.vue handle it? (or whoever is receiving the event emitted)
-            if(data["mapType"]){
-                this.changeMapStyle(data["mapType"]);
-                this.mapType = data["mapType"];
+            if(data != null){
+                // execute some changes based on selected options
+                // TODO: should this component really be making these changes? maybe have TripRoute.vue handle it? (or whoever is receiving the event emitted)
+                if(data["mapType"]){
+                    this.changeMapStyle(data["mapType"]);
+                    this.mapType = data["mapType"];
+                }
+                if(data["theme"]){
+                    this.changeStyleTheme(data["theme"]);
+                    this.theme = data["theme"];
+                }
+                this.showLocationLookup = data["showLocationLookup"] === "true";
+                this.showSuggestedDestinations = data["showSuggestedDestinations"] === "true";
+                
+                this.$emit('update-options', data);
             }
-            if(data["theme"]){
-                this.changeStyleTheme(data["theme"]);
-                this.theme = data["theme"];
-            }
-            this.showLocationLookup = data["showLocationLookup"];
-            
-            this.$emit('update-options', data);
         }
     }
 });
