@@ -74,6 +74,7 @@ export default Vue.extend({
         return {
             mapType: "watercolor",
             theme: "pastel",
+            showLocationLookup: false,
         }
     },
     methods: {
@@ -159,11 +160,16 @@ export default Vue.extend({
             
             // TODO: don't use any + create type for otherOptions
             const overpassOptions: OverpassAPIOptions = (this.$root as any).getCurrentOverpassAPIOptions();
-            const otherOptions: Record<string, string> = {mapType: this.mapType, theme: this.theme};
+            const otherOptions: Record<string, string> = {
+                mapType: this.mapType, 
+                theme: this.theme,
+                showLocationLookup: this.showLocationLookup.toString(),
+            };
             
             const data: UserSelectedOptionsInModal | Record<string, never> = await modal.createOptionsModal(overpassOptions, otherOptions);
             
             // execute some changes based on selected options
+            // TODO: should this component really be making these changes? maybe have TripRoute.vue handle it? (or whoever is receiving the event emitted)
             if(data["mapType"]){
                 this.changeMapStyle(data["mapType"]);
                 this.mapType = data["mapType"];
@@ -172,6 +178,7 @@ export default Vue.extend({
                 this.changeStyleTheme(data["theme"]);
                 this.theme = data["theme"];
             }
+            this.showLocationLookup = data["showLocationLookup"];
             
             this.$emit('update-options', data);
         }

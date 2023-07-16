@@ -169,6 +169,8 @@ https://stackoverflow.com/questions/67290024/how-to-open-a-string-as-a-html-cont
 https://stackoverflow.com/questions/37801882/how-to-change-css-root-color-variables-in-javascript
 https://stackoverflow.com/questions/9686538/align-labels-in-form-next-to-input
 https://www.jenniferbland.com/how-to-reduce-your-vue-js-bundle-size-with-webpack/
+https://stackoverflow.com/questions/27877741/how-to-dynamically-generate-a-google-map-base-on-an-address
+https://stackoverflow.com/questions/1801732/how-do-i-link-to-google-maps-with-a-particular-longitude-and-latitude
 
 ========================
 RESTful API stuff:

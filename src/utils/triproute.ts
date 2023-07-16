@@ -60,10 +60,11 @@ export interface OverpassAPIOptions {
 
 // selectable options from options modal
 export interface UserSelectedOptionsInModal {
-    dataSource:        'overpassApi' | 'database'; // what data source to get suggested next destinations from
-    overpassApiEntity: string;                     // the selected overpass api entity (e.g. museum, restaurant, hotel, etc.)
-    mapType:           string;                     // selected map type
-    theme:             string;
+    dataSource:               'overpassApi' | 'database'; // what data source to get suggested next destinations from
+    overpassApiEntity:        string;                     // the selected overpass api entity (e.g. museum, restaurant, hotel, etc.)
+    mapType:                  string;                     // selected map type
+    theme:                    string;
+    showLocationLookup:       string;
 }
 
 export interface Trip {
@@ -72,7 +73,6 @@ export interface Trip {
 }
 
 export class TripRoute {
-
     name:         string;
     destinations: Destination[];
 

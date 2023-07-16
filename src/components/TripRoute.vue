@@ -4,7 +4,7 @@
         <div id='column1'>
             <!-- TODO: make the mapContainer a component that can receive height and width? -->
             <div id='container'>
-                <div id="searchLocationBar">
+                <div v-if="appearanceOptions.showLocationLookup" id="searchLocationBar">
                     <label for="nameOfLocation">location name: </label>
                     <input id="nameOfLocation" type="text" />
                     
@@ -96,7 +96,11 @@ const TripRouteMapProps = Vue.extend({
         suggestedNextDests: {
             required: true,
             type: Array as PropType<Array<Destination>>
-        }
+        },
+        appearanceOptions: {
+            required: true,
+            type: Object as PropType<Record<string, any>>
+        },
     }
 })
 
@@ -155,6 +159,9 @@ export default class TripRouteMap extends TripRouteMapProps {
             //@ts-ignore TODO: can we fix this without ignoring? (TS-2339)
             this.$root.setOverpassApiUse(false);
         }
+        
+        //@ts-ignore TODO: can we fix this without ignoring? (TS-2339)
+        this.$root.updateAppearancePerOptions(value);
     }
     
     updateMap(data: Array<Destination>): void {

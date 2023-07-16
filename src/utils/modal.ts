@@ -165,6 +165,12 @@ export class Modal {
         const modal = document.createElement('div');
         modal.id = "modal";
         Object.assign(modal.style, this.modalStyle);
+        modal.style.textAlign = ""; // no center alignment for options
+        
+        const experimentalNoteText = document.createElement('p');
+        experimentalNoteText.textContent = "this feature is experimental. please don't expect too much :)";
+        experimentalNoteText.style.fontWeight = "bold";
+        experimentalNoteText.style.fontSize = "12px";
         
         // get current option values so we can set them
         const overpassApiEnabled = overpassOptions.useOverpassAPI;
@@ -176,8 +182,42 @@ export class Modal {
         modal.appendChild(displayText);
         modal.appendChild(document.createElement('hr'));
         
+        // options related to location lookup via Overpass API within radius
+        const locationLookupSectionText = document.createElement('p');
+        locationLookupSectionText.textContent = "location lookup";
+        locationLookupSectionText.style.fontSize = "18px";
+        locationLookupSectionText.style.margin = "0";
+        modal.appendChild(locationLookupSectionText);
+        modal.appendChild(experimentalNoteText.cloneNode(true));
+        
+        const toggleLocationSearchBar = document.createElement('input');
+        toggleLocationSearchBar.id = "toggleLocationSearch";
+        toggleLocationSearchBar.name = "toggleLocationSearch";
+        toggleLocationSearchBar.type = "checkbox";
+        if(otherOptions.showLocationLookup) toggleLocationSearchBar.checked = otherOptions.showLocationLookup === "true";
+        
+        const toggleLocationSearchLabel = document.createElement('label');
+        toggleLocationSearchLabel.htmlFor = toggleLocationSearchBar.id;
+        toggleLocationSearchLabel.style.fontSize = "14px";
+        toggleLocationSearchLabel.textContent = "show location search bar:";
+        
+        // TODO: add input to allow user to set radius of lookup
+        
+        modal.appendChild(toggleLocationSearchLabel);
+        modal.appendChild(toggleLocationSearchBar);
+        modal.appendChild(document.createElement('hr'));
+        
+        // options related to destination suggestions
+        const destinationSuggestionSectionText = document.createElement('p');
+        destinationSuggestionSectionText.textContent = "destination suggestions";
+        destinationSuggestionSectionText.style.fontSize = "18px";
+        destinationSuggestionSectionText.style.margin = "0";
+        modal.appendChild(destinationSuggestionSectionText);
+        modal.appendChild(experimentalNoteText.cloneNode(true));
+        
         const destinationSuggestionSourceText = document.createElement('p');
-        destinationSuggestionSourceText.textContent = "source for destination suggestions:";
+        destinationSuggestionSourceText.textContent = "source:";
+        destinationSuggestionSourceText.style.margin = "0";
         modal.appendChild(destinationSuggestionSourceText);
         
         // database option radio button
@@ -208,7 +248,7 @@ export class Modal {
         const overpassApiOptionLabel = document.createElement('label');
         overpassApiOptionLabel.textContent = "Overpass API";
         overpassApiOptionLabel.htmlFor = "overpassApiOption";
-        overpassApiOptionLabel.style.fontSize = "18px";
+        overpassApiOptionLabel.style.fontSize = "16px";
         
         modal.appendChild(overpassApiOption);
         modal.appendChild(overpassApiOptionLabel);
@@ -217,7 +257,7 @@ export class Modal {
         // select for type of suggested destinations to show
         const overpassApiSelect = document.createElement('select');
         overpassApiSelect.id = "overpassApiSelect";
-        overpassApiSelect.style.margin = '10px';
+        overpassApiSelect.style.marginTop = "10px";
         overpassApiSelect.disabled = !overpassApiEnabled;
 
         const overpassEntities: string[] = overpassOptions.overpassEntities;
@@ -250,6 +290,13 @@ export class Modal {
         modal.appendChild(overpassApiSelect);
         
         modal.appendChild(document.createElement('hr'));
+        
+        // options related to appearance of trip-planner
+        const appearanceOptionsSectionText = document.createElement('p');
+        appearanceOptionsSectionText.textContent = "appearance";
+        appearanceOptionsSectionText.style.fontSize = "18px";
+        appearanceOptionsSectionText.style.margin = "0 0 5px 0";
+        modal.appendChild(appearanceOptionsSectionText);
         
         // select for type of map to display
         const mapTypeSelect = document.createElement('select');
@@ -294,7 +341,6 @@ export class Modal {
             
             themeSelect.appendChild(themeOption);
         });
-        themeSelect.style.marginTop = "6px";
         
         const themeSelectLabel = document.createElement('label');
         themeSelectLabel.htmlFor = "themeSelect";
@@ -332,6 +378,7 @@ export class Modal {
                     overpassApiEntity: overpassApiSelect.value,
                     mapType: mapTypeSelect.value,
                     theme: themeSelect.value,
+                    showLocationLookup: toggleLocationSearchBar.checked.toString(),
                 });
             };
             cancelBtn.onclick = (): void => {

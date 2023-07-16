@@ -25,6 +25,7 @@ new Vue({
                 'tripName': this.tripData[this.currTripIndex].tripName,
                 'listOfTripNames': this.tripData.map(trip => trip.tripName),
                 'suggestedNextDests': this.suggestedNextDests, // should be based on last destination in listOfDest
+                'appearanceOptions': this.appearanceOptions,
             }
         });
     },
@@ -63,6 +64,18 @@ new Vue({
         'useOverpassAPI': false,            // flag for using overpass api for getting nearby locations
         'overpassApiEntityToFind': "restaurant",
         'overpassApiKeyToFind': "amenity",
+        'overpassApiEntityKeyMap': {
+            "arts_centre": "amenity",
+            "library": "amenity",
+            "restaurant": "amenity",
+            "aquarium": "tourism",
+            "attraction": "tourism",
+            "hotel": "tourism",
+            "museum": "tourism",
+        } as Record<string, string>,
+        'appearanceOptions': {
+            'showLocationLookup': false,
+        },
         // TODO: maybe we can pull these fake suggestions from a json file?
         'fakeSuggestions': [
             {
@@ -147,8 +160,8 @@ new Vue({
         
         findDestination: function(destName: string): boolean {
             const listOfDest = this.tripData[this.currTripIndex].listOfDest;
-            for (const dest of listOfDest) {
-                if (dest.name === destName) {
+            for(const dest of listOfDest){
+                if(dest.name === destName){
                     return true;
                 }
             }
@@ -305,16 +318,27 @@ new Vue({
         // this opens a new tab displaying info for the currently-viewed trip in html
         exportCurrTripHTML: function(): void {
             // TODO: improve this some more
-            
             const currTripName = this.tripData[this.currTripIndex].tripName;
             const style = "<style>body{font-family:sans-serif;}</style>";
             
             let html = `<!doctype html><html><head><title>${currTripName}</title>${style}</head><body><h1>${currTripName}</h1><hr /><br />`;
             
+            let tripInfo = "";
+            
             // add in the content
             const currTripDestList: Array<Destination> = this.tripData[this.currTripIndex].listOfDest;
             currTripDestList.forEach((destination) => {
-                const tripInfo = `<h2>${destination.name}</h2><h3>from: ${destination.fromDate}, to: ${destination.toDate}</h3><p>${destination.notes}</p><br />`;
+                const lngLatMatch = destination.notes.match(/@[0-9]+.[0-9]+,[0-9]+.[0-9]+/g);
+                if(lngLatMatch){
+                    // add embedded map if we can extract a location
+                    const location = lngLatMatch[0].substring(1);
+                    const embeddedMap = `<iframe src='https://maps.google.com/maps?&q=${location}&output=embed' width='425' height='350' frameborder='0'  
+        scrolling='no' marginheight='0' marginwidth='0'></iframe>`;
+                    tripInfo = `<h2>${destination.name}</h2><h3>from: ${destination.fromDate}, to: ${destination.toDate}</h3><p>${destination.notes}</p>${embeddedMap}<br />`;
+                }else{
+                    tripInfo = `<h2>${destination.name}</h2><h3>from: ${destination.fromDate}, to: ${destination.toDate}</h3><p>${destination.notes}</p><br />`;
+                }
+                
                 html += tripInfo;
             });
             
@@ -444,15 +468,7 @@ new Vue({
         setOverpassApiUse: function(val: boolean, entity: string): void {
             this.useOverpassAPI = val;
             if(val){
-                const overpassApiEntityKeyMap: Record<string, string> = {
-                    "arts_centre": "amenity",
-                    "library": "amenity",
-                    "restaurant": "amenity",
-                    "aquarium": "tourism",
-                    "attraction": "tourism",
-                    "hotel": "tourism",
-                    "museum": "tourism",
-                };
+                const overpassApiEntityKeyMap = this.overpassApiEntityKeyMap;
                 if(entity){
                     this.overpassApiEntityToFind = entity;
                     this.overpassApiKeyToFind = overpassApiEntityKeyMap[entity];
@@ -464,21 +480,16 @@ new Vue({
             }
         },
         
+        updateAppearancePerOptions: function(options: Record<string, string>): void {
+            this.appearanceOptions.showLocationLookup = options["showLocationLookup"] === "true";
+        },
+        
         // get the Overpass API entity options available to search for
         getCurrentOverpassAPIOptions: function(): OverpassAPIOptions {
             return {
                 useOverpassAPI: this.useOverpassAPI,
                 selectedOverpassApiEntity: this.overpassApiEntityToFind,
-                // TODO: store these entities in a map somewhere so we don't need to also update setOverpassApiUse()
-                overpassEntities: [
-                    "arts_centre",
-                    "library",
-                    "restaurant",
-                    "aquarium",
-                    "attraction",
-                    "hotel",
-                    "museum",
-                ],
+                overpassEntities: Object.keys(this.overpassApiEntityKeyMap),
             };
         },
         
@@ -537,12 +548,12 @@ new Vue({
             .then(res => {
                 this.tripData = res.data.trips;       // get user's trips
                 this.canGetSuggestedNextDests = true; // since we can connect to the database
-            
+
                 // get suggested next hops using the currently last destination in the current trip
                 const currTripDestList: Array<Destination> = this.tripData[this.currTripIndex].listOfDest;
                 const lat = currTripDestList[currTripDestList.length-1].latitude;
                 const lng = currTripDestList[currTripDestList.length-1].longitude;
-            
+
                 this.requestSuggestedNextHops(lat, lng).then((data: DestinationSuggestion[]) => {
                     this.suggestedNextDests = data;
                 });

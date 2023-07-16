@@ -5,6 +5,7 @@
         :trip-name="tripName" 
         :list-of-trip-names="listOfTripNames" 
         :suggestedNextDests="suggestedNextDests"
+        :appearanceOptions="appearanceOptions"
     >
     </trip-route-map>
   </div>
@@ -34,7 +35,11 @@ const TripPlannerAppProps = Vue.extend({
         suggestedNextDests: {
             required: true,
             type: Array as PropType<Array<Destination>>
-        }
+        },
+        appearanceOptions: {
+            required: true,
+            type: Object as PropType<Record<string, any>>
+        },
     }
 })
 
