@@ -120,6 +120,7 @@ https://docs.mapbox.com/mapbox-gl-js/example/mouse-position/
 https://docs.mapbox.com/mapbox-gl-js/example/add-a-marker/
 https://gis.stackexchange.com/questions/208989/how-to-test-if-a-layer-exist-in-a-mapbox-gl-js-map
 https://stackoverflow.com/questions/57251504/use-mapbox-gl-js-without-access-token
+https://github.com/mapbox/mapbox-gl-js/issues/3265
 
 // for drawing a circle (to show the range of suggested next hops)?
 https://stackoverflow.com/questions/37599561/drawing-a-circle-with-the-radius-in-miles-meters-with-mapbox-gl-js

@@ -327,13 +327,8 @@ label {
 }
 
 #mapContainer {
-    position: absolute;
     width: 100%;
     height: 100%;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
 }
 
 #container {
@@ -342,8 +337,7 @@ label {
     border-top: 1px solid var(--black);
     border-left: 1px solid var(--black);
     border-bottom: 1px solid var(--black);
-    width: 100%;
-    padding-top: 93vh;
+    height: 95vh;
     overflow: hidden;
 }
 

@@ -3,6 +3,6 @@ const bundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 module.exports = {
     publicPath: '/trip-planner/',
     configureWebpack: {
-        plugins: [new bundleAnalyzerPlugin()]
+        //plugins: [new bundleAnalyzerPlugin()]
     }
 }
