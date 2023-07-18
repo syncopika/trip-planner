@@ -69,8 +69,7 @@ export default Vue.extend({
         listOfTripNames: { required: true, type: Array }
     },
     data: function(){
-        // default option values 
-        // TODO: make a type for these
+        // default option values
         return {
             mapType: "watercolor",
             theme: "pastel",
@@ -159,9 +158,9 @@ export default Vue.extend({
         openOptions: async function(): Promise<void> {
             const modal = new Modal();
             
-            // TODO: don't use any + create type for otherOptions
+            // TODO: don't use any
             const overpassOptions: OverpassAPIOptions = (this.$root as any).getCurrentOverpassAPIOptions();
-            const otherOptions: Record<string, string> = {
+            const otherOptions: Partial<UserSelectedOptionsInModal> = {
                 mapType: this.mapType, 
                 theme: this.theme,
                 showLocationLookup: this.showLocationLookup.toString(),
@@ -172,7 +171,7 @@ export default Vue.extend({
             
             if(data != null){
                 // execute some changes based on selected options
-                // TODO: should this component really be making these changes? maybe have TripRoute.vue handle it? (or whoever is receiving the event emitted)
+                // TODO: should this component really be making these changes? maybe have App.vue handle it? (or whoever is receiving the event emitted)
                 if(data["mapType"]){
                     this.changeMapStyle(data["mapType"]);
                     this.mapType = data["mapType"];

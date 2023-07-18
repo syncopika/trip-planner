@@ -10,7 +10,8 @@ import {
     OverpassAPINode,
     OverpassAPIData,
     OverpassAPIOptions,
-    OverpassAPIDestinationSuggestion
+    OverpassAPIDestinationSuggestion,
+    UserSelectedOptionsInModal
 } from './utils/triproute';
 
 Vue.config.productionTip = false
@@ -486,7 +487,7 @@ new Vue({
             }
         },
         
-        updateAppearancePerOptions: function(options: Record<string, string>): void {
+        updateAppearancePerOptions: function(options: UserSelectedOptionsInModal): void {
             this.appearanceOptions.showLocationLookup = options["showLocationLookup"] === "true";
             this.appearanceOptions.showSuggestedDestinations = options["showSuggestedDestinations"] === "true";
         },

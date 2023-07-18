@@ -1,4 +1,4 @@
-import { OverpassAPIOptions, UserSelectedOptionsInModal } from './triproute';
+import { Destination, OverpassAPIOptions, UserSelectedOptionsInModal } from './triproute';
 
 export class Modal {
     
@@ -161,7 +161,7 @@ export class Modal {
     }
 
     // TODO: just one options object? instead of a separate one for overpass options
-    createOptionsModal(overpassOptions: OverpassAPIOptions, otherOptions: Record<string, string>): Promise<UserSelectedOptionsInModal | null> {
+    createOptionsModal(overpassOptions: OverpassAPIOptions, otherOptions: Partial<UserSelectedOptionsInModal>): Promise<UserSelectedOptionsInModal | null> {
         const modal = document.createElement('div');
         modal.id = "modal";
         Object.assign(modal.style, this.modalStyle);
@@ -220,7 +220,7 @@ export class Modal {
         toggleSuggestedDestinationsLabel.htmlFor = toggleLocationSearchBar.id;
         toggleSuggestedDestinationsLabel.style.fontSize = "14px";
         toggleSuggestedDestinationsLabel.style.padding = "0";
-        toggleSuggestedDestinationsLabel.textContent = "show suggested destinations:";
+        toggleSuggestedDestinationsLabel.textContent = "toggle suggested destinations:";
         
         const toggleSuggestedDestinations = document.createElement('input');
         toggleSuggestedDestinations.id = "toggleSuggestedDestinations";
@@ -410,8 +410,7 @@ export class Modal {
     }
     
     // modal for adding a new destination manually
-    // TODO: make a specific type instead of using Record<string, string>
-    addNewDestinationModal(): Promise<Record<string, string>> {
+    addNewDestinationModal(): Promise<Partial<Destination>> {
         const modal = document.createElement('div');
         modal.id = "modal";
         Object.assign(modal.style, this.modalStyle);
@@ -499,16 +498,16 @@ export class Modal {
         modal.appendChild(okBtn);
         modal.appendChild(cancelBtn);
         
-        return new Promise<Record<string, string>>((resolve) => {
+        return new Promise<Partial<Destination>>((resolve) => {
             okBtn.onclick = (): void => {
                 const data = {
                     name: destinationName.value,
-                    latitude: destinationLat.value,
-                    longitude: destinationLong.value,
+                    latitude: parseFloat(destinationLat.value),
+                    longitude: parseFloat(destinationLong.value),
                     notes: destinationNotes.value,
                 };
                 
-                if(data.name === "" || data.latitude === "" || data.longitude === ""){
+                if(data.name === "" || isNaN(data.latitude) || isNaN(data.longitude)){
                     resolve({});
                 }else{
                     resolve(data);

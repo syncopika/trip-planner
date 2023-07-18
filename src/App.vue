@@ -74,7 +74,7 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue';
 import Component from 'vue-class-component';
-import { Destination } from './utils/triproute';
+import { Destination, UserSelectedOptionsInModal } from './utils/triproute';
 import DestinationList from './components/DestinationList.vue';
 import Navigation from './components/Navigation.vue';
 import { Modal } from './utils/modal';
@@ -151,8 +151,7 @@ export default class App extends TripPlannerAppProps {
     }
     
     // update any option value changes from the Navigation component
-    // TODO: don't use any and make Record<string, string> more specific
-    handleUpdateOptions(value: Record<string, string>): void {
+    handleUpdateOptions(value: UserSelectedOptionsInModal): void {
         if(value.dataSource === "overpassApi"){
             //@ts-ignore TODO: can we fix this without ignoring? (TS-2339)
             this.$root.setOverpassApiUse(true, value.overpassApiEntity); // update useOverpassAPI in root
