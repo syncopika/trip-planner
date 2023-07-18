@@ -329,15 +329,20 @@ new Vue({
             // add in the content
             const currTripDestList: Array<Destination> = this.tripData[this.currTripIndex].listOfDest;
             currTripDestList.forEach((destination) => {
-                const lngLatMatch = destination.notes.match(/@[0-9]+.[0-9]+,[0-9]+.[0-9]+/g);
-                if(lngLatMatch){
+                const latLngMatch = destination.notes.match(/@[0-9]+.[0-9]+,[0-9]+.[0-9]+/g);
+                if(latLngMatch){
                     // add embedded map if we can extract a location
-                    const location = lngLatMatch[0].substring(1);
+                    // possible use-case: user puts approximate destination to map but adds actual Google Maps
+                    // location url in notes for later reference
+                    const location = latLngMatch[0].substring(1);
                     const embeddedMap = `<iframe src='https://maps.google.com/maps?&q=${location}&output=embed' width='425' height='350' frameborder='0'  
         scrolling='no' marginheight='0' marginwidth='0'></iframe>`;
                     tripInfo = `<h2>${destination.name}</h2><h3>from: ${destination.fromDate}, to: ${destination.toDate}</h3><p>${destination.notes}</p>${embeddedMap}<br />`;
                 }else{
-                    tripInfo = `<h2>${destination.name}</h2><h3>from: ${destination.fromDate}, to: ${destination.toDate}</h3><p>${destination.notes}</p><br />`;
+                    // use provided lat and lng to show location on embedded map
+                    const embeddedMap = `<iframe src='https://maps.google.com/maps?&q=${destination.latitude},${destination.longitude}&output=embed' width='425' height='350' frameborder='0'  
+        scrolling='no' marginheight='0' marginwidth='0'></iframe>`;                    
+                    tripInfo = `<h2>${destination.name}</h2><h3>from: ${destination.fromDate}, to: ${destination.toDate}</h3><p>${destination.notes}</p>${embeddedMap}<br />`;
                 }
                 
                 html += tripInfo;
