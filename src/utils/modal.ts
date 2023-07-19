@@ -86,16 +86,33 @@ export class Modal {
     }
 
     // just a textbox with an ok button
-    createMessageModal(text: string): Promise<boolean> {
+    createMessageModal(text: string | string[], doNotCenterText?: boolean): Promise<boolean> {
         const modal = document.createElement('div');
         modal.id = "modal";
         Object.assign(modal.style, this.modalStyle);
         
         //const text = document.createElement('h2');
-        const displayText = document.createElement('p');
-        displayText.textContent = text;
+        if(typeof text === "string"){
+            const displayText = document.createElement('p');
+            displayText.textContent = text;
+            
+            if(doNotCenterText){
+                displayText.style.textAlign = "left";
+            }
         
-        modal.appendChild(displayText);
+            modal.appendChild(displayText);
+        }else{
+            text.forEach(t => {
+                const displayText = document.createElement('p');
+                displayText.textContent = t;
+                
+                if(doNotCenterText){
+                    displayText.style.textAlign = "left";
+                }
+            
+                modal.appendChild(displayText);
+            });
+        }
         
         const okBtn = document.createElement('button');
         okBtn.innerText = "ok";

@@ -242,7 +242,10 @@ export default class App extends TripPlannerAppProps {
     
     async showHelpModal(): Promise<void> {
         const modal = new Modal();
-        await modal.createMessageModal(`This feature allows you to search for a certain location by name using the Overpass API within a 20000m radius of the last destination in your list. Currently you can only query for shops (e.g. Costco, Safeway, etc.) or amenities (e.g. McDonald's, see https://wiki.openstreetmap.org/wiki/Key:amenity) but hopefully more to come eventually!`);
+        await modal.createMessageModal([
+            "This feature allows you to search for a certain location by name using the Overpass API within a 20000m radius of the last destination in your list.",
+            "Currently you can only query for shops (e.g. Costco, Safeway, etc.) or amenities (e.g. McDonald's, see https://wiki.openstreetmap.org/wiki/Key:amenity) but hopefully more to come eventually!"
+        ], true);
     }
 
     _handleIframeLogs(evt: Event): void {
