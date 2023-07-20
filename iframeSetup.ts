@@ -9,7 +9,7 @@ const mapContainer: HTMLElement = document.getElementById('map') as HTMLElement;
 // beware of secrets leakage!! know that it will show up in the resulting bundle file!!
 const mapbox = new MapBoxWrapper("", mapContainer); // add token as first argument
 
-// add some listeners to listen for events to update map stuff from the parent document
+// add some custom event listeners to listen for events to update map stuff from the parent document
 window.document.addEventListener('updateMap', updateMap, false);
 window.document.addEventListener('updateSuggestedNextHops', showSuggestedNextHops, false);
 window.document.addEventListener('changeMapStyle', changeMapStyle, false);
@@ -18,7 +18,7 @@ window.document.addEventListener('clearSearchResults', clearSearchResults, false
 
 function updateMap(evt : any){
     // send back logs to parent window to confirm iframe received data
-    const ackEvent = new CustomEvent('iframeLogs', {detail: "hi parent, I got the data. thanks!"});
+    const ackEvent = new CustomEvent('iframeLogs', {detail: "hi parent, updating map with new data"});
     window.parent.document.dispatchEvent(ackEvent);
 
     // update the mapbox
