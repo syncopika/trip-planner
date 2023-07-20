@@ -120,6 +120,7 @@ https://docs.mapbox.com/mapbox-gl-js/example/mouse-position/
 https://docs.mapbox.com/mapbox-gl-js/example/add-a-marker/
 https://gis.stackexchange.com/questions/208989/how-to-test-if-a-layer-exist-in-a-mapbox-gl-js-map
 https://stackoverflow.com/questions/57251504/use-mapbox-gl-js-without-access-token
+https://github.com/mapbox/mapbox-gl-js/issues/3265
 
 // for drawing a circle (to show the range of suggested next hops)?
 https://stackoverflow.com/questions/37599561/drawing-a-circle-with-the-radius-in-miles-meters-with-mapbox-gl-js
@@ -169,6 +170,8 @@ https://stackoverflow.com/questions/67290024/how-to-open-a-string-as-a-html-cont
 https://stackoverflow.com/questions/37801882/how-to-change-css-root-color-variables-in-javascript
 https://stackoverflow.com/questions/9686538/align-labels-in-form-next-to-input
 https://www.jenniferbland.com/how-to-reduce-your-vue-js-bundle-size-with-webpack/
+https://stackoverflow.com/questions/27877741/how-to-dynamically-generate-a-google-map-base-on-an-address
+https://stackoverflow.com/questions/1801732/how-do-i-link-to-google-maps-with-a-particular-longitude-and-latitude
 
 ========================
 RESTful API stuff:

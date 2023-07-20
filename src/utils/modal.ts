@@ -1,4 +1,4 @@
-import { OverpassAPIOptions, UserSelectedOptionsInModal } from './triproute';
+import { Destination, OverpassAPIOptions, UserSelectedOptionsInModal } from './triproute';
 
 export class Modal {
     
@@ -86,16 +86,33 @@ export class Modal {
     }
 
     // just a textbox with an ok button
-    createMessageModal(text: string): Promise<boolean> {
+    createMessageModal(text: string | string[], doNotCenterText?: boolean): Promise<boolean> {
         const modal = document.createElement('div');
         modal.id = "modal";
         Object.assign(modal.style, this.modalStyle);
         
         //const text = document.createElement('h2');
-        const displayText = document.createElement('p');
-        displayText.textContent = text;
+        if(typeof text === "string"){
+            const displayText = document.createElement('p');
+            displayText.textContent = text;
+            
+            if(doNotCenterText){
+                displayText.style.textAlign = "left";
+            }
         
-        modal.appendChild(displayText);
+            modal.appendChild(displayText);
+        }else{
+            text.forEach(t => {
+                const displayText = document.createElement('p');
+                displayText.textContent = t;
+                
+                if(doNotCenterText){
+                    displayText.style.textAlign = "left";
+                }
+            
+                modal.appendChild(displayText);
+            });
+        }
         
         const okBtn = document.createElement('button');
         okBtn.innerText = "ok";
@@ -161,10 +178,16 @@ export class Modal {
     }
 
     // TODO: just one options object? instead of a separate one for overpass options
-    createOptionsModal(overpassOptions: OverpassAPIOptions, otherOptions: Record<string, string>): Promise<UserSelectedOptionsInModal | Record<string, never>> {
+    createOptionsModal(overpassOptions: OverpassAPIOptions, otherOptions: Partial<UserSelectedOptionsInModal>): Promise<UserSelectedOptionsInModal | null> {
         const modal = document.createElement('div');
         modal.id = "modal";
         Object.assign(modal.style, this.modalStyle);
+        modal.style.textAlign = ""; // no center alignment for options
+        
+        const experimentalNoteText = document.createElement('p');
+        experimentalNoteText.textContent = "this feature is experimental. please don't expect too much :)";
+        experimentalNoteText.style.fontWeight = "bold";
+        experimentalNoteText.style.fontSize = "12px";
         
         // get current option values so we can set them
         const overpassApiEnabled = overpassOptions.useOverpassAPI;
@@ -176,8 +199,57 @@ export class Modal {
         modal.appendChild(displayText);
         modal.appendChild(document.createElement('hr'));
         
+        // ==================== options related to location lookup via Overpass API within radius
+        const locationLookupSectionText = document.createElement('p');
+        locationLookupSectionText.textContent = "location lookup";
+        locationLookupSectionText.style.fontSize = "18px";
+        locationLookupSectionText.style.margin = "0";
+        modal.appendChild(locationLookupSectionText);
+        modal.appendChild(experimentalNoteText.cloneNode(true));
+        
+        const toggleLocationSearchBar = document.createElement('input');
+        toggleLocationSearchBar.id = "toggleLocationSearch";
+        toggleLocationSearchBar.name = "toggleLocationSearch";
+        toggleLocationSearchBar.type = "checkbox";
+        if(otherOptions.showLocationLookup) toggleLocationSearchBar.checked = otherOptions.showLocationLookup === "true";
+        
+        const toggleLocationSearchLabel = document.createElement('label');
+        toggleLocationSearchLabel.htmlFor = toggleLocationSearchBar.id;
+        toggleLocationSearchLabel.style.fontSize = "14px";
+        toggleLocationSearchLabel.style.padding = "0";
+        toggleLocationSearchLabel.textContent = "show location search bar:";
+        
+        // TODO: add input to allow user to set radius of lookup
+        
+        modal.appendChild(toggleLocationSearchLabel);
+        modal.appendChild(toggleLocationSearchBar);
+        modal.appendChild(document.createElement('hr'));
+        
+        // =================== options related to destination suggestions
+        const destinationSuggestionSectionText = document.createElement('p');
+        destinationSuggestionSectionText.textContent = "destination suggestions";
+        destinationSuggestionSectionText.style.fontSize = "18px";
+        destinationSuggestionSectionText.style.margin = "0";
+        modal.appendChild(destinationSuggestionSectionText);
+        modal.appendChild(experimentalNoteText.cloneNode(true));
+        
+        const toggleSuggestedDestinationsLabel = document.createElement('label');
+        toggleSuggestedDestinationsLabel.htmlFor = toggleLocationSearchBar.id;
+        toggleSuggestedDestinationsLabel.style.fontSize = "14px";
+        toggleSuggestedDestinationsLabel.style.padding = "0";
+        toggleSuggestedDestinationsLabel.textContent = "toggle suggested destinations:";
+        
+        const toggleSuggestedDestinations = document.createElement('input');
+        toggleSuggestedDestinations.id = "toggleSuggestedDestinations";
+        toggleSuggestedDestinations.name = "toggleSuggestedDestinations";
+        toggleSuggestedDestinations.type = "checkbox";
+        if(otherOptions.showSuggestedDestinations) toggleSuggestedDestinations.checked = otherOptions.showSuggestedDestinations === "true";
+        modal.appendChild(toggleSuggestedDestinationsLabel);
+        modal.appendChild(toggleSuggestedDestinations);
+        
         const destinationSuggestionSourceText = document.createElement('p');
-        destinationSuggestionSourceText.textContent = "source for destination suggestions:";
+        destinationSuggestionSourceText.textContent = "source:";
+        destinationSuggestionSourceText.style.margin = "10px 0 0 0";
         modal.appendChild(destinationSuggestionSourceText);
         
         // database option radio button
@@ -208,7 +280,7 @@ export class Modal {
         const overpassApiOptionLabel = document.createElement('label');
         overpassApiOptionLabel.textContent = "Overpass API";
         overpassApiOptionLabel.htmlFor = "overpassApiOption";
-        overpassApiOptionLabel.style.fontSize = "18px";
+        overpassApiOptionLabel.style.fontSize = "16px";
         
         modal.appendChild(overpassApiOption);
         modal.appendChild(overpassApiOptionLabel);
@@ -217,7 +289,7 @@ export class Modal {
         // select for type of suggested destinations to show
         const overpassApiSelect = document.createElement('select');
         overpassApiSelect.id = "overpassApiSelect";
-        overpassApiSelect.style.margin = '10px';
+        overpassApiSelect.style.marginTop = "10px";
         overpassApiSelect.disabled = !overpassApiEnabled;
 
         const overpassEntities: string[] = overpassOptions.overpassEntities;
@@ -237,6 +309,7 @@ export class Modal {
         overpassApiSelectLabel.htmlFor = "overpassApiSelect";
         overpassApiSelectLabel.textContent = "suggested destination type: ";
         overpassApiSelectLabel.style.fontSize = "14px";
+        overpassApiSelectLabel.style.padding = "0";
         
         overpassApiOption.addEventListener('change', (evt) => {
             overpassApiSelect.disabled = false;
@@ -250,6 +323,13 @@ export class Modal {
         modal.appendChild(overpassApiSelect);
         
         modal.appendChild(document.createElement('hr'));
+        
+        // ======================= options related to appearance of trip-planner
+        const appearanceOptionsSectionText = document.createElement('p');
+        appearanceOptionsSectionText.textContent = "appearance";
+        appearanceOptionsSectionText.style.fontSize = "18px";
+        appearanceOptionsSectionText.style.margin = "0 0 5px 0";
+        modal.appendChild(appearanceOptionsSectionText);
         
         // select for type of map to display
         const mapTypeSelect = document.createElement('select');
@@ -273,6 +353,7 @@ export class Modal {
         mapTypeSelectLabel.htmlFor = "mapTypeSelect";
         mapTypeSelectLabel.textContent = "map type: ";
         mapTypeSelectLabel.style.fontSize = "14px";
+        mapTypeSelectLabel.style.padding = "0";
         
         modal.appendChild(mapTypeSelectLabel);
         modal.appendChild(mapTypeSelect);
@@ -294,12 +375,12 @@ export class Modal {
             
             themeSelect.appendChild(themeOption);
         });
-        themeSelect.style.marginTop = "6px";
         
         const themeSelectLabel = document.createElement('label');
         themeSelectLabel.htmlFor = "themeSelect";
         themeSelectLabel.textContent = "theme: ";
         themeSelectLabel.style.fontSize = "14px";
+        themeSelectLabel.style.padding = "0";
         
         modal.appendChild(themeSelectLabel);
         modal.appendChild(themeSelect);
@@ -325,18 +406,19 @@ export class Modal {
         document.body.appendChild(modal);
         document.body.appendChild(modalOverlay);
         
-        return new Promise<UserSelectedOptionsInModal | Record<string, never>>((resolve) => {
+        return new Promise<UserSelectedOptionsInModal | null>((resolve) => {
             okBtn.onclick = (): void => {
                 resolve({
                     dataSource: !overpassApiSelect.disabled ? "overpassApi" : "database",
                     overpassApiEntity: overpassApiSelect.value,
                     mapType: mapTypeSelect.value,
                     theme: themeSelect.value,
+                    showLocationLookup: toggleLocationSearchBar.checked.toString(),
+                    showSuggestedDestinations: toggleSuggestedDestinations.checked.toString(),
                 });
             };
             cancelBtn.onclick = (): void => {
-                // TODO: maybe just return an object with all the keys set to empty values?
-                resolve({});
+                resolve(null);
             };
         }).finally((): void => {
             document.body.removeChild(modal);
@@ -345,8 +427,7 @@ export class Modal {
     }
     
     // modal for adding a new destination manually
-    // TODO: make a specific type instead of using Record<string, string>
-    addNewDestinationModal(): Promise<Record<string, string>> {
+    addNewDestinationModal(): Promise<Partial<Destination>> {
         const modal = document.createElement('div');
         modal.id = "modal";
         Object.assign(modal.style, this.modalStyle);
@@ -434,16 +515,16 @@ export class Modal {
         modal.appendChild(okBtn);
         modal.appendChild(cancelBtn);
         
-        return new Promise<Record<string, string>>((resolve) => {
+        return new Promise<Partial<Destination>>((resolve) => {
             okBtn.onclick = (): void => {
                 const data = {
                     name: destinationName.value,
-                    latitude: destinationLat.value,
-                    longitude: destinationLong.value,
+                    latitude: parseFloat(destinationLat.value),
+                    longitude: parseFloat(destinationLong.value),
                     notes: destinationNotes.value,
                 };
                 
-                if(data.name === "" || data.latitude === "" || data.longitude === ""){
+                if(data.name === "" || isNaN(data.latitude) || isNaN(data.longitude)){
                     resolve({});
                 }else{
                     resolve(data);

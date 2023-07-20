@@ -64,7 +64,7 @@ export default class DestinationList extends DestinationListProps {
     
     async addDestinationManually(): Promise<void> {
         const data: DestinationInterface = {
-            name: "",
+            name:       "",
             toDate:     "",
             fromDate:   "",
             latitude:   0,
@@ -75,12 +75,12 @@ export default class DestinationList extends DestinationListProps {
         };
         
         const modal = new Modal();
-        const destinationData: Record<string, string> = await modal.addNewDestinationModal();
-        if(destinationData.name && destinationData.latitude && destinationData.longitude){
+        const destinationData: Partial<DestinationInterface> = await modal.addNewDestinationModal();
+        if(destinationData && destinationData.name && destinationData.latitude && destinationData.longitude){
             data.name = destinationData.name;
-            data.latitude = parseFloat(destinationData.latitude);
-            data.longitude = parseFloat(destinationData.longitude);
-            data.notes = destinationData.notes;
+            data.latitude = destinationData.latitude;
+            data.longitude = destinationData.longitude;
+            data.notes = destinationData.notes || "";
             
             if(!isNaN(data.latitude) && !isNaN(data.longitude)){
                 console.log("adding new destination manually");
