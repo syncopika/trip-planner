@@ -344,6 +344,13 @@ label {
     overflow: hidden;
 }
 
+@media screen and (max-width: 800px) {
+    #container {
+        height: 85vh;
+    }
+}
+
+
 #suggestions {
     border-bottom: 1px solid var(--black);
     border-left: 1px solid var(--black);
