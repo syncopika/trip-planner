@@ -15,8 +15,6 @@ export class Modal {
             textAlign: "center",
             padding: "8px",
             backgroundColor: "#fff",
-            width: "auto",
-            height: "auto",
             boxShadow: "2px 2px 5px #ccc",
             border: "1px solid #ccc",
             overflowY: "auto",
@@ -195,6 +193,7 @@ export class Modal {
 
         const displayText = document.createElement('h1');
         displayText.textContent = "options";
+        displayText.style.textAlign = "center";
         
         modal.appendChild(displayText);
         modal.appendChild(document.createElement('hr'));
@@ -204,6 +203,8 @@ export class Modal {
         locationLookupSectionText.textContent = "location lookup";
         locationLookupSectionText.style.fontSize = "18px";
         locationLookupSectionText.style.margin = "0";
+        locationLookupSectionText.style.fontWeight = "bold";
+        locationLookupSectionText.style.textAlign = "center";
         modal.appendChild(locationLookupSectionText);
         modal.appendChild(experimentalNoteText.cloneNode(true));
         
@@ -230,6 +231,8 @@ export class Modal {
         destinationSuggestionSectionText.textContent = "destination suggestions";
         destinationSuggestionSectionText.style.fontSize = "18px";
         destinationSuggestionSectionText.style.margin = "0";
+        destinationSuggestionSectionText.style.fontWeight = "bold";
+        destinationSuggestionSectionText.style.textAlign = "center";
         modal.appendChild(destinationSuggestionSectionText);
         modal.appendChild(experimentalNoteText.cloneNode(true));
         
@@ -263,7 +266,7 @@ export class Modal {
         const databaseOptionLabel = document.createElement('label');
         databaseOptionLabel.textContent = "other users from database";
         databaseOptionLabel.htmlFor = "databaseOption";
-        databaseOptionLabel.style.fontSize = "18px";
+        databaseOptionLabel.style.fontSize = "16px";
         
         modal.appendChild(databaseOption);
         modal.appendChild(databaseOptionLabel);
@@ -329,6 +332,8 @@ export class Modal {
         appearanceOptionsSectionText.textContent = "appearance";
         appearanceOptionsSectionText.style.fontSize = "18px";
         appearanceOptionsSectionText.style.margin = "0 0 5px 0";
+        appearanceOptionsSectionText.style.fontWeight = "bold";
+        appearanceOptionsSectionText.style.textAlign = "center";
         modal.appendChild(appearanceOptionsSectionText);
         
         // select for type of map to display
@@ -396,8 +401,12 @@ export class Modal {
         cancelBtn.innerText = "cancel";
         cancelBtn.style.margin = '6px 6px 6px 3px';
 
-        modal.appendChild(okBtn);
-        modal.appendChild(cancelBtn);
+        const buttonDiv = document.createElement('div');
+        buttonDiv.style.textAlign = "center";
+        buttonDiv.appendChild(okBtn);
+        buttonDiv.appendChild(cancelBtn);
+        
+        modal.appendChild(buttonDiv);
         
         const modalOverlay = document.createElement('div');
         modalOverlay.id = "modal-overlay";
