@@ -183,7 +183,7 @@ export class Modal {
         modal.style.textAlign = ""; // no center alignment for options
         
         const experimentalNoteText = document.createElement('p');
-        experimentalNoteText.textContent = "this feature is experimental. please don't expect too much :)";
+        experimentalNoteText.textContent = "experimental feature. please don't expect too much :)";
         experimentalNoteText.style.fontWeight = "bold";
         experimentalNoteText.style.fontSize = "12px";
         
@@ -336,7 +336,8 @@ export class Modal {
         appearanceOptionsSectionText.style.textAlign = "center";
         modal.appendChild(appearanceOptionsSectionText);
         
-        // select for type of map to display
+        // stamen maps no longer work :(
+        /* select for type of map to display
         const mapTypeSelect = document.createElement('select');
         mapTypeSelect.id = "mapTypeSelect";
 
@@ -364,6 +365,7 @@ export class Modal {
         modal.appendChild(mapTypeSelect);
         
         modal.appendChild(document.createElement('br'));
+        */
         
         // select theme
         const themeSelect = document.createElement('select');
@@ -420,7 +422,7 @@ export class Modal {
                 resolve({
                     dataSource: !overpassApiSelect.disabled ? "overpassApi" : "database",
                     overpassApiEntity: overpassApiSelect.value,
-                    mapType: mapTypeSelect.value,
+                    mapType: "", //mapTypeSelect.value,
                     theme: themeSelect.value,
                     showLocationLookup: toggleLocationSearchBar.checked.toString(),
                     showSuggestedDestinations: toggleSuggestedDestinations.checked.toString(),
