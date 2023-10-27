@@ -21,9 +21,6 @@ the main page
 ![destination details](screenshots/screenshot2.png)    
 destination details   
     
-![marker tooltip](screenshots/screenshot4.png)    
-marker tooltip info    
-    
 ![trip dropdown menu](screenshots/screenshot3.png)    
 choosing a different trip    
     

@@ -35,10 +35,10 @@ class MapBoxWrapper {
                 'raster-tiles': {
                     'type': 'raster',
                     'tiles': [
-                        'https://stamen-tiles.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg'
+                        'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
                     ],
                     'tileSize': 256,
-                    'attribution': 'Map tiles by <a target="_top" rel="noopener" href="http://stamen.com">Stamen Design</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a target="_top" rel="noopener" href="http://openstreetmap.org">OpenStreetMap</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>'
+                    'attribution': '© <a href="https://www.openstreetmap.org/copyright"> OpenStreetMap contributors </a>'
                 }
             },
             'layers': [
@@ -129,13 +129,14 @@ class MapBoxWrapper {
         return this.map;
     }
     
+    // TODO: need new map options because https://maps.stamen.com/stadia-partnership/
     changeMapStyle(mapType: string): void {
         // maybe helpful? https://github.com/mapbox/mapbox-gl-js/issues/2941
         const currStyle = this.map.getStyle() as any;  // TODO: don't use any?
         if(currStyle === null){
             return;
         }
-
+        
         let newMapType = 'https://stamen-tiles.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg';
 
         if(mapType === "toner"){
