@@ -44,29 +44,25 @@
             </li>
             
             <li> • </li>
-            <li class="selectOption" @click="openOptions"> options </li>
+            <li class="selectOption" @click="showOptionsModal=true"> options </li>
             
-            <!-- TODO 
-            
-            <li> • </li>
-            <li class="" @click="saveData"> save </li>
-
-            <li> • </li>
-            <li class=""> logout </li>
-            
-            -->
+            <OptionsModal v-if="showOptionsModal" @close="showOptionsModal=false"></OptionsModal>
         </ul>
     </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import OptionsModal from './OptionsModal.vue';
 import { Modal } from "../utils/modal";
 import { OverpassAPIOptions, UserSelectedOptionsInModal } from "../utils/triproute";
 
 export default Vue.extend({
     props: {
         listOfTripNames: { required: true, type: Array }
+    },
+    components: {
+        OptionsModal
     },
     data: function(){
         // default option values
@@ -75,6 +71,7 @@ export default Vue.extend({
             theme: "pastel",
             showLocationLookup: false,
             showSuggestedDestinations: false,
+            showOptionsModal: false,
         }
     },
     methods: {
