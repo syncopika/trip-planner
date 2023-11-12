@@ -65,14 +65,13 @@ export default Vue.extend({
         OptionsModal
     },
     data: function(){
-        // default option values
         return {
-            mapType: "watercolor",
+            mapType: "", // only 1 map type currently
             theme: "pastel",
             showLocationLookup: false,
             showSuggestedDestinations: false,
             showOptionsModal: false,
-        }
+        };
     },
     methods: {
         addNewTrip: async function(): Promise<void> {

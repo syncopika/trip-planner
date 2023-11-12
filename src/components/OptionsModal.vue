@@ -2,52 +2,57 @@
     <div>
         <div class="modal">
             <h1> options </h1>
-            <hr />
-            <p id="locationLookup"> location lookup </p>
-            <p class="experimentalNote"> experimental feaature. please don't expect too much :) </p>
-            <label id="toggleLocationSearchBarLabel" for="toggleLocationSearchBar">show location search bar:</label>
-            <input id="toggleLocationSearchBar" name="toggleLocationSearchBar" type="checkbox" />
+            <p class="experimentalNote"> * = experimental feature. please don't expect too much :) </p>
             
             <hr />
+            <p id="locationLookup"> location lookup* </p>
+            <div class="section">
+                <label id="toggleLocationSearchBarLabel" for="toggleLocationSearchBar">show location search bar:</label>
+                <input id="toggleLocationSearchBar" name="toggleLocationSearchBar" type="checkbox" />
+            </div>
             
-            <p id="destinationSuggestions"> destination suggestions </p>
-            <p class="experimentalNote"> experimental feaature. please don't expect too much :) </p>
-            
-            <label id="toggleSuggestedDestinationsLabel" for="toggleSuggestedDestinations">toggle suggested destinations:</label>
-            <input id="toggleSuggestedDestinations" name="toggleSuggestedDestinations" type="checkbox" />
-            
-            <p id="destinationSuggestionSourceText"> source: </p>
-            
-            <input type="radio" name="destinationSuggestionSource" value="database" id="databaseOption"/>
-            <label for="databaseOption">other users from database</label>
-            
-            <br />
-            
-            <input type="radio" name="destinationSuggestionSource" value="overpassApi" id="overpassApiOption"/>
-            <label for="overpassApiOption">Overpass API</label>
-            
-            <br />
-            
-            <label for="overpassApiSelect">suggested destination type:</label>
-            <select id="overpassApiSelect">
-            </select>
+            <hr />
+           
+            <p id="destinationSuggestions"> destination suggestions* </p>
+            <div class="section">
+                <label id="toggleSuggestedDestinationsLabel" for="toggleSuggestedDestinations">toggle suggested destinations:</label>
+                <input id="toggleSuggestedDestinations" name="toggleSuggestedDestinations" type="checkbox" />
+                
+                
+                <p id="destinationSuggestionSourceText"> data source: </p>
+                <input type="radio" name="destinationSuggestionSource" value="database" id="databaseOption"/>
+                <label for="databaseOption">other users from database</label>
+                
+                <br />
+                
+                <input type="radio" name="destinationSuggestionSource" value="overpassApi" id="overpassApiOption"/>
+                <label for="overpassApiOption">Overpass API</label>
+                
+                <br />
+                
+                <label for="overpassApiSelect">suggested destination type:</label>
+                <select id="overpassApiSelect">
+                    <option>restaurant</option>
+                </select>
+            </div>
             
             <hr />
             
             <p id="appearance">appearance</p>
             
-            <select id="themeSelect">
-                <option value="pastel"> pastel </option>
-                <option value="gray"> gray </option>
-                <option value="beach"> beach </option>
-            </select>
-            
-            <label for="themeSelect"></label>
+            <div class="section">
+                <label for="themeSelect">theme:</label>
+                <select id="themeSelect">
+                    <option value="pastel"> pastel </option>
+                    <option value="gray"> gray </option>
+                    <option value="beach"> beach </option>
+                </select>
+            </div>
             
             <hr />
             
             <div id="buttons">
-                <button @click="$emit('close')"> ok </button>
+                <button @click="updateOptions"> ok </button>
                 <button @click="$emit('close')"> cancel </button>
             </div>
         </div>
@@ -76,6 +81,11 @@ export default Vue.extend({
         }
     },
     methods: {
+        updateOptions: function(): void {
+            // TODO
+            console.log("need to update options");
+            this.$emit("close");
+        }
     }
 });
 </script>
@@ -87,7 +97,6 @@ export default Vue.extend({
         left: 50%;
         transform: translate(-50%, -50%);
         z-index: 1010;
-        text-align: center;
         padding: 8px;
         background-color: #fff;
         box-shadow: 2px 2px 5px #ccc;
@@ -102,8 +111,8 @@ export default Vue.extend({
         left: 0;
         width: 100%;
         height: 100%;
-        backgroundColor: #aaa;
-        opacity: "0.2";
+        background-color: #aaa;
+        opacity: 0.2;
     }
     
     .experimentalNote {
@@ -122,6 +131,10 @@ export default Vue.extend({
         text-align: center;
     }
     
+    #destinationSuggestionSourceText {
+        margin: 10px 0px 0px;
+    }
+    
     #buttons {
         text-align: center;
     }
@@ -134,4 +147,13 @@ export default Vue.extend({
         font-size: 14px;
         padding: 0;
     }
+    
+    select {
+        margin-left: 5px;
+    }
+    
+    .section {
+        text-align: left;
+    }
+    
 </style>
