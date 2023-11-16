@@ -8,7 +8,7 @@
             <p id="locationLookup"> location lookup* </p>
             <div class="section">
                 <label id="toggleLocationSearchBarLabel" for="toggleLocationSearchBar">show location search bar:</label>
-                <input id="toggleLocationSearchBar" name="toggleLocationSearchBar" type="checkbox" />
+                <input id="toggleLocationSearchBar" name="toggleLocationSearchBar" type="checkbox" v-model="showLocationLookup" />
             </div>
             
             <hr />
@@ -16,23 +16,23 @@
             <p id="destinationSuggestions"> destination suggestions* </p>
             <div class="section">
                 <label id="toggleSuggestedDestinationsLabel" for="toggleSuggestedDestinations">toggle suggested destinations:</label>
-                <input id="toggleSuggestedDestinations" name="toggleSuggestedDestinations" type="checkbox" />
+                <input id="toggleSuggestedDestinations" name="toggleSuggestedDestinations" type="checkbox" v-model="showSuggestedDestinations" />
                 
                 
                 <p id="destinationSuggestionSourceText"> data source: </p>
-                <input type="radio" name="destinationSuggestionSource" value="database" id="databaseOption"/>
+                <input type="radio" v-model="nextDestDataSource" name="destinationSuggestionSource" value="'database'" id="databaseOption"/>
                 <label for="databaseOption">other users from database</label>
                 
                 <br />
                 
-                <input type="radio" name="destinationSuggestionSource" value="overpassApi" id="overpassApiOption"/>
+                <input type="radio" v-model="nextDestDataSource" name="destinationSuggestionSource" value="'overpassApi'" id="overpassApiOption"/>
                 <label for="overpassApiOption">Overpass API</label>
                 
                 <br />
                 
                 <label for="overpassApiSelect">suggested destination type:</label>
-                <select id="overpassApiSelect">
-                    <option>restaurant</option>
+                <select id="overpassApiSelect" v-model="selectedOverpassApiEntity">
+                    <option v-for="entity in overpassApiEntities" :value="entity" :key="entity">{{entity}}</option>
                 </select>
             </div>
             
@@ -42,7 +42,7 @@
             
             <div class="section">
                 <label for="themeSelect">theme:</label>
-                <select id="themeSelect">
+                <select id="themeSelect" v-model="selectedTheme">
                     <option value="pastel"> pastel </option>
                     <option value="gray"> gray </option>
                     <option value="beach"> beach </option>
@@ -66,24 +66,43 @@
 // https://v2.vuejs.org/v2/examples/modal
 
 import Vue from "vue";
-import { Destination, OverpassAPIOptions, UserSelectedOptionsInModal } from '../utils/triproute';
+import { Destination, UserSelectedOptionsInModal } from '../utils/triproute';
 
 export default Vue.extend({
-    props: {
-        /*
-        overpassOptions: { required: true, type: OverpassAPIOptions }, 
-        otherOptions: { required: true, type: Partial<UserSelectedOptionsInModal> },
-        */
-    },
     data: function(){
-        // default option values
         return {
+            nextDestDataSource: 'overpassApi',       // what data source to get suggested next destinations from
+            selectedOverpassApiEntity: 'restaurant', // the selected overpass api entity (e.g. museum, restaurant, hotel, etc.)
+            mapType: '',                             // selected map type
+            selectedTheme: 'pastel',
+            showLocationLookup: false,
+            showSuggestedDestinations: false,
+            overpassApiEntities: [
+                'restaurant',
+                'arts_centre',
+                'library',
+                'aquarium',
+                'attraction',
+                'hotel',
+                'museum',
+            ],
         }
     },
     methods: {
         updateOptions: function(): void {
-            // TODO
-            console.log("need to update options");
+            const data: UserSelectedOptionsInModal = {
+                theme: this.selectedTheme,
+                showLocationLookup: this.showLocationLookup,
+                showSuggestedDestinations: this.showSuggestedDestinations,
+                nextDestDataSource: this.nextDestDataSource,
+                overpassApiEntity: this.selectedOverpassApiEntity,
+                mapType: '',
+            };
+            
+            console.log(`selected options: ${JSON.stringify(data)}`);
+            
+            this.$emit('update-options', data);
+            
             this.$emit("close");
         }
     }
