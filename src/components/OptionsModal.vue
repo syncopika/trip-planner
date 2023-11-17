@@ -7,7 +7,12 @@
             <hr />
             <p id="locationLookup"> location lookup* </p>
             <div class="section">
-                <label id="toggleLocationSearchBarLabel" for="toggleLocationSearchBar">show location search bar:</label>
+                <label 
+                    id="toggleLocationSearchBarLabel" 
+                    for="toggleLocationSearchBar"
+                >
+                    show location search bar:
+                </label>
                 <input 
                     id="toggleLocationSearchBar" 
                     name="toggleLocationSearchBar" 
@@ -21,7 +26,12 @@
            
             <p id="destinationSuggestions"> destination suggestions* </p>
             <div class="section">
-                <label id="toggleSuggestedDestinationsLabel" for="toggleSuggestedDestinations">toggle suggested destinations:</label>
+                <label 
+                    id="toggleSuggestedDestinationsLabel" 
+                    for="toggleSuggestedDestinations"
+                >
+                    toggle suggested destinations:
+                </label>
                 <input 
                     id="toggleSuggestedDestinations" 
                     name="toggleSuggestedDestinations" 
@@ -114,9 +124,9 @@ export default Vue.extend({
     },
     data: function(){
         return {
-            nextDestDataSource: this.initialNextDestDataSource,       // what data source to get suggested next destinations from
-            selectedOverpassApiEntity: this.initialOverpassApiEntity, // the selected overpass api entity (e.g. museum, restaurant, hotel, etc.)
-            mapType: '',                                              // selected map type
+            nextDestDataSource: this.initialNextDestDataSource,
+            selectedOverpassApiEntity: this.initialOverpassApiEntity,
+            mapType: '',
             selectedTheme: this.initialTheme,
             showLocationLookup: this.initialShowLocationLookup,
             showSuggestedDestinations: this.initialShowSuggestedDestinations,
@@ -142,7 +152,7 @@ export default Vue.extend({
                 mapType: '',
             };
             
-            console.log(`selected options: ${JSON.stringify(data)}`);
+            //console.log(`selected options: ${JSON.stringify(data)}`);
             
             this.$emit('update-options', data);
             
