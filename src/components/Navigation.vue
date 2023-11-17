@@ -46,7 +46,17 @@
             <li> • </li>
             <li class="selectOption" @click="showOptionsModal=true"> options </li>
             
-            <OptionsModal v-if="showOptionsModal" @update-options="handleUpdateOptions" @close="showOptionsModal=false"></OptionsModal>
+            <OptionsModal 
+                v-if="showOptionsModal"
+                @update-options="handleUpdateOptions"
+                @close="showOptionsModal=false"
+                :initialTheme="theme"
+                :initialShowLocationLookup="showLocationLookup"
+                :initialShowSuggestedDestinations="showSuggestedDestinations"
+                :initialOverpassApiEntity="overpassApiEntity"
+                :initialNextDestDataSource="nextDestDataSource"
+            >
+            </OptionsModal>
         </ul>
     </div>
 </template>
@@ -55,7 +65,7 @@
 import Vue from "vue";
 import OptionsModal from './OptionsModal.vue';
 import { Modal } from "../utils/modal";
-import { OverpassAPIOptions, UserSelectedOptionsInModal } from "../utils/triproute";
+import { UserSelectedOptionsInModal } from "../utils/triproute";
 
 export default Vue.extend({
     props: {
@@ -71,6 +81,8 @@ export default Vue.extend({
             showLocationLookup: false,
             showSuggestedDestinations: false,
             showOptionsModal: false,
+            overpassApiEntity: 'restaurant',
+            nextDestDataSource: 'overpassApi',
         };
     },
     methods: {
@@ -117,6 +129,13 @@ export default Vue.extend({
     
         // update any option value changes from the OptionsModal component
         handleUpdateOptions(value: UserSelectedOptionsInModal): void {
+            // update our state vars
+            this.theme = value.theme;
+            this.showLocationLookup = value.showLocationLookup;
+            this.showSuggestedDestinations = value.showSuggestedDestinations;
+            this.overpassApiEntity = value.overpassApiEntity;
+            this.nextDestDataSource = value.nextDestDataSource;
+        
             if(value.showSuggestedDestinations && value.nextDestDataSource === "overpassApi"){
                 //@ts-ignore TODO: can we fix this without ignoring? (TS-2339)
                 this.$root.setOverpassApiUse(true, value.overpassApiEntity); // update useOverpassAPI in root
