@@ -86,6 +86,8 @@ https://stackoverflow.com/questions/64831745/props-typing-in-vue-js-3-with-types
 https://www.reddit.com/r/vuejs/comments/czme8n/switching_to_vue_typescript_makes_it_hard_wait/
 https://github.com/vuejs/vue/issues/8721
 
+https://stackoverflow.com/questions/40408096/whats-the-correct-way-to-pass-props-as-initial-data-in-vue-js-2
+
 TESTING:
 https://stackoverflow.com/questions/42711175/what-does-the-symbol-do-in-javascript-imports - saw this in the test example in tests/unit
 https://technology.doximity.com/articles/five-traps-to-avoid-while-unit-testing-vue-js

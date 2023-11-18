@@ -62,7 +62,7 @@ new Vue({
         'currTripIndex': 0,
         'suggestedNextDests': [] as DestinationSuggestion[],
         'canGetSuggestedNextDests': false, // can get destinations from the database
-        'useOverpassAPI': false,            // flag for using overpass api for getting nearby locations
+        'useOverpassAPI': false,           // flag for using overpass api for getting nearby locations
         'overpassApiEntityToFind': "restaurant",
         'overpassApiKeyToFind': "amenity",
         'overpassApiEntityKeyMap': {
@@ -488,8 +488,9 @@ new Vue({
         },
         
         updateAppearancePerOptions: function(options: UserSelectedOptionsInModal): void {
-            this.appearanceOptions.showLocationLookup = options["showLocationLookup"] === "true";
-            this.appearanceOptions.showSuggestedDestinations = options["showSuggestedDestinations"] === "true";
+            this.appearanceOptions.showLocationLookup = options["showLocationLookup"];
+            this.appearanceOptions.showSuggestedDestinations = options["showSuggestedDestinations"];
+            this.changeStyleTheme(options["theme"]);
         },
         
         // get the Overpass API entity options available to search for
@@ -511,7 +512,43 @@ new Vue({
                 //@ts-ignore TODO: investigate this? (TS-2339)
                 this.suggestedNextDests = this.getFakeSuggestions();
             }
-        }
+        },
+        
+        // update the map style
+        changeMapStyle(mapStyleName: string): void {
+            // send a custom event to the map iframe along with the mapStyleName
+            const updateMapEvent = new CustomEvent('changeMapStyle', {detail: mapStyleName});
+            const mapIframe = document.getElementById('mapContainer') as HTMLIFrameElement;
+
+            if(mapIframe !== null && mapIframe.contentDocument !== null){
+                mapIframe.contentDocument.dispatchEvent(updateMapEvent);
+            }
+        },
+        
+        // update the style theme
+        // TODO: store theme data somewhere else?
+        changeStyleTheme(themeName: string): void {
+            if(themeName === "pastel"){
+                document.documentElement.style.setProperty('--menu-header-bg-color', 'var(--pale-yellow)');
+                document.documentElement.style.setProperty('--destination-bg-color', 'var(--yellow-green)');
+                document.documentElement.style.setProperty('--column-1-bg-color', 'var(--pale-blue)');
+                document.documentElement.style.setProperty('--column-2-bg-color', 'var(--pale-yellow)');
+                document.documentElement.style.setProperty('--destination-list-bg-color', 'var(--pale-orange)');
+            }else if(themeName === "gray"){
+                document.documentElement.style.setProperty('--menu-header-bg-color', 'var(--light-gray)');
+                document.documentElement.style.setProperty('--destination-bg-color', 'var(--white)');
+                document.documentElement.style.setProperty('--column-1-bg-color', 'var(--light-gray)');
+                document.documentElement.style.setProperty('--column-2-bg-color', 'var(--grayish-red)');
+                document.documentElement.style.setProperty('--destination-list-bg-color', 'var(--light-grayish-orange)');
+            }else if(themeName === "beach"){
+                // https://colorhunt.co/palette/9ac5f499dbf5a7eceeffeebb
+                document.documentElement.style.setProperty('--menu-header-bg-color', 'var(--soft-blue)');
+                document.documentElement.style.setProperty('--destination-bg-color', 'var(--sky-blue)');
+                document.documentElement.style.setProperty('--column-1-bg-color', 'var(--sky-blue)');
+                document.documentElement.style.setProperty('--column-2-bg-color', 'var(--pale-turquoise)');
+                document.documentElement.style.setProperty('--destination-list-bg-color', 'var(--oasis)');
+            }
+        },
     },
 	
     mounted: function(): void {

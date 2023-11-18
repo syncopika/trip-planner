@@ -55,7 +55,7 @@
         
         <!-- show navigation bar, destination list -->
         <div id='column2'>
-            <navigation @update-options="handleUpdateOptions" :list-of-trip-names="listOfTripNames"></navigation>
+            <navigation :list-of-trip-names="listOfTripNames"></navigation>
             
             <div id='tripInfo'>
                 <h1 class='tripTitle'>{{tripName}}</h1>
@@ -148,20 +148,6 @@ export default class App extends TripPlannerAppProps {
             //console.log("sending data to the iframe for event: " + eventName);
             mapIframe.contentDocument.dispatchEvent(updateMapEvent);
         }
-    }
-    
-    // update any option value changes from the Navigation component
-    handleUpdateOptions(value: UserSelectedOptionsInModal): void {
-        if(value.dataSource === "overpassApi"){
-            //@ts-ignore TODO: can we fix this without ignoring? (TS-2339)
-            this.$root.setOverpassApiUse(true, value.overpassApiEntity); // update useOverpassAPI in root
-        }else{
-            //@ts-ignore TODO: can we fix this without ignoring? (TS-2339)
-            this.$root.setOverpassApiUse(false);
-        }
-        
-        //@ts-ignore TODO: can we fix this without ignoring? (TS-2339)
-        this.$root.updateAppearancePerOptions(value);
     }
     
     updateMap(data: Array<Destination>): void {

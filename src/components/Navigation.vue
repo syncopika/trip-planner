@@ -44,38 +44,46 @@
             </li>
             
             <li> • </li>
-            <li class="selectOption" @click="openOptions"> options </li>
+            <li class="selectOption" @click="showOptionsModal=true"> options </li>
             
-            <!-- TODO 
-            
-            <li> • </li>
-            <li class="" @click="saveData"> save </li>
-
-            <li> • </li>
-            <li class=""> logout </li>
-            
-            -->
+            <OptionsModal 
+                v-if="showOptionsModal"
+                @update-options="handleUpdateOptions"
+                @close="showOptionsModal=false"
+                :initialTheme="theme"
+                :initialShowLocationLookup="showLocationLookup"
+                :initialShowSuggestedDestinations="showSuggestedDestinations"
+                :initialOverpassApiEntity="overpassApiEntity"
+                :initialNextDestDataSource="nextDestDataSource"
+            >
+            </OptionsModal>
         </ul>
     </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import OptionsModal from './OptionsModal.vue';
 import { Modal } from "../utils/modal";
-import { OverpassAPIOptions, UserSelectedOptionsInModal } from "../utils/triproute";
+import { UserSelectedOptionsInModal } from "../utils/triproute";
 
 export default Vue.extend({
     props: {
         listOfTripNames: { required: true, type: Array }
     },
+    components: {
+        OptionsModal
+    },
     data: function(){
-        // default option values
         return {
-            mapType: "watercolor",
+            mapType: "", // only 1 map type currently
             theme: "pastel",
             showLocationLookup: false,
             showSuggestedDestinations: false,
-        }
+            showOptionsModal: false,
+            overpassApiEntity: 'restaurant',
+            nextDestDataSource: 'overpassApi',
+        };
     },
     methods: {
         addNewTrip: async function(): Promise<void> {
@@ -118,73 +126,26 @@ export default Vue.extend({
         saveData: function(): void {
             // TODO: save current trip data to database
         },
+    
+        // update any option value changes from the OptionsModal component
+        handleUpdateOptions(value: UserSelectedOptionsInModal): void {
+            // update our state vars
+            this.theme = value.theme;
+            this.showLocationLookup = value.showLocationLookup;
+            this.showSuggestedDestinations = value.showSuggestedDestinations;
+            this.overpassApiEntity = value.overpassApiEntity;
+            this.nextDestDataSource = value.nextDestDataSource;
         
-        // update the map style
-        changeMapStyle(mapStyleName: string): void {
-            // send a custom event to the map iframe along with the mapStyleName
-            const updateMapEvent = new CustomEvent('changeMapStyle', {detail: mapStyleName});
-            const mapIframe = document.getElementById('mapContainer') as HTMLIFrameElement;
-
-            if(mapIframe !== null && mapIframe.contentDocument !== null){
-                mapIframe.contentDocument.dispatchEvent(updateMapEvent);
+            if(value.showSuggestedDestinations && value.nextDestDataSource === "overpassApi"){
+                //@ts-ignore TODO: can we fix this without ignoring? (TS-2339)
+                this.$root.setOverpassApiUse(true, value.overpassApiEntity); // update useOverpassAPI in root
+            }else{
+                //@ts-ignore TODO: can we fix this without ignoring? (TS-2339)
+                this.$root.setOverpassApiUse(false);
             }
-        },
-        
-        // update the style theme
-        // TODO: store theme data somewhere else?
-        changeStyleTheme(themeName: string): void {
-            if(themeName === "pastel"){
-                document.documentElement.style.setProperty('--menu-header-bg-color', 'var(--pale-yellow)');
-                document.documentElement.style.setProperty('--destination-bg-color', 'var(--yellow-green)');
-                document.documentElement.style.setProperty('--column-1-bg-color', 'var(--pale-blue)');
-                document.documentElement.style.setProperty('--column-2-bg-color', 'var(--pale-yellow)');
-                document.documentElement.style.setProperty('--destination-list-bg-color', 'var(--pale-orange)');
-            }else if(themeName === "gray"){
-                document.documentElement.style.setProperty('--menu-header-bg-color', 'var(--light-gray)');
-                document.documentElement.style.setProperty('--destination-bg-color', 'var(--white)');
-                document.documentElement.style.setProperty('--column-1-bg-color', 'var(--light-gray)');
-                document.documentElement.style.setProperty('--column-2-bg-color', 'var(--grayish-red)');
-                document.documentElement.style.setProperty('--destination-list-bg-color', 'var(--light-grayish-orange)');
-            }else if(themeName === "beach"){
-                // https://colorhunt.co/palette/9ac5f499dbf5a7eceeffeebb
-                document.documentElement.style.setProperty('--menu-header-bg-color', 'var(--soft-blue)');
-                document.documentElement.style.setProperty('--destination-bg-color', 'var(--sky-blue)');
-                document.documentElement.style.setProperty('--column-1-bg-color', 'var(--sky-blue)');
-                document.documentElement.style.setProperty('--column-2-bg-color', 'var(--pale-turquoise)');
-                document.documentElement.style.setProperty('--destination-list-bg-color', 'var(--oasis)');
-            }
-        },
-        
-        openOptions: async function(): Promise<void> {
-            const modal = new Modal();
             
-            // TODO: don't use any
-            const overpassOptions: OverpassAPIOptions = (this.$root as any).getCurrentOverpassAPIOptions();
-            const otherOptions: Partial<UserSelectedOptionsInModal> = {
-                mapType: this.mapType, 
-                theme: this.theme,
-                showLocationLookup: this.showLocationLookup.toString(),
-                showSuggestedDestinations: this.showSuggestedDestinations.toString(),
-            };
-            
-            const data: UserSelectedOptionsInModal | null = await modal.createOptionsModal(overpassOptions, otherOptions);
-            
-            if(data != null){
-                // execute some changes based on selected options
-                // TODO: should this component really be making these changes? maybe have App.vue handle it? (or whoever is receiving the event emitted)
-                if(data["mapType"]){
-                    this.changeMapStyle(data["mapType"]);
-                    this.mapType = data["mapType"];
-                }
-                if(data["theme"]){
-                    this.changeStyleTheme(data["theme"]);
-                    this.theme = data["theme"];
-                }
-                this.showLocationLookup = data["showLocationLookup"] === "true";
-                this.showSuggestedDestinations = data["showSuggestedDestinations"] === "true";
-                
-                this.$emit('update-options', data);
-            }
+            //@ts-ignore TODO: can we fix this without ignoring? (TS-2339)
+            this.$root.updateAppearancePerOptions(value);
         }
     }
 });
