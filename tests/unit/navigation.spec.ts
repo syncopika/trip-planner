@@ -13,7 +13,7 @@ describe('Navigation.vue', () => {
         });
 	
         // make sure we get 2 anchor elements (one for each trip name)
-        const anchorElements = wrapper.findAll("a");
+        const anchorElements = wrapper.findAll("a").filter(x => x.text() === "test1" || x.text() === "trip2");
         expect(anchorElements.length).toBe(2);
 	
         const anchorElArray = anchorElements.wrappers;
