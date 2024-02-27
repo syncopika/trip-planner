@@ -330,6 +330,9 @@ new Vue({
             // add in the content
             const currTripDestList: Array<Destination> = this.tripData[this.currTripIndex].listOfDest;
             currTripDestList.forEach((destination) => {
+                // generate notes, taking into account any line breaks
+                const notes = destination.notes.split('\n').map(note => `<p>${note}</p>`).join('');
+
                 const latLngMatch = destination.notes.match(/@[0-9]+.[0-9]+,[0-9]+.[0-9]+/g);
                 if(latLngMatch){
                     // add embedded map if we can extract a location
@@ -338,12 +341,12 @@ new Vue({
                     const location = latLngMatch[0].substring(1);
                     const embeddedMap = `<iframe src='https://maps.google.com/maps?&q=${location}&output=embed' width='425' height='350' frameborder='0'  
         scrolling='no' marginheight='0' marginwidth='0'></iframe>`;
-                    tripInfo = `<h2>${destination.name}</h2><h3>from: ${destination.fromDate}, to: ${destination.toDate}</h3><p>${destination.notes}</p>${embeddedMap}<br />`;
+                    tripInfo = `<h2>${destination.name}</h2><h3>from: ${destination.fromDate}, to: ${destination.toDate}</h3>${notes}${embeddedMap}<br />`;
                 }else{
                     // use provided lat and lng to show location on embedded map
                     const embeddedMap = `<iframe src='https://maps.google.com/maps?&q=${destination.latitude},${destination.longitude}&output=embed' width='425' height='350' frameborder='0'  
         scrolling='no' marginheight='0' marginwidth='0'></iframe>`;                    
-                    tripInfo = `<h2>${destination.name}</h2><h3>from: ${destination.fromDate}, to: ${destination.toDate}</h3><p>${destination.notes}</p>${embeddedMap}<br />`;
+                    tripInfo = `<h2>${destination.name}</h2><h3>from: ${destination.fromDate}, to: ${destination.toDate}</h3>${notes}${embeddedMap}<br />`;
                 }
                 
                 html += tripInfo;
@@ -351,7 +354,13 @@ new Vue({
             
             html += '</body></html>';
             
-            const tab = window.open("about:blank", currTripName);
+            // note: at least in chrome, it seems that the url of the opened tab will be about:blank
+            // even though I set the url set for window.open(). sometimes it does appear to set the tab's url as expected
+            // but not all the time? :shrug:
+            //
+            // when it's about:blank you can't save the html :( https://issues.chromium.org/issues/40339736
+            // but it works properly in Firefox at least
+            const tab = window.open(`${window.location.href}${currTripName}`, '_blank');
             if(tab){
                 tab.document.write(html);
                 tab.document.close();
