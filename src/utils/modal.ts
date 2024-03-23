@@ -175,6 +175,54 @@ export class Modal {
         });
     }
     
+    _createDateInput(headerText: string): HTMLElement {
+        const div = document.createElement('div');
+        
+        //const header = document.createElement('p');
+        //header.textContent = `${headerText}:`;
+        
+        const monthInput = document.createElement('input');
+        monthInput.id = `${headerText}monthInput`;
+        monthInput.type = 'text';
+        monthInput.size = 2;
+        monthInput.maxLength = 2;
+        monthInput.placeholder = 'mm';
+        monthInput.style.display = 'inline-block';
+        
+        const dayInput = document.createElement('input');
+        dayInput.id = `${headerText}dayInput`;
+        dayInput.type = 'text';
+        dayInput.size = 2;
+        dayInput.maxLength = 2;
+        dayInput.placeholder = 'dd';
+        dayInput.style.display = 'inline-block';
+        
+        const yearInput = document.createElement('input');
+        yearInput.id = `${headerText}yearInput`;
+        yearInput.type = 'text';
+        yearInput.size = 4;
+        yearInput.maxLength = 4;
+        yearInput.placeholder = 'yyyy';
+        yearInput.style.display = 'inline-block';
+        
+        const slash1 = document.createElement('p');
+        slash1.textContent = '/';
+        slash1.style.display = 'inline-block';
+        
+        const slash2 = document.createElement('p');
+        slash2.textContent = '/';
+        slash2.style.display = 'inline-block';
+        
+        //div.appendChild(header);
+        div.appendChild(monthInput);
+        div.append(slash1);
+        div.appendChild(dayInput);
+        div.append(slash2);
+        div.appendChild(yearInput);
+        
+        return div;
+    }
+    
     // modal for adding a new destination manually
     addNewDestinationModal(): Promise<Partial<Destination>> {
         const modal = document.createElement('div');
@@ -245,6 +293,23 @@ export class Modal {
         inputsDiv.appendChild(destinationNotesLabel);
         inputsDiv.appendChild(destinationNotes);
         
+        // from date
+        const fromDateInput = this._createDateInput('from');
+        const from = document.createElement('p');
+        from.textContent = 'from:';
+        from.style.fontSize = '18px';
+        
+        // to date
+        const toDateInput = this._createDateInput('to');
+        const to = document.createElement('p');
+        to.textContent = 'to:';
+        to.style.fontSize = '18px';
+        
+        inputsDiv.appendChild(from);
+        inputsDiv.appendChild(fromDateInput);
+        inputsDiv.appendChild(to);
+        inputsDiv.appendChild(toDateInput);
+        
         modal.appendChild(inputsDiv);
         modal.appendChild(document.createElement('br'));
         
@@ -266,11 +331,33 @@ export class Modal {
         
         return new Promise<Partial<Destination>>((resolve) => {
             okBtn.onclick = (): void => {
+                
+                // TODO: come up with a better, not-so-hacky solution for getting the dates if set
+                let fromDate = '';
+                const fromMonth = document.getElementById('frommonthInput')?.value;
+                const fromDay = document.getElementById('fromdayInput')?.value;
+                const fromYear = document.getElementById('fromyearInput')?.value;
+                
+                if(fromMonth && fromDay && fromYear){
+                    fromDate = `${fromMonth}-${fromDay}-${fromYear}`;
+                }
+                
+                let toDate = '';
+                const toMonth = document.getElementById('tomonthInput')?.value;
+                const toDay = document.getElementById('todayInput')?.value;
+                const toYear = document.getElementById('toyearInput')?.value;
+                
+                if(toMonth && toDay && toYear){
+                    toDate = `${toMonth}-${toDay}-${toYear}`;
+                }
+              
                 const data = {
                     name: destinationName.value,
                     latitude: parseFloat(destinationLat.value),
                     longitude: parseFloat(destinationLong.value),
                     notes: destinationNotes.value,
+                    fromDate: fromDate,
+                    toDate: toDate,
                 };
                 
                 if(data.name === "" || isNaN(data.latitude) || isNaN(data.longitude)){

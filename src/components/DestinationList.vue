@@ -71,7 +71,7 @@ export default class DestinationList extends DestinationListProps {
             longitude:  0,
             notes:      "",
             images:     [],
-            routeColor: "#888",
+            routeColor: "#3FB1CE",
         };
         
         const modal = new Modal();
@@ -81,6 +81,8 @@ export default class DestinationList extends DestinationListProps {
             data.latitude = destinationData.latitude;
             data.longitude = destinationData.longitude;
             data.notes = destinationData.notes || "";
+            data.toDate = destinationData.toDate;
+            data.fromDate = destinationData.fromDate;
             
             if(!isNaN(data.latitude) && !isNaN(data.longitude)){
                 console.log("adding new destination manually");
