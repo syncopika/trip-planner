@@ -81,8 +81,8 @@ export default class DestinationList extends DestinationListProps {
             data.latitude = destinationData.latitude;
             data.longitude = destinationData.longitude;
             data.notes = destinationData.notes || "";
-            data.toDate = destinationData.toDate;
-            data.fromDate = destinationData.fromDate;
+            data.toDate = destinationData.toDate || "";
+            data.fromDate = destinationData.fromDate || "";
             
             if(!isNaN(data.latitude) && !isNaN(data.longitude)){
                 console.log("adding new destination manually");

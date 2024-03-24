@@ -298,20 +298,22 @@ export class Modal {
         const from = document.createElement('p');
         from.textContent = 'from:';
         from.style.fontSize = '18px';
+        from.style.margin = '0 auto';
         
         // to date
         const toDateInput = this._createDateInput('to');
         const to = document.createElement('p');
         to.textContent = 'to:';
         to.style.fontSize = '18px';
-        
-        inputsDiv.appendChild(from);
-        inputsDiv.appendChild(fromDateInput);
-        inputsDiv.appendChild(to);
-        inputsDiv.appendChild(toDateInput);
+        to.style.margin = '0 auto';
         
         modal.appendChild(inputsDiv);
         modal.appendChild(document.createElement('br'));
+        
+        modal.appendChild(from);
+        modal.appendChild(fromDateInput);
+        modal.appendChild(to);
+        modal.appendChild(toDateInput);
         
         const modalOverlay = document.createElement('div');
         modalOverlay.id = "modal-overlay";
@@ -334,21 +336,21 @@ export class Modal {
                 
                 // TODO: come up with a better, not-so-hacky solution for getting the dates if set
                 let fromDate = '';
-                const fromMonth = document.getElementById('frommonthInput')?.value;
-                const fromDay = document.getElementById('fromdayInput')?.value;
-                const fromYear = document.getElementById('fromyearInput')?.value;
+                const fromMonth = document.getElementById('frommonthInput') as HTMLInputElement;
+                const fromDay = document.getElementById('fromdayInput') as HTMLInputElement;
+                const fromYear = document.getElementById('fromyearInput') as HTMLInputElement;
                 
                 if(fromMonth && fromDay && fromYear){
-                    fromDate = `${fromMonth}-${fromDay}-${fromYear}`;
+                    fromDate = `${fromMonth.value}-${fromDay.value}-${fromYear.value}`;
                 }
                 
                 let toDate = '';
-                const toMonth = document.getElementById('tomonthInput')?.value;
-                const toDay = document.getElementById('todayInput')?.value;
-                const toYear = document.getElementById('toyearInput')?.value;
+                const toMonth = document.getElementById('tomonthInput') as HTMLInputElement;
+                const toDay = document.getElementById('todayInput') as HTMLInputElement;
+                const toYear = document.getElementById('toyearInput') as HTMLInputElement;
                 
                 if(toMonth && toDay && toYear){
-                    toDate = `${toMonth}-${toDay}-${toYear}`;
+                    toDate = `${toMonth.value}-${toDay.value}-${toYear.value}`;
                 }
               
                 const data = {
@@ -369,7 +371,7 @@ export class Modal {
             cancelBtn.onclick = (): void => {
                 resolve({});
             };
-        }).finally((): void => {
+        }).finally(() => {
             // make sure to close modal
             document.body.removeChild(modal);
             document.body.removeChild(modalOverlay);
