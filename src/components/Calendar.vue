@@ -25,7 +25,7 @@ export default Vue.extend({
     props: {
         destName: { required: true, type: String },
         isEditing: { required: true, type: Boolean },
-        date: { required: true, type: String },
+        date: { required: true, type: String }, // in MM-DD-YYYY format
         header: { required: true, type: String },
     },
     methods: {

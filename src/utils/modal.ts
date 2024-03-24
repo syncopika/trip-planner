@@ -175,6 +175,54 @@ export class Modal {
         });
     }
     
+    _createDateInput(headerText: string): HTMLElement {
+        const div = document.createElement('div');
+        
+        //const header = document.createElement('p');
+        //header.textContent = `${headerText}:`;
+        
+        const monthInput = document.createElement('input');
+        monthInput.id = `${headerText}monthInput`;
+        monthInput.type = 'text';
+        monthInput.size = 2;
+        monthInput.maxLength = 2;
+        monthInput.placeholder = 'mm';
+        monthInput.style.display = 'inline-block';
+        
+        const dayInput = document.createElement('input');
+        dayInput.id = `${headerText}dayInput`;
+        dayInput.type = 'text';
+        dayInput.size = 2;
+        dayInput.maxLength = 2;
+        dayInput.placeholder = 'dd';
+        dayInput.style.display = 'inline-block';
+        
+        const yearInput = document.createElement('input');
+        yearInput.id = `${headerText}yearInput`;
+        yearInput.type = 'text';
+        yearInput.size = 4;
+        yearInput.maxLength = 4;
+        yearInput.placeholder = 'yyyy';
+        yearInput.style.display = 'inline-block';
+        
+        const slash1 = document.createElement('p');
+        slash1.textContent = '/';
+        slash1.style.display = 'inline-block';
+        
+        const slash2 = document.createElement('p');
+        slash2.textContent = '/';
+        slash2.style.display = 'inline-block';
+        
+        //div.appendChild(header);
+        div.appendChild(monthInput);
+        div.append(slash1);
+        div.appendChild(dayInput);
+        div.append(slash2);
+        div.appendChild(yearInput);
+        
+        return div;
+    }
+    
     // modal for adding a new destination manually
     addNewDestinationModal(): Promise<Partial<Destination>> {
         const modal = document.createElement('div');
@@ -245,8 +293,27 @@ export class Modal {
         inputsDiv.appendChild(destinationNotesLabel);
         inputsDiv.appendChild(destinationNotes);
         
+        // from date
+        const fromDateInput = this._createDateInput('from');
+        const from = document.createElement('p');
+        from.textContent = 'from:';
+        from.style.fontSize = '18px';
+        from.style.margin = '0 auto';
+        
+        // to date
+        const toDateInput = this._createDateInput('to');
+        const to = document.createElement('p');
+        to.textContent = 'to:';
+        to.style.fontSize = '18px';
+        to.style.margin = '0 auto';
+        
         modal.appendChild(inputsDiv);
         modal.appendChild(document.createElement('br'));
+        
+        modal.appendChild(from);
+        modal.appendChild(fromDateInput);
+        modal.appendChild(to);
+        modal.appendChild(toDateInput);
         
         const modalOverlay = document.createElement('div');
         modalOverlay.id = "modal-overlay";
@@ -266,11 +333,33 @@ export class Modal {
         
         return new Promise<Partial<Destination>>((resolve) => {
             okBtn.onclick = (): void => {
+                
+                // TODO: come up with a better, not-so-hacky solution for getting the dates if set
+                let fromDate = '';
+                const fromMonth = document.getElementById('frommonthInput') as HTMLInputElement;
+                const fromDay = document.getElementById('fromdayInput') as HTMLInputElement;
+                const fromYear = document.getElementById('fromyearInput') as HTMLInputElement;
+                
+                if(fromMonth && fromDay && fromYear){
+                    fromDate = `${fromMonth.value}-${fromDay.value}-${fromYear.value}`;
+                }
+                
+                let toDate = '';
+                const toMonth = document.getElementById('tomonthInput') as HTMLInputElement;
+                const toDay = document.getElementById('todayInput') as HTMLInputElement;
+                const toYear = document.getElementById('toyearInput') as HTMLInputElement;
+                
+                if(toMonth && toDay && toYear){
+                    toDate = `${toMonth.value}-${toDay.value}-${toYear.value}`;
+                }
+              
                 const data = {
                     name: destinationName.value,
                     latitude: parseFloat(destinationLat.value),
                     longitude: parseFloat(destinationLong.value),
                     notes: destinationNotes.value,
+                    fromDate: fromDate,
+                    toDate: toDate,
                 };
                 
                 if(data.name === "" || isNaN(data.latitude) || isNaN(data.longitude)){
@@ -282,7 +371,7 @@ export class Modal {
             cancelBtn.onclick = (): void => {
                 resolve({});
             };
-        }).finally((): void => {
+        }).finally(() => {
             // make sure to close modal
             document.body.removeChild(modal);
             document.body.removeChild(modalOverlay);

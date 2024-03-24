@@ -43,7 +43,7 @@ new Vue({
                         "fromDate": "01-01-2020",
                         "toDate": "01-05-2020",
                         "images": [] as string[],
-                        "routeColor": "#888"
+                        "routeColor": "#3FB1CE"
                     },
                     {
                         "name": "test2",
@@ -53,7 +53,7 @@ new Vue({
                         "fromDate": "01-05-2020",
                         "toDate": "01-07-2020",
                         "images": [] as string[],
-                        "routeColor": "#888"
+                        "routeColor": "#3FB1CE"
                     }
                 ]
             }
@@ -578,7 +578,7 @@ new Vue({
                     fromDate: "",
                     notes: "",
                     images: [],
-                    routeColor: "#888"
+                    routeColor: "#3FB1CE"
                 };
 				
                 if(this.canGetSuggestedNextDests && !this.useOverpassAPI){

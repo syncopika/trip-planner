@@ -300,11 +300,11 @@ label {
     display: flex;
     flex-direction: row;
     background-color: var(--black);
-   -webkit-font-smoothing: antialiased;
-   -moz-osx-font-smoothing: grayscale;
-   text-align: center;
-   color: var(--app-text-color);
-   height: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: var(--app-text-color);
+    height: 100%;
 }
 
 @media screen and (max-width: 800px) {
