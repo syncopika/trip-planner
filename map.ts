@@ -97,7 +97,7 @@ class MapBoxWrapper {
         this.map = map;
     }
     
-    async addMarker(latitude: number, longitude: number){
+    async addMarker(latitude: number, longitude: number): void {
         // get name of destination. make sure it's a new name not already used.
         const modal = new Modal();
         const name = await modal.createInputModal("enter destination name");
@@ -153,12 +153,17 @@ class MapBoxWrapper {
         return this.container;
     }
     
-    isUniqueDestName(name: string) {
+    isUniqueDestName(name: string): boolean {
         return !this.destNames.has(name);
     }
     
-    addMarkerToMap(data: any){
-        const newMarker = new mapboxgl.Marker();
+    addMarkerToMap(data: any): mapboxgl.Marker {
+        const options: any = {};
+        if(data.routeColor){
+            options.color = data.routeColor;
+        }
+        
+        const newMarker = new mapboxgl.Marker(options);
         let popupContent = "";
         
         if(data.name){
@@ -213,7 +218,7 @@ class MapBoxWrapper {
         return true;
     }
     
-    clearLines(){
+    clearLines(): void {
         this.markers.forEach((marker, idx) => {
             const routeId = 'route' + idx;
             const sourceId = 'source' + idx;
@@ -430,7 +435,7 @@ class MapBoxWrapper {
         this.searchResults = [];
     }
     
-    drawLineBetweenMarkers(){
+    drawLineBetweenMarkers(): void {
         for(let i = 0; i < this.markers.length - 1; i++) {
             const currDest = this.markers[i];
             const nextDest = this.markers[i + 1];
