@@ -87,7 +87,6 @@ export default class DestinationList extends DestinationListProps {
             if(!isNaN(data.latitude) && !isNaN(data.longitude)){
                 console.log("adding new destination manually");
                 // update data source with new info
-                //@ts-ignore 
                 this.$root.addNewDestination(data);
             }
         }

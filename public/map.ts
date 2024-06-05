@@ -75,15 +75,15 @@ class MapBoxWrapper {
         });
 
         // support doubletap on mobile for double-click
-        let tapped: any = undefined;
+        let tapped: number = -1;
         map.on('touchstart', async (evt) => {
-            if(!tapped){
-                tapped = setTimeout(() => {
-                    tapped = undefined;
+            if(tapped === -1){
+                tapped = window.setTimeout(() => {
+                    tapped = -1;
                 }, 300);
             }else{
-                clearTimeout(tapped);
-                tapped = undefined;
+                window.clearTimeout(tapped);
+                tapped = -1;
 
                 // double-tap occurred
                 const modal = new Modal();

@@ -5,7 +5,7 @@
 
 //const path = require('path');
 
-const bundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+//const bundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
     entry: './public/iframeSetup.ts',
@@ -19,7 +19,7 @@ module.exports = {
         ],
     },
     resolve: {
-        extensions: [ '.tsx', '.ts', '.js' ],
+        extensions: ['.tsx', '.ts', '.js'],
     },
     output: {
         filename: 'bundle.js',

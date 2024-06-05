@@ -35,7 +35,7 @@ option menu
 npm install
 ```
     
-For setting up the iframe that contains the map, run `npm run setup-map-dev`. This will create a `bundle.js` file used by `mapIframe.html` in `/public` (which contains all the components needed for building the iframe). You'll have to add your MapBox API token to `iframeSetup.ts` first to use a MapBox map style. Otherwise, I have a default map style and tiles that we can use for free thanks to [Stamen Design](http://maps.stamen.com/#terrain/12/37.7706/-122.3782). I'm not sure having a separate build step for the iframe is quite right but for now it works :).    
+For setting up the iframe that contains the map, run `npm run setup-map-dev`. This will create a `bundle.js` file used by `mapIframe.html` in `/public` (which contains all the components needed for building the iframe). You'll have to add your MapBox API token to `iframeSetup.ts` first to use a MapBox map style. Otherwise, I have a default map style and tiles from OpenStreetMap. I'm not sure having a separate build step for the iframe is quite right but for now it works :).    
     
 ### database/api server setup    
 For the backend, I went with PostgreSQL. For this project my test db is called `trip_planner_test` and I have 2 tables called `users` and `destinations`. I currently don't have any login functionality so the `users` table is not important atm. `destinations` is where all users' destination information is supposed to go. See notes.txt for more info about those tables. 

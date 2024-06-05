@@ -91,14 +91,14 @@ export default Vue.extend({
             const newTripName = await modalHandler.createInputModal("please enter the name of the new trip:");
             
             if(newTripName){
-                (this.$root as any).addNewTrip(newTripName);
+                this.$root.addNewTrip(newTripName);
             }
         },
         
         selectTrip: function(evt: MouseEvent): void {
             if(evt){
                 const index = parseInt((evt.target as HTMLParagraphElement).id.split("_")[1]);
-                (this.$root as any).selectTrip(index);
+                this.$root.selectTrip(index);
             }
         },
         
@@ -111,16 +111,16 @@ export default Vue.extend({
         
         importData: function(evt: MouseEvent): void {
             // call root to import data
-            (this.$root as any).importData(evt);
+            this.$root.importData(evt);
         },
         
         exportData: function(): void {
             // call root to download trip data
-            (this.$root as any).exportData();
+            this.$root.exportData();
         },
         
         exportCurrTripHTML: function(): void {
-            (this.$root as any).exportCurrTripHTML();
+            this.$root.exportCurrTripHTML();
         },
         
         saveData: function(): void {
@@ -137,14 +137,11 @@ export default Vue.extend({
             this.nextDestDataSource = value.nextDestDataSource;
         
             if(value.showSuggestedDestinations && value.nextDestDataSource === "overpassApi"){
-                //@ts-ignore TODO: can we fix this without ignoring? (TS-2339)
                 this.$root.setOverpassApiUse(true, value.overpassApiEntity); // update useOverpassAPI in root
             }else{
-                //@ts-ignore TODO: can we fix this without ignoring? (TS-2339)
                 this.$root.setOverpassApiUse(false);
             }
-            
-            //@ts-ignore TODO: can we fix this without ignoring? (TS-2339)
+
             this.$root.updateAppearancePerOptions(value);
         }
     }

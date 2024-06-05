@@ -1,3 +1,7 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+
+// TODO: need to specify type, don't use any
+
 // interface for interacting with Postgres
 import { DatabaseInterface } from "./dbInterface";
 
