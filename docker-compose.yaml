@@ -1,0 +1,32 @@
+version: '2.0'
+
+networks:
+  network_compose:
+    driver: bridge
+
+services:
+  # container for the db
+  postgres:
+    container_name: postgres
+    environment:
+      #PGDATA:
+      #POSTGRES_DB:
+      #POSTGRES_PASSWORD: password
+      #POSTGRES_USER: user
+    image: postgres:13.4
+    networks:
+      network_compose:
+    ports:
+      - "5432:5432"
+    restart: always
+    
+  # container for the app
+  trip-planner:
+    container_name: trip-planner
+    image: trip-planner-app
+    networks:
+      network_compose:
+    restart: always
+    depends_on:
+    - postgres
+    

@@ -1,0 +1,3 @@
+notes for getting the app + db set up in a containerized way (using Docker)
+
+https://www.netnea.com/cms/nginx-tutorial-2_minimal-nginx-configuration/
