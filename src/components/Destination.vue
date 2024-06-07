@@ -6,8 +6,7 @@
         @mouseleave="dehighlightBorder"
         draggable
         @dragstart="onDragStart"
-        >
-
+    >
         <!-- name of destination -->
         <h1 :id="destination.name" @click="toggleVisibility"> 
             {{destination.name}} 
@@ -209,8 +208,6 @@ export default Vue.extend({
             const remove = await modal.createQuestionModal("Are you sure you want to remove this destination?");
             if (remove) {
                 const name = (evt.target as HTMLElement).id.split("_")[0]; // i.e. name_dest, and we want name
-
-                //@ts-ignore TODO: can we fix this without ignoring? (TS-2339)
                 this.$root.removeDestination(name);
             }
         },
@@ -240,9 +237,7 @@ export default Vue.extend({
             data.newName = newName;
 
             // get from and to dates
-            //@ts-ignore (TS-2339)
             const fromDate = this.$refs[name + "_fromDate"].getDateInfo();
-            //@ts-ignore (TS-2339)
             const toDate = this.$refs[name + "_toDate"].getDateInfo();
 
             data.fromDate = `${fromDate.month}-${fromDate.day}-${fromDate.year}`;
@@ -256,7 +251,6 @@ export default Vue.extend({
             if(colorWheel && colorWheel.parentNode) colorWheel.parentNode.removeChild(colorWheel);
 
             // update data source with new info
-            //@ts-ignore 
             this.$root.updateDestination(data);
 
             this.isEditing = false;
@@ -298,8 +292,7 @@ export default Vue.extend({
                 // update data
                 const data: Destination = JSON.parse(JSON.stringify(this.destination)); // making a copy
                 data.images.push(imgSrcStr);
-
-                //@ts-ignore 
+                
                 this.$root.updateDestination(data);
             };
             //read the file as a URL
@@ -426,7 +419,6 @@ export default Vue.extend({
                     const x = e.offsetX;
                     const y = e.offsetY;
 
-                    //@ts-ignore (2531)
                     const colorPicked = (colorWheel.getContext('2d')).getImageData(x, y, 1, 1).data;
                     // convert to hex?
                     const colorCode = 'rgb(' + colorPicked[0] + ',' + colorPicked[1] + ',' + colorPicked[2] + ')';

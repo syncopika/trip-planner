@@ -1,3 +1,5 @@
+// not sure we need this anymore?
+/*
 import Vue, { VNode } from 'vue'
 
 declare global {
@@ -11,3 +13,4 @@ declare global {
     }
   }
 }
+*/

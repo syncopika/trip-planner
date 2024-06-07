@@ -74,7 +74,7 @@ export class Modal {
             };
             
             cancelBtn.onclick = (): void => {
-                resolve(undefined);
+                resolve("");
             };
         }).finally((): void => {
             // make sure to close modal

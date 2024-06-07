@@ -1,3 +1,7 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+
+// TODO: need to specify type, don't use any
+
 // interface for any specific db-interfacing class to implement
 // e.g. we can have a class to use for a MongoDB instance and a different one for a Postgres instance
 // but they'll all implement this interface

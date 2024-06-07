@@ -99,7 +99,7 @@ const TripPlannerAppProps = Vue.extend({
         },
         appearanceOptions: {
             required: true,
-            type: Object as PropType<Record<string, any>>
+            type: Object as PropType<Record<string, boolean>>
         },
     }
 })
@@ -114,13 +114,10 @@ const TripPlannerAppProps = Vue.extend({
 
 export default class App extends TripPlannerAppProps {
 
-    showSuggestedNextHops = false;
+    showSuggestedNextHops;
 
     // e.g. https://wiki.openstreetmap.org/wiki/Key:amenity
-    overpassApiKeys: string[] = [
-        "shop",
-        "amenity",
-    ];
+    overpassApiKeys: string[];
 
     created(): void {
         this.$watch('listOfDest', (newVal: Array<Destination>) => {
@@ -190,7 +187,6 @@ export default class App extends TripPlannerAppProps {
                     // the new trip name already exists
                     trip.textContent = this.tripName;
                 }else{
-                    //@ts-ignore TODO: can we fix this without ignoring? (TS-2339)
                     this.$root.updateTripName(editedTripName);
 
                     // TODO: update db with new name?
@@ -212,7 +208,6 @@ export default class App extends TripPlannerAppProps {
             const locationType = locationTypeSelect.options[locationTypeSelect.selectedIndex].value;
 
             // search for locations - this will update the map showing any results found
-            //@ts-ignore
             this.$root.getSearchResultsFromOverpass(locationType, "name", locationInput).then(async (data) => {
                 this.dispatchEventToMap('showSearchResults', data);
                 
@@ -249,6 +244,14 @@ export default class App extends TripPlannerAppProps {
     }
     
     mounted(): void {
+        this.showSuggestedNextHops = false;
+
+        // e.g. https://wiki.openstreetmap.org/wiki/Key:amenity
+        this.overpassApiKeys = [
+            "shop",
+            "amenity",
+        ];
+
         // the iframe might not be ready?
         // so listen for the ready event first
         window.document.addEventListener('imready', this._handleReady, false);        

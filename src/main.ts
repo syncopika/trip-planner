@@ -193,7 +193,6 @@ new Vue({
             if(data.newName){
                 newName = data.newName; // new desired destination name
 
-                //@ts-ignore TODO: investigate this? (TS-2339)
                 const destWithNewNameExists = this.findDestination(newName);
 
                 if(currName !== newName && !destWithNewNameExists){
@@ -397,7 +396,7 @@ new Vue({
             
             function getResults(responseData: OverpassAPIData): OverpassAPIDestinationSuggestion[] {
                 const elements = responseData.elements;
-                console.log(elements);
+                //console.log(elements);
                 return elements.filter(x => x.tags && x.lon && x.lat).map((el: OverpassAPINode) => {
                     // TODO: add address if available (e.g. addr:city, addr:street, addr:state, etc.)
                     // TODO: maybe let tag info be optional? also, sometimes "way" elements are actual places - can we derive long and lat from its nodes maybe?
@@ -513,12 +512,10 @@ new Vue({
         
         getNextDestSuggestions: function(): void {
             if(this.useOverpassAPI){
-                //@ts-ignore TODO: investigate this? (TS-2339)
                 this.getSuggestionsFromOverpass(this.overpassApiKeyToFind, this.overpassApiEntityToFind).then((data) => {
                     this.suggestedNextDests = data;
                 });
             }else{
-                //@ts-ignore TODO: investigate this? (TS-2339)
                 this.suggestedNextDests = this.getFakeSuggestions();
             }
         },
@@ -619,4 +616,4 @@ new Vue({
                 this.getNextDestSuggestions();
             });
     }
-}).$mount('#app') // #app is in /public/index.html
+}).$mount('#app') // #app is in ./index.html
