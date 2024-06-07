@@ -2,6 +2,7 @@
 
 import { defineConfig } from 'vite';
 import { createVuePlugin as vue } from 'vite-plugin-vue2';
+import * as path from 'path';
 
 // https://vitejs.dev/config/
 //export default defineConfig({
@@ -27,8 +28,17 @@ export default defineConfig(({ mode }) => {
     // build the app
     return {
       plugins: [vue()],
+      resolve: {
+        alias: {
+          "@": path.resolve(__dirname, "./src"),
+        },
+      },
       build: {
         emptyOutDir: false,
+      },
+      test: {
+        globals: true,
+        environment: 'jsdom',
       }
     }
   }

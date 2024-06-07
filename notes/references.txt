@@ -88,6 +88,8 @@ https://stackoverflow.com/questions/40408096/whats-the-correct-way-to-pass-props
 https://vueschool.io/articles/vuejs-tutorials/how-to-migrate-from-vue-cli-to-vite/
 https://stackoverflow.com/questions/74390015/how-to-do-multiple-bundles-with-vite
 https://github.com/rollup/rollup/issues/2616
+https://stackoverflow.com/questions/75971024/describe-is-not-defined-in-vitest
+https://github.com/vuejs/vue-test-utils/issues/999
 
 TESTING:
 https://stackoverflow.com/questions/42711175/what-does-the-symbol-do-in-javascript-imports - saw this in the test example in tests/unit
