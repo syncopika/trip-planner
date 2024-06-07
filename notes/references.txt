@@ -90,6 +90,7 @@ https://stackoverflow.com/questions/74390015/how-to-do-multiple-bundles-with-vit
 https://github.com/rollup/rollup/issues/2616
 https://stackoverflow.com/questions/75971024/describe-is-not-defined-in-vitest
 https://github.com/vuejs/vue-test-utils/issues/999
+https://dev.to/lesalvucci/how-to-test-windowopen-in-vue-with-vitest-56pn
 
 TESTING:
 https://stackoverflow.com/questions/42711175/what-does-the-symbol-do-in-javascript-imports - saw this in the test example in tests/unit
