@@ -616,4 +616,4 @@ new Vue({
                 this.getNextDestSuggestions();
             });
     }
-}).$mount('#app') // #app is in /public/index.html
+}).$mount('#app') // #app is in ./index.html

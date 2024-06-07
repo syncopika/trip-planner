@@ -6,8 +6,7 @@
         @mouseleave="dehighlightBorder"
         draggable
         @dragstart="onDragStart"
-        >
-
+    >
         <!-- name of destination -->
         <h1 :id="destination.name" @click="toggleVisibility"> 
             {{destination.name}} 

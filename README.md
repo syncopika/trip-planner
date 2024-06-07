@@ -1,6 +1,6 @@
 # trip-planner    
     
-An experimental application idea to help plan out your future trips or record old ones.    
+An application idea to help plan out your future trips or record old ones.    
     
 some features include:    
 - save trip data as JSON (but any images added will not be saved)
@@ -35,23 +35,21 @@ option menu
 npm install
 ```
     
-For setting up the iframe that contains the map, run `npm run setup-map-dev`. This will create a `bundle.js` file used by `mapIframe.html` in `/public` (which contains all the components needed for building the iframe). You'll have to add your MapBox API token to `iframeSetup.ts` first to use a MapBox map style. Otherwise, I have a default map style and tiles from OpenStreetMap. I'm not sure having a separate build step for the iframe is quite right but for now it works :).    
+For setting up the iframe that contains the map, run `npm run setup-map`. This will create a `bundle.js` file used by `mapIframe.html` in `/public` (which contains all the components needed for building the iframe). You'll have to add your MapBox API token to `iframeSetup.ts` first to use a MapBox map style. Otherwise, I have a default map style and tiles from OpenStreetMap.    
     
 ### database/api server setup    
-For the backend, I went with PostgreSQL. For this project my test db is called `trip_planner_test` and I have 2 tables called `users` and `destinations`. I currently don't have any login functionality so the `users` table is not important atm. `destinations` is where all users' destination information is supposed to go. See notes.txt for more info about those tables. 
-
+For the backend database, I'm using PostgreSQL. For this project my test db is called `trip_planner_test` and I have 2 tables called `users` and `destinations`. I currently don't have any login functionality so the `users` table is not important atm. `destinations` is where all users' destination information is supposed to go. See notes.txt for more info about those tables.    
+    
 After postgres is setup, see `loadFakeData.js` in the `db_stuff` folder. Adjust any postgres-specific variables like username/password/database name and run `node loadFakeData.js` to import the data from `test_destinations.json` into the database.    
-
+    
 Make sure to run the backend server via `node api-server.js`. The Vue app makes calls for data to this server, which in turn communicates with the database.     
     
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+npm run dev
 ```    
     
-Note that I have a `vue.config.js` file set up such that you'll want to navigate to `http://localhost:8080/trip-planner`.    
-    
-Also, everything should work "out-of-the-box" so you can play with the app (without the need to set up the backend) with just `npm run serve`. For the next destination suggestion feature I have some fake suggestions that show up on the map if they're within 20km of your current last trip destination.    
+Also, everything should work "out-of-the-box" so you can play with the app (without the need to set up the backend) with just `npm run dev`. For the next destination suggestion feature I have some fake suggestions that show up on the map if they're within 20km of your current last trip destination.    
     
 ### Compiles and minifies for production
 ```
