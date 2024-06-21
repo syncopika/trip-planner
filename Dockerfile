@@ -1,6 +1,6 @@
 # this is untested atm and will probably almost definitely not work straightaway
 
-FROM alpine:latest
+FROM ubuntu:latest
 
 RUN apt-get update -y \
     && apt-get install -y \
@@ -12,7 +12,7 @@ EXPOSE 443
 
 # copy nginx files + entrypoint
 COPY docker/entrypoint.sh /opt/trip-planner/entrypoint.sh
-COPY docker/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY docker/nginx.conf /etc/nginx/nginx.conf
 
 # TODO: do we need this?
 RUN useradd -s /sbin/nologin -M nginx
