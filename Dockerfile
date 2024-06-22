@@ -1,5 +1,3 @@
-# this is untested atm and will probably almost definitely not work straightaway
-
 FROM ubuntu:latest
 
 RUN apt-get update -y \
@@ -30,7 +28,7 @@ COPY . /opt/trip-planner/
 WORKDIR /opt/trip-planner/
 
 RUN npm install
-RUN npm run setup-map-dev
+RUN npm run setup-map
 RUN npm run build
 
-CMD ["entrypoint.sh"]
+CMD ["/opt/trip-planner/entrypoint.sh"]

@@ -1,3 +1,15 @@
 notes for getting the app + db set up in a containerized way (using Docker)
 
+docker ps          -> list running containers
+docker images      -> list current images
+docker image prune -> remove dangling images
+
+docker build -t <tag you want for the image> .
+docker run <-d (detached)> <--publish ext_port:container_port> <--name 'container-name'> --network=host <name of image to run>
+docker kill <container-id>
+
+see https://github.com/syncopika/mu-services/blob/main/notes.txt for more info
+
+
 https://www.netnea.com/cms/nginx-tutorial-2_minimal-nginx-configuration/
+https://stackoverflow.com/questions/58681224/nginx-in-docker-fails-to-talk-to-localhost
