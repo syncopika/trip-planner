@@ -10,9 +10,9 @@ services:
     container_name: postgres
     environment:
       #PGDATA:
-      #POSTGRES_DB:
-      #POSTGRES_PASSWORD: password
-      #POSTGRES_USER: user
+      POSTGRES_DB: trip_planner_test
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: user
     image: postgres:13.4
     networks:
       network_compose:
@@ -20,13 +20,20 @@ services:
       - "5432:5432"
     restart: always
     
-  # container for the app
+  # container for the app (frontend)
   trip-planner:
     container_name: trip-planner
-    image: trip-planner-app
+    image: trip-planner
+    networks:
+      network_compose:
+    restart: always
+    
+  # container for the backend
+  trip-planner-backend:
+    container_name: trip-planner-backend
+    image: trip-planner-backend
     networks:
       network_compose:
     restart: always
     depends_on:
     - postgres
-    
