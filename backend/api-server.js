@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 // fill this info in with your local db info
 const client = new pg.Client({
     user: 'postgres',
-    host: 'localhost',
+    host: 'postgres', //'localhost',
     database: 'trip_planner_test',
     password: 'password',
     port: 5432,
