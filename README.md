@@ -42,9 +42,16 @@ If you want to use a MapBox map style, you'll have to add your MapBox API token 
 ### database/api server setup    
 For the backend database, I'm using PostgreSQL. For this project my test db is called `trip_planner_test` and I have 2 tables called `users` and `destinations`. I currently don't have any login functionality so the `users` table is not important atm. `destinations` is where all users' destination information is supposed to go. See notes.txt for more info about those tables.    
     
-After postgres is setup, see `loadFakeData.js` in the `db_stuff` folder. Adjust any postgres-specific variables like username/password/database name and run `node loadFakeData.js` to import the data from `test_destinations.json` into the database.    
+After postgres is setup, see `loadFakeData.js` in `/db_stuff`. Adjust any postgres-specific variables like username/password/database name and run `node loadFakeData.js` to import the data from `test_destinations.json` into the database.    
     
-Make sure to run the backend server via `node api-server.js`. The Vue app makes calls for data to this server, which in turn communicates with the database.     
+Make sure to run the backend server in `/backend` via `node api-server.js`. The Vue app makes calls for data to this server, which in turn communicates with the database.     
+    
+### Docker
+If you have Docker, you can build the frontend and backend container images via `docker build -t trip-planner .` in the root directory and `docker build -t trip-planner-backend .` in `/backend`. Then, in the root directory, you can run `docker-compose up` to run all the containers, including the PostgreSQL database. Note that currently the database doesn't have any data preloaded though so that needs to be worked out.    
+    
+If you just want to run the frontend, you can do so with `docker run -d -p 8080:8080 --network=host`.    
+    
+When the container(s) are running, navigate to `localhost:8080` and you should see the app :).    
     
 ### Compiles and hot-reloads for development
 ```

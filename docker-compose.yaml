@@ -1,0 +1,29 @@
+version: '2.0'
+
+services:
+  # container for the db
+  postgres:
+    container_name: postgres
+    environment:
+      #PGDATA:
+      POSTGRES_DB: trip_planner_test
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: user
+    image: postgres:13.4
+    ports:
+      - "5432:5432"
+    restart: always
+    
+  # container for the app (frontend)
+  trip-planner:
+    container_name: trip-planner
+    image: trip-planner
+    restart: always
+    
+  # container for the backend
+  trip-planner-backend:
+    container_name: trip-planner-backend
+    image: trip-planner-backend
+    restart: always
+    depends_on:
+    - postgres
