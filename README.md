@@ -46,6 +46,13 @@ After postgres is setup, see `loadFakeData.js` in `/db_stuff`. Adjust any postgr
     
 Make sure to run the backend server in `/backend` via `node api-server.js`. The Vue app makes calls for data to this server, which in turn communicates with the database.     
     
+### Docker
+If you have Docker, you can build the frontend and backend container images via `docker build -t trip-planner .` in the root directory and `docker build -t trip-planner-backend .` in `/backend`. Then, in the root directory, you can run `docker-compose up` to run all the containers, including the PostgreSQL database. Note that currently the database doesn't have any data preloaded though so that needs to be worked out.    
+    
+If you just want to run the frontend, you can do so with `docker run -d -p 8080:8080 --network=host`.    
+    
+When the container(s) are running, navigate to `localhost:8080` and you should see the app :).    
+    
 ### Compiles and hot-reloads for development
 ```
 npm run dev
