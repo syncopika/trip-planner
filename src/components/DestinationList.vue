@@ -21,7 +21,6 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue';
-import Component from 'vue-class-component';
 import { Destination as DestinationInterface } from '../utils/triproute';
 import { Modal } from "../utils/modal";
 import Destination from './Destination.vue';

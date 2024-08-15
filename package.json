@@ -14,8 +14,7 @@
     "axios": "^1.7.2",
     "core-js": "^3.8.1",
     "mapbox-gl": "^1.13.0",
-    "vue": "^2.7.16",
-    "vue-class-component": "^7.2.6"
+    "vue": "^2.7.16"
   },
   "devDependencies": {
     "@types/jest": "^27.1.5",

@@ -73,7 +73,6 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue';
-import Component from 'vue-class-component';
 import { Destination, UserSelectedOptionsInModal } from './utils/triproute';
 import DestinationList from './components/DestinationList.vue';
 import Navigation from './components/Navigation.vue';
