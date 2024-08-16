@@ -20,12 +20,12 @@
 
 
 <script lang="ts">
-import Vue, { PropType } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import { Destination as DestinationInterface } from '../utils/triproute';
 import { Modal } from "../utils/modal";
 import Destination from './Destination.vue';
 
-export default Vue.extend({
+export default defineComponent({
     props: {
         listOfDest: {
             type: Array as PropType<Array<DestinationInterface>>,
