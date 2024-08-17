@@ -4,7 +4,7 @@ import OptionsModal from '@/components/OptionsModal.vue'
 describe('OptionsModal.vue', () => {
     it('renders options modal component', () => {
         const wrapper = shallowMount(OptionsModal, {
-            propsData: {
+            props: {
                 initialTheme: "pastel",
                 initialShowLocationLookup: false,
                 initialShowSuggestedDestinations: false,

@@ -4,7 +4,7 @@
         class="dest"
         @mouseover="highlightBorder"
         @mouseleave="dehighlightBorder"
-        draggable
+        draggable="true"
         @dragstart="onDragStart"
     >
         <!-- name of destination -->

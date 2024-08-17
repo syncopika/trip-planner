@@ -17,7 +17,7 @@ describe('DestinationList.vue', () => {
         };
 	
         const wrapper = shallowMount(DestinationList, {
-            propsData: {
+            props: {
                 listOfDest: [dest],
             }
         });
