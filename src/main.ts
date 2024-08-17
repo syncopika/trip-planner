@@ -16,16 +16,14 @@ import {
 
 // root instance
 createApp({
-    render(h: CreateElement): VNode {
+    render(): VNode {
         // TODO: fetch user's tripdata from db here??
         return h(App, {
-            props: {
-                'listOfDest': this.tripData[this.currTripIndex].listOfDest,
-                'tripName': this.tripData[this.currTripIndex].tripName,
-                'listOfTripNames': this.tripData.map(trip => trip.tripName),
-                'suggestedNextDests': this.suggestedNextDests, // should be based on last destination in listOfDest
-                'appearanceOptions': this.appearanceOptions,
-            }
+            'listOfDest': this.tripData[this.currTripIndex].listOfDest,
+            'tripName': this.tripData[this.currTripIndex].tripName,
+            'listOfTripNames': this.tripData.map(trip => trip.tripName),
+            'suggestedNextDests': this.suggestedNextDests, // should be based on last destination in listOfDest
+            'appearanceOptions': this.appearanceOptions,
         });
     },
     data(){
