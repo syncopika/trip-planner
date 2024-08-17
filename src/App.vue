@@ -72,14 +72,26 @@
 
 
 <script lang="ts">
-import Vue, { PropType } from 'vue';
-import Component from 'vue-class-component';
+import { defineComponent, PropType } from 'vue';
 import { Destination, UserSelectedOptionsInModal } from './utils/triproute';
 import DestinationList from './components/DestinationList.vue';
 import Navigation from './components/Navigation.vue';
 import { Modal } from './utils/modal';
 
-const TripPlannerAppProps = Vue.extend({
+export default defineComponent({
+
+    data: function(){
+        return {
+            showSuggestedNextHops: false,
+            overpassApiKeys: [], // e.g. https://wiki.openstreetmap.org/wiki/Key:amenity
+        }
+    },
+    
+    components: {
+        DestinationList,
+        Navigation
+    },
+    
     props: {
         listOfDest: {
             required: true,
@@ -101,24 +113,117 @@ const TripPlannerAppProps = Vue.extend({
             required: true,
             type: Object as PropType<Record<string, boolean>>
         },
-    }
-})
+    },
+    
+    methods: {
+        dispatchEventToMap: function(eventName: string, data: Array<Destination>): void {
+            // send a custom event to the map iframe along with the data
+            const updateMapEvent = new CustomEvent(eventName, {detail: data});
+            const mapIframe = document.getElementById('mapContainer') as HTMLIFrameElement;
 
+            if(mapIframe !== null && mapIframe.contentDocument !== null){
+                //console.log("sending data to the iframe for event: " + eventName);
+                mapIframe.contentDocument.dispatchEvent(updateMapEvent);
+            }
+        },
+        
+        updateMap: function(data: Array<Destination>): void {
+            // take new destination data and update the MapBox map markers as needed
+            //console.log("I'm supposed to update the map!");
+            this.dispatchEventToMap('updateMap', data);
+        },
 
-@Component({
-    components: {
-        DestinationList,
-        Navigation
-    }
-})
+        updateSuggestedNextHops: function(data: Array<Destination>): void {
+            this.dispatchEventToMap('updateSuggestedNextHops', data);
+        },
 
-export default class App extends TripPlannerAppProps {
+        toggleTripSuggestions: function(): void {
+            this.showSuggestedNextHops = !this.showSuggestedNextHops;
 
-    showSuggestedNextHops;
+            // make sure map reflects new value
+            if(!this.showSuggestedNextHops){
+                this.updateSuggestedNextHops([]);
+            } else {
+                this.updateSuggestedNextHops(this.suggestedNextDests);
+            }
+        },
 
-    // e.g. https://wiki.openstreetmap.org/wiki/Key:amenity
-    overpassApiKeys: string[];
+        toggleTripTitleEdit: async function(evt: Event): Promise<void> {
+            const el = evt.target as HTMLElement;
+            
+            if(el === null) return;
+            
+            if(el.classList.contains("tripTitle")){
+                el.setAttribute("contenteditable", "true");
+            }else{
+                // check if we should edit the trip title. if the current text is of another
+                // trip that already exists, don't allow it and reset the text
+                // otherwise, update
+                const trip = document.querySelector(".tripTitle"); // there should only be one trip shown at a time
+                
+                if(trip){
+                    const editedTripName = trip.textContent ? trip.textContent.trim() : "";
+                    if(editedTripName !== this.tripName && this.listOfTripNames.includes(editedTripName)){
+                        // the new trip name already exists
+                        trip.textContent = this.tripName;
+                    }else{
+                        this.$root.updateTripName(editedTripName);
 
+                        // TODO: update db with new name?
+                    }
+                    trip.setAttribute("contenteditable", "false");
+                }
+            }
+        },
+        
+        // use this function to search for location via the Overpass API
+        // TODO: allow user to input a long and lat to search around?
+        // TODO: if we get Way elements in the response, can we match to a Node element? compare with results using https://overpass-turbo.eu/
+        searchLocationWithOverpass: function(): void {
+            const locationInput = (document.getElementById('nameOfLocation') as HTMLInputElement).value;
+
+            const locationTypeSelect: HTMLSelectElement = document.getElementById('typeOfLocation') as HTMLSelectElement;
+
+            if(locationInput && locationTypeSelect){
+                const locationType = locationTypeSelect.options[locationTypeSelect.selectedIndex].value;
+
+                // search for locations - this will update the map showing any results found
+                this.$root.getSearchResultsFromOverpass(locationType, "name", locationInput).then(async (data) => {
+                    this.dispatchEventToMap('showSearchResults', data);
+                    
+                    const modal = new Modal();
+                    await modal.createMessageModal(`${data.length} result(s) found for: ${locationInput}`);
+                });
+            }
+        },
+        
+        clearSearchResults: function(): void {
+            this.dispatchEventToMap('clearSearchResults', []);
+        },
+        
+        showHelpModal: async function(): Promise<void> {
+            const modal = new Modal();
+            await modal.createMessageModal([
+                "This feature allows you to search for a certain location by name using the Overpass API within a 20000m radius of the last destination in your list.",
+                "Currently you can only query for shops (e.g. Costco, Safeway, etc.) or amenities (e.g. McDonald's, see https://wiki.openstreetmap.org/wiki/Key:amenity) but hopefully more to come eventually!"
+            ], true);
+        },
+
+        _handleIframeLogs: function(evt: Event): void {
+            console.log(evt);
+        },
+        
+        _handleReady: function(): void {
+            console.log("got iframe ready message!!");
+            this.updateMap(this.listOfDest);
+
+            // this is false by default so not sure yet when this will ever happen
+            if(this.showSuggestedNextHops){
+                this.updateSuggestedNextHops(this.suggestedNextDests);
+            }
+        }
+    },
+    
     created(): void {
         this.$watch('listOfDest', (newVal: Array<Destination>) => {
             this.updateMap(newVal);
@@ -134,116 +239,9 @@ export default class App extends TripPlannerAppProps {
                 this.updateSuggestedNextHops(this.suggestedNextDests);
             }
         }, {deep: true});
-    }
-
-    dispatchEventToMap(eventName: string, data: Array<Destination>): void {
-        // send a custom event to the map iframe along with the data
-        const updateMapEvent = new CustomEvent(eventName, {detail: data});
-        const mapIframe = document.getElementById('mapContainer') as HTMLIFrameElement;
-
-        if(mapIframe !== null && mapIframe.contentDocument !== null){
-            //console.log("sending data to the iframe for event: " + eventName);
-            mapIframe.contentDocument.dispatchEvent(updateMapEvent);
-        }
-    }
+    },
     
-    updateMap(data: Array<Destination>): void {
-        // take new destination data and update the MapBox map markers as needed
-        //console.log("I'm supposed to update the map!");
-        this.dispatchEventToMap('updateMap', data);
-    }
-
-    updateSuggestedNextHops(data: Array<Destination>): void {
-        this.dispatchEventToMap('updateSuggestedNextHops', data);
-    }
-
-    toggleTripSuggestions(): void {
-        this.showSuggestedNextHops = !this.showSuggestedNextHops;
-
-        // make sure map reflects new value
-        if(!this.showSuggestedNextHops){
-            this.updateSuggestedNextHops([]);
-        } else {
-            this.updateSuggestedNextHops(this.suggestedNextDests);
-        }
-    }
-
-    async toggleTripTitleEdit(evt: Event): Promise<void> {
-        const el = evt.target as HTMLElement;
-        
-        if(el === null) return;
-        
-        if(el.classList.contains("tripTitle")){
-            el.setAttribute("contenteditable", "true");
-        }else{
-            // check if we should edit the trip title. if the current text is of another
-            // trip that already exists, don't allow it and reset the text
-            // otherwise, update
-            const trip = document.querySelector(".tripTitle"); // there should only be one trip shown at a time
-            
-            if(trip){
-                const editedTripName = trip.textContent ? trip.textContent.trim() : "";
-                if(editedTripName !== this.tripName && this.listOfTripNames.includes(editedTripName)){
-                    // the new trip name already exists
-                    trip.textContent = this.tripName;
-                }else{
-                    this.$root.updateTripName(editedTripName);
-
-                    // TODO: update db with new name?
-                }
-                trip.setAttribute("contenteditable", "false");
-            }
-        }
-    }
-    
-    // use this function to search for location via the Overpass API
-    // TODO: allow user to input a long and lat to search around?
-    // TODO: if we get Way elements in the response, can we match to a Node element? compare with results using https://overpass-turbo.eu/
-    searchLocationWithOverpass(): void {
-        const locationInput = (document.getElementById('nameOfLocation') as HTMLInputElement).value;
-
-        const locationTypeSelect: HTMLSelectElement = document.getElementById('typeOfLocation') as HTMLSelectElement;
-
-        if(locationInput && locationTypeSelect){
-            const locationType = locationTypeSelect.options[locationTypeSelect.selectedIndex].value;
-
-            // search for locations - this will update the map showing any results found
-            this.$root.getSearchResultsFromOverpass(locationType, "name", locationInput).then(async (data) => {
-                this.dispatchEventToMap('showSearchResults', data);
-                
-                const modal = new Modal();
-                await modal.createMessageModal(`${data.length} result(s) found for: ${locationInput}`);
-            });
-        }
-    }
-    
-    clearSearchResults(): void {
-        this.dispatchEventToMap('clearSearchResults', []);
-    }
-    
-    async showHelpModal(): Promise<void> {
-        const modal = new Modal();
-        await modal.createMessageModal([
-            "This feature allows you to search for a certain location by name using the Overpass API within a 20000m radius of the last destination in your list.",
-            "Currently you can only query for shops (e.g. Costco, Safeway, etc.) or amenities (e.g. McDonald's, see https://wiki.openstreetmap.org/wiki/Key:amenity) but hopefully more to come eventually!"
-        ], true);
-    }
-
-    _handleIframeLogs(evt: Event): void {
-        console.log(evt);
-    }
-    
-    _handleReady(): void {
-        console.log("got iframe ready message!!");
-        this.updateMap(this.listOfDest);
-
-        // this is false by default so not sure yet when this will ever happen
-        if(this.showSuggestedNextHops){
-            this.updateSuggestedNextHops(this.suggestedNextDests);
-        }
-    }
-    
-    mounted(): void {
+    mounted: function(): void {
         this.showSuggestedNextHops = false;
 
         // e.g. https://wiki.openstreetmap.org/wiki/Key:amenity
@@ -262,7 +260,7 @@ export default class App extends TripPlannerAppProps {
         // allow user to stop the trip title from being editable when clicking elsewhere other than the title text
         window.document.addEventListener('click', this.toggleTripTitleEdit);
     }
-}
+});
 </script>
 
 

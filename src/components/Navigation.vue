@@ -62,12 +62,12 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent } from "vue";
 import OptionsModal from './OptionsModal.vue';
 import { Modal } from "../utils/modal";
 import { UserSelectedOptionsInModal } from "../utils/triproute";
 
-export default Vue.extend({
+export default defineComponent({
     props: {
         listOfTripNames: { required: true, type: Array }
     },

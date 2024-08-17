@@ -111,10 +111,10 @@
 <script lang="ts">
 // https://v2.vuejs.org/v2/examples/modal
 
-import Vue from "vue";
+import { defineComponent } from "vue";
 import { Destination, UserSelectedOptionsInModal } from '../utils/triproute';
 
-export default Vue.extend({
+export default defineComponent({
     props: {
         initialTheme: String,
         initialShowLocationLookup: Boolean,

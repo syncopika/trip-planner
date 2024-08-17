@@ -1,4 +1,9 @@
-import Vue, {CreateElement, VNode} from 'vue'
+import {
+    createApp,
+    CreateElement,
+    VNode,
+    h
+} from 'vue'
 import App from './App.vue'
 import axios from 'axios';
 import { Modal } from './utils/modal';
@@ -14,23 +19,20 @@ import {
     UserSelectedOptionsInModal
 } from './utils/triproute';
 
-Vue.config.productionTip = false
-
 // root instance
-new Vue({
-    render(h: CreateElement): VNode {
+createApp({
+    render(): VNode {
         // TODO: fetch user's tripdata from db here??
         return h(App, {
-            props: {
-                'listOfDest': this.tripData[this.currTripIndex].listOfDest,
-                'tripName': this.tripData[this.currTripIndex].tripName,
-                'listOfTripNames': this.tripData.map(trip => trip.tripName),
-                'suggestedNextDests': this.suggestedNextDests, // should be based on last destination in listOfDest
-                'appearanceOptions': this.appearanceOptions,
-            }
+            'listOfDest': this.tripData[this.currTripIndex].listOfDest,
+            'tripName': this.tripData[this.currTripIndex].tripName,
+            'listOfTripNames': this.tripData.map(trip => trip.tripName),
+            'suggestedNextDests': this.suggestedNextDests, // should be based on last destination in listOfDest
+            'appearanceOptions': this.appearanceOptions,
         });
     },
-    data: {
+    data(){
+      return {
         'tripData': [
             {
                 'tripName': 'my first trip',
@@ -141,7 +143,7 @@ new Vue({
                 }
             },
         ],
-    },
+    }},
     methods: {
         // get next destination suggestions from database
         requestSuggestedNextHops: function(lat: number, long: number): Promise<UserDestinationSuggestion[]> {
@@ -616,4 +618,4 @@ new Vue({
                 this.getNextDestSuggestions();
             });
     }
-}).$mount('#app') // #app is in ./index.html
+}).mount('#app') // #app is in ./index.html

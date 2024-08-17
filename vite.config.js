@@ -1,13 +1,8 @@
 // vite.config.js
 
 import { defineConfig } from 'vite';
-import { createVuePlugin as vue } from 'vite-plugin-vue2';
+import createVuePlugin from '@vitejs/plugin-vue'
 import * as path from 'path';
-
-// https://vitejs.dev/config/
-//export default defineConfig({
-//  plugins: [vue()]
-//});
 
 export default defineConfig(({ mode }) => {
   if(mode === 'iframe'){
@@ -27,7 +22,7 @@ export default defineConfig(({ mode }) => {
   }else{
     // build the app
     return {
-      plugins: [vue()],
+      plugins: [createVuePlugin()],
       resolve: {
         alias: {
           "@": path.resolve(__dirname, "./src"),

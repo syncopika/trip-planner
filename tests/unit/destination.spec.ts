@@ -17,7 +17,7 @@ describe('Destination.vue', () => {
         };
 	
         const wrapper = shallowMount(DestinationComponent, {
-            propsData: {
+            props: {
                 destination: dest
             }
         });
