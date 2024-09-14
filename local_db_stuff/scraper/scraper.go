@@ -3,7 +3,10 @@
 package main
 
 import (
+  "encoding/csv"
 	"fmt"
+  "log"
+  "os"
   "regexp"
   "strconv"
 
@@ -16,6 +19,10 @@ type Destination struct {
   Category string
   Latitude float32
   Longitude float32
+}
+
+func (d Destination) asCsvRow() []string {
+  return []string{d.Name, d.Country, d.Category, strconv.FormatFloat(float64(d.Latitude), 'E', -1, 32), strconv.FormatFloat(float64(d.Longitude), 'E', -1, 32),}
 }
 
 func (d Destination) print() {
@@ -52,49 +59,61 @@ func main() {
   
   geoCoordRegex := regexp.MustCompile(`(\d+)`)
   
+  // set up csv file to write to
+  file, err := os.Create("data.csv")
+  if err != nil {
+    panic(err)
+  }
+  
+  // something to think about: https://news.ycombinator.com/item?id=41479283
+  defer file.Close()
+  
+  w := csv.NewWriter(file)
+  
+  // write column headers to csv
+  csvHeaders := []string{"name", "country", "category", "latitude", "longitude",}
+  
+  if err := w.Write(csvHeaders); err != nil {
+    log.Fatalln("error writing record to csv: ", err)
+  }
+  
   c.OnHTML("tr", func(tr *colly.HTMLElement) {
     if tr.Index > 1 {
     
       var dest Destination
-    
+      
       tr.ForEach("td", func(i int, td *colly.HTMLElement) {
         if i == 1 {
           // name of place
-          place := td.ChildText("a")
-          dest.Name = place
-          //fmt.Println("place: ", place)
+          dest.Name = td.ChildText("a")
         } else if i == 2 {
           // name of the country the place is in
-          country := td.ChildText("a")
-          dest.Country = country
-          //fmt.Println("country: ", country)
+          dest.Country = td.ChildText("a")
         } else if i == 3 {
           // the place category
-          category := td.Text
-          dest.Category = category
-          //fmt.Println("category: ", category)
+          dest.Category = td.Text
         } else if i == 4 {
           // the latitude
-          latitude := td.Text
-          latitudeComponents := geoCoordRegex.FindAllString(latitude, 3)
+          latitudeComponents := geoCoordRegex.FindAllString(td.Text, 3)
           latDec := convertCoordinatesToDecimal(stringSliceToInt(latitudeComponents))
           dest.Latitude = latDec
-          //fmt.Println("latitude: ", latDec)
         } else if i == 5 {
           // the longitude
-          longitude := td.Text
-          longitudeComponents := geoCoordRegex.FindAllString(longitude, 3)
+          longitudeComponents := geoCoordRegex.FindAllString(td.Text, 3)
           lngDec := convertCoordinatesToDecimal(stringSliceToInt(longitudeComponents))
           dest.Longitude = lngDec
-          //fmt.Println("longitude: ", lngDec)
         }
       })
       
       if dest.Name != "" {
-        dest.print()
+        //dest.print()
+        
+        // add to csv
+        if err := w.Write(dest.asCsvRow()); err != nil {
+          log.Fatalln("error writing record to csv: ", err)
+        }
       }
       
-      // TODO: add to csv
     }
   })
   
@@ -104,4 +123,24 @@ func main() {
   
   c.Visit("https://www.geonames.org/advanced-search.html?q=museum&country=TW")
   c.Visit("https://www.geonames.org/advanced-search.html?q=park&country=TW")
+  c.Visit("https://www.geonames.org/advanced-search.html?q=hotel&country=TW")
+  c.Visit("https://www.geonames.org/advanced-search.html?q=museum&country=GB")
+  c.Visit("https://www.geonames.org/advanced-search.html?q=park&country=GB")
+  c.Visit("https://www.geonames.org/advanced-search.html?q=restaurant&country=GB")
+  c.Visit("https://www.geonames.org/advanced-search.html?q=mall&country=GB")
+  c.Visit("https://www.geonames.org/advanced-search.html?q=restaurant&country=US")
+  c.Visit("https://www.geonames.org/advanced-search.html?q=hotel&country=US")
+  c.Visit("https://www.geonames.org/advanced-search.html?q=museum&country=US")
+  c.Visit("https://www.geonames.org/advanced-search.html?q=park&country=US")
+  c.Visit("https://www.geonames.org/advanced-search.html?q=park&country=SG")
+  c.Visit("https://www.geonames.org/advanced-search.html?q=park&country=SG")
+  c.Visit("https://www.geonames.org/advanced-search.html?q=mall&country=SG")
+  
+  w.Flush()
+  
+  if err := w.Error(); err != nil {
+    log.Fatal(err)
+  }
+  
+  fmt.Println("done!")
 }
