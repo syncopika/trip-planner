@@ -4,13 +4,14 @@ package main
 
 import (
   "encoding/csv"
-	"fmt"
+  "fmt"
   "log"
   "os"
   "regexp"
   "strconv"
+  "strings"
 
-	"github.com/gocolly/colly/v2"
+  "github.com/gocolly/colly/v2"
 )
 
 type Destination struct {
@@ -22,7 +23,13 @@ type Destination struct {
 }
 
 func (d Destination) asCsvRow() []string {
-  return []string{d.Name, d.Country, d.Category, strconv.FormatFloat(float64(d.Latitude), 'E', -1, 32), strconv.FormatFloat(float64(d.Longitude), 'E', -1, 32),}
+  return []string{
+    d.Name, 
+    d.Country, 
+    strings.ReplaceAll(d.Category, "\n", ""), 
+    strconv.FormatFloat(float64(d.Latitude), 'f', -1, 32), 
+    strconv.FormatFloat(float64(d.Longitude), 'f', -1, 32),
+  }
 }
 
 func (d Destination) print() {
@@ -113,7 +120,6 @@ func main() {
           log.Fatalln("error writing record to csv: ", err)
         }
       }
-      
     }
   })
   

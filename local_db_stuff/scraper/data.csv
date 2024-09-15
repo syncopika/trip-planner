@@ -1,0 +1,555 @@
+name,country,category,latitude,longitude
+Chimei Museum,Taiwan,museum,22.934723,120.22583
+National Museum of Taiwan History,Taiwan,museum,23.058056,120.234726
+Shengli Meishuguan,Taiwan,museum,24.140833,120.65945
+Minsu Wenwuguan,Taiwan,museum,24.053333,120.436386
+T’ai-tung County Nature History Education Museum,Taiwan,museum,23.12139,121.395836
+National Museum of Marine Biology / Aguarium,Taiwan,museum,22.046112,120.69639
+Ziran Kexue Bowuguan,Taiwan,museum,24.156666,120.665276
+National Palace Museum,Taiwan,museum,25.101944,121.54833
+Shili Wenhua Zhongxin,Taiwan,museum,24.141388,120.66972
+National Science Handcrafts Museum,Taiwan,museum,22.641111,120.3225
+Gaoxiong Shili Meishuguan,Taiwan,museum,22.655277,120.28667
+Taiwan Dianying Wenhuacheng,Taiwan,museum,24.074722,120.71611
+Taipei World Trade Center Nangang Exhibition Hall,Taiwan,museum,25.056389,121.61806
+Gugong Bowuguan,Taiwan,museum,24.083334,120.71667
+Taijiang Cetacean Museum,Taiwan,museum,23.026112,120.14333
+Lin-yüan Industrial Park,Taiwan,industrial area,22.5,120.397224
+Yung-an Industrial Park,Taiwan,industrial area,22.812778,120.25139
+An-p’ing Industrial Park,Taiwan,industrial area,22.977222,120.18139
+Yung-k’ang Industrial Park,Taiwan,industrial area,23.026112,120.251114
+Kuan-t’ien Industrial Park,Taiwan,industrial area,23.207777,120.325554
+Feng-t’ien Industrial Park,Taiwan,industrial area,23.63861,120.465836
+Chia-t’ai Industrial Park,Taiwan,industrial area,23.507223,120.35917
+Chung-cheng Park,Taiwan,park,25.158611,121.54
+K’en-ting Park,Taiwan,park,21.970833,120.81333
+Shih-t’ou Park,Taiwan,park,24.355,120.67555
+Ch’ing-shui Park,Taiwan,park,24.268055,120.58083
+Chiu-ch’ü-t’ang Industrial Park,Taiwan,industrial area,22.659166,120.423615
+Ch’i-chin Number 6 Park,Taiwan,park,22.580278,120.29195
+Zhongzheng Gongyuan,Taiwan,park,24.1575,120.68222
+Zhongshan Gongyuan,Taiwan,park,24.144444,120.684166
+Chung-cheng Park,Taiwan,park,24.36139,120.65
+Zhongshan Gongyuan,Taiwan,park,23.0025,120.21139
+Yün-hsien Amusement Park,Taiwan,park,24.84389,121.555275
+Ch’u-lu Amusement Park,Taiwan,park,22.863611,121.10944
+Chiao-hsi Park,Taiwan,park,24.831388,121.77695
+Chia-hsien Park,Taiwan,park,23.081388,120.59111
+Taroko National Park,Taiwan,park,24.134722,121.3825
+Jen-te-hsiang Sports Park,Taiwan,park,22.90889,120.263336
+Kuan-shan Water Park,Taiwan,park,23.04,121.17389
+Pnoenix Valley Bird Park,Taiwan,park,23.72889,120.79278
+Hsuehpa National Park,Taiwan,park,24.414722,121.287224
+Hsueh-pa National Park,Taiwan,park,24.36861,121.138336
+Chung-shan Park,Taiwan,park,22.675556,120.492775
+Kao-hsiung Urban Park,Taiwan,park,22.733055,120.31555
+Chung-cheng Park,Taiwan,park,22.628056,120.365
+Wan-shou-shan Park,Taiwan,park,22.626944,120.27639
+Kao-hsiung Park,Taiwan,park,22.568611,120.34583
+Huang-hsi Park,Taiwan,park,25.114166,121.52778
+Shuang-hsi Park,Taiwan,park,25.099167,121.532776
+Hsin-sheng Park,Taiwan,park,25.070833,121.53139
+Hsin Park,Taiwan,park,25.041945,121.515
+Chung-cheng Park,Taiwan,park,25.134167,121.75083
+Youth Park,Taiwan,park,25.023056,121.50528
+Hsing-shan Park,Taiwan,park,23.831112,120.31611
+Chung-shan Park,Taiwan,park,23.869167,121.504166
+Chung-cheng Park,Taiwan,park,23.839722,121.500275
+Chung-cheng Park,Taiwan,park,24.883333,121.28472
+Chung-shan Park,Taiwan,park,24.676666,121.76833
+Lo-tung Sports Park,Taiwan,park,24.683332,121.75278
+Guanghua Gongyequ,Taiwan,industrial area,23.930834,121.59333
+Li-tse Industrial Park,Taiwan,industrial area,24.655277,121.834724
+Hsin-ying Industrial Park,Taiwan,industrial area,23.304167,120.27861
+Lin-nei Park,Taiwan,park,23.77,120.64528
+Jen-te Industrial Park,Taiwan,industrial area,22.92389,120.246666
+Chiao-su Industrial Park,Taiwan,industrial area,22.778055,120.34611
+National Hotel,Taiwan,hotel,24.15,120.68305
+Civil Hotel,Taiwan,hotel,24.088055,121.03361
+Yuanshan Fandian,Taiwan,hotel,22.655,120.34639
+Ch’ing-ching Hotel,Taiwan,guest house,24.043056,121.15639
+Kuo-ming Guest Hotel,Taiwan,guest house,24.346111,121.308334
+Li-shan Guest Hotel,Taiwan,guest house,24.254168,121.25056
+T’ien-lu Hotel,Taiwan,hotel,24.028889,121.187225
+Yüan-shan Grand Hotel,Taiwan,hotel,25.078611,121.52639
+K’en-ting Hotel,Taiwan,guest house,21.956388,120.80778
+Caesar Park Hotel Kenting,Taiwan,hotel,21.9425,120.804726
+Hu-pin Hotel,Taiwan,hotel,24.814722,121.304726
+Shanduoli,Taiwan,hotel,23.963333,121.57333
+Hanbi Lou,Taiwan,hotel,23.863333,120.90861
+Howard Prince Hotel Taichung,Taiwan,hotel,24.150833,120.6675
+Plaza International Hotel,Taiwan,hotel,24.15,120.68305
+Swallow Castle Hotel,Taiwan,hotel,24.15,120.68305
+Vip Hotel Taichung,Taiwan,hotel,24.140278,120.685555
+Shinkansen Grand Hotel,Taiwan,hotel,24.16,120.6
+"Orange Hotel-Park, Taichung",Taiwan,hotel,24.142221,120.68389
+Lailai Hotel,Taiwan,hotel,24.148333,120.683334
+Royal Seasons Hotel Taichung Z,Taiwan,hotel,24.14889,120.672226
+53 Hotel,Taiwan,hotel,24.236666,120.56472
+Takatama Hotel,Taiwan,hotel,22.9975,120.21083
+Taichung One Chung Business Hotel,Taiwan,hotel,24.15889,120.69139
+Ren Mei Business Hotel,Taiwan,hotel,24.159166,120.67722
+Olympic Hotel,Taiwan,hotel,24.147223,120.67528
+Hotel Day Taichung,Taiwan,hotel,24.153889,120.65722
+Honeydew Hotel,Taiwan,hotel,24.138056,120.684166
+River Hotel,Taiwan,hotel,23.475277,120.44722
+Garden Hotel Taichung,Taiwan,hotel,24.140278,120.68305
+Sol Hotel,Taiwan,hotel,24.805834,120.97111
+The Enterpriser Hotel,Taiwan,hotel,24.134445,120.68694
+King Set Hotel,Taiwan,hotel,24.147778,120.67472
+Jin Pin Hotel,Taiwan,hotel,24.146667,120.66333
+Hotel King’S Town,Taiwan,hotel,22.641388,120.30222
+Shangri-La'S Far Eastern Plaza Hotel Tainan,Taiwan,hotel,22.996666,120.21445
+Kirei Hotel,Taiwan,hotel,23.91639,120.68305
+Forte Hotel Hsinchu,Taiwan,hotel,24.803055,120.96
+Nice Prince Hotel,Taiwan,hotel,24.083055,120.68305
+Lakeshore Hotel Headquarter,Taiwan,hotel,24.803055,120.96
+Grand Boss Hotel,Taiwan,hotel,22.06639,121.55
+Grand Hi Lai Hotel,Taiwan,hotel,22.633055,120.28306
+Cheng Pao Hotel,Taiwan,hotel,23.91639,120.68305
+Kaohsiung Gear Hotel,Taiwan,hotel,22.635277,120.289444
+Sweet Home Business Hotel,Taiwan,hotel,23.983055,121.6
+Han Hsien International Hotel,Taiwan,hotel,22.633055,120.28306
+Hotel Holiday Garden,Taiwan,hotel,22.633055,120.28306
+Green Hotel,Taiwan,hotel,23.91639,120.68305
+Splendor Hotel Kaohsiung,Taiwan,hotel,22.633055,120.28306
+Riviera Hotel,Taiwan,hotel,25.067778,121.52556
+British Museum,United Kingdom,museum,51.519444,0.12694445
+National Gallery,United Kingdom,museum,51.50861,0.12833333
+Museum of London,United Kingdom,museum,51.5175,0.09611111
+Natural History Museum,United Kingdom,museum,51.496666,0.17611112
+Tate Gallery,United Kingdom,museum,51.490555,0.12666667
+National Portrait Gallery,United Kingdom,museum,51.509167,0.12777779
+Tate Modern,United Kingdom,museum,51.5075,0.09916667
+Cutty Sark,United Kingdom,museum,51.482777,0.009444444
+London Transport Museum,United Kingdom,museum,51.511944,0.12111111
+Narrow Gauge Railway Museum,United Kingdom,museum,52.583332,4.088611
+SS Great Britain,United Kingdom,museum,51.44889,2.6080556
+Somerset House,United Kingdom,museum,51.510555,0.11694445
+Courtauld Institute of Art,United Kingdom,museum,51.51139,0.1175
+HMS Victory,United Kingdom,museum,50.801666,1.1094445
+National Railway Museum,United Kingdom,museum,53.95972,1.0958333
+Aberdeen Maritime Museum,United Kingdom,museum,57.14639,2.0947223
+National Slate Museum,United Kingdom,museum,53.120834,4.115
+National Maritime Museum,United Kingdom,museum,51.480835,0.005
+Mary Rose Museum,United Kingdom,museum,50.801945,1.1086111
+Beamish Museum,United Kingdom,museum,54.87611,1.6502777
+Coventry Transport Museum,United Kingdom,museum,52.410557,1.5091667
+Royal Albert Memorial Museum,United Kingdom,museum,50.724445,3.5313888
+Ulster Museum,United Kingdom,museum,54.581944,5.935
+Yorkshire Museum of Farming,United Kingdom,museum,53.960278,1.0083333
+Scottish Mining Museum,United Kingdom,museum,55.860832,3.0658333
+National Media Museum,United Kingdom,museum,53.79111,1.7558334
+Yorkshire Air Museum,United Kingdom,airfield,53.92361,0.9811111
+Fashion Museum,United Kingdom,museum,51.386112,2.3622222
+Cotswold Motoring Museum,United Kingdom,museum,51.884445,1.7586111
+Discovery Museum,United Kingdom,museum,54.968887,1.6241667
+East Anglian Railway Museum,United Kingdom,museum,51.925835,0.7588889
+North Woolwich Old Station Museum,United Kingdom,museum,51.49917,0.062222224
+Museum of Transport   Argyle Street,United Kingdom,museum,55.86889,4.2933335
+Scotland Street  School Museum,United Kingdom,museum,55.849445,4.2733335
+Imperial War Museum North,United Kingdom,museum,53.469444,2.298889
+Bronte Parsonage Museum,United Kingdom,museum,53.831112,1.956389
+The Marlipins Museum,United Kingdom,"museumpopulation 5, elevation 5m",50.831944,0.27666667
+Sherlock Holmes Museum,United Kingdom,museum,51.523613,0.15833335
+Aldershot Military Museum,United Kingdom,museum,51.27,0.7505556
+Royal Air Force Museum,United Kingdom,museum,51.59861,0.23833333
+Elgar Birthplace Museum,United Kingdom,museum,52.19889,2.2827778
+Ashmolean Museum,United Kingdom,museum,51.75528,1.26
+South Yorkshire Aircraft Museum,United Kingdom,museum,53.514168,1.1094445
+Pitt Rivers Museum,United Kingdom,museum,51.75861,1.2555556
+Skye Museum of Island Life,United Kingdom,museum,57.661667,6.3686113
+Avro Heritage Museum,United Kingdom,museum,53.341667,2.1616666
+Anson Engine Museum,United Kingdom,museum,53.349445,2.09
+V&A Museum,United Kingdom,museum,51.496666,0.1725
+RAF Manston History Museum,United Kingdom,museum,51.354443,1.3513889
+Hancock Museum,United Kingdom,museum,54.98,1.6127778
+Wrexham,United Kingdom,"seat of a second-order administrative divisionpopulation 65,692",53.04639,2.991111
+Hyde Park,United Kingdom,park,51.50722,0.16555557
+Booker Airfield,United Kingdom,airportelevation 158m,51.611668,0.8080556
+Cairngorms National Park,United Kingdom,park,57.043888,3.6033335
+Regent’s Park,United Kingdom,park,51.530556,0.1538889
+Cardiff Arms Park,United Kingdom,park,51.47972,3.1836112
+Brecon Beacons National Park,United Kingdom,park,51.883335,3.4
+Roath Park,United Kingdom,park,51.510555,3.176389
+Pembrokeshire Coast National Park,United Kingdom,park,51.833332,5.0833335
+Bushy Park,United Kingdom,park,51.41639,0.34583333
+Stansted Park,United Kingdom,park,50.883335,0.9166667
+yorkshire dales,United Kingdom,park,54.266666,2.0833333
+Temple Newsam Park,United Kingdom,park,53.783333,1.4666667
+Dawsholm Park,United Kingdom,park,55.9,4.3166666
+Bellahouston Park,United Kingdom,park,55.843887,4.319722
+Bagshot Park,United Kingdom,park,51.383335,0.7
+Sefton Park,United Kingdom,park,53.383335,2.9333334
+Richmond Park,United Kingdom,park,51.4425,0.28361112
+"Queen Elizabeth Olympic Park, London",United Kingdom,park,51.538612,0.01638889
+Worcester Park,United Kingdom,"populated placepopulation 16,031",51.379723,0.24444444
+Pittencrieff Park,United Kingdom,park,56.07,3.4494445
+Rushcliffe Country Park,United Kingdom,park,52.88278,1.1480556
+Dean Park Cricket Ground,United Kingdom,park,50.727222,1.8711112
+Yorkshire Sculpture Park,United Kingdom,park,53.606945,1.5566666
+Christchurch Park,United Kingdom,park,52.063057,1.1558334
+Gippeswyk Park,United Kingdom,park,52.051945,1.1344445
+Springfield Park,United Kingdom,park,51.57139,0.057777777
+Beckenham Place Park,United Kingdom,park,51.418888,0.016944446
+Sheringham Park,United Kingdom,park,52.929165,1.1719445
+Charlecote Park,United Kingdom,park,52.205276,1.6161112
+Green Park,United Kingdom,park,51.503887,0.14388889
+Thorpe Park,United Kingdom,park,51.404724,0.51305556
+Lyme Park,United Kingdom,park,53.356945,2.0533333
+Mote Park,United Kingdom,park,51.264446,0.5463889
+Cheluvett Park,United Kingdom,park,52.207222,2.2305555
+Witley Park,United Kingdom,park,51.140835,0.67194444
+Marble Hill Park,United Kingdom,park,51.448612,0.3125
+Dartmoor National Park,United Kingdom,park,50.571667,3.9205556
+Thetford Forest Park,United Kingdom,park,52.471943,0.6727778
+Cotescue Park,United Kingdom,park,54.27722,1.8402777
+Nonsuch Park,United Kingdom,park,51.358334,0.23333333
+Tay Forest Park,United Kingdom,park,56.63139,3.893611
+Lake District National Park,United Kingdom,park,54.5,3.1666667
+Stanley Park,United Kingdom,park,53.435276,2.9630556
+Pugneys Country Park,United Kingdom,nature reserve,53.656387,1.5047222
+Longleat Safari Park,United Kingdom,wildlife reserve,51.18889,2.2627778
+Woburn Safari Park,United Kingdom,wildlife reserve,52.005,0.5894444
+Stockley Park,United Kingdom,area,51.513054,0.4438889
+Belsize Park,United Kingdom,"populated placepopulation 11,600",51.5475,0.17222223
+Wimbledon Park,United Kingdom,"populated placepopulation 11,197",51.434723,0.19861111
+Petrus,United Kingdom,restaurant,51.5,0.15694445
+Regency Cafe,United Kingdom,restaurant,51.494167,0.13222222
+Quo Vadis,United Kingdom,restaurant,51.51389,0.1325
+Hilton Edinburgh Carlton,United Kingdom,hotel,55.950554,3.1872222
+Witchery,United Kingdom,restaurant,55.948055,3.1969445
+Harry'S Hotel & Restaurant,United Kingdom,hotel,52.415833,4.081389
+Greenhills Country Hotel & Restaurant,,hotel,49.219166,2.1694446
+The Old Post Office Restaurant With Rooms,United Kingdom,hotel,51.488056,3.266389
+The Grove restaurant,United Kingdom,restaurantelevation 57m,51.98,0.42722222
+Napier'S Restaurant With Rooms,United Kingdom,hotel,53.96389,2.0177777
+Ondine Restaurant,United Kingdom,restaurant,55.94889,3.1927779
+The Peat Inn Restaurant with Rooms,United Kingdom,restaurant,56.27722,2.8847222
+Fredricks Hotel Restaurant Spa,United Kingdom,hotel,51.511665,0.7283333
+The Airds Hotel and Restaurant,United Kingdom,hotel,56.55389,5.4072223
+The Cottage in The Wood Hotel And Restaurant,United Kingdom,hotel,52.081665,2.335
+Roker Park Golf Restaurant,United Kingdom,golf course,51.267776,0.6152778
+Hunters Meet Restaurant Hotel,United Kingdom,hotel,51.81222,0.22722222
+Old Custom House & Pescadou Restaurant,United Kingdom,hotel,50.54111,4.9375
+Isis Restaurant And Hotel,United Kingdom,hotel,53.511112,2.3202777
+Best Western Glenspean Lodge Hotel & Restaurant,United Kingdom,hotel,56.890278,4.7952776
+Best Western Rombalds Hotel & Restaurant,United Kingdom,hotel,53.921665,1.8216667
+The Flodigarry Hotel And High Tide Restaurant,United Kingdom,hotel,57.65917,6.2519445
+The Millstones Country Hotel & Restaurant,United Kingdom,hotel,50.43111,4.1116667
+Poppies Hotel And Restaurant,United Kingdom,hotel,56.25,4.233333
+Muckrach Lodge Hotel & Restaurant,United Kingdom,hotel,57.305,3.6880555
+Chesters Hotel and Restaurant,United Kingdom,hotel,53.460278,2.2905555
+Strawberry Bank Hotel and Restaurant,United Kingdom,hotel,52.434723,1.6394444
+The Riverhill Hotel and Restaurant,United Kingdom,hotel,53.378334,3.0494444
+Shrewsbury Lodge and Restaurant,United Kingdom,hotel,53.383057,3.0472221
+Highdown Hotel & Restaurant,United Kingdom,hotel,50.825832,0.4425
+Haleys And Restaurant,United Kingdom,hotel,53.82,1.5733333
+Winteringham Fields - Restaurant With Rooms,United Kingdom,hotel,53.68778,0.5897222
+Seckford Hall Hotel & Restaurant,United Kingdom,hotel,52.0875,1.2866666
+Milford Hall Classic Hotel & Restaurant,United Kingdom,hotel,51.074444,1.7963889
+The Tarbert And Restaurant,United Kingdom,hotel,50.11889,5.5394444
+Rocpool Reserve Restaurant Bar,United Kingdom,hotel,57.471943,4.2230554
+The Tolbooth Seafood Restaurant,United Kingdom,restaurant,56.95972,2.2019444
+The Club Hotel and Spa Bohemia Restaurant,,hotel,49.18139,2.1022222
+The Bull Hotel & Restaurant,United Kingdom,hotel,54.323612,2.5277777
+Greywalls Hotel & Chez Roux Restaurant,United Kingdom,hotel,56.045555,2.821389
+The Cedars Hotel And Restaurant,United Kingdom,hotel,52.760277,1.1944444
+The Raquet Club Hotel and Ziba Restaurant,United Kingdom,hotel,53.407223,2.9941666
+Gailes Restaurant & Hotel,United Kingdom,hotel,55.59639,4.669722
+Grey,United Kingdom,restaurant,51.483055,3.1783333
+The Talisman,United Kingdom,restaurant,50.870556,1.2655556
+Galvin at Windows,United Kingdom,restaurant,51.50528,0.15
+The Cornish Pasty Bakery,United Kingdom,restaurant,53.96,1.0797222
+Young's Fishbar,United Kingdom,restaurant,51.286945,1.0836111
+Peters Fish & Chips,United Kingdom,restaurant,51.28417,1.0741667
+Carpenters Arms public house,United Kingdom,restaurantelevation 105m,51.9625,0.49222222
+Harrods,United Kingdom,mall,51.499443,0.16333334
+St. David's,United Kingdom,mall,51.480835,3.1755555
+Cortonwood Colliery,United Kingdom,mall,53.508057,1.3880556
+Clarks Village,United Kingdom,mall,51.128334,2.7397223
+Union Square,United Kingdom,mall,57.143612,2.098611
+Churchill Square,United Kingdom,mall,50.8225,0.14555556
+Buchanan Galleries,United Kingdom,mall,55.863888,4.25
+Trinity Leeds,United Kingdom,mall,53.796665,1.5461111
+Highcross,United Kingdom,mall,52.635277,1.1377778
+Burlington Gardens,United Kingdom,mall,51.5075,0.265
+The Trafford Centre,United Kingdom,mall,53.465557,2.3488889
+Meadowhall,United Kingdom,mall,53.413612,1.4119444
+Braehead,United Kingdom,mall,55.875557,4.365278
+Broadmarsh,United Kingdom,mall,52.95139,1.1469444
+Grand Arcade,United Kingdom,mall,52.203888,0.1225
+White City,United Kingdom,mall,51.506943,0.22166666
+Eldon Square,United Kingdom,mall,54.974167,1.6161112
+Cabot Circus,United Kingdom,mall,51.458332,2.5852778
+Brent Cross Shopping Centre,United Kingdom,mall,51.576946,0.22416666
+Victoria Square,United Kingdom,mall,54.598057,5.925
+Cnoc Mall-lairig,United Kingdom,hillelevation 450m,57.5075,4.8869443
+The Mall,United Kingdom,road,51.504723,0.13305555
+Pall Mall,United Kingdom,road,51.50639,0.13416667
+West Quay,United Kingdom,mall,50.90333,1.4061111
+Upper West Mall,United Kingdom,mall,52.478054,1.8933333
+Glades Shopping Centre,United Kingdom,mall,51.40389,0.016666668
+Bentall,United Kingdom,mall,51.41139,0.30444446
+Silverburn,United Kingdom,mall,55.822224,4.341111
+Midsummer Place,United Kingdom,mall,52.041943,0.75805557
+Chapelfield Centre,United Kingdom,mall,52.62611,1.2888889
+Milton Keynes Xscape,United Kingdom,mall,52.04111,0.7488889
+Hayes Galleria,United Kingdom,mall,51.505833,0.08472223
+Stratford Shopping Centre,United Kingdom,mall,51.54139,0.0011111111
+Cheshire Oaks,United Kingdom,mall,53.265278,2.8802779
+Wharfside Shopping Centre,United Kingdom,mall,50.120277,5.5333333
+Blue Water,United Kingdom,mall,51.439167,0.27111113
+Zehnders Restaurant Historical Marker,United States,park,43.326668,83.74084
+McGehee Catfish Restaurant Airport (historical),United States,abandoned airfieldelevation 225m,33.89722,97.17111
+Chena Pump House,United States,restaurant,64.83139,147.88445
+Dickie Brennan's Steakhouse,United States,restaurant,29.954166,90.06861
+Restaurants at Trump International Hotel Las Vegas,United States,restaurant,36.128887,115.17306
+The Church Brew Works,United States,restaurant,40.462223,79.96445
+Le Bec-Fin,United States,restaurant,39.949722,75.16695
+Tru,United States,restaurant,41.894444,87.62278
+John's Grill,United States,restaurant,37.78528,122.40722
+The Stress Factory,United States,restaurant,40.495277,74.44361
+Le Papillon,United States,restaurant,37.31972,121.97222
+Ferrara Bakery and Cafe,United States,restaurant,40.718613,73.99695
+Delmonico's,United States,restaurant,40.705,74.00972
+Grotta Azzurra,United States,restaurant,40.720276,73.996666
+BiCE Ristorante,United States,restaurant,40.760555,73.97444
+Dirt Candy,United States,restaurant,40.727222,73.98333
+Cornelia Street Cafe,United States,restaurant,40.731388,74.0025
+Bagdad Café,United States,restaurantelevation 554m,34.819443,116.64306
+Light Horse Tavern,United States,restaurant,40.71389,74.038055
+Lakeside,United States,restaurant,45.648335,95.395
+Fort Worth and Denver South Plains Railway Depot,United States,building(s)elevation 973m,33.57861,101.8425
+Zapp Building,United States,building(s)elevation 125m,29.903889,96.67667
+Red Door Modern Southern Cuisine,United States,restaurant,34.76472,92.3125
+Bob's Steak & Chophouse,United States,restaurant,36.156944,86.775276
+Citizen Public House,United States,restaurant,33.497776,111.928055
+Madras Cafe Indian Restaurant,United States,restaurant,26.212223,80.15444
+Brook's BBQ,United States,restaurant,42.46,75.01889
+Capt Anderson's Restaurant,United States,restaurant,30.149445,85.746666
+Gabriel's Northern Italian Restaurant,United States,restaurant,39.436943,104.96222
+John's Restaurant,United States,restaurant,40.020557,105.264725
+Masa's Restaurant,United States,restaurant,37.79028,122.40806
+RT's Restaurant,United States,restaurant,38.839443,77.062775
+Randy's Fish Market Restaurant,United States,restaurant,26.265833,81.80167
+Sperry's Restaurant,United States,restaurant,35.5175,86.58028
+Razz's Restaurant,United States,restaurant,33.580276,111.92555
+Frazer's Restaurant,United States,restaurant,38.59889,90.21611
+Murray's Restaurant,United States,restaurant,44.989445,93.25222
+Ferraro's Italian Restaurant,United States,restaurant,36.10889,115.15111
+Sakura Restaurant,United States,restaurant,41.1375,73.34194
+Danview Restaurant,United States,restaurant,36.583057,79.435555
+Coral Springs Olive Garden Restaurant,United States,restaurant,26.250555,80.25222
+Coral Springs Carrabbas Restaurant,United States,restaurant,26.261389,80.24917
+Las Brisas Restaurant,United States,restaurant,39.592777,104.880554
+Alba Restaurant,United States,restaurant,40.017223,105.26195
+Ferrante Restaurant,United States,restaurant,41.054443,73.54056
+Willow Creek Restaurant,United States,restaurant,39.633335,105.329445
+Dandy Restaurant Cruise Ships,United States,restaurant,38.804165,77.049446
+Donatello Italian Restaurant,United States,restaurant,27.946945,82.505554
+Lynnhaven Fish House Restaurant,United States,restaurant,36.9125,76.077774
+MarVista Dockside Restaurant,United States,restaurant,27.437778,82.681946
+The Brown Palace Hotel and Spa,United States,parkelevation 1595m,39.74389,104.9875
+Heidelberg Hotel and Hotel King (historical),United States,area,30.44861,91.18916
+The Kerns Hotel Fire Historical Marker,United States,parkelevation 254m,42.734165,84.55
+Hotel Jerome,United States,hotel,39.190556,106.819725
+Frenchglen Hotel State Park,United States,parkelevation 1281m,42.82611,118.91472
+Trump International Hotel and Tower,United States,building(s),41.88889,87.62639
+Ottsville,United States,populated placeelevation 121m,40.473057,75.160835
+Khotol Mountain,United States,mountainelevation 817m,64.174446,157.88834
+Waldorf Astoria New York,United States,hotelelevation 16m,40.75639,73.97389
+Tampa Bay Hotel,United States,parkelevation 2m,27.946667,82.464165
+San Francisco City Hall,United States,building(s)elevation 20m,37.77889,122.41861
+New York City Hall,United States,building(s)elevation 10m,40.7125,74.00584
+Phelps Hotel Historical Marker,United States,parkelevation 1028m,41.061943,102.07528
+Site of 1857 Hotel Historical Marker,United States,parkelevation 354m,42.830276,93.26111
+Harlan Hotel Historical Marker,United States,parkelevation 223m,40.9675,91.55389
+Blissfield Hotel Historical Marker,United States,parkelevation 211m,41.83278,83.86305
+Ludington Hotel Historical Marker,United States,parkelevation 180m,45.745834,87.049164
+Hotel Perry Historical Marker,United States,parkelevation 197m,45.37611,84.95417
+Lake View Hotel Historical Marker,United States,parkelevation 177m,45.8475,84.618614
+Grand Hotel Historical Marker,United States,parkelevation 199m,45.850834,84.625275
+Harrington Hotel Historical Marker,United States,parkelevation 181m,42.97222,82.424164
+Hotel Latham Historical Marker,United States,parkelevation 164m,36.86611,87.486946
+Jacksonian Hotel Historical Marker,United States,parkelevation 231m,36.753056,86.190834
+Armstrong Hotel Historical Marker,United States,parkelevation 230m,38.210835,85.21694
+Bedford Springs and Hotel Historical Marker,United States,parkelevation 279m,38.58278,85.32
+Beverly Wilshire Hotel,United States,hotel,34.066944,118.40083
+Highmount,United States,populated placeelevation 566m,42.144165,74.48972
+Palace Hotel,United States,hotel,37.788334,122.401665
+Hotel Row Historic District,United States,parkelevation 324m,33.751945,84.395
+Four Flags Hotel Historical Marker,United States,parkelevation 207m,41.83,86.25472
+Hotel Pond,United States,lakeelevation 188m,43.3725,75.944725
+Hotel des Arts,United States,hotel,37.79028,122.404724
+Casa Monica Hotel,United States,hotel,29.892221,81.313614
+Delano Hotel,United States,hotel,25.790833,80.12972
+Omni Shoreham Hotel,United States,hotel,38.923332,77.05361
+California Hotel and Casino,United States,hotel,36.17278,115.14528
+Hart Hotel,United States,building(s),31,87.25916
+Mount Vernon Hotel Museum & Garden,United States,museumelevation 10m,40.760555,73.96
+Pence Springs Hotel Historic District,United States,parkelevation 463m,37.681667,80.72111
+Sorrento Hotel,United States,hotel,47.608055,122.327225
+Millennium Hotel St. Louis,United States,hotel,38.623333,90.18916
+Ala Moana Hotel,United States,hotel,21.289444,157.83945
+Windsor Court Hotel,United States,hotel,29.949722,90.065834
+Hotel Majestic,United States,hotel,37.786945,122.42472
+Renaissance Nashville Hotel,United States,hotel,36.16111,86.780556
+Hotel Ronald Lee,United States,hotel,61.218613,149.89166
+Colcord Hotel,United States,hotel,35.46639,97.51639
+Carlton Hotel,United States,hotel,35.489166,120.67
+Boston City Hall,United States,building(s)elevation 9m,42.36028,71.05778
+Saint Charles Hotel (historical),United States,building(s)elevation 5m,38.891666,77.015
+Metropolitan Museum of Art,United States,museumelevation 28m,40.779446,73.962776
+Cedar Key Museum State Park,United States,parkelevation 2m,29.152779,83.04694
+John Gorrie Museum State Park,United States,parkelevation 4m,29.724167,84.985275
+High Desert Museum,United States,museumelevation 1228m,43.96583,121.34139
+Constitution Convention Museum State Park,United States,parkelevation 2m,29.793056,85.297226
+Forest Capital Museum State Park,United States,parkelevation 16m,30.086111,83.54528
+The Field Museum of Natural History,United States,museum,41.86639,87.61667
+Museum of Fine Arts Boston,United States,museumelevation 5m,42.33972,71.09389
+Ybor City Museum State Park,United States,parkelevation 6m,27.961666,82.43806
+Museum Park,United States,parkelevation 221m,42.276943,89.087776
+National Museum of Natural History,United States,museumelevation 4m,38.89111,77.02583
+Museum of Modern Art,United States,museumelevation 19m,40.761112,73.976944
+Living Heritage Tree Museum,United States,parkelevation 433m,42.63778,95.204445
+Colonial Pemaquid State Historic Site,United States,parkelevation 5m,43.879444,69.52111
+American Museum of Natural History,United States,museumelevation 27m,40.780834,73.97361
+National Air and Space Museum,United States,museumelevation 4m,38.888054,77.01945
+Antelope Valley Indian Museum State Historic Park,United States,parkelevation 818m,34.650276,117.849724
+Museum of Science and Industry Chicago,United States,museumelevation 179m,41.790554,87.58278
+National Museum of the American Indian,United States,museumelevation 3m,38.888054,77.01639
+Billings Farm Museum,United States,parkelevation 211m,43.631668,72.514725
+Ford's Theatre National Historic Site,United States,parkelevation 9m,38.896667,77.02556
+Wings N Things Airpark & Museum,United States,airportelevation 1521m,40.105278,104.95639
+National Museum of American History,United States,museumelevation 4m,38.89111,77.03
+Fort Stevens State Park,United States,parkelevation 7m,46.20028,123.97083
+National Building Museum,United States,museumelevation 13m,38.8975,77.01722
+United States Holocaust Memorial Museum,United States,museumelevation 10m,38.887222,77.0325
+Springfield Museum Quadrangle,United States,parkelevation 35m,42.104168,72.58611
+Museum of Contemporary Art Chicago,United States,museumelevation 180m,41.89722,87.62139
+Collier Memorial State Park,United States,parkelevation 1290m,42.643055,121.882774
+National Baseball Hall of Fame and Museum,United States,museumelevation 375m,42.699722,74.922775
+Utah Field House of Natural History,United States,parkelevation 1619m,40.456112,109.52389
+Mattatuck Museum,United States,museumelevation 92m,41.55639,73.043335
+89'er Museum Park,United States,parkelevation 377m,35.473057,97.5075
+Museum of Contemporary Art Los Angeles,United States,museumelevation 121m,34.053055,118.250275
+Philadelphia Museum of Art,United States,museumelevation 25m,39.965557,75.18166
+Municipal Museum of the City of Baltimore,United States,museumelevation 4m,39.29139,76.60917
+Lyman Allyn Museum of Art,United States,museumelevation 64m,41.375557,72.1075
+Virginia Holocaust Museum,United States,museumelevation 8m,37.530834,77.425835
+Museum of the Rockies,United States,museumelevation 1499m,45.664444,111.049446
+National Museum of African Art,United States,museumelevation 27m,38.89111,77.001114
+John Brown Museum State Historic Site,United States,museumelevation 266m,38.49861,94.95944
+Mount Vernon Hotel Museum & Garden,United States,museumelevation 10m,40.760555,73.96
+Seattle Art Museum,United States,museumelevation 27m,47.607224,122.33806
+Pierre Wibaux County Museum,United States,museumelevation 811m,46.986668,104.18667
+Lutz Museum,United States,museumelevation 60m,41.76611,72.53333
+Pawnee Bill Museum State Park,United States,parkelevation 277m,36.32528,96.81333
+Red Rock Cincinnati Museum of Natural History Nature Preserve,United States,parkelevation 271m,38.747223,83.45722
+Cincinnati Museum of Natural History Nature Preserve,United States,parkelevation 188m,38.704166,83.43916
+Cincinnati Museum of Natural History Nature Preserve,United States,parkelevation 159m,38.68,83.456665
+Abner Hollow Cincinnati Museum of Natural History Nature Preserve,United States,parkelevation 216m,38.72389,83.431946
+Winter Park,United States,"populated placepopulation 29,943, elevation 28m",28.6,81.339165
+Menlo Park,United States,"populated placepopulation 33,449, elevation 22m",37.45361,122.181946
+Brooklyn Park,United States,"populated placepopulation 79,149, elevation 265m",45.093887,93.35611
+Highland Park,United States,"populated placepopulation 29,743, elevation 212m",42.181667,87.80028
+Baldwin Park,United States,"populated placepopulation 77,071, elevation 114m",34.085278,117.96083
+Cedar Park,United States,"populated placepopulation 65,945, elevation 276m",30.505,97.820274
+Park Ridge,United States,"populated placepopulation 37,757, elevation 196m",42.011112,87.84055
+Buena Park,United States,"populated placepopulation 83,270, elevation 23m",33.8675,117.998055
+Overland Park,United States,"populated placepopulation 186,515, elevation 329m",38.982224,94.670555
+Avon Park,United States,"populated placepopulation 10,086, elevation 46m",27.595833,81.50611
+Huntington Park,United States,"populated placepopulation 59,430, elevation 52m",33.981667,118.225
+Oak Park,United States,"populated placepopulation 29,752, elevation 203m",42.459446,83.1825
+Rohnert Park,United States,"populated placepopulation 42,407, elevation 32m",38.339443,122.700836
+Pinellas Park,United States,"populated placepopulation 51,617, elevation 4m",27.842777,82.69945
+Oak Park,United States,"populated placepopulation 52,287, elevation 189m",41.885,87.78445
+Monterey Park,United States,"populated placepopulation 61,468, elevation 117m",34.0625,118.12278
+Valley Park,United States,"populated placepopulation 6,974, elevation 130m",38.549168,90.4925
+Lincoln Park,United States,"populated placepopulation 37,012, elevation 179m",42.250557,83.17834
+Takoma Park,United States,"populated placepopulation 17,713, elevation 88m",38.97778,77.007225
+Yellowstone National Park,United States,parkelevation 2470m,44.427776,110.58833
+Allen Park,United States,"populated placepopulation 27,425, elevation 181m",42.2575,83.21083
+Litchfield Park,United States,"populated placepopulation 5,533, elevation 314m",33.493332,112.35778
+Bridgeport,United States,"populated placepopulation 147,629, elevation 1m",41.179165,73.189445
+Park City,United States,"populated placepopulation 8,128, elevation 2141m",40.645832,111.49778
+Villa Park,United States,"populated placepopulation 5,964, elevation 104m",33.814445,117.81306
+Loves Park,United States,"populated placepopulation 23,455, elevation 222m",42.32,89.05805
+Lexington Park,United States,"populated placepopulation 11,626, elevation 36m",38.266666,76.45361
+Woodland Park,United States,"populated placepopulation 7,222, elevation 2585m",38.99389,105.05666
+Westminster,United States,"populated placepopulation 116,317, elevation 1641m",39.836388,105.03694
+College Park,United States,"populated placepopulation 32,301, elevation 21m",38.980556,76.93667
+Highland Park,United States,"populated placepopulation 10,949, elevation 194m",42.405556,83.096664
+Palo Alto,United States,"populated placepopulation 66,853, elevation 9m",37.441666,122.14278
+Edison,United States,"populated placepopulation 102,548, elevation 27m",40.518612,74.41194
+Asheville,United States,"seat of a second-order administrative divisionpopulation 88,512, elevation 649m",35.600834,82.55389
+Park,United States,"second-order administrative divisionpopulation 17,191, elevation 1919m",45.488335,110.52611
+Park,United States,"second-order administrative divisionpopulation 29,624, elevation 2492m",44.520557,109.58833
+Orland Park,United States,"populated placepopulation 58,619, elevation 215m",41.63028,87.85389
+Mission Field,United States,airportelevation 1419m,45.69889,110.44861
+Powell,United States,"populated placepopulation 6,462, elevation 1339m",44.753613,108.757225
+Melrose Park,United States,"populated placepopulation 25,379, elevation 193m",41.900555,87.85667
+Deer Park,United States,"populated placepopulation 27,745, elevation 26m",40.761665,73.32917
+Arches National Park,United States,parkelevation 1506m,38.7225,109.58611
+Estes Park,United States,"populated placepopulation 6,257, elevation 2300m",40.376945,105.52167
+Rego Park,United States,"populated placepopulation 43,925, elevation 28m",40.726387,73.8525
+Park,United States,"second-order administrative divisionpopulation 17,390, elevation 2806m",39.119167,105.71694
+Forest Park,United States,"populated placepopulation 19,383, elevation 301m",33.621944,84.36889
+Fairview Park,United States,"populated placepopulation 16,407, elevation 228m",41.441387,81.86417
+Tinley Park,United States,"populated placepopulation 57,143, elevation 213m",41.573334,87.78445
+Borough Park,United States,"populated placepopulation 149,248, elevation 20m",40.63389,73.996666
+Ozone Park,United States,"populated placepopulation 53,985, elevation 10m",40.676666,73.84361
+Bishan Park,Singapore,park,1.3652778,103.83583
+Pearl’s Hill City Park,Singapore,park,1.2844445,103.839165
+International Business Park,Singapore,park,1.3294444,103.7475
+Marina South City Park,Singapore,park,1.28,103.861115
+Sembawang End Park,Singapore,park,1.4636111,103.836945
+Pasir Ris Beach Park,Singapore,park,1.3836111,103.945274
+Changi Beach Park,Singapore,park,1.3902777,103.994446
+Bukit Batok Town Park,Singapore,park,1.3555555,103.76361
+Telok Blangah Hill Park,Singapore,park,1.2822223,103.812225
+Kent Ridge Park,Singapore,park,1.2863889,103.79
+Bedok Town Park,Singapore,park,1.3369445,103.93833
+East Coast Park,Singapore,nature reserve,1.3141667,103.934166
+Hong Lim Park,Singapore,nature reserve,1.2852778,103.845276
+Jurong Bird Park,Singapore,nature reserve,1.3191667,103.70611
+Bukit Batok Nature Park,Singapore,nature reserve,1.3488889,103.765274
+Universal Studios Singapore,Singapore,amusement park,1.2555556,103.82083
+Labrador Nature Reserve,Singapore,nature reserve,1.2658334,103.80194
+Kranji Reservoir Park,Singapore,park,1.4397223,103.73778
+Woodlands Industrial Park East,Singapore,industrial area,1.4547222,103.800835
+Kampong Ubi Industrial Park,Singapore,industrial area,1.3299999,103.90722
+Mount Emily Park,Singapore,"section of populated placepopulation 1,630",1.3047222,103.84722
+West Point Garden,Singapore,nature reserve,1.29,103.769165
+Clementi Park,Singapore,park,1.3275,103.76806
+Farrer Park,Singapore,park,1.3122222,103.84889
+Phoenix Park,Singapore,park,1.3763889,103.756386
+Serangoon Park,Singapore,park,1.3505555,103.86694
+Marina Park,Singapore,park,1.2997222,103.86472
+Aljunied Park,Singapore,park,1.3302778,103.88778
+Jurong Park,Singapore,park,1.3269445,103.72833
+Fort Canning Park,Singapore,park,1.293611,103.84639
+Chestnut Nature Park,Singapore,park,1.3716667,103.77944
+Kallang Park,Singapore,nature reserve,1.3033333,103.87722
+Katong Park,Singapore,nature reserve,1.2972223,103.90111
+Farrer Park,Singapore,locality,1.311389,103.852776
+Science Park,Singapore,industrial area,1.2913889,103.788055
+Siglap Park,Singapore,nature reserve,1.3166666,103.928055
+Tyersall Park,Singapore,section of populated placepopulation 539,1.3105556,103.813614
+Seletar Reservoir Park,Singapore,park,1.3997222,103.806946
+Ang Mo Kio Park,Singapore,park,1.3602778,103.84889
+Mount Faber Scenic Park,Singapore,park,1.2722223,103.82083
+Kampong Java Park,Singapore,park,1.3108333,103.84611
+Dairy Farm Nature Park,Singapore,park,1.3622222,103.775
+Gay World Amusement Park,Singapore,amusement park,1.3105556,103.87361
+Pasir Panjang Park,Singapore,nature reserve,1.2758334,103.79195
+Kallang Park Industrial Estate,Singapore,industrial area,1.3011111,103.880554
+MacRitchie Reservoir Park,Singapore,nature reserve,1.3447223,103.834724
+Jurong Hill Park,Singapore,nature reserve,1.3186111,103.70639
+Ang Mo Kio Industrial Park,Singapore,industrial area,1.3888888,103.84695
+Yishun Industrial Park,Singapore,industrial area,1.4452778,103.835
+Woodlands Industrial Park,Singapore,industrial area,1.4338889,103.763336
+Funan DigitaLife Mall,Singapore,"mallpopulation 300, elevation 1m",1.2913889,103.849724
+The Central,Singapore,"mallpopulation 100, elevation 1m",1.2891667,103.84695
+Compass Point,Singapore,mall,1.3919444,103.89472
