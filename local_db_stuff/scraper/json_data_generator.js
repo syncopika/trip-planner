@@ -61,8 +61,8 @@ function generateJSON(table){
         username: username,
         destname: destination.name,
         tripname: `test_trip_${country}_user${i}`,	
-        latitude: destination.latitude,
-        longitude: destination.longitude,
+        latitude: parseFloat(destination.latitude),
+        longitude: parseFloat(destination.longitude),
         index: j,
         metadata: {
           'notes': '',
@@ -75,7 +75,7 @@ function generateJSON(table){
     }
   }
   
-  fs.writeFile('new_test_data.json', JSON.stringify(json), 'utf8', () => {});
+  fs.writeFile('new_test_data.json', JSON.stringify(json, null, 2), 'utf8', () => {});
 }
 
 fs.readFile('data.csv', 'utf8', (err, data) => {
