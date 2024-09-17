@@ -1,0 +1,752 @@
+[
+  {
+    "username": "test_user0",
+    "destname": "Gay World Amusement Park",
+    "tripname": "test_trip_Singapore_user0",
+    "latitude": 1.3105556,
+    "longitude": 103.87361,
+    "index": 0,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user0",
+    "destname": "Kallang Park Industrial Estate",
+    "tripname": "test_trip_Singapore_user0",
+    "latitude": 1.3011111,
+    "longitude": 103.880554,
+    "index": 1,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user0",
+    "destname": "Yishun Industrial Park",
+    "tripname": "test_trip_Singapore_user0",
+    "latitude": 1.4452778,
+    "longitude": 103.835,
+    "index": 2,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user0",
+    "destname": "Universal Studios Singapore",
+    "tripname": "test_trip_Singapore_user0",
+    "latitude": 1.2555556,
+    "longitude": 103.82083,
+    "index": 3,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user0",
+    "destname": "Universal Studios Singapore",
+    "tripname": "test_trip_Singapore_user0",
+    "latitude": 1.2555556,
+    "longitude": 103.82083,
+    "index": 4,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user1",
+    "destname": "Compass Point",
+    "tripname": "test_trip_Singapore_user1",
+    "latitude": 1.3919444,
+    "longitude": 103.89472,
+    "index": 0,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user1",
+    "destname": "Farrer Park",
+    "tripname": "test_trip_Singapore_user1",
+    "latitude": 1.311389,
+    "longitude": 103.852776,
+    "index": 1,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user1",
+    "destname": "Universal Studios Singapore",
+    "tripname": "test_trip_Singapore_user1",
+    "latitude": 1.2555556,
+    "longitude": 103.82083,
+    "index": 2,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user1",
+    "destname": "Tyersall Park",
+    "tripname": "test_trip_Singapore_user1",
+    "latitude": 1.3105556,
+    "longitude": 103.813614,
+    "index": 3,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user1",
+    "destname": "Farrer Park",
+    "tripname": "test_trip_Singapore_user1",
+    "latitude": 1.311389,
+    "longitude": 103.852776,
+    "index": 4,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user2",
+    "destname": "Li-shan Guest Hotel",
+    "tripname": "test_trip_Taiwan_user2",
+    "latitude": 24.254168,
+    "longitude": 121.25056,
+    "index": 0,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user2",
+    "destname": "Sol Hotel",
+    "tripname": "test_trip_Taiwan_user2",
+    "latitude": 24.805834,
+    "longitude": 120.97111,
+    "index": 1,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user2",
+    "destname": "Li-tse Industrial Park",
+    "tripname": "test_trip_Taiwan_user2",
+    "latitude": 24.655277,
+    "longitude": 121.834724,
+    "index": 2,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user2",
+    "destname": "Taiwan Dianying Wenhuacheng",
+    "tripname": "test_trip_Taiwan_user2",
+    "latitude": 24.074722,
+    "longitude": 120.71611,
+    "index": 3,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user2",
+    "destname": "Cheng Pao Hotel",
+    "tripname": "test_trip_Taiwan_user2",
+    "latitude": 23.91639,
+    "longitude": 120.68305,
+    "index": 4,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user3",
+    "destname": "Zhongshan Gongyuan",
+    "tripname": "test_trip_Taiwan_user3",
+    "latitude": 23.0025,
+    "longitude": 120.21139,
+    "index": 0,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user3",
+    "destname": "Ch’ing-ching Hotel",
+    "tripname": "test_trip_Taiwan_user3",
+    "latitude": 24.043056,
+    "longitude": 121.15639,
+    "index": 1,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user3",
+    "destname": "K’en-ting Hotel",
+    "tripname": "test_trip_Taiwan_user3",
+    "latitude": 21.956388,
+    "longitude": 120.80778,
+    "index": 2,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user3",
+    "destname": "Plaza International Hotel",
+    "tripname": "test_trip_Taiwan_user3",
+    "latitude": 24.15,
+    "longitude": 120.68305,
+    "index": 3,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user3",
+    "destname": "Yung-k’ang Industrial Park",
+    "tripname": "test_trip_Taiwan_user3",
+    "latitude": 23.026112,
+    "longitude": 120.251114,
+    "index": 4,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user4",
+    "destname": "Hotel King’S Town",
+    "tripname": "test_trip_Taiwan_user4",
+    "latitude": 22.641388,
+    "longitude": 120.30222,
+    "index": 0,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user4",
+    "destname": "Taroko National Park",
+    "tripname": "test_trip_Taiwan_user4",
+    "latitude": 24.134722,
+    "longitude": 121.3825,
+    "index": 1,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user4",
+    "destname": "Jen-te Industrial Park",
+    "tripname": "test_trip_Taiwan_user4",
+    "latitude": 22.92389,
+    "longitude": 120.246666,
+    "index": 2,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user4",
+    "destname": "Gaoxiong Shili Meishuguan",
+    "tripname": "test_trip_Taiwan_user4",
+    "latitude": 22.655277,
+    "longitude": 120.28667,
+    "index": 3,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user4",
+    "destname": "Ziran Kexue Bowuguan",
+    "tripname": "test_trip_Taiwan_user4",
+    "latitude": 24.156666,
+    "longitude": 120.665276,
+    "index": 4,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user5",
+    "destname": "Strawberry Bank Hotel and Restaurant",
+    "tripname": "test_trip_United Kingdom_user5",
+    "latitude": 52.434723,
+    "longitude": 1.6394444,
+    "index": 0,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user5",
+    "destname": "Carpenters Arms public house",
+    "tripname": "test_trip_United Kingdom_user5",
+    "latitude": 51.9625,
+    "longitude": 0.49222222,
+    "index": 1,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user5",
+    "destname": "Yorkshire Air Museum",
+    "tripname": "test_trip_United Kingdom_user5",
+    "latitude": 53.92361,
+    "longitude": 0.9811111,
+    "index": 2,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user5",
+    "destname": "Stratford Shopping Centre",
+    "tripname": "test_trip_United Kingdom_user5",
+    "latitude": 51.54139,
+    "longitude": 0.0011111111,
+    "index": 3,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user5",
+    "destname": "Glades Shopping Centre",
+    "tripname": "test_trip_United Kingdom_user5",
+    "latitude": 51.40389,
+    "longitude": 0.016666668,
+    "index": 4,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user6",
+    "destname": "Poppies Hotel And Restaurant",
+    "tripname": "test_trip_United Kingdom_user6",
+    "latitude": 56.25,
+    "longitude": 4.233333,
+    "index": 0,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user6",
+    "destname": "Harrods",
+    "tripname": "test_trip_United Kingdom_user6",
+    "latitude": 51.499443,
+    "longitude": 0.16333334,
+    "index": 1,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user6",
+    "destname": "Pall Mall",
+    "tripname": "test_trip_United Kingdom_user6",
+    "latitude": 51.50639,
+    "longitude": 0.13416667,
+    "index": 2,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user6",
+    "destname": "Cnoc Mall-lairig",
+    "tripname": "test_trip_United Kingdom_user6",
+    "latitude": 57.5075,
+    "longitude": 4.8869443,
+    "index": 3,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user6",
+    "destname": "Pugneys Country Park",
+    "tripname": "test_trip_United Kingdom_user6",
+    "latitude": 53.656387,
+    "longitude": 1.5047222,
+    "index": 4,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user7",
+    "destname": "Roker Park Golf Restaurant",
+    "tripname": "test_trip_United Kingdom_user7",
+    "latitude": 51.267776,
+    "longitude": 0.6152778,
+    "index": 0,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user7",
+    "destname": "Young's Fishbar",
+    "tripname": "test_trip_United Kingdom_user7",
+    "latitude": 51.286945,
+    "longitude": 1.0836111,
+    "index": 1,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user7",
+    "destname": "Booker Airfield",
+    "tripname": "test_trip_United Kingdom_user7",
+    "latitude": 51.611668,
+    "longitude": 0.8080556,
+    "index": 2,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user7",
+    "destname": "Roker Park Golf Restaurant",
+    "tripname": "test_trip_United Kingdom_user7",
+    "latitude": 51.267776,
+    "longitude": 0.6152778,
+    "index": 3,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user7",
+    "destname": "Stratford Shopping Centre",
+    "tripname": "test_trip_United Kingdom_user7",
+    "latitude": 51.54139,
+    "longitude": 0.0011111111,
+    "index": 4,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user8",
+    "destname": "Science Park",
+    "tripname": "test_trip_Singapore_user8",
+    "latitude": 1.2913889,
+    "longitude": 103.788055,
+    "index": 0,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user8",
+    "destname": "Gay World Amusement Park",
+    "tripname": "test_trip_Singapore_user8",
+    "latitude": 1.3105556,
+    "longitude": 103.87361,
+    "index": 1,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user8",
+    "destname": "Phoenix Park",
+    "tripname": "test_trip_Singapore_user8",
+    "latitude": 1.3763889,
+    "longitude": 103.756386,
+    "index": 2,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user8",
+    "destname": "Farrer Park",
+    "tripname": "test_trip_Singapore_user8",
+    "latitude": 1.311389,
+    "longitude": 103.852776,
+    "index": 3,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user8",
+    "destname": "Science Park",
+    "tripname": "test_trip_Singapore_user8",
+    "latitude": 1.2913889,
+    "longitude": 103.788055,
+    "index": 4,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user9",
+    "destname": "The Grove restaurant",
+    "tripname": "test_trip_United Kingdom_user9",
+    "latitude": 51.98,
+    "longitude": 0.42722222,
+    "index": 0,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user9",
+    "destname": "Gippeswyk Park",
+    "tripname": "test_trip_United Kingdom_user9",
+    "latitude": 52.051945,
+    "longitude": 1.1344445,
+    "index": 1,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user9",
+    "destname": "Cutty Sark",
+    "tripname": "test_trip_United Kingdom_user9",
+    "latitude": 51.482777,
+    "longitude": 0.009444444,
+    "index": 2,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user9",
+    "destname": "Roker Park Golf Restaurant",
+    "tripname": "test_trip_United Kingdom_user9",
+    "latitude": 51.267776,
+    "longitude": 0.6152778,
+    "index": 3,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  },
+  {
+    "username": "test_user9",
+    "destname": "Booker Airfield",
+    "tripname": "test_trip_United Kingdom_user9",
+    "latitude": 51.611668,
+    "longitude": 0.8080556,
+    "index": 4,
+    "metadata": {
+      "notes": "",
+      "fromDate": "",
+      "toDate": "",
+      "images": [],
+      "routeColor": "#888"
+    }
+  }
+]

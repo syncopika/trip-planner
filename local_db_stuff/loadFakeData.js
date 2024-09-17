@@ -1,5 +1,13 @@
 // note that we are using PostgreSQL here
 
+///// accessing db locally
+//>psql -U postgres
+//>\dt => list tables
+//>\connect [db name] => use a particular db
+//>\l => list db
+//>\d [table name] => see table schema
+//> select * from destinations; // don't forget semicolon!
+
 const pg = require('pg');
 const fs = require('fs');
 
@@ -19,7 +27,7 @@ async function resetDB(){
     await client.query(`truncate destinations`);
     console.log("destinations table is now empty");
 
-    let data = await fs.readFileSync('test_destinations.json', 'utf8');
+    let data = await fs.readFileSync('./scraper/new_test_data.json', 'utf8'); //'test_destinations.json', 'utf8');
     const destData = JSON.parse(data);
     destData.forEach(async (record) => {
         const query = `
@@ -36,8 +44,8 @@ async function resetDB(){
     await client.query(`truncate users`);
     console.log("users table is now empty");
     
-    data = await fs.readFileSync('test_users.json', 'utf8');
-    const userData = JSON.parse(data);
+    //data = await fs.readFileSync('test_users.json', 'utf8');
+    const userData = Array.from(new Set(destData.map(d => d.username))).map(u => ({username: u, password: 'password'})); //JSON.parse(data);
     userData.forEach(async (record) => {
         const query = `
         INSERT INTO users (username, password)
