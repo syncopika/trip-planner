@@ -51,12 +51,13 @@ func stringSliceToInt(strings []string) []int {
 }
 
 // convert geographic coordinates (lat and lng) to decimal
+// https://surferhelp.goldensoftware.com/projections/wks_lat_long_in_decimal_degrees.htm
 func convertCoordinatesToDecimal(components []int) float32 {
   // TODO: if len(components) != 3, error
   degrees := float32(components[0])
-  hours := float32(components[1])
-  minutes := float32(components[2])
-  return (hours / 60.0) + (minutes / 3600.0) + degrees
+  minutes := float32(components[1])
+  seconds := float32(components[2])
+  return (minutes / 60.0) + (seconds / 3600.0) + degrees
 }
 
 func main() {
