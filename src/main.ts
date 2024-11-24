@@ -32,118 +32,118 @@ createApp({
         });
     },
     data(){
-      return {
-        'tripData': [
-            {
-                'tripName': 'my first trip',
-                'listOfDest': [
-                    {
-                        "name": "test",
-                        "latitude": 38.9486650738765,
-                        "longitude": -77.01459411621002,
-                        "notes": "hello world",
-                        "fromDate": "01-01-2020",
-                        "toDate": "01-05-2020",
-                        "images": [] as string[],
-                        "routeColor": "#3FB1CE"
-                    },
-                    {
-                        "name": "test2",
-                        "latitude": 38.982833520960156,
-                        "longitude": -76.95210937499908,
-                        "notes": "hello world2",
+        return {
+            'tripData': [
+                {
+                    'tripName': 'my first trip',
+                    'listOfDest': [
+                        {
+                            "name": "test",
+                            "latitude": 38.9486650738765,
+                            "longitude": -77.01459411621002,
+                            "notes": "hello world",
+                            "fromDate": "01-01-2020",
+                            "toDate": "01-05-2020",
+                            "images": [] as string[],
+                            "routeColor": "#3FB1CE"
+                        },
+                        {
+                            "name": "test2",
+                            "latitude": 38.982833520960156,
+                            "longitude": -76.95210937499908,
+                            "notes": "hello world2",
+                            "fromDate": "01-05-2020",
+                            "toDate": "01-07-2020",
+                            "images": [] as string[],
+                            "routeColor": "#3FB1CE"
+                        }
+                    ]
+                }
+            ],
+            'username': 'user1',
+            'currTripIndex': 0,
+            'suggestedNextDests': [] as DestinationSuggestion[],
+            'canGetSuggestedNextDests': false, // can get destinations from the database
+            'useOverpassAPI': false,           // flag for using overpass api for getting nearby locations
+            'overpassApiEntityToFind': "restaurant",
+            'overpassApiKeyToFind': "amenity",
+            'overpassApiEntityKeyMap': {
+                "arts_centre": "amenity",
+                "library": "amenity",
+                "restaurant": "amenity",
+                "aquarium": "tourism",
+                "attraction": "tourism",
+                "hotel": "tourism",
+                "museum": "tourism",
+            } as Record<string, string>,
+            'appearanceOptions': {
+                'showLocationLookup': false,
+                'showSuggestedDestinations': false,
+            },
+            // TODO: maybe we can pull these fake suggestions from a json file?
+            'fakeSuggestions': [
+                {
+                    "username": "test_user1",
+                    "destname": "test_place1",
+                    "tripname": "test_trip1",	
+                    "latitude": 39.002833520960156,
+                    "longitude": -76.55210937499908,
+                    "index": 0,
+                    "metadata": {
+                        "notes": "hello world2 sdfsdf",
                         "fromDate": "01-05-2020",
                         "toDate": "01-07-2020",
-                        "images": [] as string[],
-                        "routeColor": "#3FB1CE"
+                        "images": [],
+                        "routeColor": "#888"
                     }
-                ]
-            }
-        ],
-        'username': 'user1',
-        'currTripIndex': 0,
-        'suggestedNextDests': [] as DestinationSuggestion[],
-        'canGetSuggestedNextDests': false, // can get destinations from the database
-        'useOverpassAPI': false,           // flag for using overpass api for getting nearby locations
-        'overpassApiEntityToFind': "restaurant",
-        'overpassApiKeyToFind': "amenity",
-        'overpassApiEntityKeyMap': {
-            "arts_centre": "amenity",
-            "library": "amenity",
-            "restaurant": "amenity",
-            "aquarium": "tourism",
-            "attraction": "tourism",
-            "hotel": "tourism",
-            "museum": "tourism",
-        } as Record<string, string>,
-        'appearanceOptions': {
-            'showLocationLookup': false,
-            'showSuggestedDestinations': false,
-        },
-        // TODO: maybe we can pull these fake suggestions from a json file?
-        'fakeSuggestions': [
-            {
-                "username": "test_user1",
-                "destname": "test_place1",
-                "tripname": "test_trip1",	
-                "latitude": 39.002833520960156,
-                "longitude": -76.55210937499908,
-                "index": 0,
-                "metadata": {
-                    "notes": "hello world2 sdfsdf",
-                    "fromDate": "01-05-2020",
-                    "toDate": "01-07-2020",
-                    "images": [],
-                    "routeColor": "#888"
-                }
-            },
-            {
-                "username": "test_user1",
-                "destname": "test_place2",
-                "tripname": "test_trip1",	
-                "latitude": 39.048987979347004,
-                "longitude": -76.91640380859292,
-                "index": 1,
-                "metadata": {
-                    "notes": "hello world2 sdfsdf sdfgsdfg",
-                    "fromDate": "01-05-2020",
-                    "toDate": "01-07-2020",
-                    "images": [],
-                    "routeColor": "#888"
-                }
-            },
-            {
-                "username": "test_user1",
-                "destname": "test_place3",
-                "tripname": "test_trip1",	
-                "latitude": 38.848987979347004,
-                "longitude": -77.01640380859292,
-                "index": 2,
-                "metadata": {
-                    "notes": "hello world2 sdfsdf sdfgsdfg",
-                    "fromDate": "01-05-2020",
-                    "toDate": "01-07-2020",
-                    "images": [],
-                    "routeColor": "#888"
-                }
-            },
-            {
-                "username": "test_user1",
-                "destname": "test_place4",
-                "tripname": "test_trip1",	
-                "latitude": 37.948987979347004,
-                "longitude": -77.01640380859292,
-                "index": 3,
-                "metadata": {
-                    "notes": "something",
-                    "fromDate": "01-05-2020",
-                    "toDate": "01-07-2020",
-                    "images": [],
-                    "routeColor": "#888"
-                }
-            },
-        ],
-    }},
+                },
+                {
+                    "username": "test_user1",
+                    "destname": "test_place2",
+                    "tripname": "test_trip1",	
+                    "latitude": 39.048987979347004,
+                    "longitude": -76.91640380859292,
+                    "index": 1,
+                    "metadata": {
+                        "notes": "hello world2 sdfsdf sdfgsdfg",
+                        "fromDate": "01-05-2020",
+                        "toDate": "01-07-2020",
+                        "images": [],
+                        "routeColor": "#888"
+                    }
+                },
+                {
+                    "username": "test_user1",
+                    "destname": "test_place3",
+                    "tripname": "test_trip1",	
+                    "latitude": 38.848987979347004,
+                    "longitude": -77.01640380859292,
+                    "index": 2,
+                    "metadata": {
+                        "notes": "hello world2 sdfsdf sdfgsdfg",
+                        "fromDate": "01-05-2020",
+                        "toDate": "01-07-2020",
+                        "images": [],
+                        "routeColor": "#888"
+                    }
+                },
+                {
+                    "username": "test_user1",
+                    "destname": "test_place4",
+                    "tripname": "test_trip1",	
+                    "latitude": 37.948987979347004,
+                    "longitude": -77.01640380859292,
+                    "index": 3,
+                    "metadata": {
+                        "notes": "something",
+                        "fromDate": "01-05-2020",
+                        "toDate": "01-07-2020",
+                        "images": [],
+                        "routeColor": "#888"
+                    }
+                },
+            ],
+        }},
     methods: {
         // get next destination suggestions from database
         requestSuggestedNextHops: function(lat: number, long: number): Promise<UserDestinationSuggestion[]> {

@@ -275,7 +275,6 @@ html, body {
 button {
     font-family: inherit;
     background-color: var(--btn-bg-color);
-    border-radius: 10px;
     border: 1px solid var(--btn-border-color);
     color: var(--btn-text-color);
     margin-left: 2px;
