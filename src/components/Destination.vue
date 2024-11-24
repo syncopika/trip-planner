@@ -80,7 +80,7 @@
             </div>
 
             <br />
-            <div v-if="isEditing" style="text-align: left" :id="destination.name + '_editRouteColor'">
+            <div v-if="isEditing" style="text-align: left" :id="destination.name + '_editRouteColor'" class="editRouteColor">
                 <label :for="destination.name + '_routeColor'"> route color: </label>
                 <input 
                     :id="destination.name + '_routeColor'" 
@@ -89,10 +89,14 @@
                     :value="destination.routeColor"
                     type="text"
                     size="7"
+                    disabled
                 />
-                <button style="display: inline-block" :id="destination.name + '_routeColor_btn'" @click="showColorWheel">
-                    show color wheel
-                </button>
+                <input 
+                  style="display: inline-block" 
+                  type="color" 
+                  :id="destination.name + '_routeColorPicker'" 
+                  :value="destination.routeColor" 
+                />
             </div>
             <h3 v-if="!isEditing"> route color: 
                 <span :style="'background-color: ' + destination.routeColor">{{destination.routeColor}}</span>
@@ -104,7 +108,7 @@
 
             <button @click="toggleEdit" v-if="!isEditing"> edit </button>
 
-            <input class="inputFile" type="file" accept="image/*" :id="destination.name + '_importImage'" @change="uploadImage">
+            <input class="inputFile" type="file" accept="image/*" :id="destination.name + '_importImage'" @change="uploadImage" />
             <button v-if="isEditing" @click="clickInput"> upload image </button>
 
             <button class="editButton"
@@ -244,11 +248,8 @@ export default defineComponent({
             data.toDate = `${toDate.month}-${toDate.day}-${toDate.year}`;
 
             // get route color and remove color wheel
-            const routeColorInput = document.getElementById(this.destination.name + "_routeColor") as HTMLInputElement;
+            const routeColorInput = document.getElementById(this.destination.name + "_routeColorPicker") as HTMLInputElement;
             if(routeColorInput) data.routeColor = routeColorInput.value;
-
-            const colorWheel = document.getElementById(this.destination.name + "_colorWheel");
-            if(colorWheel && colorWheel.parentNode) colorWheel.parentNode.removeChild(colorWheel);
 
             // update data source with new info
             this.$root.updateDestination(data);
@@ -359,80 +360,6 @@ export default defineComponent({
             this.destination.images.splice(imageIndex, 1);
         },
         
-        showColorWheel: function(): void {
-            const location = document.getElementById(this.destination.name + '_editRouteColor');
-            const colorWheelId = this.destination.name + "_colorWheel";
-            
-            if(document.getElementById(colorWheelId)){
-                // don't add a new one if there already is one
-                return;
-            }
-            
-            const size = "200";
-            const colorWheel = document.createElement('canvas');
-            colorWheel.id = colorWheelId;
-            colorWheel.setAttribute('width', size);
-            colorWheel.setAttribute('height', size);
-
-            const colorWheelContext = colorWheel.getContext('2d');
-            const x = colorWheel.width / 2;
-            const y = colorWheel.height / 2;
-            const radius = 90;
-
-            // why 5600??
-            if(colorWheelContext) {
-                for(let angle = 0; angle <= 5600; angle++) {
-                    const startAngle = (angle - 2) * Math.PI / 180; //convert angles to radians
-                    const endAngle = angle * Math.PI / 180;
-                    colorWheelContext.beginPath();
-                    colorWheelContext.moveTo(x, y);
-                    //.arc(x, y, radius, startAngle, endAngle, anticlockwise)
-                    colorWheelContext.arc(x, y, radius, startAngle, endAngle, false);
-                    colorWheelContext.closePath();
-                    //use .createRadialGradient to get a different color for each angle
-                    //createRadialGradient(x0, y0, r0, x1, y1, r1)
-                    const gradient = colorWheelContext.createRadialGradient(x, y, 0, startAngle, endAngle, radius);
-                    gradient.addColorStop(0, 'hsla(' + angle + ', 10%, 100%, 1)');
-                    gradient.addColorStop(1, 'hsla(' + angle + ', 100%, 50%, 1)');
-                    colorWheelContext.fillStyle = gradient;
-                    colorWheelContext.fill();
-                }
-
-                // make black a pickable color
-                colorWheelContext.fillStyle = "#000";
-                colorWheelContext.beginPath();
-                colorWheelContext.arc(10, 10, 8, 0, 2 * Math.PI);
-                colorWheelContext.fill();
-
-                // make white pickable too
-                // black outline
-                colorWheelContext.beginPath();
-                colorWheelContext.arc(30, 10, 8, 0, 2 * Math.PI); // border around the white 
-                colorWheelContext.stroke();
-
-                // make sure circle is filled with #fff
-                colorWheelContext.fillStyle = "#fff";
-                colorWheelContext.arc(30, 10, 8, 0, 2 * Math.PI);
-                colorWheelContext.fill();
-
-                colorWheel.addEventListener('click', (e) => {
-                    const x = e.offsetX;
-                    const y = e.offsetY;
-
-                    const colorPicked = (colorWheel.getContext('2d')).getImageData(x, y, 1, 1).data;
-                    // convert to hex?
-                    const colorCode = 'rgb(' + colorPicked[0] + ',' + colorPicked[1] + ',' + colorPicked[2] + ')';
-                    const colorInput = document.getElementById(this.destination.name + "_routeColor") as HTMLInputElement;
-                    if(colorInput) {
-                        colorInput.value = colorCode;
-                        colorInput.style.backgroundColor = colorCode;
-                    }
-                });
-            }
-
-            if(location) location.appendChild(colorWheel);
-        },
-        
         onDragStart: function(evt: DragEvent): void {
             evt.stopPropagation();
             
@@ -467,7 +394,6 @@ export default defineComponent({
     button {
         font-family: inherit;
         background-color: var(--btn-bg-color);
-        border-radius: 10px;
         border: 1px solid var(--btn-border-color);
         color: var(--btn-text-color);
         display: inline;
@@ -542,6 +468,20 @@ export default defineComponent({
     .imageContainer h3 {
         text-align: center;
         margin-top: 0;
+    }
+    
+    .editRouteColor {
+      display: flex;
+      align-items: center;
+    }
+    
+    .editRouteColor input {
+      background-color: transparent;
+      border: none;
+    }
+    
+    .editRouteColor input[type=color]:hover {
+      cursor: pointer;
     }
 
 </style>
