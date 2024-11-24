@@ -85,7 +85,7 @@
                 <input 
                     :id="destination.name + '_routeColor'" 
                     :name="destination.name + '_routeColor'"
-                    :style="'background-color: ' + destination.routeColor"
+                    :style="'color: #000;' + 'background-color: ' + destination.routeColor"
                     :value="destination.routeColor"
                     type="text"
                     size="7"
