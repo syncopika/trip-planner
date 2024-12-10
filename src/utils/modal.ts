@@ -224,7 +224,7 @@ export class Modal {
     }
     
     // modal for adding a new destination manually
-    addNewDestinationModal(): Promise<Partial<Destination>> {
+    addNewDestinationModal(): Promise<Partial<Destination> | null> {
         const modal = document.createElement('div');
         modal.id = "modal";
         Object.assign(modal.style, this.modalStyle);
@@ -331,7 +331,7 @@ export class Modal {
         modal.appendChild(okBtn);
         modal.appendChild(cancelBtn);
         
-        return new Promise<Partial<Destination>>((resolve) => {
+        return new Promise<Partial<Destination> | null>((resolve) => {
             okBtn.onclick = (): void => {
                 
                 // TODO: come up with a better, not-so-hacky solution for getting the dates if set
@@ -369,7 +369,7 @@ export class Modal {
                 }
             };
             cancelBtn.onclick = (): void => {
-                resolve({});
+                resolve(null);
             };
         }).finally(() => {
             // make sure to close modal

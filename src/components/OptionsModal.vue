@@ -2,8 +2,6 @@
     <div>
         <div class="modal">
             <h1> options </h1>
-            <p class="experimentalNote"> * = experimental feature. please don't expect too much :) </p>
-            
             <hr />
             <p id="locationLookup"> location lookup* </p>
             <div class="section">
@@ -96,6 +94,8 @@
             </div>
             
             <hr />
+            
+            <p class="experimentalNote"> * = experimental feature. please don't expect too much :) </p>
             
             <div id="buttons">
                 <button @click="updateOptions"> ok </button>
