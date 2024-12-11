@@ -102,8 +102,20 @@
 
             <hr />
 
+            <p v-if="!isEditing" class="latlng"> lat: {{destination.latitude}}, long: {{destination.longitude}} </p>
+
             <!-- TODO: make lat and lng editable! put them in a text input? -->
-            <p class='latlng'> lat: {{destination.latitude}}, long: {{destination.longitude}} </p>
+            <div v-if="isEditing">
+                <label id="latInputLabel" for="latInput">
+                    lat:
+                    <input id="latInput" type="number" :value="destination.latitude" />
+                </label>
+                
+                <label id="lngInputLabel" for="lngInput">
+                    long:
+                    <input id="lngInput" type="number" :value="destination.longitude" />
+                </label>
+            </div>
 
             <button @click="toggleEdit" v-if="!isEditing"> edit </button>
 
@@ -214,6 +226,7 @@ export default defineComponent({
             // to update state, the destination name, if edited, will be
             // checked to make sure its new desired name is not already taken
             // by another destination
+            console.log(this.destination);
 
             const name = this.destination.name;
             const destTitle = document.getElementById(name);
@@ -234,11 +247,17 @@ export default defineComponent({
             data.newName = newName;
 
             // get from and to dates
-            const fromDate = this.$refs[name + "_fromDate"].getDateInfo();
-            const toDate = this.$refs[name + "_toDate"].getDateInfo();
+            const fromDate = this.$refs[`${name}_fromDate`].getDateInfo();
+            const toDate = this.$refs[`${name}_toDate`].getDateInfo();
 
             data.fromDate = `${fromDate.month}-${fromDate.day}-${fromDate.year}`;
             data.toDate = `${toDate.month}-${toDate.day}-${toDate.year}`;
+            
+            // get lng and lat
+            const latInput = document.getElementById('latInput');
+            const lngInput = document.getElementById('lngInput');
+            if(latInput) data.latitude = parseFloat(latInput.value);
+            if(lngInput) data.longitude = parseFloat(lngInput.value);
 
             // get route color and remove color wheel
             const routeColorInput = document.getElementById(this.destination.name + "_routeColorPicker") as HTMLInputElement;
@@ -480,6 +499,12 @@ export default defineComponent({
 
     .editRouteColor input[type=color]:hover {
       cursor: pointer;
+    }
+    
+    #latInputLabel, #lngInputLabel {
+      display: block;
+      padding: 0;
+      margin-bottom: 8px;
     }
 
 </style>

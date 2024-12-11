@@ -255,7 +255,7 @@ export class Modal {
         
         // latitude
         const destinationLat = document.createElement('input');
-        destinationLat.type = "text";
+        destinationLat.type = "number";
         destinationLat.name = "destinationLat";
         destinationLat.value = "";
         destinationLat.id = "destinationLat";
@@ -270,7 +270,7 @@ export class Modal {
         
         // longitude
         const destinationLong = document.createElement('input');
-        destinationLong.type = "text";
+        destinationLong.type = "number";
         destinationLong.name = "longitude: ";
         destinationLong.value = "";
         destinationLong.id = "destinationLong";
@@ -325,6 +325,18 @@ export class Modal {
         const okBtn = document.createElement('button');
         okBtn.innerText = "ok";
         
+        // button to allow user to try extracting lat/lng via Google Maps url instead
+        const googleMapsExtractLatLngBtn = document.createElement('button');
+        googleMapsExtractLatLngBtn.textContent = 'try extracting lat/lng from url';
+        googleMapsExtractLatLngBtn.addEventListener('click', async () => {
+            const res = await this.showLatLngExtractModal();
+            if(res){
+                destinationLat.value = `${res.latitude}`;
+                destinationLong.value = `${res.longitude}`;
+            }
+        });
+        modal.appendChild(googleMapsExtractLatLngBtn);
+        
         const cancelBtn = document.createElement('button');
         cancelBtn.innerText = "cancel";
         
@@ -378,4 +390,73 @@ export class Modal {
         });
     }
     
+    // modal for trying to extract latitude and longitude from a Google Maps url
+    // regex: (-?[0-9]{1,2}.[0-9]+),(-?[0-9]{1,3}.[0-9]+)
+    showLatLngExtractModal(): Promise<Record<string, number> | null> {
+        const modal = document.createElement('div');
+        modal.id = "modal";
+        Object.assign(modal.style, this.modalStyle);
+        
+        const displayText = document.createElement('p');
+        displayText.textContent = "Enter a Google Maps url and we'll try to extract the latitude and longitude so you don't have to manually type it in! :) ";
+        modal.appendChild(displayText);
+        
+        // latitude
+        const googleMapsUrlInput = document.createElement('input');
+        googleMapsUrlInput.type = "text";
+        googleMapsUrlInput.name = "googleMapsUrlInput";
+        googleMapsUrlInput.value = "";
+        googleMapsUrlInput.id = "googleMapsUrlInput";
+        
+        const googleMapsUrlInputLabel = document.createElement('label');
+        googleMapsUrlInputLabel.textContent = "url: ";
+        googleMapsUrlInputLabel.htmlFor = "googleMapsUrlInput";
+        googleMapsUrlInputLabel.style.fontSize = "18px";
+        
+        modal.appendChild(googleMapsUrlInputLabel);
+        modal.appendChild(googleMapsUrlInput);
+        
+        const modalOverlay = document.createElement('div');
+        modalOverlay.id = "modal-overlay";
+        Object.assign(modalOverlay.style, this.modalOverlayStyle);
+        
+        document.body.appendChild(modal);
+        document.body.appendChild(modalOverlay);
+        
+        const extractBtn = document.createElement('button');
+        extractBtn.innerText = "extract";
+        
+        const cancelBtn = document.createElement('button');
+        cancelBtn.innerText = "cancel";
+        
+        modal.appendChild(extractBtn);
+        modal.appendChild(cancelBtn);
+        
+        return new Promise<Record<string, number> | null>((resolve) => {
+            extractBtn.onclick = (): void => {
+                const url = googleMapsUrlInput.value;
+                const res = url.match(/-?([0-9]{1,2}.[0-9]+),(-?[0-9]{1,3}.[0-9]+)/g);
+                if(res){
+                    const loc = res[0].split(',');
+                    if(loc.length == 2){
+                        resolve({
+                            latitude: parseFloat(loc[0]),
+                            longitude: parseFloat(loc[1]),
+                        });
+                    }else{
+                        resolve(null);
+                    }
+                }else{
+                    resolve(null);
+                }
+            };
+            cancelBtn.onclick = (): void => {
+                resolve(null);
+            };
+        }).finally(() => {
+            // make sure to close modal
+            document.body.removeChild(modal);
+            document.body.removeChild(modalOverlay);
+        });
+    }
 }

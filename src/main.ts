@@ -209,20 +209,14 @@ createApp({
             for(let i = 0; i < listOfDest.length; i++){
                 const dest = listOfDest[i];
                 if(dest.name === currName){
-                    // TODO: just do for prop in dest, reassign?
-                    // so we don't have to manually update this each time there's a new prop
-                    dest.notes = data.notes;
-                    dest.fromDate = data.fromDate;
-                    dest.toDate = data.toDate;
-                    dest.images = data.images;
-                    dest.routeColor = data.routeColor;
-
-                    if(changeName){
-                        dest.name = newName;
-                    }else{
-                        dest.name = currName;
+                    let prop: keyof Destination;
+                    for(prop in data){
+                        if(prop === "name" && changeName){
+                            dest.name = newName;
+                        }else{
+                            dest[prop] = data[prop];
+                        }
                     }
-
                     break;
                 }
             }
