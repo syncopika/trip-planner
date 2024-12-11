@@ -2,8 +2,6 @@
     <!-- one li is one destination -->
     <li :id="destination.name + '_dest'"
         class="dest"
-        @mouseover="highlightBorder"
-        @mouseleave="dehighlightBorder"
         draggable="true"
         @dragstart="onDragStart"
     >
@@ -104,7 +102,19 @@
 
             <hr />
 
-            <p class='latlng'> lat: {{destination.latitude}}, long: {{destination.longitude}} </p>
+            <p v-if="!isEditing" class="latlng"> lat: {{destination.latitude}}, long: {{destination.longitude}} </p>
+
+            <div v-if="isEditing">
+                <label id="latInputLabel" for="latInput">
+                    lat:
+                    <input id="latInput" type="number" :value="destination.latitude" />
+                </label>
+                
+                <label id="lngInputLabel" for="lngInput">
+                    long:
+                    <input id="lngInput" type="number" :value="destination.longitude" />
+                </label>
+            </div>
 
             <button @click="toggleEdit" v-if="!isEditing"> edit </button>
 
@@ -140,7 +150,7 @@ export default defineComponent({
             expanded: false,
             isEditing: false,
             editSnapshot: {},
-            currDestTitle: ""
+            currDestTitle: "",
         }
     },
     components: {
@@ -150,31 +160,25 @@ export default defineComponent({
         destination: {required: true, type: Object}
     },
     methods: {
-        highlightBorder: function(): void {
-            const name = this.destination.name;
-            const dest = document.getElementById(name + '_dest');
-            if(dest !== null){
-                dest.style.border = '2px solid #fff';
-            }
-        },
-        
-        dehighlightBorder: function(): void {
-            const name = this.destination.name;
-            const dest = document.getElementById(name + '_dest');
-            if(dest !== null){
-                dest.style.border = '2px solid #000';
-            }    
-        },
-        
         toggleVisibility: function(): void {
             const name = this.destination.name;
+            const parent = document.getElementById(name + '_dest');
             const content = document.getElementById(name + '_content');
 
             if(content !== null){
                 if(this.expanded && !this.isEditing){
                     content.style.display = "none";
+                    
+                    if(parent){
+                        parent.setAttribute('draggable', true);
+                    }
                 }else{
                     content.style.display = "block";
+                    
+                    if(parent){
+                        // don't allow component to be draggable if open/expanded
+                        parent.setAttribute('draggable', false);
+                    }
                 }
             }
 
@@ -210,7 +214,7 @@ export default defineComponent({
             // calls a method of the Vue root instance
             const modal = new Modal();
             const remove = await modal.createQuestionModal("Are you sure you want to remove this destination?");
-            if (remove) {
+            if(remove){
                 const name = (evt.target as HTMLElement).id.split("_")[0]; // i.e. name_dest, and we want name
                 this.$root.removeDestination(name);
             }
@@ -221,14 +225,13 @@ export default defineComponent({
             // to update state, the destination name, if edited, will be
             // checked to make sure its new desired name is not already taken
             // by another destination
-
             const name = this.destination.name;
             const destTitle = document.getElementById(name);
             const newName = destTitle?.textContent?.trim();
 
             // if new name is valid (i.e. not an empty string), the change will happen
             // if it doesn't happen, we'll at least have restored the dest title to its original
-            if (destTitle) {
+            if(destTitle){
                 destTitle.textContent = this.currDestTitle;
                 destTitle.setAttribute('contenteditable', "false");
             }
@@ -241,11 +244,17 @@ export default defineComponent({
             data.newName = newName;
 
             // get from and to dates
-            const fromDate = this.$refs[name + "_fromDate"].getDateInfo();
-            const toDate = this.$refs[name + "_toDate"].getDateInfo();
+            const fromDate = this.$refs[`${name}_fromDate`].getDateInfo();
+            const toDate = this.$refs[`${name}_toDate`].getDateInfo();
 
             data.fromDate = `${fromDate.month}-${fromDate.day}-${fromDate.year}`;
             data.toDate = `${toDate.month}-${toDate.day}-${toDate.year}`;
+            
+            // get lng and lat
+            const latInput = document.getElementById('latInput');
+            const lngInput = document.getElementById('lngInput');
+            if(latInput) data.latitude = parseFloat(latInput.value);
+            if(lngInput) data.longitude = parseFloat(lngInput.value);
 
             // get route color and remove color wheel
             const routeColorInput = document.getElementById(this.destination.name + "_routeColorPicker") as HTMLInputElement;
@@ -329,7 +338,7 @@ export default defineComponent({
             enlargedImage.style.marginTop = "1%";
 
             if(document.body.clientHeight < enlargedImage.height ||
-                document.body.clientWidth < enlargedImage.width) {
+                document.body.clientWidth < enlargedImage.width){
                 // reduce size of enlarged image if larger than the page
                 // or rescale using a canvas?
             }
@@ -424,8 +433,12 @@ export default defineComponent({
     .dest {
         padding: 3px;
         border: 2px solid var(--black);
-        /*border-radius: 15px;*/
         text-align: center;
+    }
+    
+    .dest:hover {
+        border: 2px solid var(--white);
+        cursor: pointer;
     }
 
     .content {
@@ -450,9 +463,10 @@ export default defineComponent({
         display: inline;
         font-size: 2em;
     }
-    
+
     .delete:hover {
         cursor: pointer;
+        color: var(--bright-red);
     }
 
     .inputFile {
@@ -469,19 +483,25 @@ export default defineComponent({
         text-align: center;
         margin-top: 0;
     }
-    
+
     .editRouteColor {
       display: flex;
       align-items: center;
     }
-    
+
     .editRouteColor input {
       background-color: transparent;
       border: none;
     }
-    
+
     .editRouteColor input[type=color]:hover {
       cursor: pointer;
+    }
+    
+    #latInputLabel, #lngInputLabel {
+      display: block;
+      padding: 0;
+      margin-bottom: 8px;
     }
 
 </style>

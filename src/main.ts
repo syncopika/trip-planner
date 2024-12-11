@@ -26,7 +26,7 @@ createApp({
         return h(App, {
             'listOfDest': this.tripData[this.currTripIndex].listOfDest,
             'tripName': this.tripData[this.currTripIndex].tripName,
-            'listOfTripNames': this.tripData.map(trip => trip.tripName),
+            'listOfTripNames': this.tripData.map((trip: Trip) => trip.tripName),
             'suggestedNextDests': this.suggestedNextDests, // should be based on last destination in listOfDest
             'appearanceOptions': this.appearanceOptions,
         });
@@ -174,7 +174,7 @@ createApp({
         
         removeDestination: function(destName: string): void {
             const currDests = this.tripData[this.currTripIndex].listOfDest;
-            this.tripData[this.currTripIndex].listOfDest = currDests.filter(dest => dest.name !== destName);
+            this.tripData[this.currTripIndex].listOfDest = currDests.filter((dest: Destination) => dest.name !== destName);
 			
             // TODO: check to see if the last destination of the list was removed and if there is a new last destination. 
             // if so, take the current last dest and show next hop suggestions for that dest (if show next hops option selected)
@@ -209,20 +209,14 @@ createApp({
             for(let i = 0; i < listOfDest.length; i++){
                 const dest = listOfDest[i];
                 if(dest.name === currName){
-                    // TODO: just do for prop in dest, reassign?
-                    // so we don't have to manually update this each time there's a new prop
-                    dest.notes = data.notes;
-                    dest.fromDate = data.fromDate;
-                    dest.toDate = data.toDate;
-                    dest.images = data.images;
-                    dest.routeColor = data.routeColor;
-
-                    if(changeName){
-                        dest.name = newName;
-                    }else{
-                        dest.name = currName;
+                    let prop: keyof Destination;
+                    for(prop in data){
+                        if(prop === "name" && changeName){
+                            dest.name = newName;
+                        }else{
+                            dest[prop] = data[prop];
+                        }
                     }
-
                     break;
                 }
             }
@@ -490,7 +484,7 @@ createApp({
                     this.overpassApiEntityToFind = entity;
                     this.overpassApiKeyToFind = overpassApiEntityKeyMap[entity];
                     
-                    this.getSuggestionsFromOverpass(this.overpassApiKeyToFind, this.overpassApiEntityToFind).then((data) => {
+                    this.getSuggestionsFromOverpass(this.overpassApiKeyToFind, this.overpassApiEntityToFind).then((data: Array<OverpassAPIDestinationSuggestion>) => {
                         this.suggestedNextDests = data;
                     });
                 }
@@ -514,7 +508,7 @@ createApp({
         
         getNextDestSuggestions: function(): void {
             if(this.useOverpassAPI){
-                this.getSuggestionsFromOverpass(this.overpassApiKeyToFind, this.overpassApiEntityToFind).then((data) => {
+                this.getSuggestionsFromOverpass(this.overpassApiKeyToFind, this.overpassApiEntityToFind).then((data: Array<OverpassAPIDestinationSuggestion>) => {
                     this.suggestedNextDests = data;
                 });
             }else{

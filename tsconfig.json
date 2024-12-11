@@ -12,7 +12,8 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
+    "sourceMap": false,
+    "noEmit": true,
     "baseUrl": ".",
     "types": [
       "jest",

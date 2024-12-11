@@ -68,8 +68,15 @@ export default defineComponent({
             };
             
             const modal = new Modal();
-            const destinationData: Partial<DestinationInterface> = await modal.addNewDestinationModal();
+            const destinationData: Partial<DestinationInterface> | null = await modal.addNewDestinationModal();
+            
             if(destinationData && destinationData.name && destinationData.latitude && destinationData.longitude){
+                // make sure a destination with the same name cannot be added
+                if(Array.from(this.listOfDest).some(x => x.name === destinationData.name)){
+                    await modal.createMessageModal("A destination with the same name already exists. Please choose another name.");
+                    return;
+                }
+            
                 data.name = destinationData.name;
                 data.latitude = destinationData.latitude;
                 data.longitude = destinationData.longitude;
@@ -82,6 +89,8 @@ export default defineComponent({
                     // update data source with new info
                     this.$root.addNewDestination(data);
                 }
+            }else if (destinationData){
+                await modal.createMessageModal("Please provide a name, latitude and longitude.");
             }
         }
     }
