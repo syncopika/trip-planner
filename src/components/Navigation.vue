@@ -91,14 +91,14 @@ export default defineComponent({
             const newTripName = await modalHandler.createInputModal("please enter the name of the new trip:");
             
             if(newTripName){
-                this.$root.addNewTrip(newTripName);
+                this.$root?.addNewTrip(newTripName);
             }
         },
         
         selectTrip: function(evt: MouseEvent): void {
             if(evt){
                 const index = parseInt((evt.target as HTMLParagraphElement).id.split("_")[1]);
-                this.$root.selectTrip(index);
+                this.$root?.selectTrip(index);
             }
         },
         
@@ -111,16 +111,16 @@ export default defineComponent({
         
         importData: function(evt: MouseEvent): void {
             // call root to import data
-            this.$root.importData(evt);
+            this.$root?.importData(evt);
         },
         
         exportData: function(): void {
             // call root to download trip data
-            this.$root.exportData();
+            this.$root?.exportData();
         },
         
         exportCurrTripHTML: function(): void {
-            this.$root.exportCurrTripHTML();
+            this.$root?.exportCurrTripHTML();
         },
         
         saveData: function(): void {
@@ -137,12 +137,12 @@ export default defineComponent({
             this.nextDestDataSource = value.nextDestDataSource;
         
             if(value.showSuggestedDestinations && value.nextDestDataSource === "overpassApi"){
-                this.$root.setOverpassApiUse(true, value.overpassApiEntity); // update useOverpassAPI in root
+                this.$root?.setOverpassApiUse(true, value.overpassApiEntity); // update useOverpassAPI in root
             }else{
-                this.$root.setOverpassApiUse(false);
+                this.$root?.setOverpassApiUse(false);
             }
 
-            this.$root.updateAppearancePerOptions(value);
+            this.$root?.updateAppearancePerOptions(value);
         }
     }
 });

@@ -170,14 +170,14 @@ export default defineComponent({
                     content.style.display = "none";
                     
                     if(parent){
-                        parent.setAttribute('draggable', true);
+                        parent.setAttribute('draggable', 'true');
                     }
                 }else{
-                    content.style.display = "block";
+                    content.style.display = 'block';
                     
                     if(parent){
                         // don't allow component to be draggable if open/expanded
-                        parent.setAttribute('draggable', false);
+                        parent.setAttribute('draggable', 'false');
                     }
                 }
             }
@@ -199,10 +199,10 @@ export default defineComponent({
             
             // make destination name editable
             const destTitle = document.getElementById(name);
-            destTitle?.setAttribute('contenteditable', "true");
+            destTitle?.setAttribute('contenteditable', 'true');
 
             // save the current title so we can restore it if it can't be changed
-            this.currDestTitle = destTitle?.textContent || "";
+            this.currDestTitle = destTitle?.textContent || '';
 
             // make content editable
             const notes = document.getElementById(name + '_notes');
@@ -213,10 +213,10 @@ export default defineComponent({
             // remove a destination
             // calls a method of the Vue root instance
             const modal = new Modal();
-            const remove = await modal.createQuestionModal("Are you sure you want to remove this destination?");
+            const remove = await modal.createQuestionModal('Are you sure you want to remove this destination?');
             if(remove){
-                const name = (evt.target as HTMLElement).id.split("_")[0]; // i.e. name_dest, and we want name
-                this.$root.removeDestination(name);
+                const name = (evt.target as HTMLElement).id.split('_')[0]; // i.e. name_dest, and we want name
+                this.$root?.removeDestination(name);
             }
         },
         
@@ -233,7 +233,7 @@ export default defineComponent({
             // if it doesn't happen, we'll at least have restored the dest title to its original
             if(destTitle){
                 destTitle.textContent = this.currDestTitle;
-                destTitle.setAttribute('contenteditable', "false");
+                destTitle.setAttribute('contenteditable', 'false');
             }
 
             const notes = document.getElementById(name + '_notes');
@@ -251,17 +251,17 @@ export default defineComponent({
             data.toDate = `${toDate.month}-${toDate.day}-${toDate.year}`;
             
             // get lng and lat
-            const latInput = document.getElementById('latInput');
-            const lngInput = document.getElementById('lngInput');
+            const latInput = document.getElementById('latInput') as HTMLInputElement;
+            const lngInput = document.getElementById('lngInput') as HTMLInputElement;
             if(latInput) data.latitude = parseFloat(latInput.value);
             if(lngInput) data.longitude = parseFloat(lngInput.value);
 
             // get route color and remove color wheel
-            const routeColorInput = document.getElementById(this.destination.name + "_routeColorPicker") as HTMLInputElement;
+            const routeColorInput = document.getElementById(`${this.destination.name}_routeColorPicker`) as HTMLInputElement;
             if(routeColorInput) data.routeColor = routeColorInput.value;
 
             // update data source with new info
-            this.$root.updateDestination(data);
+            this.$root?.updateDestination(data);
 
             this.isEditing = false;
         },
@@ -270,13 +270,13 @@ export default defineComponent({
             // make sure destination name goes back to being uneditable
             const name = this.destination.name;
             const destTitle = document.getElementById(name);
-            destTitle?.setAttribute('contenteditable', "false");
+            destTitle?.setAttribute('contenteditable', 'false');
             
             const notes = document.getElementById(name + '_notes');
             notes?.setAttribute('disabled', 'true');
 
             const currData = JSON.parse(JSON.stringify(this.editSnapshot));
-            for(const data in currData) {
+            for(const data in currData){
                 this.destination[data] = currData[data];
             }
             this.editSnapshot = {};
@@ -303,14 +303,14 @@ export default defineComponent({
                 const data: Destination = JSON.parse(JSON.stringify(this.destination)); // making a copy
                 data.images.push(imgSrcStr);
                 
-                this.$root.updateDestination(data);
+                this.$root?.updateDestination(data);
             };
             //read the file as a URL
             reader.readAsDataURL(file);
         },
         
         clickInput: function(): void {
-            const inputElement = document.getElementById(this.destination.name + "_importImage");
+            const inputElement = document.getElementById(`${this.destination.name}_importImage`);
             inputElement?.click();
         },
         

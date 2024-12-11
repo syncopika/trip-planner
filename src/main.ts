@@ -1,6 +1,5 @@
 import {
     createApp,
-    CreateElement,
     VNode,
     h
 } from 'vue'

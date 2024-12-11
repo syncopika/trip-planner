@@ -143,7 +143,7 @@ export default defineComponent({
             // make sure map reflects new value
             if(!this.showSuggestedNextHops){
                 this.updateSuggestedNextHops([]);
-            } else {
+            }else{
                 this.updateSuggestedNextHops(this.suggestedNextDests);
             }
         },
@@ -167,7 +167,7 @@ export default defineComponent({
                         // the new trip name already exists
                         trip.textContent = this.tripName;
                     }else{
-                        this.$root.updateTripName(editedTripName);
+                        this.$root?.updateTripName(editedTripName);
 
                         // TODO: update db with new name?
                     }
@@ -188,7 +188,7 @@ export default defineComponent({
                 const locationType = locationTypeSelect.options[locationTypeSelect.selectedIndex].value;
 
                 // search for locations - this will update the map showing any results found
-                this.$root.getSearchResultsFromOverpass(locationType, "name", locationInput).then(async (data) => {
+                this.$root?.getSearchResultsFromOverpass(locationType, "name", locationInput).then(async (data) => {
                     this.dispatchEventToMap('showSearchResults', data);
                     
                     const modal = new Modal();
