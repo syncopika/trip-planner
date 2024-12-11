@@ -104,7 +104,6 @@
 
             <p v-if="!isEditing" class="latlng"> lat: {{destination.latitude}}, long: {{destination.longitude}} </p>
 
-            <!-- TODO: make lat and lng editable! put them in a text input? -->
             <div v-if="isEditing">
                 <label id="latInputLabel" for="latInput">
                     lat:
@@ -226,8 +225,6 @@ export default defineComponent({
             // to update state, the destination name, if edited, will be
             // checked to make sure its new desired name is not already taken
             // by another destination
-            console.log(this.destination);
-
             const name = this.destination.name;
             const destTitle = document.getElementById(name);
             const newName = destTitle?.textContent?.trim();
