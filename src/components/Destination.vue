@@ -62,8 +62,6 @@
                     <img
                         v-bind:key="destination.name + '_image_' + index"
                         :src="image"
-                        @mouseover="function($event){$event.target.style.border='1px solid #e0ffff'}"
-                        @mouseout="function($event){$event.target.style.border='1px solid #000'}"
                         @dblclick="enlargeImage($event)" 
                     />
                     <h3
@@ -83,7 +81,7 @@
                 <input 
                     :id="destination.name + '_routeColor'" 
                     :name="destination.name + '_routeColor'"
-                    :style="'color: #000;' + 'background-color: ' + destination.routeColor"
+                    :style="'color: #000; background-color: ' + destination.routeColor"
                     :value="destination.routeColor"
                     type="text"
                     size="7"
@@ -150,7 +148,7 @@ export default defineComponent({
             expanded: false,
             isEditing: false,
             editSnapshot: {},
-            currDestTitle: "",
+            currDestTitle: '',
         }
     },
     components: {
@@ -162,12 +160,12 @@ export default defineComponent({
     methods: {
         toggleVisibility: function(): void {
             const name = this.destination.name;
-            const parent = document.getElementById(name + '_dest');
-            const content = document.getElementById(name + '_content');
+            const parent = document.getElementById(`${name}_dest`);
+            const content = document.getElementById(`${name}_content`);
 
             if(content !== null){
                 if(this.expanded && !this.isEditing){
-                    content.style.display = "none";
+                    content.style.display = 'none';
                     
                     if(parent){
                         parent.setAttribute('draggable', 'true');
@@ -205,7 +203,7 @@ export default defineComponent({
             this.currDestTitle = destTitle?.textContent || '';
 
             // make content editable
-            const notes = document.getElementById(name + '_notes');
+            const notes = document.getElementById(`${name}_notes`);
             if(notes !== null) notes.removeAttribute('disabled');
         },
         
@@ -236,7 +234,7 @@ export default defineComponent({
                 destTitle.setAttribute('contenteditable', 'false');
             }
 
-            const notes = document.getElementById(name + '_notes');
+            const notes = document.getElementById(`${name}_notes`);
             notes?.setAttribute('disabled', 'true');
 
             const data: Destination = JSON.parse(JSON.stringify(this.destination)); // make a copy
@@ -244,8 +242,8 @@ export default defineComponent({
             data.newName = newName;
 
             // get from and to dates
-            const fromDate = this.$refs[`${name}_fromDate`].getDateInfo();
-            const toDate = this.$refs[`${name}_toDate`].getDateInfo();
+            const fromDate = (this.$refs[`${name}_fromDate`] as InstanceType<typeof Calendar>).getDateInfo();
+            const toDate = (this.$refs[`${name}_toDate`] as InstanceType<typeof Calendar>).getDateInfo();
 
             data.fromDate = `${fromDate.month}-${fromDate.day}-${fromDate.year}`;
             data.toDate = `${toDate.month}-${toDate.day}-${toDate.year}`;
@@ -427,7 +425,11 @@ export default defineComponent({
     img {
         height: 15%;
         width: 15%;
-        border:  1px solid var(--black);
+        border: 1px solid var(--black);
+    }
+    
+    img:hover {
+      border: 1px solid var(--light-cyan);
     }
 
     .dest {

@@ -1,9 +1,9 @@
 import {
     createApp,
     VNode,
-    h
-} from 'vue'
-import App from './App.vue'
+    h // short for 'hyperscript'
+} from 'vue';
+import App from './App.vue';
 import axios from 'axios';
 import { Modal } from './utils/modal';
 import {

@@ -73,7 +73,12 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { Destination, UserSelectedOptionsInModal } from './utils/triproute';
+import {
+  Destination,
+  DestinationSuggestion,
+  OverpassAPIDestinationSuggestion,
+  UserSelectedOptionsInModal,
+} from './utils/triproute';
 import DestinationList from './components/DestinationList.vue';
 import Navigation from './components/Navigation.vue';
 import { Modal } from './utils/modal';
@@ -83,7 +88,7 @@ export default defineComponent({
     data: function(){
         return {
             showSuggestedNextHops: false,
-            overpassApiKeys: [], // e.g. https://wiki.openstreetmap.org/wiki/Key:amenity
+            overpassApiKeys: [] as string[], // e.g. https://wiki.openstreetmap.org/wiki/Key:amenity
         }
     },
     
@@ -116,7 +121,7 @@ export default defineComponent({
     },
     
     methods: {
-        dispatchEventToMap: function(eventName: string, data: Array<Destination>): void {
+        dispatchEventToMap: function(eventName: string, data: Array<Destination | DestinationSuggestion>): void {
             // send a custom event to the map iframe along with the data
             const updateMapEvent = new CustomEvent(eventName, {detail: data});
             const mapIframe = document.getElementById('mapContainer') as HTMLIFrameElement;
@@ -188,7 +193,7 @@ export default defineComponent({
                 const locationType = locationTypeSelect.options[locationTypeSelect.selectedIndex].value;
 
                 // search for locations - this will update the map showing any results found
-                this.$root?.getSearchResultsFromOverpass(locationType, "name", locationInput).then(async (data) => {
+                this.$root?.getSearchResultsFromOverpass(locationType, "name", locationInput).then(async (data: Array<OverpassAPIDestinationSuggestion>) => {
                     this.dispatchEventToMap('showSearchResults', data);
                     
                     const modal = new Modal();

@@ -27,7 +27,7 @@
 
             <li> • </li>
             <li class="selectOption" @click="triggerImport"> import </li>
-            <input type='file' @change="importData" id='importTripData'>
+            <input type='file' @change="importData" id='importTripData' />
 
             <li> • </li>
             <!-- <li class="selectOption" @click="exportData"> export </li> -->
@@ -95,7 +95,7 @@ export default defineComponent({
             }
         },
         
-        selectTrip: function(evt: MouseEvent): void {
+        selectTrip: function(evt: Event): void {
             if(evt){
                 const index = parseInt((evt.target as HTMLParagraphElement).id.split("_")[1]);
                 this.$root?.selectTrip(index);
@@ -109,7 +109,7 @@ export default defineComponent({
             }
         },
         
-        importData: function(evt: MouseEvent): void {
+        importData: function(evt: Event): void {
             // call root to import data
             this.$root?.importData(evt);
         },
