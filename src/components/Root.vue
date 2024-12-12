@@ -209,7 +209,7 @@ export default defineComponent({
             }
 
             for(let i = 0; i < listOfDest.length; i++){
-                const dest = listOfDest[i];
+                const dest: Destination = listOfDest[i];
                 if(dest.name === currName){
                     let prop: keyof Destination;
                     for(prop in data){

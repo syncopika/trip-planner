@@ -81,6 +81,7 @@ import {
 } from '../utils/triproute';
 import DestinationList from './DestinationList.vue';
 import Navigation from './Navigation.vue';
+import Root from './Root.vue';
 import { Modal } from '../utils/modal';
 
 export default defineComponent({
@@ -112,7 +113,7 @@ export default defineComponent({
         },
         suggestedNextDests: {
             required: true,
-            type: Array as PropType<Array<Destination>>
+            type: Array as PropType<Array<DestinationSuggestion>>
         },
         appearanceOptions: {
             required: true,
@@ -138,7 +139,7 @@ export default defineComponent({
             this.dispatchEventToMap('updateMap', data);
         },
 
-        updateSuggestedNextHops: function(data: Array<Destination>): void {
+        updateSuggestedNextHops: function(data: Array<DestinationSuggestion>): void {
             this.dispatchEventToMap('updateSuggestedNextHops', data);
         },
 
@@ -172,7 +173,7 @@ export default defineComponent({
                         // the new trip name already exists
                         trip.textContent = this.tripName;
                     }else{
-                        this.$root?.updateTripName(editedTripName);
+                        (this.$root as InstanceType<typeof Root>).updateTripName(editedTripName);
 
                         // TODO: update db with new name?
                     }
@@ -193,7 +194,8 @@ export default defineComponent({
                 const locationType = locationTypeSelect.options[locationTypeSelect.selectedIndex].value;
 
                 // search for locations - this will update the map showing any results found
-                this.$root?.getSearchResultsFromOverpass(locationType, "name", locationInput).then(async (data: Array<OverpassAPIDestinationSuggestion>) => {
+                (this.$root as InstanceType<typeof Root>).getSearchResultsFromOverpass(locationType, "name", locationInput)
+                .then(async (data: Array<OverpassAPIDestinationSuggestion>) => {
                     this.dispatchEventToMap('showSearchResults', data);
                     
                     const modal = new Modal();

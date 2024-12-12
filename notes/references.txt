@@ -117,6 +117,7 @@ https://stackoverflow.com/questions/57802057/eslint-configuring-no-unused-vars-f
 https://stackoverflow.com/questions/25719834/how-can-i-define-a-typescript-object-return-value-for-a-function
 https://github.com/DefinitelyTyped/DefinitelyTyped/issues/14877
 https://stackoverflow.com/questions/45339065/typescript-empty-object-for-a-typed-variable
+https://stackoverflow.com/questions/61758438/type-is-not-assignable-to-type-never-2322
 
 ========================
 useful mapbox stuff:

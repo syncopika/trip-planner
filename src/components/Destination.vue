@@ -138,6 +138,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import Calendar from './Calendar.vue';
+import Root from './Root.vue';
 import { Destination } from '../utils/triproute';
 import { Modal } from '../utils/modal';
 
@@ -214,7 +215,7 @@ export default defineComponent({
             const remove = await modal.createQuestionModal('Are you sure you want to remove this destination?');
             if(remove){
                 const name = (evt.target as HTMLElement).id.split('_')[0]; // i.e. name_dest, and we want name
-                this.$root?.removeDestination(name);
+                (this.$root as InstanceType<typeof Root>).removeDestination(name);
             }
         },
         
@@ -259,7 +260,7 @@ export default defineComponent({
             if(routeColorInput) data.routeColor = routeColorInput.value;
 
             // update data source with new info
-            this.$root?.updateDestination(data);
+            (this.$root as InstanceType<typeof Root>).updateDestination(data);
 
             this.isEditing = false;
         },
@@ -301,7 +302,7 @@ export default defineComponent({
                 const data: Destination = JSON.parse(JSON.stringify(this.destination)); // making a copy
                 data.images.push(imgSrcStr);
                 
-                this.$root?.updateDestination(data);
+                (this.$root as InstanceType<typeof Root>).updateDestination(data);
             };
             //read the file as a URL
             reader.readAsDataURL(file);
