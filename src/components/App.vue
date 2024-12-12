@@ -78,10 +78,10 @@ import {
   DestinationSuggestion,
   OverpassAPIDestinationSuggestion,
   UserSelectedOptionsInModal,
-} from './utils/triproute';
-import DestinationList from './components/DestinationList.vue';
-import Navigation from './components/Navigation.vue';
-import { Modal } from './utils/modal';
+} from '../utils/triproute';
+import DestinationList from './DestinationList.vue';
+import Navigation from './Navigation.vue';
+import { Modal } from '../utils/modal';
 
 export default defineComponent({
 
@@ -271,7 +271,7 @@ export default defineComponent({
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
-@import './variables.css';
+@import '../variables.css';
 
 html, body {
     font-family: var(--font-family);
