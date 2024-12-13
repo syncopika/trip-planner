@@ -74,10 +74,10 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import {
-  Destination,
-  DestinationSuggestion,
-  OverpassAPIDestinationSuggestion,
-  UserSelectedOptionsInModal,
+    Destination,
+    DestinationSuggestion,
+    OverpassAPIDestinationSuggestion,
+    UserSelectedOptionsInModal,
 } from '../utils/triproute';
 import DestinationList from './DestinationList.vue';
 import Navigation from './Navigation.vue';
@@ -194,13 +194,13 @@ export default defineComponent({
                 const locationType = locationTypeSelect.options[locationTypeSelect.selectedIndex].value;
 
                 // search for locations - this will update the map showing any results found
-                (this.$root as InstanceType<typeof Root>).getSearchResultsFromOverpass(locationType, "name", locationInput)
-                .then(async (data: Array<OverpassAPIDestinationSuggestion>) => {
-                    this.dispatchEventToMap('showSearchResults', data);
-                    
-                    const modal = new Modal();
-                    await modal.createMessageModal(`${data.length} result(s) found for: ${locationInput}`);
-                });
+                (this.$root as InstanceType<typeof Root>)
+                    .getSearchResultsFromOverpass(locationType, "name", locationInput)
+                    .then(async (data: Array<OverpassAPIDestinationSuggestion>) => {
+                        this.dispatchEventToMap('showSearchResults', data);
+                        const modal = new Modal();
+                        await modal.createMessageModal(`${data.length} result(s) found for: ${locationInput}`);
+                    });
             }
         },
         
