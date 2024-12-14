@@ -1,38 +1,38 @@
 <template>
     <!-- one li is one destination -->
-    <li :id="destination.name + '_dest'"
+    <li :id="currDest.name + '_dest'"
         class="dest"
         draggable="true"
         @dragstart="onDragStart"
     >
         <!-- name of destination -->
-        <h1 :id="destination.name" @click="toggleVisibility"> 
-            {{destination.name}} 
+        <h1 :id="currDest.name" @click="toggleVisibility"> 
+            {{currDest.name}} 
         </h1>
         <p 
-            :id="destination.name + '_delete'"
+            :id="currDest.name + '_delete'"
             @click="removeDestination"
             class="delete"
         > x </p>
         
-        <div :id="destination.name + '_content'" class="content">
+        <div :id="currDest.name + '_content'" class="content">
             <!-- show from/to dates -->
-            <div :id="destination.name + '_dates'">
+            <div :id="currDest.name + '_dates'">
                 <div class="row">
                     <Calendar
-                        :dest-name="destination.name + '_from_'"
-                        :date="destination.fromDate"
+                        :dest-name="currDest.name + '_from_'"
+                        :date="currDest.fromDate"
                         :is-editing="isEditing"
-                        :ref="destination.name + '_fromDate'"
+                        :ref="currDest.name + '_fromDate'"
                         :header="'to'"
                     ></Calendar>
                 </div>
                 <div class="row">
                     <Calendar
-                        :dest-name="destination.name + '_to_'"
-                        :date="destination.toDate"
+                        :dest-name="currDest.name + '_to_'"
+                        :date="currDest.toDate"
                         :is-editing="isEditing"
-                        :ref="destination.name + '_toDate'"
+                        :ref="currDest.name + '_toDate'"
                         :header="'from'"
                     ></Calendar>
                 </div>
@@ -41,8 +41,8 @@
             <h3> notes: </h3>
             <div>
                 <textarea 
-                    :value="destination.notes" 
-                    :id="destination.name + '_notes'" 
+                    v-model="currDest.notes" 
+                    :id="currDest.name + '_notes'" 
                     rows="5"
                     cols="50" 
                     disabled
@@ -53,21 +53,19 @@
 
             <br />
             <h3> images: </h3>
-            <div :id="destination.name + '_images'">
-                <div v-for="(image, index) in destination.images" 
-                     v-bind:key="'div_' + destination.name + '_image_' + index"
+            <div :id="currDest.name + '_images'">
+                <div v-for="(image, index) in currDest.images" 
+                     v-bind:key="'div_' + currDest.name + '_image_' + index"
                      style="margin-right:2px"
                      class="imageContainer"
                 >
                     <img
-                        v-bind:key="destination.name + '_image_' + index"
+                        v-bind:key="currDest.name + '_image_' + index"
                         :src="image"
-                        @mouseover="function($event){$event.target.style.border='1px solid #e0ffff'}"
-                        @mouseout="function($event){$event.target.style.border='1px solid #000'}"
                         @dblclick="enlargeImage($event)" 
                     />
                     <h3
-                        :id="'delete_' + destination.name + '_image_' + index"
+                        :id="'delete_' + currDest.name + '_image_' + index"
                         v-if="isEditing"
                         style="color:red"
                         @click="deleteImage($event)"
@@ -78,13 +76,13 @@
             </div>
 
             <br />
-            <div v-if="isEditing" style="text-align: left" :id="destination.name + '_editRouteColor'" class="editRouteColor">
-                <label :for="destination.name + '_routeColor'"> route color: </label>
+            <div v-if="isEditing" style="text-align: left" :id="currDest.name + '_editRouteColor'" class="editRouteColor">
+                <label :for="currDest.name + '_routeColor'"> route color: </label>
                 <input 
-                    :id="destination.name + '_routeColor'" 
-                    :name="destination.name + '_routeColor'"
-                    :style="'color: #000;' + 'background-color: ' + destination.routeColor"
-                    :value="destination.routeColor"
+                    :id="currDest.name + '_routeColor'" 
+                    :name="currDest.name + '_routeColor'"
+                    :style="'color: #000; background-color: ' + currDest.routeColor"
+                    :value="currDest.routeColor"
                     type="text"
                     size="7"
                     disabled
@@ -92,33 +90,33 @@
                 <input 
                   style="display: inline-block" 
                   type="color" 
-                  :id="destination.name + '_routeColorPicker'" 
-                  :value="destination.routeColor" 
+                  :id="currDest.name + '_routeColorPicker'" 
+                  v-model="currDest.routeColor" 
                 />
             </div>
             <h3 v-if="!isEditing"> route color: 
-                <span :style="'background-color: ' + destination.routeColor">{{destination.routeColor}}</span>
+                <span :style="'background-color: ' + currDest.routeColor">{{currDest.routeColor}}</span>
             </h3>
 
             <hr />
 
-            <p v-if="!isEditing" class="latlng"> lat: {{destination.latitude}}, long: {{destination.longitude}} </p>
+            <p v-if="!isEditing" class="latlng"> lat: {{currDest.latitude}}, long: {{currDest.longitude}} </p>
 
             <div v-if="isEditing">
                 <label id="latInputLabel" for="latInput">
                     lat:
-                    <input id="latInput" type="number" :value="destination.latitude" />
+                    <input id="latInput" type="number" v-model.number="currDest.latitude" />
                 </label>
                 
                 <label id="lngInputLabel" for="lngInput">
                     long:
-                    <input id="lngInput" type="number" :value="destination.longitude" />
+                    <input id="lngInput" type="number" v-model.number="currDest.longitude" />
                 </label>
             </div>
 
             <button @click="toggleEdit" v-if="!isEditing"> edit </button>
 
-            <input class="inputFile" type="file" accept="image/*" :id="destination.name + '_importImage'" @change="uploadImage" />
+            <input class="inputFile" type="file" accept="image/*" :id="currDest.name + '_importImage'" @change="uploadImage" />
             <button v-if="isEditing" @click="clickInput"> upload image </button>
 
             <button class="editButton"
@@ -140,6 +138,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import Calendar from './Calendar.vue';
+import Root from './Root.vue';
 import { Destination } from '../utils/triproute';
 import { Modal } from '../utils/modal';
 
@@ -149,8 +148,9 @@ export default defineComponent({
         return {
             expanded: false,
             isEditing: false,
-            editSnapshot: {},
-            currDestTitle: "",
+            currDestTitle: '',
+            currDest: JSON.parse(JSON.stringify(this.destination)),
+            prevDestState: JSON.parse(JSON.stringify(this.destination)),
         }
     },
     components: {
@@ -162,22 +162,22 @@ export default defineComponent({
     methods: {
         toggleVisibility: function(): void {
             const name = this.destination.name;
-            const parent = document.getElementById(name + '_dest');
-            const content = document.getElementById(name + '_content');
+            const parent = document.getElementById(`${name}_dest`);
+            const content = document.getElementById(`${name}_content`);
 
             if(content !== null){
                 if(this.expanded && !this.isEditing){
-                    content.style.display = "none";
+                    content.style.display = 'none';
                     
                     if(parent){
-                        parent.setAttribute('draggable', true);
+                        parent.setAttribute('draggable', 'true');
                     }
                 }else{
-                    content.style.display = "block";
+                    content.style.display = 'block';
                     
                     if(parent){
                         // don't allow component to be draggable if open/expanded
-                        parent.setAttribute('draggable', false);
+                        parent.setAttribute('draggable', 'false');
                     }
                 }
             }
@@ -192,20 +192,16 @@ export default defineComponent({
             const name = this.destination.name;
             
             this.isEditing = true;
-
-            // take a snapshot of all current data so we can cancel changes easily
-            //console.log(this.destination);
-            this.editSnapshot = JSON.parse(JSON.stringify(this.destination));
             
             // make destination name editable
             const destTitle = document.getElementById(name);
-            destTitle?.setAttribute('contenteditable', "true");
+            destTitle?.setAttribute('contenteditable', 'true');
 
             // save the current title so we can restore it if it can't be changed
-            this.currDestTitle = destTitle?.textContent || "";
+            this.currDestTitle = destTitle?.textContent || '';
 
             // make content editable
-            const notes = document.getElementById(name + '_notes');
+            const notes = document.getElementById(`${name}_notes`);
             if(notes !== null) notes.removeAttribute('disabled');
         },
         
@@ -213,10 +209,10 @@ export default defineComponent({
             // remove a destination
             // calls a method of the Vue root instance
             const modal = new Modal();
-            const remove = await modal.createQuestionModal("Are you sure you want to remove this destination?");
+            const remove = await modal.createQuestionModal('Are you sure you want to remove this destination?');
             if(remove){
-                const name = (evt.target as HTMLElement).id.split("_")[0]; // i.e. name_dest, and we want name
-                this.$root.removeDestination(name);
+                const name = (evt.target as HTMLElement).id.split('_')[0]; // i.e. name_dest, and we want name
+                (this.$root as InstanceType<typeof Root>).removeDestination(name);
             }
         },
         
@@ -225,6 +221,7 @@ export default defineComponent({
             // to update state, the destination name, if edited, will be
             // checked to make sure its new desired name is not already taken
             // by another destination
+            
             const name = this.destination.name;
             const destTitle = document.getElementById(name);
             const newName = destTitle?.textContent?.trim();
@@ -233,36 +230,27 @@ export default defineComponent({
             // if it doesn't happen, we'll at least have restored the dest title to its original
             if(destTitle){
                 destTitle.textContent = this.currDestTitle;
-                destTitle.setAttribute('contenteditable', "false");
+                destTitle.setAttribute('contenteditable', 'false');
             }
 
-            const notes = document.getElementById(name + '_notes');
+            const notes = document.getElementById(`${name}_notes`);
             notes?.setAttribute('disabled', 'true');
 
-            const data: Destination = JSON.parse(JSON.stringify(this.destination)); // make a copy
-            data.notes = (notes as HTMLTextAreaElement)?.value;
-            data.newName = newName;
+            //const data: Destination = JSON.parse(JSON.stringify(this.destination)); // make a copy
+            //data.notes = (notes as HTMLTextAreaElement)?.value;
+            this.currDest.newName = newName;
 
             // get from and to dates
-            const fromDate = this.$refs[`${name}_fromDate`].getDateInfo();
-            const toDate = this.$refs[`${name}_toDate`].getDateInfo();
+            const fromDate = (this.$refs[`${name}_fromDate`] as InstanceType<typeof Calendar>).getDateInfo();
+            const toDate = (this.$refs[`${name}_toDate`] as InstanceType<typeof Calendar>).getDateInfo();
 
-            data.fromDate = `${fromDate.month}-${fromDate.day}-${fromDate.year}`;
-            data.toDate = `${toDate.month}-${toDate.day}-${toDate.year}`;
-            
-            // get lng and lat
-            const latInput = document.getElementById('latInput');
-            const lngInput = document.getElementById('lngInput');
-            if(latInput) data.latitude = parseFloat(latInput.value);
-            if(lngInput) data.longitude = parseFloat(lngInput.value);
-
-            // get route color and remove color wheel
-            const routeColorInput = document.getElementById(this.destination.name + "_routeColorPicker") as HTMLInputElement;
-            if(routeColorInput) data.routeColor = routeColorInput.value;
+            this.currDest.fromDate = `${fromDate.month}-${fromDate.day}-${fromDate.year}`;
+            this.currDest.toDate = `${toDate.month}-${toDate.day}-${toDate.year}`;
 
             // update data source with new info
-            this.$root.updateDestination(data);
+            (this.$root as InstanceType<typeof Root>).updateDestination(this.currDest);
 
+            this.prevDestState = JSON.parse(JSON.stringify(this.currDest));
             this.isEditing = false;
         },
         
@@ -270,16 +258,16 @@ export default defineComponent({
             // make sure destination name goes back to being uneditable
             const name = this.destination.name;
             const destTitle = document.getElementById(name);
-            destTitle?.setAttribute('contenteditable', "false");
+            destTitle?.setAttribute('contenteditable', 'false');
             
             const notes = document.getElementById(name + '_notes');
             notes?.setAttribute('disabled', 'true');
 
-            const currData = JSON.parse(JSON.stringify(this.editSnapshot));
-            for(const data in currData) {
-                this.destination[data] = currData[data];
+            const prevData = JSON.parse(JSON.stringify(this.prevDestState));
+            for(const data in prevData){
+                this.currDest[data] = prevData[data];
             }
-            this.editSnapshot = {};
+            
             this.isEditing = false;
         },
         
@@ -303,14 +291,14 @@ export default defineComponent({
                 const data: Destination = JSON.parse(JSON.stringify(this.destination)); // making a copy
                 data.images.push(imgSrcStr);
                 
-                this.$root.updateDestination(data);
+                (this.$root as InstanceType<typeof Root>).updateDestination(data);
             };
             //read the file as a URL
             reader.readAsDataURL(file);
         },
         
         clickInput: function(): void {
-            const inputElement = document.getElementById(this.destination.name + "_importImage");
+            const inputElement = document.getElementById(`${this.destination.name}_importImage`);
             inputElement?.click();
         },
         
@@ -427,7 +415,11 @@ export default defineComponent({
     img {
         height: 15%;
         width: 15%;
-        border:  1px solid var(--black);
+        border: 1px solid var(--black);
+    }
+    
+    img:hover {
+      border: 1px solid var(--light-cyan);
     }
 
     .dest {

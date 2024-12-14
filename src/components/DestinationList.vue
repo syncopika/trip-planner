@@ -22,7 +22,8 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import { Destination as DestinationInterface } from '../utils/triproute';
-import { Modal } from "../utils/modal";
+import { Modal } from '../utils/modal';
+import Root from './Root.vue';
 import Destination from './Destination.vue';
 
 export default defineComponent({
@@ -87,9 +88,9 @@ export default defineComponent({
                 if(!isNaN(data.latitude) && !isNaN(data.longitude)){
                     console.log("adding new destination manually");
                     // update data source with new info
-                    this.$root.addNewDestination(data);
+                    (this.$root as InstanceType<typeof Root>).addNewDestination(data);
                 }
-            }else if (destinationData){
+            }else if(destinationData){
                 await modal.createMessageModal("Please provide a name, latitude and longitude.");
             }
         }

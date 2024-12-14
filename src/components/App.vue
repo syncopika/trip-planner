@@ -73,17 +73,23 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { Destination, UserSelectedOptionsInModal } from './utils/triproute';
-import DestinationList from './components/DestinationList.vue';
-import Navigation from './components/Navigation.vue';
-import { Modal } from './utils/modal';
+import {
+    Destination,
+    DestinationSuggestion,
+    OverpassAPIDestinationSuggestion,
+    UserSelectedOptionsInModal,
+} from '../utils/triproute';
+import DestinationList from './DestinationList.vue';
+import Navigation from './Navigation.vue';
+import Root from './Root.vue';
+import { Modal } from '../utils/modal';
 
 export default defineComponent({
 
     data: function(){
         return {
             showSuggestedNextHops: false,
-            overpassApiKeys: [], // e.g. https://wiki.openstreetmap.org/wiki/Key:amenity
+            overpassApiKeys: [] as string[], // e.g. https://wiki.openstreetmap.org/wiki/Key:amenity
         }
     },
     
@@ -107,7 +113,7 @@ export default defineComponent({
         },
         suggestedNextDests: {
             required: true,
-            type: Array as PropType<Array<Destination>>
+            type: Array as PropType<Array<DestinationSuggestion>>
         },
         appearanceOptions: {
             required: true,
@@ -116,7 +122,7 @@ export default defineComponent({
     },
     
     methods: {
-        dispatchEventToMap: function(eventName: string, data: Array<Destination>): void {
+        dispatchEventToMap: function(eventName: string, data: Array<Destination | DestinationSuggestion>): void {
             // send a custom event to the map iframe along with the data
             const updateMapEvent = new CustomEvent(eventName, {detail: data});
             const mapIframe = document.getElementById('mapContainer') as HTMLIFrameElement;
@@ -133,7 +139,7 @@ export default defineComponent({
             this.dispatchEventToMap('updateMap', data);
         },
 
-        updateSuggestedNextHops: function(data: Array<Destination>): void {
+        updateSuggestedNextHops: function(data: Array<DestinationSuggestion>): void {
             this.dispatchEventToMap('updateSuggestedNextHops', data);
         },
 
@@ -143,7 +149,7 @@ export default defineComponent({
             // make sure map reflects new value
             if(!this.showSuggestedNextHops){
                 this.updateSuggestedNextHops([]);
-            } else {
+            }else{
                 this.updateSuggestedNextHops(this.suggestedNextDests);
             }
         },
@@ -167,7 +173,7 @@ export default defineComponent({
                         // the new trip name already exists
                         trip.textContent = this.tripName;
                     }else{
-                        this.$root.updateTripName(editedTripName);
+                        (this.$root as InstanceType<typeof Root>).updateTripName(editedTripName);
 
                         // TODO: update db with new name?
                     }
@@ -188,12 +194,13 @@ export default defineComponent({
                 const locationType = locationTypeSelect.options[locationTypeSelect.selectedIndex].value;
 
                 // search for locations - this will update the map showing any results found
-                this.$root.getSearchResultsFromOverpass(locationType, "name", locationInput).then(async (data) => {
-                    this.dispatchEventToMap('showSearchResults', data);
-                    
-                    const modal = new Modal();
-                    await modal.createMessageModal(`${data.length} result(s) found for: ${locationInput}`);
-                });
+                (this.$root as InstanceType<typeof Root>)
+                    .getSearchResultsFromOverpass(locationType, "name", locationInput)
+                    .then(async (data: Array<OverpassAPIDestinationSuggestion>) => {
+                        this.dispatchEventToMap('showSearchResults', data);
+                        const modal = new Modal();
+                        await modal.createMessageModal(`${data.length} result(s) found for: ${locationInput}`);
+                    });
             }
         },
         
@@ -266,7 +273,7 @@ export default defineComponent({
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
-@import './variables.css';
+@import '../variables.css';
 
 html, body {
     font-family: var(--font-family);

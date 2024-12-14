@@ -27,7 +27,7 @@
 
             <li> • </li>
             <li class="selectOption" @click="triggerImport"> import </li>
-            <input type='file' @change="importData" id='importTripData'>
+            <input type='file' @change="importData" id='importTripData' />
 
             <li> • </li>
             <!-- <li class="selectOption" @click="exportData"> export </li> -->
@@ -63,6 +63,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import Root from './Root.vue';
 import OptionsModal from './OptionsModal.vue';
 import { Modal } from "../utils/modal";
 import { UserSelectedOptionsInModal } from "../utils/triproute";
@@ -91,14 +92,14 @@ export default defineComponent({
             const newTripName = await modalHandler.createInputModal("please enter the name of the new trip:");
             
             if(newTripName){
-                this.$root.addNewTrip(newTripName);
+                (this.$root as InstanceType<typeof Root>).addNewTrip(newTripName);
             }
         },
         
-        selectTrip: function(evt: MouseEvent): void {
+        selectTrip: function(evt: Event): void {
             if(evt){
                 const index = parseInt((evt.target as HTMLParagraphElement).id.split("_")[1]);
-                this.$root.selectTrip(index);
+                (this.$root as InstanceType<typeof Root>).selectTrip(index);
             }
         },
         
@@ -109,18 +110,18 @@ export default defineComponent({
             }
         },
         
-        importData: function(evt: MouseEvent): void {
+        importData: function(evt: Event): void {
             // call root to import data
-            this.$root.importData(evt);
+            (this.$root as InstanceType<typeof Root>).importData(evt);
         },
         
         exportData: function(): void {
             // call root to download trip data
-            this.$root.exportData();
+            (this.$root as InstanceType<typeof Root>).exportData();
         },
         
         exportCurrTripHTML: function(): void {
-            this.$root.exportCurrTripHTML();
+            (this.$root as InstanceType<typeof Root>).exportCurrTripHTML();
         },
         
         saveData: function(): void {
@@ -136,13 +137,14 @@ export default defineComponent({
             this.overpassApiEntity = value.overpassApiEntity;
             this.nextDestDataSource = value.nextDestDataSource;
         
+            const root = this.$root as InstanceType<typeof Root>;
             if(value.showSuggestedDestinations && value.nextDestDataSource === "overpassApi"){
-                this.$root.setOverpassApiUse(true, value.overpassApiEntity); // update useOverpassAPI in root
+                root.setOverpassApiUse(true, value.overpassApiEntity); // update useOverpassAPI in root
             }else{
-                this.$root.setOverpassApiUse(false);
+                root.setOverpassApiUse(false);
             }
 
-            this.$root.updateAppearancePerOptions(value);
+            root.updateAppearancePerOptions(value);
         }
     }
 });

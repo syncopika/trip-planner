@@ -65,9 +65,14 @@ Also, everything should work "out-of-the-box" so you can play with the app (with
 npm run build
 ```
 
-### Lints and fixes files
+### Lints files
 ```
 npm run lint
+```
+
+### Typechecks files
+```
+npm run typecheck
 ```
 
 ### Customize configuration

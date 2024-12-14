@@ -144,11 +144,11 @@ export default defineComponent({
     methods: {
         updateOptions: function(): void {
             const data: UserSelectedOptionsInModal = {
-                theme: this.selectedTheme,
+                theme: this.selectedTheme || '',
                 showLocationLookup: this.showLocationLookup,
                 showSuggestedDestinations: this.showSuggestedDestinations,
-                nextDestDataSource: this.nextDestDataSource,
-                overpassApiEntity: this.selectedOverpassApiEntity,
+                nextDestDataSource: this.nextDestDataSource || '',
+                overpassApiEntity: this.selectedOverpassApiEntity || '',
                 mapType: '',
             };
             
@@ -156,7 +156,7 @@ export default defineComponent({
             
             this.$emit('update-options', data);
             
-            this.$emit("close");
+            this.$emit('close');
         }
     }
 });
